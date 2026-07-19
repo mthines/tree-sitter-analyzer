@@ -15,7 +15,7 @@ TSA 使用 tree-sitter 索引你的代码库，向 AI 编程 agent 提供正确�
 * **为 agent 原生设计。** 8 个 MCP 工具，TOON 输出（bulk 响应比 JSON 小约 50-70%），verdict 信封，13 个精选 Skills — 专为 Claude Code、Cursor 和任何 MCP 客户端设计。
 * **广度与正确性兼备。** 13 种语言全量调用图索引（Python · Go · Rust · Java · JS · TS · C · C++ · C# · Swift · Kotlin · Ruby · PHP），另有 8 种语言符号索引或 CLI 可达。
 
-> **数据证明：** 在 HuggingFace `tokenizers`（Rust+Python+JS+TS）上，名称匹配式解析器会错连 **1,259** 条调用边 — TSA：**0**。在你自己的仓库上运行：`uvx --from tree-sitter-analyzer miswire-audit .`
+> **数据证明：** 在 HuggingFace `tokenizers`（Rust+Python+JS+TS）上，名称匹配式解析器会错连 **1,259** 条调用边 — TSA：**0**。在你自己的仓库上运行：`uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .`
 
 > 从 v1.x 升级？见 [docs/MIGRATION.md](docs/MIGRATION.md)。
 
@@ -28,7 +28,7 @@ TSA 使用 tree-sitter 索引你的代码库，向 AI 编程 agent 提供正确�
 ### 自动安装（推荐）
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aimasteracc/tree-sitter-analyzer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mthines/tree-sitter-analyzer/main/install.sh | bash
 ```
 
 `install.sh` 会检测 `uv` 是否已安装（未安装则自动安装），并自动检测 Claude Desktop / Claude Code / Cursor / VS Code 的配置文件，写入 MCP 配置项。安装完成后可运行 `tree-sitter-analyzer --doctor` 验证配置。
@@ -38,7 +38,7 @@ curl -fsSL https://raw.githubusercontent.com/aimasteracc/tree-sitter-analyzer/ma
 ```bash
 claude mcp add tree-sitter-analyzer \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
+  -- uvx --from "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git" tree-sitter-analyzer-mcp
 ```
 
 重启 agent，对它说："用 `index` 工具调用 action=status。"
@@ -69,9 +69,9 @@ winget install sharkdp.fd BurntSushi.ripgrep.MSVC      # Windows
 
 ```bash
 # 独立安装(持久 CLI 命令):
-uv tool install "tree-sitter-analyzer[all,mcp]"
+uv tool install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
 # — 也可完全不安装:下方 MCP 配置通过 uvx 按需运行。
-# 在 uv 管理的 Python 项目内则用: uv add "tree-sitter-analyzer[all,mcp]"
+# 在 uv 管理的 Python 项目内则用: uv add "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
 ```
 
 #### 3. 接入你的 agent
@@ -83,7 +83,7 @@ uv tool install "tree-sitter-analyzer[all,mcp]"
   "mcpServers": {
     "tree-sitter-analyzer": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/绝对路径/项目目录" }
     }
   }
@@ -95,7 +95,7 @@ uv tool install "tree-sitter-analyzer[all,mcp]"
 **用一条命令在你自己的仓库上验证 correctness 优势**（无需安装、无需 CodeGraph，会先重建索引）：
 
 ```bash
-uvx --from tree-sitter-analyzer miswire-audit .
+uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .
 ```
 
 它会显示一个 name-only 代码索引（多数工具的设计）会把多少调用跨语言错连（例如 Python 的 `sorted()` → Swift 的 func），对比 TSA 的数量。实测：[HuggingFace `tokenizers`](benchmarks/codegraph_compare/MISWIRE-AUDIT-EXAMPLES.md) 上 name-only 为 **1,259 处**（含 JS `tokenize()` → Rust），TSA 为 **0**。ruff **7557×**、polars **9016×**。单语言仓库（gin/Go）两者均为 **0**，无误报。
@@ -201,7 +201,7 @@ token 成本只是一个维度；代码情报工具的**首要**职责是**正�
 
 > **别轻信这张表 — 在你自己的仓库上跑（无需安装 CodeGraph）：**
 > ```bash
-> uvx --from tree-sitter-analyzer miswire-audit .
+> uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .
 > ```
 > 它会对你的代码建索引，并打印 name-only 解析器（多数索引的设计）会把多少调用边跨语言错连，对比 TSA 的数量 — 附有问题边列表（`Python sorted() → Swift func at file:line`）。添加 `--card` 可生成可分享的评分卡。
 >
@@ -306,7 +306,7 @@ tree-sitter-analyzer --callees _resolve_entry_points --format json
 ```bash
 claude mcp add tree-sitter-analyzer \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
+  -- uvx --from "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git" tree-sitter-analyzer-mcp
 ```
 
 验证：`claude mcp list`。13 个 `tsa-*` skills 会从 `.claude/skills/` 自动发现。
@@ -328,7 +328,7 @@ git clone 用户已有，无需操作。
   "mcpServers": {
     "tree-sitter-analyzer": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/绝对路径/项目目录" }
     }
   }
@@ -347,7 +347,7 @@ git clone 用户已有，无需操作。
     "tree-sitter-analyzer": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "${workspaceFolder}" }
     }
   }
@@ -416,7 +416,7 @@ uv run python check_quality.py --new-code-only  # 质量闸门
 
 | 症状 | 修复 |
 |---|---|
-| `.swift / .kt / .rb / .php / .cs` 显示 `unsupported language` | 升级到 ≥ 1.12.x — 5 语言 gap 已在 commit `50e99a8f` 中修复。extras 门控语言的语法模块不随基础安装捆绑;运行 `pip install "tree-sitter-analyzer[swift]"`(或 `kotlin`、`ruby`、`php`、`csharp`)补装 |
+| `.swift / .kt / .rb / .php / .cs` 显示 `unsupported language` | 升级到 ≥ 1.12.x — 5 语言 gap 已在 commit `50e99a8f` 中修复。extras 门控语言的语法模块不随基础安装捆绑;运行 `pip install "tree-sitter-analyzer[swift] @ git+https://github.com/mthines/tree-sitter-analyzer.git"`(或 `kotlin`、`ruby`、`php`、`csharp`)补装 |
 | MCP 服务在客户端中不出现 | `TREE_SITTER_PROJECT_ROOT` 必须是**绝对路径**；编辑配置后重启客户端。另见 [TREE\_SITTER\_PROJECT\_ROOT 使用了相对路径](#tree_sitter_project_root-使用了相对路径) |
 | `database is locked` | 关闭其他占用 `.ast-cache/index.db` 的进程；持续存在则 `rm -rf .ast-cache && tree-sitter-analyzer --autoindex` |
 | 首次调用慢 | 首次调用会建索引。后续亚秒。预先跑 `--full-index` 即可分摊 |

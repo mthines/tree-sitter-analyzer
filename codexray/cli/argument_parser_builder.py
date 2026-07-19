@@ -44,7 +44,9 @@ from .argument_groups import (
 
 # Re-export so that existing imports from this module continue to work.
 __all__ = [
+    "CLI_DESCRIPTION",
     "CLI_EPILOG",
+    "CLI_USAGE",
     "create_argument_parser",
     "_add_agent_skills_options",
     "_add_agent_workflow_options",
@@ -71,6 +73,50 @@ __all__ = [
     "_add_trace_impact_options",
 ]
 
+# Short usage line — replaces argparse's auto-generated wall of every flag, which
+# is unreadable for both humans and LLMs on a 300+ flag CLI.
+CLI_USAGE = (
+    "codexray [FILE] "
+    "[--smart-context | --call-graph MODE --call-graph-function FN | --table full | "
+    "--detect-routes | --project-health | ...] "
+    "[--format json|toon|text] [--project-root DIR]"
+)
+
+# Front-matter shown at the very top of --help. Kept task-first and example-heavy
+# so an agent can act from the first screen without reading all 300+ flags.
+CLI_DESCRIPTION = (
+    "Tree-sitter Analyzer (TSA) — correct, local code intelligence for AI agents "
+    "and humans.\n"
+    "Cross-language call graphs, symbol search, and structural queries over 20+ "
+    "languages. No telemetry.\n"
+    "\n"
+    "MOST-USED COMMANDS\n"
+    "  codexray FILE --smart-context\n"
+    "      One call: health + exports + structure + deps + edit-risk for a file.\n"
+    "  codexray --project-root . --call-graph chain "
+    "--call-graph-function FN --format json\n"
+    "      What FN calls, transitively. Point at the repo root, filter to one "
+    "function.\n"
+    "  codexray --project-root . --call-graph callers "
+    "--call-graph-function FN --format json\n"
+    "      Who calls FN.\n"
+    "  codexray --detect-routes\n"
+    "      URL -> handler routes (Flask/Django/FastAPI/Express/Spring).\n"
+    "\n"
+    "OUTPUT (agent-friendly)\n"
+    "  --format json   Stable, jq-friendly structure — pipe to jq to keep only "
+    "what you need.\n"
+    "  --format toon   Compact tabular form, ~half the size of JSON.\n"
+    "  --format text   Human-readable.\n"
+    "  Narrow with jq, e.g. keep just the direct callees:\n"
+    "    ... --call-graph chain --call-graph-function FN --format json "
+    "| jq '.chain[] | select(.depth==1) | .callee.name'\n"
+    "\n"
+    "This is a large CLI (300+ flags). The full flag reference follows; "
+    "task-grouped\n"
+    "examples and jq recipes are at the very end (see 'Examples' below).\n"
+)
+
 CLI_EPILOG = (
     "Examples:  (grouped by task)\n"
     "\n"
@@ -79,6 +125,13 @@ CLI_EPILOG = (
     "  codexray --overview                      Project portrait + health summary\n"
     "  codexray agent-skills                    Project-local agent skill inventory\n"
     "  codexray agent-workflow file.py          SMART workflow command pack\n"
+    "\n"
+    "Call graph  (what calls what — point at the repo root, filter to one function):\n"
+    "  codexray --project-root . --call-graph chain --call-graph-function FN --format json    What FN calls (transitive)\n"
+    "  codexray --project-root . --call-graph callees --call-graph-function FN --format json  Direct callees of FN\n"
+    "  codexray --project-root . --call-graph callers --call-graph-function FN --format json  Direct callers of FN\n"
+    "  codexray --project-root . --call-graph-function FN --call-graph-file PATH --format json Disambiguate FN by file\n"
+    "  codexray --project-root . --call-graph summary                                          Whole-graph node/edge counts\n"
     "\n"
     "Read code  (extract content from a single file):\n"
     "  codexray file.java --table=full          Markdown table of classes/methods\n"
@@ -126,6 +179,36 @@ CLI_EPILOG = (
     "  codexray parser-readiness swift          Parser/plugin readiness advisor\n"
     "  codexray --list-queries                  Show available query keys\n"
     "  codexray --show-supported-languages      List supported languages\n"
+    "\n"
+    "Filtering with jq  (--format json is a stable, jq-friendly contract):\n"
+    "\n"
+    "  JSON shape by mode (the keys jq recipes rely on):\n"
+    "    callees : {function, callee_count, function_indexed, callees:[{name,file,line,end_line,language}]}\n"
+    "    callers : {function, caller_count, function_indexed, callers:[{name,file,line,end_line,language}]}\n"
+    "    chain   : {function, depth, edge_count, chain:[{caller:{name,file,line,...}, callee:{name,file,line,...}, depth}]}\n"
+    "    summary : {function_count, call_edge_count, file_count}\n"
+    "\n"
+    "  Recipes  (the jq filter runs in the shell, so only the slice you keep reaches the model's context):\n"
+    "    # what FN calls -- direct callee names\n"
+    "    ... --call-graph callees --call-graph-function FN --format json | jq -r '.callees[].name'\n"
+    "    # callee name + location\n"
+    "    ... --call-graph callees --call-graph-function FN --format json | jq -r '.callees[] | .name+\"  \"+.file+\":\"+(.line|tostring)'\n"
+    "    # who calls FN\n"
+    "    ... --call-graph callers --call-graph-function FN --format json | jq -r '.callers[].name'\n"
+    "    # transitive chain, first level only\n"
+    "    ... --call-graph chain --call-graph-function FN --format json | jq -r '.chain[] | select(.depth==1) | .callee.name'\n"
+    "    # transitive chain, unique callees at any depth\n"
+    "    ... --call-graph chain --call-graph-function FN --call-graph-depth 4 --format json | jq -r '[.chain[].callee.name] | unique[]'\n"
+    "    # how many edges were found\n"
+    "    ... --call-graph chain --call-graph-function FN --format json | jq '.edge_count'\n"
+    "\n"
+    "  Use --format json for jq; --format toon (~half the size) when feeding the whole small result to a model.\n"
+    "  Empty result? function_indexed:false or a *_count of 0 means UNRESOLVED, not \"calls nothing\".\n"
+    "\n"
+    "Environment:\n"
+    "  TREE_SITTER_PROJECT_ROOT   Absolute project root (or pass --project-root).\n"
+    "  TSA_CACHE_DIR              Global extraction-cache location (default: $XDG_CACHE_HOME/codexray).\n"
+    "  TSA_DISABLE_GRAPH_CACHE    Set to 1 to disable the extraction cache.\n"
 )
 
 
@@ -151,7 +234,8 @@ def _add_mcp_equivalent_options(parser: argparse.ArgumentParser) -> None:
 def create_argument_parser() -> argparse.ArgumentParser:
     """Create and configure the CLI argument parser."""
     parser = argparse.ArgumentParser(
-        description="Analyze code using Tree-sitter and extract structured information.",
+        usage=CLI_USAGE,
+        description=CLI_DESCRIPTION,
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=CLI_EPILOG,
     )
