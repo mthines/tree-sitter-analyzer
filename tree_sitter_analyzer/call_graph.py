@@ -18,6 +18,7 @@ from typing import Any
 
 from .callee_resolution import CalleeResolver
 from .core.parser import Parser, ParseResult
+from .graph_extraction_cache import GraphExtractionCache, is_disabled
 from .function_extraction import (
     walk_tree as _walk_tree,
 )
@@ -150,6 +151,9 @@ class CallGraph:
         self._imported_names: dict[str, dict[str, str]] = {}
         self._module_to_file: dict[str, str] = {}
         self._callee_resolver: CalleeResolver | None = None
+        self._extraction_cache: GraphExtractionCache | None = (
+            None if is_disabled() else GraphExtractionCache()
+        )
 
     def build(self) -> None:
         """Scan the project and build the call graph."""
@@ -200,17 +204,11 @@ class CallGraph:
             if language is None:
                 continue
 
-            result: ParseResult = parser.parse_file(abs_path, language)
-            if not result.success or result.tree is None:
+            extraction = self._extract_file(parser, abs_path, language)
+            if extraction is None:
                 continue
+            definitions, calls, imports = extraction
 
-            source = result.source_code
-            tree = result.tree
-
-            definitions, calls = _walk_tree(tree.root_node, source, language)
-
-            imports: list[dict[str, Any]] = []
-            walk_imports(tree.root_node, source, language, imports)
             self._collect_import_map(rel_path, imports, rel_to_abs)
 
             file_funcs: dict[str, FunctionRef] = {}
@@ -258,6 +256,39 @@ class CallGraph:
 
         self._build_module_to_file_map(rel_to_abs)
         self._built = True
+
+    def _extract_file(
+        self, parser: Parser, abs_path: str, language: str
+    ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]] | None:
+        """Return (definitions, calls, imports) for a file, via cache when warm.
+
+        Extraction is a pure function of the file's bytes, so a content-addressed
+        cache hit lets us skip the parse entirely. On a miss (or with the cache
+        disabled) we parse, extract, and populate the cache. Returns ``None`` when
+        the file cannot be read or parsed, so the caller skips it as before.
+        """
+        try:
+            content = Path(abs_path).read_bytes()
+        except OSError:
+            return None
+
+        cache = self._extraction_cache
+        if cache is not None:
+            hit = cache.load(content, language)
+            if hit is not None:
+                return hit
+
+        result: ParseResult = parser.parse_file(abs_path, language)
+        if not result.success or result.tree is None:
+            return None
+
+        definitions, calls = _walk_tree(result.tree.root_node, result.source_code, language)
+        imports: list[dict[str, Any]] = []
+        walk_imports(result.tree.root_node, result.source_code, language, imports)
+
+        if cache is not None:
+            cache.store(content, language, definitions, calls, imports)
+        return definitions, calls, imports
 
     def _is_excluded(self, path: Path) -> bool:
         try:
