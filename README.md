@@ -56,16 +56,26 @@ tree-sitter-analyzer --project-root . --call-graph summary --format json
 Keep only what you need with `jq` — it filters in the shell, so only the slice reaches the model's context:
 
 ```bash
-# direct callees, names only
-... --call-graph chain --call-graph-function FN --format json \
-  | jq -r '.chain[] | select(.depth==1) | .callee.name'
+# what FN calls — direct callee names
+... --call-graph callees --call-graph-function FN --format json | jq -r '.callees[].name'
 
 # callee name + location
 ... --call-graph callees --call-graph-function FN --format json \
-  | jq -r '.callees[] | "\(.name)\t\(.file):\(.line)"'
+  | jq -r '.callees[] | .name+"  "+.file+":"+(.line|tostring)'
 
 # who calls FN
 ... --call-graph callers --call-graph-function FN --format json | jq -r '.callers[].name'
+
+# transitive chain, first level only
+... --call-graph chain --call-graph-function FN --format json \
+  | jq -r '.chain[] | select(.depth==1) | .callee.name'
+
+# transitive chain, unique callees at any depth
+... --call-graph chain --call-graph-function FN --call-graph-depth 4 --format json \
+  | jq -r '[.chain[].callee.name] | unique[]'
+
+# how many edges were found
+... --call-graph chain --call-graph-function FN --format json | jq '.edge_count'
 ```
 
 Use `--format json` for `jq`; use `--format toon` (≈ half the size) when feeding a whole, small result straight to a model.
