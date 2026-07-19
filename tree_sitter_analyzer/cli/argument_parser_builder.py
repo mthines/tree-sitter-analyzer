@@ -44,7 +44,9 @@ from .argument_groups import (
 
 # Re-export so that existing imports from this module continue to work.
 __all__ = [
+    "CLI_DESCRIPTION",
     "CLI_EPILOG",
+    "CLI_USAGE",
     "create_argument_parser",
     "_add_agent_skills_options",
     "_add_agent_workflow_options",
@@ -71,6 +73,50 @@ __all__ = [
     "_add_trace_impact_options",
 ]
 
+# Short usage line — replaces argparse's auto-generated wall of every flag, which
+# is unreadable for both humans and LLMs on a 300+ flag CLI.
+CLI_USAGE = (
+    "tree-sitter-analyzer [FILE] "
+    "[--smart-context | --call-graph MODE --call-graph-function FN | --table full | "
+    "--detect-routes | --project-health | ...] "
+    "[--format json|toon|text] [--project-root DIR]"
+)
+
+# Front-matter shown at the very top of --help. Kept task-first and example-heavy
+# so an agent can act from the first screen without reading all 300+ flags.
+CLI_DESCRIPTION = (
+    "Tree-sitter Analyzer (TSA) — correct, local code intelligence for AI agents "
+    "and humans.\n"
+    "Cross-language call graphs, symbol search, and structural queries over 20+ "
+    "languages. No telemetry.\n"
+    "\n"
+    "MOST-USED COMMANDS\n"
+    "  tree-sitter-analyzer FILE --smart-context\n"
+    "      One call: health + exports + structure + deps + edit-risk for a file.\n"
+    "  tree-sitter-analyzer --project-root . --call-graph chain "
+    "--call-graph-function FN --format json\n"
+    "      What FN calls, transitively. Point at the repo root, filter to one "
+    "function.\n"
+    "  tree-sitter-analyzer --project-root . --call-graph callers "
+    "--call-graph-function FN --format json\n"
+    "      Who calls FN.\n"
+    "  tree-sitter-analyzer --detect-routes\n"
+    "      URL -> handler routes (Flask/Django/FastAPI/Express/Spring).\n"
+    "\n"
+    "OUTPUT (agent-friendly)\n"
+    "  --format json   Stable, jq-friendly structure — pipe to jq to keep only "
+    "what you need.\n"
+    "  --format toon   Compact tabular form, ~half the size of JSON.\n"
+    "  --format text   Human-readable.\n"
+    "  Narrow with jq, e.g. keep just the direct callees:\n"
+    "    ... --call-graph chain --call-graph-function FN --format json "
+    "| jq '.chain[] | select(.depth==1) | .callee.name'\n"
+    "\n"
+    "This is a large CLI (300+ flags). The full flag reference follows; "
+    "task-grouped\n"
+    "examples and jq recipes are at the very end (see 'Examples' below).\n"
+)
+
 CLI_EPILOG = (
     "Examples:  (grouped by task)\n"
     "\n"
@@ -79,6 +125,13 @@ CLI_EPILOG = (
     "  tree-sitter-analyzer --overview                      Project portrait + health summary\n"
     "  tree-sitter-analyzer agent-skills                    Project-local agent skill inventory\n"
     "  tree-sitter-analyzer agent-workflow file.py          SMART workflow command pack\n"
+    "\n"
+    "Call graph  (what calls what — point at the repo root, filter to one function):\n"
+    "  tree-sitter-analyzer --project-root . --call-graph chain --call-graph-function FN --format json    What FN calls (transitive)\n"
+    "  tree-sitter-analyzer --project-root . --call-graph callees --call-graph-function FN --format json  Direct callees of FN\n"
+    "  tree-sitter-analyzer --project-root . --call-graph callers --call-graph-function FN --format json  Direct callers of FN\n"
+    "  tree-sitter-analyzer --project-root . --call-graph-function FN --call-graph-file PATH --format json Disambiguate FN by file\n"
+    "  tree-sitter-analyzer --project-root . --call-graph summary                                          Whole-graph node/edge counts\n"
     "\n"
     "Read code  (extract content from a single file):\n"
     "  tree-sitter-analyzer file.java --table=full          Markdown table of classes/methods\n"
@@ -126,6 +179,17 @@ CLI_EPILOG = (
     "  tree-sitter-analyzer parser-readiness swift          Parser/plugin readiness advisor\n"
     "  tree-sitter-analyzer --list-queries                  Show available query keys\n"
     "  tree-sitter-analyzer --show-supported-languages      List supported languages\n"
+    "\n"
+    "Structured output for agents  (pipe --format json to jq):\n"
+    "  ... --call-graph chain --call-graph-function FN --format json | jq '.chain[] | select(.depth==1) | .callee.name'   direct callees only\n"
+    "  ... --call-graph callees --call-graph-function FN --format json | jq -r '.callees[].name'                          callee names\n"
+    "  ... --call-graph callers --call-graph-function FN --format json | jq -r '.callers[].name'                          caller names\n"
+    "  Use --format json for jq; --format toon when feeding the whole (small) result straight to a model.\n"
+    "\n"
+    "Environment:\n"
+    "  TREE_SITTER_PROJECT_ROOT   Absolute project root (or pass --project-root).\n"
+    "  TSA_CACHE_DIR              Global extraction-cache location (default: $XDG_CACHE_HOME/tree-sitter-analyzer).\n"
+    "  TSA_DISABLE_GRAPH_CACHE    Set to 1 to disable the extraction cache.\n"
 )
 
 
@@ -151,7 +215,8 @@ def _add_mcp_equivalent_options(parser: argparse.ArgumentParser) -> None:
 def create_argument_parser() -> argparse.ArgumentParser:
     """Create and configure the CLI argument parser."""
     parser = argparse.ArgumentParser(
-        description="Analyze code using Tree-sitter and extract structured information.",
+        usage=CLI_USAGE,
+        description=CLI_DESCRIPTION,
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=CLI_EPILOG,
     )
