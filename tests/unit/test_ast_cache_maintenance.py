@@ -5,8 +5,8 @@ from __future__ import annotations
 import sqlite3
 from typing import Any
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cache.maintenance import (
+from codexray.ast_cache import ASTCache
+from codexray.cache.maintenance import (
     get_db_storage_stats,
     reclaim_storage_after_full_rebuild,
 )
@@ -149,7 +149,7 @@ def test_reclaim_storage_reports_errors_without_raising() -> None:
 
 
 def test_index_project_force_includes_db_maintenance(tmp_path, monkeypatch) -> None:
-    import tree_sitter_analyzer.ast_cache as ast_cache_mod
+    import codexray.ast_cache as ast_cache_mod
 
     src = tmp_path / "src"
     src.mkdir()

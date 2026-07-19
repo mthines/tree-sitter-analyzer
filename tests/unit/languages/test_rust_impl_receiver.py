@@ -17,7 +17,7 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_rust
 
-from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+from codexray.languages.rust_plugin import RustElementExtractor
 
 RUST_SRC = """\
 struct Counter { n: i32 }
@@ -101,7 +101,7 @@ def test_free_function_unowned() -> None:
 def test_receiver_survives_api_serialization() -> None:
     """End-to-end Theme-A: the serializer allowlist (landed with the Go
     companion fix) must carry the Rust receiver binding to API consumers."""
-    from tree_sitter_analyzer.internal_api.result_helpers import element_to_dict
+    from codexray.internal_api.result_helpers import element_to_dict
 
     funcs = _functions()
     inc = element_to_dict(funcs["inc"])

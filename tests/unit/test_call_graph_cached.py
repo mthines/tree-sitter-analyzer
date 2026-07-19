@@ -3,16 +3,16 @@
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.call_graph import (
+from codexray.call_graph import (
     CachedCallGraph,
     CallGraph,
     FunctionRef,
 )
-from tree_sitter_analyzer.core.parser import Parser
-from tree_sitter_analyzer.function_extraction import (
+from codexray.core.parser import Parser
+from codexray.function_extraction import (
     node_text as _node_text,
 )
-from tree_sitter_analyzer.function_extraction import (
+from codexray.function_extraction import (
     walk_tree as _walk_tree,
 )
 

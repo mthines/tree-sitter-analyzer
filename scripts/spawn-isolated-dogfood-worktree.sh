@@ -13,11 +13,11 @@
 # Usage:
 #   bash scripts/spawn-isolated-dogfood-worktree.sh [WORKTREE_PATH]
 #
-# Default WORKTREE_PATH: ../tree-sitter-analyzer-dogfood
+# Default WORKTREE_PATH: ../codexray-dogfood
 
 set -euo pipefail
 
-WORKTREE_PATH="${1:-../tree-sitter-analyzer-dogfood}"
+WORKTREE_PATH="${1:-../codexray-dogfood}"
 WORKTREE_ABS="$(cd "$(dirname "$WORKTREE_PATH")" && pwd)/$(basename "$WORKTREE_PATH")"
 
 if [ -d "$WORKTREE_ABS" ]; then

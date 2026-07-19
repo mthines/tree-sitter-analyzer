@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.call_graph import FunctionRef
-from tree_sitter_analyzer.mcp.tools.codegraph_impact_tool import (
+from codexray.call_graph import FunctionRef
+from codexray.mcp.tools.codegraph_impact_tool import (
     _MAX_LISTED,
     CodeGraphImpactTool,
     _blast_radius_for_functions,
@@ -610,7 +610,7 @@ class TestTransitiveCapFlag:
 
     def test_capped_flag_absent_below_limit(self):
         """transitive_count_is_capped absent when caller count < _MAX_TRANSITIVE."""
-        from tree_sitter_analyzer.mcp.tools.codegraph_impact_tool import _MAX_TRANSITIVE
+        from codexray.mcp.tools.codegraph_impact_tool import _MAX_TRANSITIVE
 
         tool = CodeGraphImpactTool()
         n = _MAX_TRANSITIVE - 1
@@ -621,7 +621,7 @@ class TestTransitiveCapFlag:
 
     def test_capped_flag_present_at_limit(self):
         """transitive_count_is_capped: True when transitive_caller_count == _MAX_TRANSITIVE."""
-        from tree_sitter_analyzer.mcp.tools.codegraph_impact_tool import _MAX_TRANSITIVE
+        from codexray.mcp.tools.codegraph_impact_tool import _MAX_TRANSITIVE
 
         tool = CodeGraphImpactTool()
         n = _MAX_TRANSITIVE
@@ -649,7 +649,7 @@ class TestTransitiveCapFlag:
 
     def test_callee_capped_flag_absent_below_limit(self):
         """transitive_callee_count_is_capped absent when callee count < _MAX_TRANSITIVE."""
-        from tree_sitter_analyzer.mcp.tools.codegraph_impact_tool import _MAX_TRANSITIVE
+        from codexray.mcp.tools.codegraph_impact_tool import _MAX_TRANSITIVE
 
         tool = CodeGraphImpactTool()
         n = _MAX_TRANSITIVE - 1
@@ -660,7 +660,7 @@ class TestTransitiveCapFlag:
 
     def test_callee_capped_flag_present_at_limit(self):
         """transitive_callee_count_is_capped: True when count == _MAX_TRANSITIVE."""
-        from tree_sitter_analyzer.mcp.tools.codegraph_impact_tool import _MAX_TRANSITIVE
+        from codexray.mcp.tools.codegraph_impact_tool import _MAX_TRANSITIVE
 
         tool = CodeGraphImpactTool()
         n = _MAX_TRANSITIVE

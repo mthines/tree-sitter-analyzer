@@ -18,15 +18,15 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._graph_cache_fingerprint import (
+from codexray.mcp.tools._graph_cache_fingerprint import (
     GraphFingerprint,
     compute_graph_fingerprint,
 )
-from tree_sitter_analyzer.mcp.tools.call_graph_tool import CodeGraphCallTool
-from tree_sitter_analyzer.mcp.tools.dependency_analysis_tool import (
+from codexray.mcp.tools.call_graph_tool import CodeGraphCallTool
+from codexray.mcp.tools.dependency_analysis_tool import (
     DependencyAnalysisTool,
 )
-from tree_sitter_analyzer.mcp.tools.symbol_lineage_tool import SymbolLineageTool
+from codexray.mcp.tools.symbol_lineage_tool import SymbolLineageTool
 
 
 def _make_small_python_project(root: Path) -> Path:
@@ -199,7 +199,7 @@ class TestSymbolLineageCacheInvalidatesOnFileChange:
 
 class TestDependencyGraphGlobalCacheRespectsFingerprint:
     def test_global_cache_invalidates_on_file_mtime(self, project_root: Path) -> None:
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         g1 = DependencyGraph(str(project_root))
 

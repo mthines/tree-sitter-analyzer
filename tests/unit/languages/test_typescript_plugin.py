@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.languages.typescript_plugin module.
+Tests for codexray.languages.typescript_plugin module.
 
 This module tests the TypeScriptPlugin class which provides TypeScript language
 support with comprehensive feature coverage including interfaces, type aliases,
@@ -11,11 +11,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.typescript_plugin import (
+from codexray.languages.typescript_plugin import (
     TypeScriptElementExtractor,
     TypeScriptPlugin,
 )
-from tree_sitter_analyzer.plugins.base import LanguagePlugin
+from codexray.plugins.base import LanguagePlugin
 
 
 class TestTypeScriptElementExtractor:
@@ -385,13 +385,13 @@ class TestTypeScriptPlugin:
             assert query in queries
 
     @patch(
-        "tree_sitter_analyzer.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
+        "codexray.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
         False,
     )
     @pytest.mark.asyncio
     async def test_analyze_file_no_tree_sitter(self, plugin):
         """Test file analysis when tree-sitter is not available"""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         request = AnalysisRequest(file_path="test.ts")
         result = await plugin.analyze_file("test.ts", request)
@@ -400,12 +400,12 @@ class TestTypeScriptPlugin:
         assert "Tree-sitter library not available" in result.error_message
 
     @patch(
-        "tree_sitter_analyzer.languages.typescript_plugin.extractor.loader.load_language"
+        "codexray.languages.typescript_plugin.extractor.loader.load_language"
     )
     @pytest.mark.asyncio
     async def test_analyze_file_no_language(self, mock_load_language, plugin):
         """Test file analysis when TypeScript language cannot be loaded"""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         mock_load_language.return_value = None
         request = AnalysisRequest(file_path="test.ts")
@@ -417,7 +417,7 @@ class TestTypeScriptPlugin:
     @pytest.mark.asyncio
     async def test_analyze_file_missing_file(self, plugin):
         """Test file analysis with missing file"""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         request = AnalysisRequest(file_path="nonexistent.ts")
         result = await plugin.analyze_file("nonexistent.ts", request)
@@ -429,7 +429,7 @@ class TestTypeScriptPlugin:
         """Test tree-sitter language caching"""
         # First call should load the language
         with patch(
-            "tree_sitter_analyzer.languages.typescript_plugin.extractor.loader.load_language"
+            "codexray.languages.typescript_plugin.extractor.loader.load_language"
         ) as mock_load:
             mock_language = Mock()
             mock_load.return_value = mock_language
@@ -454,7 +454,7 @@ class TestTypeScriptPluginIntegration:
 
     def test_plugin_registration(self):
         """Test that TypeScript plugin can be discovered by plugin manager"""
-        from tree_sitter_analyzer.plugins.manager import PluginManager
+        from codexray.plugins.manager import PluginManager
 
         manager = PluginManager()
         mock_plugin = TypeScriptPlugin()
@@ -475,7 +475,7 @@ class TestTypeScriptPluginIntegration:
 
     def test_formatter_integration(self):
         """Test TypeScript formatter integration"""
-        from tree_sitter_analyzer.formatters.formatter_registry import (
+        from codexray.formatters.formatter_registry import (
             FormatterRegistry,
         )
 
@@ -493,7 +493,7 @@ class TestTypeScriptPluginIntegration:
 
     def test_language_detection_integration(self):
         """Test TypeScript language detection integration"""
-        from tree_sitter_analyzer.language_detector import detector
+        from codexray.language_detector import detector
 
         # Test file extension detection
         assert detector.detect_from_extension("test.ts") == "typescript"
@@ -505,7 +505,7 @@ class TestTypeScriptPluginIntegration:
 
     def test_language_loader_integration(self):
         """Test TypeScript language loader integration"""
-        from tree_sitter_analyzer.language_loader import get_loader
+        from codexray.language_loader import get_loader
 
         loader = get_loader()
 

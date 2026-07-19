@@ -18,10 +18,10 @@ import tree_sitter  # noqa: E402
 import tree_sitter_kotlin  # noqa: E402
 import tree_sitter_scala  # noqa: E402
 
-from tree_sitter_analyzer.languages.kotlin_plugin import (  # noqa: E402
+from codexray.languages.kotlin_plugin import (  # noqa: E402
     KotlinElementExtractor,
 )
-from tree_sitter_analyzer.languages.scala_plugin import (  # noqa: E402
+from codexray.languages.scala_plugin import (  # noqa: E402
     ScalaElementExtractor,
 )
 
@@ -259,7 +259,7 @@ class C extends Base[String] with pkg.M with Other
         import tree_sitter
         import tree_sitter_scala
 
-        from tree_sitter_analyzer.languages.scala_plugin import (
+        from codexray.languages.scala_plugin import (
             ScalaElementExtractor,
         )
 
@@ -285,7 +285,7 @@ class TestKotlinPrimaryCtorFallbacks:
     """codecov/patch on #585: anonymous fallbacks + extractor error branch."""
 
     def test_orphan_node_returns_anonymous(self):
-        from tree_sitter_analyzer.languages.kotlin_helpers import (
+        from codexray.languages.kotlin_helpers import (
             _kotlin_primary_ctor_class_name,
         )
 
@@ -293,7 +293,7 @@ class TestKotlinPrimaryCtorFallbacks:
         assert _kotlin_primary_ctor_class_name(node, lambda n: "x") == "anonymous"
 
     def test_parent_without_identifier_returns_anonymous(self):
-        from tree_sitter_analyzer.languages.kotlin_helpers import (
+        from codexray.languages.kotlin_helpers import (
             _kotlin_primary_ctor_class_name,
         )
 
@@ -304,7 +304,7 @@ class TestKotlinPrimaryCtorFallbacks:
         assert _kotlin_primary_ctor_class_name(node, lambda n: "x") == "anonymous"
 
     def test_extractor_swallows_node_errors(self):
-        from tree_sitter_analyzer.languages.kotlin_helpers import (
+        from codexray.languages.kotlin_helpers import (
             extract_kotlin_primary_constructor,
         )
 

@@ -242,7 +242,7 @@ async def assert_end_to_end_sql_analysis_and_formatting(plugin: Any) -> None:
     temp_path = write_temp_sql_file(E2E_SQL_CONTENT)
 
     try:
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         request = AnalysisRequest(file_path=temp_path)
         result = await plugin.analyze_file(temp_path, request)
@@ -258,8 +258,8 @@ async def assert_end_to_end_sql_analysis_and_formatting(plugin: Any) -> None:
 
 async def assert_analysis_with_tree_sitter_disabled(plugin: Any) -> None:
     """Assert analyze_file handles a disabled tree-sitter runtime gracefully."""
-    import tree_sitter_analyzer.language_loader as language_loader_module
-    import tree_sitter_analyzer.languages.sql_plugin.plugin as sql_plugin_module
+    import codexray.language_loader as language_loader_module
+    import codexray.languages.sql_plugin.plugin as sql_plugin_module
 
     original_value = getattr(sql_plugin_module, "TREE_SITTER_AVAILABLE", True)
     try:
@@ -277,11 +277,11 @@ async def assert_analysis_with_missing_language(plugin: Any) -> None:
     """Assert analyze_file handles a missing SQL parser language gracefully."""
     with (
         patch(
-            "tree_sitter_analyzer.languages.sql_plugin.plugin.TREE_SITTER_AVAILABLE",
+            "codexray.languages.sql_plugin.plugin.TREE_SITTER_AVAILABLE",
             True,
         ),
         patch(
-            "tree_sitter_analyzer.language_loader.LanguageLoader.load_language",
+            "codexray.language_loader.LanguageLoader.load_language",
             return_value=None,
         ),
     ):
@@ -293,7 +293,7 @@ async def analyze_temp_sql(plugin: Any, sql_content: str) -> Any:
     """Analyze a temporary SQL file and remove it before returning."""
     temp_path = write_temp_sql_file(sql_content)
     try:
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         request = AnalysisRequest(file_path=temp_path)
         return await plugin.analyze_file(temp_path, request)
@@ -334,7 +334,7 @@ def assert_e2e_sql_formatting(
     if not sql_elements:
         return
 
-    from tree_sitter_analyzer.formatters.sql_formatters import (
+    from codexray.formatters.sql_formatters import (
         SQLCompactFormatter,
         SQLCSVFormatter,
         SQLFullFormatter,

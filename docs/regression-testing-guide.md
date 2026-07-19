@@ -1,7 +1,7 @@
 <!-- HISTORICAL RECORD — file paths in this document reflect early project planning. Some paths may no longer exist. -->
 # 回归测试指南
 
-本文档为tree-sitter-analyzer项目提供全面的回归测试指南，帮助开发者理解和使用Golden Master方法进行回归测试。
+本文档为codexray项目提供全面的回归测试指南，帮助开发者理解和使用Golden Master方法进行回归测试。
 
 ## 📋 目录
 
@@ -81,7 +81,7 @@ tests/golden_masters/
 
 ```bash
 # 1. 运行分析并保存输出
-uv run python -m tree_sitter_analyzer analyze \
+uv run python -m codexray analyze \
   examples/sample.py \
   --format full > output.txt
 
@@ -158,7 +158,7 @@ def test_python_format_stability():
 
 import pytest
 from pathlib import Path
-from tree_sitter_analyzer.core import analyze_code_structure
+from codexray.core import analyze_code_structure
 
 class TestFormatRegression:
     """格式输出回归测试。"""
@@ -230,7 +230,7 @@ class TestFormatRegression:
 """测试API回归。"""
 
 import pytest
-from tree_sitter_analyzer.core.request import AnalysisRequest
+from codexray.core.request import AnalysisRequest
 
 class TestAPIRegression:
     """API向后兼容性测试。"""
@@ -294,7 +294,7 @@ class TestCrossVersionCompatibility:
         }
 
         # 应该仍然工作
-        from tree_sitter_analyzer.core.config import load_config
+        from codexray.core.config import load_config
         config = load_config(config_v1_6)
 
         assert config is not None
@@ -310,7 +310,7 @@ class TestCrossVersionCompatibility:
             # 缺少"queries"字段
         }
 
-        from tree_sitter_analyzer.core.config import load_config
+        from codexray.core.config import load_config
         config = load_config(incomplete_config)
 
         # 应该使用默认值
@@ -342,7 +342,7 @@ uv run pytest tests/regression/test_format_regression.py
 uv run pytest tests/ -m regression -v
 
 # 运行带覆盖率的回归测试
-uv run pytest tests/ -m regression --cov=tree_sitter_analyzer
+uv run pytest tests/ -m regression --cov=codexray
 ```
 
 ### 步骤5: 验证测试

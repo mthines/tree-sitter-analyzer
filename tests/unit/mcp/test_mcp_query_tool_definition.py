@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.query_tool import QueryTool
 
 
 class TestMCPQueryToolDefinition:

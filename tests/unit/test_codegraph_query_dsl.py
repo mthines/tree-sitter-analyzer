@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._codegraph_query_dsl import (
+from codexray.mcp.tools._codegraph_query_dsl import (
     _ChainStep,
     bool_kw,
     first_int,
@@ -12,7 +12,7 @@ from tree_sitter_analyzer.mcp.tools._codegraph_query_dsl import (
     int_kw,
     string_args,
 )
-from tree_sitter_analyzer.mcp.tools.codegraph_query_tool import (
+from codexray.mcp.tools.codegraph_query_tool import (
     parse_chain,
 )
 
@@ -231,7 +231,7 @@ class TestChainActionDocMatchesInner:
     def test_chain_documented_params_subset_of_inner_schema(self):
         import re
 
-        from tree_sitter_analyzer.mcp.tools.search_facade import build_search_facade
+        from codexray.mcp.tools.search_facade import build_search_facade
 
         facade = build_search_facade(project_root=None)
         desc = facade.get_tool_definition()["description"]

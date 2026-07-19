@@ -7,7 +7,7 @@ from io import StringIO
 from pathlib import Path
 from unittest.mock import patch
 
-from tree_sitter_analyzer.cli_main import main
+from codexray.cli_main import main
 
 
 class TestCLITableOption:
@@ -130,9 +130,9 @@ class TestCLITableOption:
         )
 
         with patch(
-            "tree_sitter_analyzer.core.analysis_engine.UnifiedAnalysisEngine.analyze"
+            "codexray.core.analysis_engine.UnifiedAnalysisEngine.analyze"
         ) as mock_analyze:
-            from tree_sitter_analyzer.models import AnalysisResult
+            from codexray.models import AnalysisResult
 
             failed_result = AnalysisResult(
                 file_path=sample_java_file,
@@ -300,7 +300,7 @@ class TestCLIPartialReadOption:
         )
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.partial_read_command.read_file_partial",
+            "codexray.cli.commands.partial_read_command.read_file_partial",
             return_value=None,
         ):
             mock_stderr = StringIO()
@@ -337,7 +337,7 @@ class TestCLIQueryHandling:
         )
 
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.query_loader.get_query_description",
+            "codexray.cli.info_commands.query_loader.get_query_description",
             side_effect=ValueError("Test error"),
         ):
             with contextlib.suppress(SystemExit):

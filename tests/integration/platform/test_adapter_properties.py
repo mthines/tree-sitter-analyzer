@@ -1,8 +1,8 @@
 from hypothesis import given
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.models import SQLElementType, SQLFunction, SQLTrigger, SQLView
-from tree_sitter_analyzer.platform_compat.adapter import (
+from codexray.models import SQLElementType, SQLFunction, SQLTrigger, SQLView
+from codexray.platform_compat.adapter import (
     CompatibilityAdapter,
     FixFunctionNameKeywordsRule,
     FixTriggerNameDescriptionRule,

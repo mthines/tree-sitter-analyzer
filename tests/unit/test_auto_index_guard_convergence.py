@@ -16,13 +16,13 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cache.unresolved import (
+from codexray.ast_cache import ASTCache
+from codexray.cache.unresolved import (
     index_resolution_fingerprint,
     mark_resolution_converged,
     resolution_converged,
 )
-from tree_sitter_analyzer.mcp.utils import auto_index_guard
+from codexray.mcp.utils import auto_index_guard
 
 
 def test_resolution_helpers_degrade_on_missing_tables() -> None:
@@ -188,7 +188,7 @@ def test_mark_resolution_converged_handles_operational_error(tmp_path: Path) -> 
 
 def test_resolution_converged_helpers_degrade_on_broken_cache() -> None:
     """_resolution_converged/_mark_resolution_converged swallow exceptions from a broken cache."""
-    from tree_sitter_analyzer.mcp.utils.auto_index_guard import (
+    from codexray.mcp.utils.auto_index_guard import (
         _mark_resolution_converged,
         _resolution_converged,
         _resolve_pending_unresolved_refs,

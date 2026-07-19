@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import (
+from codexray.mcp.tools.codegraph_status_tool import (
     CodeGraphStatusTool,
 )
 
@@ -104,7 +104,7 @@ class TestExecuteWithIndex:
         mock_cache.get_stats.return_value = mock_stats
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool_with_root.execute(
@@ -141,7 +141,7 @@ class TestExecuteWithIndex:
         }
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool_with_root.execute(
@@ -177,7 +177,7 @@ class TestExecuteWithIndex:
         }
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool_with_root.execute(
@@ -212,7 +212,7 @@ class TestExecuteWithIndex:
         }
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool_with_root.execute(
@@ -244,7 +244,7 @@ class TestExecuteWithIndex:
         mock_cache.get_stats.return_value = mock_stats
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool_with_root.execute(
@@ -271,7 +271,7 @@ class TestExecuteWithIndex:
         mock_cache.get_stats.return_value = mock_stats
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool_with_root.execute({"output_format": "json"})

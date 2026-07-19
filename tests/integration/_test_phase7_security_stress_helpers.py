@@ -6,8 +6,8 @@ from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 async def collect_concurrent_security_stress_results(

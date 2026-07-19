@@ -19,15 +19,15 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.formatters._csv_safety import csv_safe_cell, csv_safe_row
-from tree_sitter_analyzer.formatters._html_csv_formatter_helpers import (
+from codexray.formatters._csv_safety import csv_safe_cell, csv_safe_row
+from codexray.formatters._html_csv_formatter_helpers import (
     format_html_csv,
 )
-from tree_sitter_analyzer.formatters._markdown_formatter_rendering import (
+from codexray.formatters._markdown_formatter_rendering import (
     format_csv_output,
 )
-from tree_sitter_analyzer.formatters.formatter_registry import CsvFormatter
-from tree_sitter_analyzer.models import CodeElement
+from codexray.formatters.formatter_registry import CsvFormatter
+from codexray.models import CodeElement
 
 # Characters that trip a no-escapechar csv.writer on Python 3.10.
 CONTROL_NAMES = ["\x00", "\x00abc", "a\x00b", "\x01\x02"]

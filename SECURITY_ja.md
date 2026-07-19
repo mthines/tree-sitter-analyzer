@@ -2,7 +2,7 @@
 
 ## サポートされているバージョン
 
-現在、以下のバージョンの Tree-sitter Analyzer がセキュリティアップデートのサポート対象となっています。
+現在、以下のバージョンの CodeXray がセキュリティアップデートのサポート対象となっています。
 
 | バージョン | サポート状況       |
 | ---------- | ------------------ |
@@ -12,17 +12,17 @@
 
 ## 脆弱性の報告
 
-私たちは Tree-sitter Analyzer のセキュリティを真剣に受け止めています。セキュリティ上の脆弱性を発見した場合は、以下の手順に従ってください。
+私たちは CodeXray のセキュリティを真剣に受け止めています。セキュリティ上の脆弱性を発見した場合は、以下の手順に従ってください。
 
 ### 報告方法
 
 1. セキュリティ上の脆弱性について、**公開の GitHub Issue を作成しないでください**。
 
 2. **直接メールでご連絡ください**: aimasteracc@gmail.com
-   - 件名: `[SECURITY] tree-sitter-analyzer vulnerability report`
+   - 件名: `[SECURITY] codexray vulnerability report`
    - 脆弱性に関する詳細をできる限り含めてください
 
-3. **あるいは**、[GitHub のプライベート脆弱性報告](https://github.com/aimasteracc/tree-sitter-analyzer/security/advisories/new) を使用して報告を送信してください。
+3. **あるいは**、[GitHub のプライベート脆弱性報告](https://github.com/aimasteracc/codexray/security/advisories/new) を使用して報告を送信してください。
 
 ### 含めるべき内容
 
@@ -59,7 +59,7 @@
 
 ## セキュリティのベストプラクティス
 
-Tree-sitter Analyzer を使用する場合：
+CodeXray を使用する場合：
 
 1. **最新の状態を保つ**: 常に最新の安定版を使用してください
 2. **環境変数**: `TREE_SITTER_PROJECT_ROOT` を使用してファイルアクセスを制限してください
@@ -68,7 +68,7 @@ Tree-sitter Analyzer を使用する場合：
 
 ## セキュリティ機能
 
-Tree-sitter Analyzer には、組み込みのセキュリティ対策が含まれています：
+CodeXray には、組み込みのセキュリティ対策が含まれています：
 
 - **ディレクトリトラバーサル保護**: 許可されたディレクトリ外へのアクセスを防止します
 - **ファイルサイズ制限**: 極端に大きなファイルによるサービス拒否（DoS）を防止します
@@ -81,4 +81,4 @@ Tree-sitter Analyzer には、組み込みのセキュリティ対策が含ま�
 
 ---
 
-Tree-sitter Analyzer とそのユーザーの安全を守るためのご協力に感謝いたします！
+CodeXray とそのユーザーの安全を守るためのご協力に感謝いたします！

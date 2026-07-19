@@ -18,7 +18,7 @@ class TestQueryToolCoverage:
     @pytest.fixture
     def query_tool(self):
         """Create QueryTool instance."""
-        from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+        from codexray.mcp.tools.query_tool import QueryTool
 
         return QueryTool()
 
@@ -101,7 +101,7 @@ def standalone_function():
     @pytest.mark.asyncio
     async def test_execute_no_query_params_error(self, query_tool, temp_python_file):
         """Test error when no query parameters provided."""
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         with pytest.raises(AnalysisError):
             await query_tool.execute(
@@ -202,7 +202,7 @@ class TestAnalyzeScaleToolCoverage:
     @pytest.fixture
     def analyze_scale_tool(self):
         """Create AnalyzeScaleTool instance."""
-        from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+        from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
         return AnalyzeScaleTool()
 
@@ -289,7 +289,7 @@ class TestReadPartialToolCoverage:
     @pytest.fixture
     def read_partial_tool(self):
         """Create ReadPartialTool instance."""
-        from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+        from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
         return ReadPartialTool()
 
@@ -383,7 +383,7 @@ class TestAnalyzeCodeStructureToolCoverage:
     @pytest.fixture
     def analyze_code_structure_tool(self):
         """Create AnalyzeCodeStructureTool instance."""
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+        from codexray.mcp.tools.analyze_code_structure_tool import (
             AnalyzeCodeStructureTool,
         )
 
@@ -477,7 +477,7 @@ class TestOutputManagerCoverage:
 
     def test_init_default(self):
         """Test default initialization."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager()
         assert manager.quiet is False
@@ -485,7 +485,7 @@ class TestOutputManagerCoverage:
 
     def test_init_with_json_output(self):
         """Test initialization with json_output flag."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager(json_output=True, output_format="toon")
         # json_output should override output_format
@@ -493,7 +493,7 @@ class TestOutputManagerCoverage:
 
     def test_init_with_toon_format(self):
         """Test initialization with toon format."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager(output_format="toon")
         assert manager.output_format == "toon"
@@ -501,7 +501,7 @@ class TestOutputManagerCoverage:
 
     def test_info_quiet(self, capsys):
         """Test info message when quiet."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager(quiet=True)
         manager.info("Test message")
@@ -510,7 +510,7 @@ class TestOutputManagerCoverage:
 
     def test_info_not_quiet(self, capsys):
         """Test info message when not quiet — goes to stderr (Q2)."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager(quiet=False)
         manager.info("Test message")
@@ -522,7 +522,7 @@ class TestOutputManagerCoverage:
 
     def test_data_json(self, capsys):
         """Test data output in JSON format."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager(output_format="json")
         manager.data({"key": "value"})
@@ -531,7 +531,7 @@ class TestOutputManagerCoverage:
 
     def test_data_toon(self, capsys):
         """Test data output in TOON format."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager(output_format="toon")
         manager.data({"key": "value"})
@@ -540,7 +540,7 @@ class TestOutputManagerCoverage:
 
     def test_data_string(self, capsys):
         """Test data output with string data."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager()
         manager.data("Already formatted string")
@@ -549,7 +549,7 @@ class TestOutputManagerCoverage:
 
     def test_format_override(self, capsys):
         """Test data with format_type override."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager(output_format="json")
         manager.data({"key": "value"}, format_type="toon")
@@ -558,7 +558,7 @@ class TestOutputManagerCoverage:
 
     def test_error_output(self, capsys):
         """Test error output."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager()
         manager.error("Error message")
@@ -568,7 +568,7 @@ class TestOutputManagerCoverage:
 
     def test_warning_output(self, capsys):
         """Test warning output."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager()
         manager.warning("Warning message")
@@ -578,7 +578,7 @@ class TestOutputManagerCoverage:
 
     def test_unsupported_format_fallback(self, capsys):
         """Test fallback for unsupported format."""
-        from tree_sitter_analyzer.output_manager import OutputManager
+        from codexray.output_manager import OutputManager
 
         manager = OutputManager()
         # Remove toon formatter to test fallback
@@ -595,13 +595,13 @@ class TestMCPUtilsInit:
 
     def test_file_output_manager_import(self):
         """Test FileOutputManager can be imported from submodule."""
-        from tree_sitter_analyzer.mcp.utils.file_output_manager import FileOutputManager
+        from codexray.mcp.utils.file_output_manager import FileOutputManager
 
         assert isinstance(FileOutputManager, type)
 
     def test_format_helper_import(self):
         """Test format_helper functions can be imported."""
-        from tree_sitter_analyzer.mcp.utils.format_helper import (
+        from codexray.mcp.utils.format_helper import (
             format_for_file_output,
             format_output,
         )
@@ -611,6 +611,6 @@ class TestMCPUtilsInit:
 
     def test_error_handler_import(self):
         """Test error_handler can be imported."""
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         assert isinstance(AnalysisError, type)

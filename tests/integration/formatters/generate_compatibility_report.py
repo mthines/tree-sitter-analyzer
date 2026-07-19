@@ -66,7 +66,7 @@ def generate_html_report(metadata: dict) -> str:
 <body>
     <div class="header">
         <h1>Version Compatibility Report</h1>
-        <p>Tree-Sitter Analyzer Format Compatibility Testing</p>
+        <p>CodeXray Format Compatibility Testing</p>
     </div>
 
     <div class="summary">
@@ -81,7 +81,7 @@ def generate_html_report(metadata: dict) -> str:
 
     <div class="footer">
         <p>Generated on {metadata["timestamp"]}</p>
-        <p>Tree-Sitter Analyzer - Format Compatibility Testing</p>
+        <p>CodeXray - Format Compatibility Testing</p>
     </div>
 </body>
 </html>

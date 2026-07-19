@@ -7,7 +7,7 @@ import argparse
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.find_and_grep_cli import (
+from codexray.cli.commands.find_and_grep_cli import (
     _build_parser,
 )
 

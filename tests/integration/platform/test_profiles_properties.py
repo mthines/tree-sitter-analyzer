@@ -5,7 +5,7 @@ from pathlib import Path
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.platform_compat.profiles import (
+from codexray.platform_compat.profiles import (
     PROFILE_SCHEMA_VERSION,
     BehaviorProfile,
     ParsingBehavior,

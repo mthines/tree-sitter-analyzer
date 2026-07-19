@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Integration tests for JavaScriptTableFormatter — realistic JS/TS data formatting."""
 
-from tree_sitter_analyzer.formatters.javascript_formatter import (
+from codexray.formatters.javascript_formatter import (
     JavaScriptTableFormatter,
 )
 

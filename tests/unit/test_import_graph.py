@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import os
 
-from tree_sitter_analyzer.import_graph import (
+from codexray.import_graph import (
     ImportEdge,
     ImportGraph,
     ImportGraphResult,
@@ -220,7 +220,7 @@ class TestImportGraphBuild:
             def close(self) -> None:
                 pass
 
-        monkeypatch.setattr("tree_sitter_analyzer.ast_cache.ASTCache", _FakeCache)
+        monkeypatch.setattr("codexray.ast_cache.ASTCache", _FakeCache)
         graph = ImportGraph(ROOT)
         result = graph.build()
 
@@ -234,7 +234,7 @@ class TestImportGraphBuild:
             def __init__(self, root: str) -> None:
                 raise RuntimeError("cache unavailable")
 
-        monkeypatch.setattr("tree_sitter_analyzer.ast_cache.ASTCache", _BoomCache)
+        monkeypatch.setattr("codexray.ast_cache.ASTCache", _BoomCache)
         result = ImportGraph(ROOT).build()
         assert result.edge_count == 0
         assert result.edges == []

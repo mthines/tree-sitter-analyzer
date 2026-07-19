@@ -12,9 +12,9 @@ from unittest.mock import MagicMock, patch
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.formatters.rust_formatter import RustTableFormatter
-from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
-from tree_sitter_analyzer.models import AnalysisResult, Class, Function
+from codexray.formatters.rust_formatter import RustTableFormatter
+from codexray.languages.rust_plugin import RustElementExtractor
+from codexray.models import AnalysisResult, Class, Function
 
 # --- Strategies ---
 

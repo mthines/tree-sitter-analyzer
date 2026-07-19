@@ -2,14 +2,14 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -26,7 +26,7 @@ async def test_rg_66_non_utf8_encoding_flag(monkeypatch, tmp_path):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -45,7 +45,7 @@ async def test_rg_67_binary_file_handling(monkeypatch, tmp_path):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Should just succeed with count 0
@@ -67,7 +67,7 @@ async def test_rg_68_large_file_size_cap(monkeypatch, tmp_path):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -124,7 +124,7 @@ async def test_rg_71_group_by_file_positions_key(monkeypatch, tmp_path):
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -162,7 +162,7 @@ async def test_rg_72_summary_text_contains_totals(monkeypatch, tmp_path):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -181,7 +181,7 @@ async def test_rg_73_total_only_returns_int(monkeypatch, tmp_path):
         return 0, b"a:2\nb:3\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     total = await tool.execute(
@@ -199,7 +199,7 @@ async def test_rg_74_count_only_returns_dict(monkeypatch, tmp_path):
         return 0, b"a:2\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -231,7 +231,7 @@ async def test_rg_75_normal_mode_returns_results_array(monkeypatch, tmp_path):
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -250,7 +250,7 @@ async def test_rg_76_malformed_json_lines_are_skipped(monkeypatch, tmp_path):
         return 0, bad, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -284,7 +284,7 @@ async def test_rg_77_cache_hit_field_present(monkeypatch, tmp_path):
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run_once
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run_once
     )
 
     await tool.execute(
@@ -296,7 +296,7 @@ async def test_rg_77_cache_hit_field_present(monkeypatch, tmp_path):
         raise AssertionError("Should not be called if cache is used")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run_fail
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run_fail
     )
 
     res2 = await tool.execute(
@@ -329,7 +329,7 @@ async def test_rg_78_group_by_file_priority_over_summary(monkeypatch, tmp_path):
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -368,7 +368,7 @@ async def test_rg_79_optimize_paths_has_effect(monkeypatch, tmp_path):
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -388,7 +388,7 @@ async def test_rg_79_optimize_paths_has_effect(monkeypatch, tmp_path):
 @pytest.mark.unit
 @pytest.mark.asyncio
 async def test_rg_80_cache_key_stability(tmp_path):
-    from tree_sitter_analyzer.mcp.utils.search_cache import get_default_cache
+    from codexray.mcp.utils.search_cache import get_default_cache
 
     cache = get_default_cache()
     key1 = cache.create_cache_key("Query ", [str(tmp_path)], include_globs=["*.py"])

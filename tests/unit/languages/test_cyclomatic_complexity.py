@@ -86,7 +86,7 @@ def _ruby_functions(source: str):
     lang = _ruby_lang()
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.ruby_plugin import RubyElementExtractor
+    from codexray.languages.ruby_plugin import RubyElementExtractor
 
     extractor = RubyElementExtractor()
     return extractor.extract_functions(tree, source)
@@ -208,7 +208,7 @@ def _kotlin_functions(source: str):
     lang = _kotlin_lang()
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.kotlin_plugin import KotlinElementExtractor
+    from codexray.languages.kotlin_plugin import KotlinElementExtractor
 
     extractor = KotlinElementExtractor()
     return extractor.extract_functions(tree, source)
@@ -326,7 +326,7 @@ def _php_functions(source: str):
     lang = _php_lang()
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.php_plugin import PHPElementExtractor
+    from codexray.languages.php_plugin import PHPElementExtractor
 
     extractor = PHPElementExtractor()
     return extractor.extract_functions(tree, source)
@@ -439,7 +439,7 @@ def _swift_functions(source: str):
     lang = _swift_lang()
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages._swift_plugin_extractor import (
+    from codexray.languages._swift_plugin_extractor import (
         SwiftElementExtractor,
     )
 
@@ -550,7 +550,7 @@ def _scala_functions(source: str):
     lang = _scala_lang()
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.scala_plugin import ScalaElementExtractor
+    from codexray.languages.scala_plugin import ScalaElementExtractor
 
     extractor = ScalaElementExtractor()
     return extractor.extract_functions(tree, source)
@@ -690,7 +690,7 @@ def _bash_functions(source: str):
     lang = _bash_lang()
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.bash_plugin import BashElementExtractor
+    from codexray.languages.bash_plugin import BashElementExtractor
 
     extractor = BashElementExtractor()
     return extractor.extract_functions(tree, source)
@@ -792,7 +792,7 @@ def _go_functions(source: str):
     lang = tree_sitter.Language(tree_sitter_go.language())
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.go_plugin import GoElementExtractor
+    from codexray.languages.go_plugin import GoElementExtractor
 
     extractor = GoElementExtractor()
     return extractor.extract_functions(tree, source)
@@ -881,7 +881,7 @@ def _rust_functions(source: str):
     lang = tree_sitter.Language(tree_sitter_rust.language())
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.rust_plugin import RustPlugin
+    from codexray.languages.rust_plugin import RustPlugin
 
     extractor = RustPlugin().create_extractor()
     return extractor.extract_functions(tree, source)
@@ -985,7 +985,7 @@ def _java_functions(source: str):
     lang = tree_sitter.Language(tree_sitter_java.language())
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+    from codexray.languages.java_plugin import JavaElementExtractor
 
     return JavaElementExtractor().extract_functions(tree, source)
 
@@ -1078,7 +1078,7 @@ def _c_functions(source: str):
     lang = tree_sitter.Language(tree_sitter_c.language())
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.c_plugin import CElementExtractor
+    from codexray.languages.c_plugin import CElementExtractor
 
     return CElementExtractor().extract_functions(tree, source)
 
@@ -1133,7 +1133,7 @@ def _cpp_functions(source: str):
     lang = tree_sitter.Language(tree_sitter_cpp.language())
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.cpp_plugin import CppElementExtractor
+    from codexray.languages.cpp_plugin import CppElementExtractor
 
     return CppElementExtractor().extract_functions(tree, source)
 
@@ -1257,7 +1257,7 @@ def _csharp_functions(source: str):
     lang = tree_sitter.Language(tree_sitter_c_sharp.language())
     parser = tree_sitter.Parser(lang)
     tree = parser.parse(source.encode())
-    from tree_sitter_analyzer.languages.csharp_plugin import CSharpElementExtractor
+    from codexray.languages.csharp_plugin import CSharpElementExtractor
 
     return CSharpElementExtractor().extract_functions(tree, source)
 
@@ -1453,7 +1453,7 @@ def _js_functions(source: str):
 
     lang = tree_sitter.Language(tree_sitter_javascript.language())
     tree = tree_sitter.Parser(lang).parse(source.encode())
-    from tree_sitter_analyzer.languages.javascript_plugin.extractor import (
+    from codexray.languages.javascript_plugin.extractor import (
         JavaScriptElementExtractor,
     )
 
@@ -1465,7 +1465,7 @@ def _ts_functions(source: str):
 
     lang = tree_sitter.Language(tree_sitter_typescript.language_typescript())
     tree = tree_sitter.Parser(lang).parse(source.encode())
-    from tree_sitter_analyzer.languages.typescript_plugin.extractor import (
+    from codexray.languages.typescript_plugin.extractor import (
         TypeScriptElementExtractor,
     )
 
@@ -1560,7 +1560,7 @@ def _python_functions(source: str):
 
     lang = tree_sitter.Language(tree_sitter_python.language())
     tree = tree_sitter.Parser(lang).parse(source.encode())
-    from tree_sitter_analyzer.languages.python_plugin.extractor import (
+    from codexray.languages.python_plugin.extractor import (
         PythonElementExtractor,
     )
 

@@ -8,7 +8,7 @@ Tests for gitignore pattern detection and interference analysis.
 from pathlib import Path
 from unittest.mock import patch
 
-from tree_sitter_analyzer.mcp.utils.gitignore_detector import (
+from codexray.mcp.utils.gitignore_detector import (
     GitignoreDetector,
     get_default_detector,
 )
@@ -184,7 +184,7 @@ class TestHasInterferingPatterns:
 
         # Mock read_file_safe to raise exception
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             side_effect=Exception("Read error"),
         ):
             detector = GitignoreDetector()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tree-sitter-analyzer MCP互換性テストスクリプト
+codexray MCP互換性テストスクリプト
 バージョン1.6.1.2と1.9.2の8つのMCPツールの互換性をテストします。
 """
 
@@ -60,13 +60,13 @@ class MCPCompatibilityTester:
         if not settings:
             return False
 
-        # 全てのtree-sitter-analyzerサーバーを無効化
+        # 全てのcodexrayサーバーを無効化
         for server_name in settings.get("mcpServers", {}):
-            if "tree-sitter-analyzer" in server_name:
+            if "codexray" in server_name:
                 settings["mcpServers"][server_name]["disabled"] = True
 
         # 指定されたバージョンのみ有効化
-        target_server = f"tree-sitter-analyzer-{version}"
+        target_server = f"codexray-{version}"
         if target_server in settings.get("mcpServers", {}):
             settings["mcpServers"][target_server]["disabled"] = False
             print(f"✅ {target_server}を有効化しました")
@@ -79,7 +79,7 @@ class MCPCompatibilityTester:
     def verify_tools_configuration(self, version: str) -> dict[str, bool]:
         """指定されたバージョンのツール設定を確認する"""
         settings = self.load_mcp_settings()
-        server_name = f"tree-sitter-analyzer-{version}"
+        server_name = f"codexray-{version}"
 
         if server_name not in settings.get("mcpServers", {}):
             return dict.fromkeys(MCP_TOOLS, False)
@@ -142,7 +142,7 @@ class MCPCompatibilityTester:
             "description": "コードスケール分析テスト",
             "expected": "ファイルの複雑度とスケール情報が取得される",
             "test_files": [
-                "tree_sitter_analyzer/core/engine.py",
+                "codexray/core/engine.py",
                 "examples/Sample.java",
             ],
             "status": "manual_verification_required",
@@ -154,7 +154,7 @@ class MCPCompatibilityTester:
             "description": "コード構造分析テスト",
             "expected": "クラス、メソッド、フィールドの詳細情報が取得される",
             "test_files": [
-                "tree_sitter_analyzer/core/engine.py",
+                "codexray/core/engine.py",
                 "examples/Sample.java",
             ],
             "status": "manual_verification_required",
@@ -166,7 +166,7 @@ class MCPCompatibilityTester:
             "description": "tree-sitterクエリテスト",
             "expected": "指定されたクエリに基づいてコード要素が抽出される",
             "test_files": [
-                {"file": "tree_sitter_analyzer/core/engine.py", "query_key": "methods"},
+                {"file": "codexray/core/engine.py", "query_key": "methods"},
                 {"file": "examples/Sample.java", "query_key": "methods"},
             ],
             "status": "manual_verification_required",
@@ -179,7 +179,7 @@ class MCPCompatibilityTester:
             "expected": "指定された行範囲のコードが抽出される",
             "test_files": [
                 {
-                    "file": "tree_sitter_analyzer/core/engine.py",
+                    "file": "codexray/core/engine.py",
                     "start_line": 1,
                     "end_line": 50,
                 },
@@ -214,7 +214,7 @@ class MCPCompatibilityTester:
 
     def run_compatibility_test(self) -> dict[str, Any]:
         """互換性テストの実行"""
-        print("🚀 tree-sitter-analyzer MCP互換性テスト開始")
+        print("🚀 codexray MCP互換性テスト開始")
         print("=" * 60)
 
         all_results = {}
@@ -244,7 +244,7 @@ class MCPCompatibilityTester:
     def generate_report(self, results: dict[str, Any]) -> str:
         """テスト結果レポートの生成"""
         report = []
-        report.append("# tree-sitter-analyzer MCP互換性テストレポート")
+        report.append("# codexray MCP互換性テストレポート")
         report.append(f"実行日時: {time.strftime('%Y-%m-%d %H:%M:%S')}")
         report.append("")
 

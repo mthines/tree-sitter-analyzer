@@ -1,5 +1,5 @@
 """
-Tests for tree_sitter_analyzer.languages.java_plugin module.
+Tests for codexray.languages.java_plugin module.
 
 Canonical extraction tests: functions, classes, imports, variables.
 All assertions pin CONCRETE values (specific names, counts, types, flags).
@@ -13,9 +13,9 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor, JavaPlugin
-from tree_sitter_analyzer.models import Class, Function, Variable
-from tree_sitter_analyzer.plugins.base import ElementExtractor, LanguagePlugin
+from codexray.languages.java_plugin import JavaElementExtractor, JavaPlugin
+from codexray.models import Class, Function, Variable
+from codexray.plugins.base import ElementExtractor, LanguagePlugin
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -210,7 +210,7 @@ class TestNodeTextCaching:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.java_plugin.extract_text_slice",
+            "codexray.languages.java_plugin.extract_text_slice",
             return_value="test text",
         ) as mock_extract:
             result1 = extractor._get_node_text_optimized(node)
@@ -231,7 +231,7 @@ class TestNodeTextCaching:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.java_plugin.extract_text_slice",
+            "codexray.languages.java_plugin.extract_text_slice",
             side_effect=Exception("err"),
         ):
             result = extractor._get_node_text_optimized(node)
@@ -248,7 +248,7 @@ class TestNodeTextCaching:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.java_plugin.extract_text_slice",
+            "codexray.languages.java_plugin.extract_text_slice",
             side_effect=UnicodeDecodeError("utf-8", b"", 0, 1, "test"),
         ):
             result = extractor._get_node_text_optimized(node)
@@ -263,7 +263,7 @@ class TestNodeTextCaching:
         extractor.content_lines = ["test content"]
 
         with patch(
-            "tree_sitter_analyzer.languages.java_plugin.extract_text_slice",
+            "codexray.languages.java_plugin.extract_text_slice",
             side_effect=Exception("err"),
         ):
             result = extractor._get_node_text_optimized(node)
@@ -810,7 +810,7 @@ public class TestClass {
             mock_req.file_path = temp_path
             mock_req.language = "java"
             with patch(
-                "tree_sitter_analyzer.encoding_utils.read_file_safe_async",
+                "codexray.encoding_utils.read_file_safe_async",
                 side_effect=Exception("Read error"),
             ):
                 result = await plugin.analyze_file(temp_path, mock_req)

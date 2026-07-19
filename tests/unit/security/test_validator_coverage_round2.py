@@ -7,7 +7,7 @@ import platform
 from pathlib import Path
 from unittest.mock import patch
 
-from tree_sitter_analyzer.security.validator import SecurityValidator
+from codexray.security.validator import SecurityValidator
 
 
 class TestValidatorCoverageRound2:
@@ -20,14 +20,14 @@ class TestValidatorCoverageRound2:
         with patch.dict("sys.modules", {"ctypes": None}):
             import importlib
 
-            import tree_sitter_analyzer.security.validator as vmod
+            import codexray.security.validator as vmod
 
             importlib.reload(vmod)
             assert vmod.HAS_CTYPES is False
 
     # --- validate_file_path: symlink/junction edge cases ---
 
-    @patch("tree_sitter_analyzer.security.validator.log_warning")
+    @patch("codexray.security.validator.log_warning")
     def test_symlink_original_path_rejected(self, mock_log):
         """Line 140: symlink in original path returns False."""
         validator = SecurityValidator()
@@ -36,7 +36,7 @@ class TestValidatorCoverageRound2:
             assert is_valid is False
             assert "Symbolic links" in error
 
-    @patch("tree_sitter_analyzer.security.validator.log_warning")
+    @patch("codexray.security.validator.log_warning")
     def test_junction_original_path_rejected(self, mock_log):
         """Lines 146-149: junction in original path returns False."""
         validator = SecurityValidator()
@@ -54,26 +54,26 @@ class TestValidatorCoverageRound2:
         validator = SecurityValidator()
         with (
             patch.object(Path, "is_symlink", side_effect=OSError("permission denied")),
-            patch("tree_sitter_analyzer.security.validator.log_debug") as mock_debug,
+            patch("codexray.security.validator.log_debug") as mock_debug,
         ):
             # Should not raise, should continue validation
             is_valid, error = validator.validate_file_path("file.py")
             mock_debug.assert_called()
             assert isinstance(is_valid, bool)
 
-    @patch("tree_sitter_analyzer.security.validator.log_warning")
+    @patch("codexray.security.validator.log_warning")
     def test_full_path_symlink_rejected(self, mock_log):
         """Lines 165-166: symlink in full path (base_path + file_path)."""
         validator = SecurityValidator()
         with (
             patch.object(Path, "is_symlink", side_effect=[False, True]),
-            patch("tree_sitter_analyzer.security.validator.log_debug"),
+            patch("codexray.security.validator.log_debug"),
         ):
             is_valid, error = validator.validate_file_path("link.py", "/base")
             assert is_valid is False
             assert "Symbolic links" in error
 
-    @patch("tree_sitter_analyzer.security.validator.log_warning")
+    @patch("codexray.security.validator.log_warning")
     def test_junction_in_path_hierarchy_rejected(self, mock_log_warning):
         """Lines 183-184: junction in path hierarchy returns False."""
         validator = SecurityValidator()
@@ -81,8 +81,8 @@ class TestValidatorCoverageRound2:
             patch.object(Path, "is_symlink", return_value=False),
             patch.object(Path, "exists", return_value=False),
             patch.object(validator, "_has_junction_in_path", return_value=True),
-            patch("tree_sitter_analyzer.security.validator.log_warning"),
-            patch("tree_sitter_analyzer.security.validator.log_debug"),
+            patch("codexray.security.validator.log_warning"),
+            patch("codexray.security.validator.log_debug"),
         ):
             is_valid, error = validator.validate_file_path("deep.py", "/base")
             assert is_valid is False
@@ -97,7 +97,7 @@ class TestValidatorCoverageRound2:
             patch.object(
                 validator, "_has_junction_in_path", side_effect=OSError("broken")
             ),
-            patch("tree_sitter_analyzer.security.validator.log_debug"),
+            patch("codexray.security.validator.log_debug"),
         ):
             is_valid, error = validator.validate_file_path("deep.py", "/base")
             assert isinstance(is_valid, bool)
@@ -121,8 +121,8 @@ class TestValidatorCoverageRound2:
             patch.object(
                 validator, "_validate_project_boundary", return_value=(True, "")
             ),
-            patch("tree_sitter_analyzer.security.validator.log_warning"),
-            patch("tree_sitter_analyzer.security.validator.log_debug"),
+            patch("codexray.security.validator.log_warning"),
+            patch("codexray.security.validator.log_debug"),
         ):
             is_valid, error = validator.validate_file_path("/some/abs/path.py")
             assert is_valid is False
@@ -147,19 +147,19 @@ class TestValidatorCoverageRound2:
             patch.object(
                 validator, "_has_junction_in_path", side_effect=OSError("bad")
             ),
-            patch("tree_sitter_analyzer.security.validator.log_debug"),
+            patch("codexray.security.validator.log_debug"),
         ):
             is_valid, error = validator.validate_file_path("/some/path.py")
             assert is_valid is True  # caught and continued
 
     # --- validate_directory_path (lines 239-241) ---
 
-    @patch("tree_sitter_analyzer.security.validator.log_warning")
+    @patch("codexray.security.validator.log_warning")
     def test_path_traversal_regex_error(self, mock_re):
         """Lines 387-389: regex error during traversal check."""
         mock_re.compile.side_effect = Exception("bad regex")
         validator = SecurityValidator()
-        with patch("tree_sitter_analyzer.security.validator.log_warning") as mock_warn:
+        with patch("codexray.security.validator.log_warning") as mock_warn:
             is_valid, error = validator._validate_path_traversal("../test")
             mock_warn.assert_called()
 
@@ -204,7 +204,7 @@ class TestValidatorCoverageRound2:
         with patch.object(platform, "system", return_value="Darwin"):
             import importlib
 
-            import tree_sitter_analyzer.security.validator as vmod
+            import codexray.security.validator as vmod
 
             importlib.reload(vmod)
             validator = vmod.SecurityValidator()

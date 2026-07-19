@@ -4,7 +4,7 @@ Tests for Utils Module Initialization (utils/__init__.py)
 Tests for all exported functions/classes, module imports, and re-exports.
 """
 
-from tree_sitter_analyzer.utils import (
+from codexray.utils import (
     LoggingContext,
     QuietMode,
     SafeStreamHandler,
@@ -72,7 +72,7 @@ class TestImportability:
 
     def test_all_exports_importable(self) -> None:
         """Test that all items in __all__ can be imported."""
-        from tree_sitter_analyzer import utils
+        from codexray import utils
 
         # Get __all__ list
         all_exports = getattr(utils, "__all__", [])
@@ -86,7 +86,7 @@ class TestImportability:
         # This import should not raise
         import logging
 
-        from tree_sitter_analyzer.utils import TreeSitterQueryCompat, log_info, logger
+        from codexray.utils import TreeSitterQueryCompat, log_info, logger
 
         assert isinstance(TreeSitterQueryCompat, type)
         assert callable(log_info)
@@ -167,7 +167,7 @@ class TestModuleAttributes:
 
     def test_module_has_all_attribute(self) -> None:
         """Test module has __all__ attribute."""
-        from tree_sitter_analyzer import utils
+        from codexray import utils
 
         assert hasattr(utils, "__all__")
         assert isinstance(utils.__all__, list)
@@ -175,7 +175,7 @@ class TestModuleAttributes:
 
     def test_all_attribute_completeness(self) -> None:
         """Test __all__ contains expected items."""
-        from tree_sitter_analyzer import utils
+        from codexray import utils
 
         expected_items = [
             "TreeSitterQueryCompat",
@@ -208,7 +208,7 @@ class TestImportSources:
 
     def test_logging_imports_from_logging_module(self) -> None:
         """Test logging functions come from logging module."""
-        from tree_sitter_analyzer.utils import logging as utils_logging
+        from codexray.utils import logging as utils_logging
 
         # Verify logging module is accessible
         assert hasattr(utils_logging, "log_info")
@@ -216,7 +216,7 @@ class TestImportSources:
 
     def test_compat_imports_from_compat_module(self) -> None:
         """Test compat functions come from tree_sitter_compat module."""
-        from tree_sitter_analyzer.utils import tree_sitter_compat
+        from codexray.utils import tree_sitter_compat
 
         # Verify compat module is accessible
         assert hasattr(tree_sitter_compat, "TreeSitterQueryCompat")
@@ -228,14 +228,14 @@ class TestModuleDocstring:
 
     def test_module_has_docstring(self) -> None:
         """Test module has a docstring."""
-        from tree_sitter_analyzer import utils
+        from codexray import utils
 
         assert utils.__doc__ is not None
         assert len(utils.__doc__) == 163
 
     def test_docstring_describes_purpose(self) -> None:
         """Test docstring describes module purpose."""
-        from tree_sitter_analyzer import utils
+        from codexray import utils
 
         docstring = utils.__doc__.lower()
         assert "util" in docstring or "package" in docstring
@@ -246,7 +246,7 @@ class TestNoExtraExports:
 
     def test_all_public_items_in_all(self) -> None:
         """Test that public items (not starting with _) are in __all__."""
-        from tree_sitter_analyzer import utils
+        from codexray import utils
 
         public_items = [name for name in dir(utils) if not name.startswith("_")]
 
@@ -256,12 +256,12 @@ class TestNoExtraExports:
             "tree_sitter_compat",
             "text_utils",
             # PR-0.3: CLAUDE.md frontmatter parser. Consumers import via
-            # the submodule path (``from tree_sitter_analyzer.utils
+            # the submodule path (``from codexray.utils
             # .claude_md_frontmatter import load_frontmatter``), so no
             # flat re-export is needed.
             "claude_md_frontmatter",
             # Canonical test-file detection. Consumers import via the submodule
-            # path (``from tree_sitter_analyzer.utils.test_detection import
+            # path (``from codexray.utils.test_detection import
             # is_test_file``); no flat re-export needed.
             "test_detection",
         ]
@@ -278,15 +278,15 @@ class TestImportPerformance:
     def test_import_does_not_raise(self) -> None:
         """Test that importing the module doesn't raise exceptions."""
         # This test passes if the import at the top of the file succeeds
-        from tree_sitter_analyzer import utils
+        from codexray import utils
 
-        assert utils.__name__ == "tree_sitter_analyzer.utils"
+        assert utils.__name__ == "codexray.utils"
 
     def test_reimport_is_safe(self) -> None:
         """Test that reimporting the module is safe."""
         import importlib
 
-        from tree_sitter_analyzer import utils
+        from codexray import utils
 
         # Should not raise
         importlib.reload(utils)

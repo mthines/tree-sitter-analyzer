@@ -1,8 +1,8 @@
-"""Tests for tree_sitter_analyzer.mcp._tool_registry module."""
+"""Tests for codexray.mcp._tool_registry module."""
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+from codexray.mcp._tool_registry import create_tool_registry
 
 
 class TestCreateToolRegistry:

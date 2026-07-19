@@ -22,12 +22,12 @@ import tempfile
 import pytest
 import tree_sitter
 
-from tree_sitter_analyzer.cache.extraction import _extract_symbols
-from tree_sitter_analyzer.complexity_heatmap import (
+from codexray.cache.extraction import _extract_symbols
+from codexray.complexity_heatmap import (
     analyze_file_complexity,
     analyze_file_complexity_from_cache,
 )
-from tree_sitter_analyzer.language_loader import loader
+from codexray.language_loader import loader
 
 
 def _parse(lang: str, src: str):
@@ -75,7 +75,7 @@ _CASES = [
     (
         "java",
         "B.java",
-        "tree_sitter_analyzer.languages.java_plugin",
+        "codexray.languages.java_plugin",
         "JavaElementExtractor",
         "classify",
         "class B { int classify(int x){ switch(x){ case 1: return 1; "
@@ -84,7 +84,7 @@ _CASES = [
     (
         "javascript",
         "f.js",
-        "tree_sitter_analyzer.languages.javascript_plugin.extractor",
+        "codexray.languages.javascript_plugin.extractor",
         "JavaScriptElementExtractor",
         "classify",
         "function classify(x){ switch(x){ case 1: break; case 2: break; "
@@ -93,7 +93,7 @@ _CASES = [
     (
         "typescript",
         "f.ts",
-        "tree_sitter_analyzer.languages.typescript_plugin.extractor",
+        "codexray.languages.typescript_plugin.extractor",
         "TypeScriptElementExtractor",
         "classify",
         "function classify(x: number){ switch(x){ case 1: break; case 2: break; "
@@ -102,7 +102,7 @@ _CASES = [
     (
         "go",
         "f.go",
-        "tree_sitter_analyzer.languages.go_plugin",
+        "codexray.languages.go_plugin",
         "GoElementExtractor",
         "classify",
         "package m\nfunc classify(x int) int { switch x { case 1: case 2: "
@@ -111,7 +111,7 @@ _CASES = [
     (
         "rust",
         "f.rs",
-        "tree_sitter_analyzer.languages.rust_plugin",
+        "codexray.languages.rust_plugin",
         "RustPlugin",
         "classify",
         "fn classify(x: i32) -> i32 { match x { 1 => 1, 2 => 2, _ => 0 } }",

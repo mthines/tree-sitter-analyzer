@@ -14,14 +14,14 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.exceptions import (
+from codexray.exceptions import (
     AnalysisError,
     LanguageNotSupportedError,
     MCPError,
     MCPResourceError,
     MCPTimeoutError,
     QueryError,
-    TreeSitterAnalyzerError,
+    CodeXrayError,
     ValidationError,
     create_error_response,
     create_mcp_error_response,
@@ -85,13 +85,13 @@ class TestExceptionContextPreservationProperty:
         self, message: str, error_code: str | None, context: dict[str, Any]
     ) -> None:
         """
-        Property: For any TreeSitterAnalyzerError, the context dictionary
+        Property: For any CodeXrayError, the context dictionary
         SHALL be preserved exactly as provided.
 
         **Feature: test-coverage-improvement, Property 5: Exception Context Preservation**
         **Validates: Requirements 4.2, 4.3**
         """
-        exc = TreeSitterAnalyzerError(message, error_code=error_code, context=context)
+        exc = CodeXrayError(message, error_code=error_code, context=context)
 
         # Context should be preserved
         assert exc.context == context
@@ -101,7 +101,7 @@ class TestExceptionContextPreservationProperty:
         if error_code:
             assert exc.error_code == error_code
         else:
-            assert exc.error_code == "TreeSitterAnalyzerError"
+            assert exc.error_code == "CodeXrayError"
 
     @given(
         message=safe_text,
@@ -178,7 +178,7 @@ class TestExceptionContextPreservationProperty:
         **Feature: test-coverage-improvement, Property 5: Exception Context Preservation**
         **Validates: Requirements 4.2, 4.3**
         """
-        exc = TreeSitterAnalyzerError(message, context=context)
+        exc = CodeXrayError(message, context=context)
         result = exc.to_dict()
 
         # All required fields should be present
@@ -190,7 +190,7 @@ class TestExceptionContextPreservationProperty:
         # Values should match
         assert result["message"] == message
         assert result["context"] == context
-        assert result["error_type"] == "TreeSitterAnalyzerError"
+        assert result["error_type"] == "CodeXrayError"
 
     @given(
         message=safe_text,
@@ -207,14 +207,14 @@ class TestExceptionContextPreservationProperty:
         **Feature: test-coverage-improvement, Property 5: Exception Context Preservation**
         **Validates: Requirements 4.2, 4.3**
         """
-        exc = TreeSitterAnalyzerError(message, context=context)
+        exc = CodeXrayError(message, context=context)
         response = create_error_response(exc)
 
         # Response should indicate failure
         assert response["success"] is False
 
         # Error information should be preserved
-        assert response["error"]["type"] == "TreeSitterAnalyzerError"
+        assert response["error"]["type"] == "CodeXrayError"
         assert response["error"]["message"] == message
 
         # Context should be preserved if non-empty
@@ -375,12 +375,12 @@ class TestExceptionContextPreservationProperty:
         **Feature: test-coverage-improvement, Property 5: Exception Context Preservation**
         **Validates: Requirements 4.2, 4.3**
         """
-        inner = TreeSitterAnalyzerError(inner_message, context=inner_context)
+        inner = CodeXrayError(inner_message, context=inner_context)
 
         try:
             try:
                 raise inner
-            except TreeSitterAnalyzerError as e:
+            except CodeXrayError as e:
                 raise AnalysisError(outer_message) from e
         except AnalysisError as outer:
             # Outer exception should have cause

@@ -13,7 +13,7 @@ backfill, and asserts that:
      must not re-parse source. This is the whole point of the path: cheap
      re-resolution after schema/policy changes.
 
-The parse-counter monkeypatch wraps ``tree_sitter_analyzer.ast_cache.Parser
+The parse-counter monkeypatch wraps ``codexray.ast_cache.Parser
 .parse_file`` so any call site (per-instance or worker) increments it.
 """
 
@@ -23,8 +23,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer import ast_cache as ac
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray import ast_cache as ac
+from codexray.ast_cache import ASTCache
 
 
 @pytest.fixture

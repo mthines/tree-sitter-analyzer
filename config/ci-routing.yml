@@ -34,22 +34,22 @@ full_suite:
 
 routes:
   run_e2e_smoke:
-    - "tree_sitter_analyzer/mcp/**"
-    - "tree_sitter_analyzer/cli/**"
-    - "tree_sitter_analyzer/cli_main.py"
+    - "codexray/mcp/**"
+    - "codexray/cli/**"
+    - "codexray/cli_main.py"
     - "tests/e2e/**"
     - ".github/workflows/ci.yml"
   run_regression:
-    - "tree_sitter_analyzer/api.py"
-    - "tree_sitter_analyzer/formatters/**"
-    - "tree_sitter_analyzer/models.py"
+    - "codexray/api.py"
+    - "codexray/formatters/**"
+    - "codexray/models.py"
     - "tests/regression/**"
     - "tests/compatibility/**"
     - "tests/golden_masters/**"
     - ".github/workflows/regression-tests.yml"
   run_sql_platform_compat:
-    - "tree_sitter_analyzer/languages/sql_plugin/**"
-    - "tree_sitter_analyzer/platform_compat/**"
+    - "codexray/languages/sql_plugin/**"
+    - "codexray/platform_compat/**"
     - "tests/unit/languages/*sql*"
     - "tests/platform_profiles/**"
     - "examples/*.sql"
@@ -57,15 +57,15 @@ routes:
   run_benchmarks:
     - "benchmarks/**"
     - "tests/benchmarks/**"
-    - "tree_sitter_analyzer/ast_cache.py"
-    - "tree_sitter_analyzer/mcp/tools/utils/search_cache.py"
-    - "tree_sitter_analyzer/mcp/tools/utils/change_impact_cached_graph.py"
+    - "codexray/ast_cache.py"
+    - "codexray/mcp/tools/utils/search_cache.py"
+    - "codexray/mcp/tools/utils/change_impact_cached_graph.py"
     - ".github/workflows/benchmarks.yml"
   run_grammar_coverage:
     - "pyproject.toml"
     - "uv.lock"
-    - "tree_sitter_analyzer/grammar_coverage/**"
-    - "tree_sitter_analyzer/languages/**"
+    - "codexray/grammar_coverage/**"
+    - "codexray/languages/**"
     - ".github/workflows/grammar-coverage-guard.yml"
 
 scopes:
@@ -73,10 +73,10 @@ scopes:
     default: "all"
     values:
       format:
-        - "tree_sitter_analyzer/formatters/**"
+        - "codexray/formatters/**"
         - "tests/regression/test_format_regression.py"
       api:
-        - "tree_sitter_analyzer/api.py"
+        - "codexray/api.py"
         - "tests/regression/test_api_regression.py"
       compatibility:
         - "tests/compatibility/**"
@@ -87,12 +87,12 @@ scopes:
     values:
       query:
         - "tests/benchmarks/test_query_performance.py"
-        - "tree_sitter_analyzer/mcp/tools/query_code_tool.py"
+        - "codexray/mcp/tools/query_code_tool.py"
       cache:
-        - "tree_sitter_analyzer/ast_cache.py"
-        - "tree_sitter_analyzer/mcp/tools/utils/search_cache.py"
+        - "codexray/ast_cache.py"
+        - "codexray/mcp/tools/utils/search_cache.py"
       analysis:
         - "tests/benchmarks/test_large_file_performance.py"
-        - "tree_sitter_analyzer/core/**"
+        - "codexray/core/**"
       formatting:
-        - "tree_sitter_analyzer/formatters/**"
+        - "codexray/formatters/**"

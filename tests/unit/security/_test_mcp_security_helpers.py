@@ -7,13 +7,13 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.exceptions import SecurityError, ValidationError
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+from codexray.exceptions import SecurityError, ValidationError
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.utils.error_handler import AnalysisError
 
 SYMLINK_ERROR_TERMS = ("symbolic", "symlink", "link")
 ABSOLUTE_SECRET_PATH = "/etc/passwd"

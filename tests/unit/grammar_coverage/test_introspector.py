@@ -2,7 +2,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.grammar_coverage.introspector import (
+from codexray.grammar_coverage.introspector import (
     LANGUAGE_MODULE_MAP,
     auto_detect_extractable_types,
     get_all_node_types,
@@ -105,7 +105,7 @@ class TestGetAllNodeTypes:
 
     def test_all_supported_languages_work(self) -> None:
         """测试所有支持的语言都能正常提取节点类型。"""
-        from tree_sitter_analyzer.language_loader import loader
+        from codexray.language_loader import loader
 
         for language in LANGUAGE_MODULE_MAP.keys():
             if not loader.is_language_available(language):
@@ -280,7 +280,7 @@ class TestGetLanguageSummary:
         """测试所有支持语言的摘要生成。"""
         DATA_FORMAT_LANGUAGES = {"yaml", "json"}
 
-        from tree_sitter_analyzer.language_loader import loader
+        from codexray.language_loader import loader
 
         for language in LANGUAGE_MODULE_MAP.keys():
             if not loader.is_language_available(language):
@@ -353,7 +353,7 @@ class TestCrossLanguageConsistency:
 
         function_keywords = ["function", "method", "func", "class"]
 
-        from tree_sitter_analyzer.language_loader import loader
+        from codexray.language_loader import loader
 
         for language in LANGUAGE_MODULE_MAP.keys():
             if language in DATA_FORMAT_LANGUAGES:
@@ -376,7 +376,7 @@ class TestCrossLanguageConsistency:
         # 数据格式语言可能没有可提取节点
         DATA_FORMAT_LANGUAGES = {"yaml", "json"}
 
-        from tree_sitter_analyzer.language_loader import loader
+        from codexray.language_loader import loader
 
         for language in LANGUAGE_MODULE_MAP.keys():
             if not loader.is_language_available(language):

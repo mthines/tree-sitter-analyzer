@@ -15,8 +15,8 @@ import tree_sitter
 import tree_sitter_php
 import tree_sitter_ruby
 
-from tree_sitter_analyzer.languages.php_plugin import PHPElementExtractor
-from tree_sitter_analyzer.languages.ruby_plugin import RubyElementExtractor
+from codexray.languages.php_plugin import PHPElementExtractor
+from codexray.languages.ruby_plugin import RubyElementExtractor
 
 # ---------------------------------------------------------------------------
 # Helpers

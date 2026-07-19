@@ -33,7 +33,7 @@ FACADE_WIRE_CASES = [
         {
             "action": "grep",
             "query": "MCP_INFO",
-            "roots": ["tree_sitter_analyzer/mcp"],
+            "roots": ["codexray/mcp"],
             "include_globs": ["__init__.py"],
             "output_format": "json",
         },
@@ -43,7 +43,7 @@ FACADE_WIRE_CASES = [
         {
             "action": "test_map",
             "symbol": "build_nav_facade",
-            "file_path": "tree_sitter_analyzer/mcp/tools/nav_facade.py",
+            "file_path": "codexray/mcp/tools/nav_facade.py",
             "output_format": "json",
         },
     ),
@@ -51,7 +51,7 @@ FACADE_WIRE_CASES = [
         "structure",
         {
             "action": "read",
-            "file_path": "tree_sitter_analyzer/__init__.py",
+            "file_path": "codexray/__init__.py",
             "start_line": 1,
             "end_line": 3,
             "output_format": "json",
@@ -61,7 +61,7 @@ FACADE_WIRE_CASES = [
         "health",
         {
             "action": "file",
-            "file_path": "tree_sitter_analyzer/__init__.py",
+            "file_path": "codexray/__init__.py",
             "output_format": "json",
         },
     ),
@@ -69,7 +69,7 @@ FACADE_WIRE_CASES = [
         "edit",
         {
             "action": "safe",
-            "file_path": "tree_sitter_analyzer/__init__.py",
+            "file_path": "codexray/__init__.py",
             "output_format": "json",
         },
     ),
@@ -166,7 +166,7 @@ class TestSafeToEdit:
         client = initialized(mcp_server)
         response = client.call(
             "safe_to_edit",
-            {"file_path": "tree_sitter_analyzer/__init__.py"},
+            {"file_path": "codexray/__init__.py"},
             timeout=10.0,
         )
         assert "error" not in response, response.get("error")
@@ -183,14 +183,14 @@ class TestSafeToEdit:
         """java_plugin.py is a negative fixture: intentionally complex.
 
         The is_fixture detection (P3.1) must override to SAFE because it
-        lives under tree_sitter_analyzer/ and is a known test fixture.
+        lives under codexray/ and is a known test fixture.
         We assert the response contains a verdict field, not a specific
         value, so the test doesn't break if the override logic changes.
         """
         client = initialized(mcp_server)
         response = client.call(
             "safe_to_edit",
-            {"file_path": "tree_sitter_analyzer/languages/java_plugin.py"},
+            {"file_path": "codexray/languages/java_plugin.py"},
             timeout=10.0,
         )
         assert "error" not in response, response.get("error")
@@ -231,7 +231,7 @@ class TestCheckFileHealth:
         client = initialized(mcp_server)
         response = client.call(
             "check_file_health",
-            {"file_path": "tree_sitter_analyzer/__init__.py"},
+            {"file_path": "codexray/__init__.py"},
             timeout=15.0,
         )
         assert "error" not in response, response.get("error")
@@ -253,7 +253,7 @@ class TestCheckFileHealth:
         client = initialized(mcp_server)
         response = client.call(
             "check_file_health",
-            {"file_path": "tree_sitter_analyzer/project_graph.py"},
+            {"file_path": "codexray/project_graph.py"},
             timeout=15.0,
         )
         # We only assert no server-level crash — the tool may return any grade.

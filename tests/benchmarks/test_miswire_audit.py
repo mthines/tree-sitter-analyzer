@@ -13,7 +13,7 @@ import tempfile
 
 import pytest
 
-from tree_sitter_analyzer.miswire_audit import audit, render_card, render_terminal
+from codexray.miswire_audit import audit, render_card, render_terminal
 
 pytestmark = pytest.mark.benchmark
 
@@ -82,11 +82,11 @@ def test_render_terminal_and_card_are_honest() -> None:
 def test_symbols_json_fallback_when_no_ast_symbol_rows() -> None:
     """Codex #369 L74: on no-FTS5 builds ast_symbol_rows is absent; the audit
     must fall back to ast_index.symbols_json and still find the collision."""
-    from tree_sitter_analyzer.miswire_audit import _iter_symbol_defs
+    from codexray.miswire_audit import _iter_symbol_defs
 
     d = _planted_polyglot()
     try:
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         cache = ASTCache(d)
         cache.index_project()
@@ -106,7 +106,7 @@ def test_symbols_json_fallback_when_no_ast_symbol_rows() -> None:
 def test_no_fts5_renders_clear_unavailable_message_not_misleading_zero() -> None:
     """Codex #369 L158: on no-FTS5 builds TSA writes no call edges; the audit must
     say so plainly, NOT print a misleading '0 mis-wires / 0× cleaner' verdict."""
-    from tree_sitter_analyzer.miswire_audit import AuditResult, render_terminal
+    from codexray.miswire_audit import AuditResult, render_terminal
 
     r = AuditResult(project_root=".", call_edges_available=False)
     out = render_terminal(r)
@@ -123,7 +123,7 @@ def test_genuine_collisions_exclude_builtins() -> None:
     import shutil
     import tempfile
 
-    from tree_sitter_analyzer.miswire_audit import audit, render_terminal
+    from codexray.miswire_audit import audit, render_terminal
 
     d = tempfile.mkdtemp()
     try:
@@ -153,7 +153,7 @@ def test_js_builtins_excluded_from_genuine() -> None:
     """Codex #377 P2: a language WITHOUT a builtin set would count its own
     builtins (JS Map/Promise) as genuine. All 15 languages now have a set, so a
     JS `Map()` is excluded while a genuine name (`tokenize`) is kept."""
-    from tree_sitter_analyzer.miswire_audit import _CALLER_BUILTINS
+    from codexray.miswire_audit import _CALLER_BUILTINS
 
     for lang in (
         "javascript",

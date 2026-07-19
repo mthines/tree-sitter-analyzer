@@ -3,7 +3,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.formatters.go_formatter import GoTableFormatter
+from codexray.formatters.go_formatter import GoTableFormatter
 
 
 class TestGoTableFormatterFullTable:

@@ -7,8 +7,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.core.query import QueryExecutor
-from tree_sitter_analyzer.core.request import AnalysisRequest
+from codexray.core.query import QueryExecutor
+from codexray.core.request import AnalysisRequest
 
 
 class TestAPIBackwardCompatibility:

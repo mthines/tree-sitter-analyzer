@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.languages.yaml_plugin import YAMLElementExtractor
+from codexray.languages.yaml_plugin import YAMLElementExtractor
 
 
 def parse_yaml_elements_and_lines(yaml_content: str):

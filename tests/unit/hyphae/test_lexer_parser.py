@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.hyphae.ast import (
+from codexray.hyphae.ast import (
     AttributeSelector,
     Combined,
     SelectorList,
     SimpleSelector,
 )
-from tree_sitter_analyzer.hyphae.lexer import tokenize
-from tree_sitter_analyzer.hyphae.parser import HyphaeSyntaxError, parse
+from codexray.hyphae.lexer import tokenize
+from codexray.hyphae.parser import HyphaeSyntaxError, parse
 
 
 def _types(text: str) -> list[str]:

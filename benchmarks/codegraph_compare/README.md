@@ -7,8 +7,8 @@ Measures answer quality, token cost, and latency across three code-intelligence 
 | `native-only` | grep + file reads | none |
 | `codegraph-warm` | CodeGraph MCP | pre-built |
 | `codegraph-cold` | CodeGraph MCP | built at query time |
-| `tsa-warm` | tree-sitter-analyzer | pre-built |
-| `tsa-cold` | tree-sitter-analyzer | built at query time |
+| `tsa-warm` | codexray | pre-built |
+| `tsa-cold` | codexray | built at query time |
 
 ---
 

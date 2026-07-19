@@ -20,7 +20,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+from codexray.mcp.tools.trace_impact_tool import (
     _filter_comment_docstring_matches,
     _is_symbol_only_in_strings,
     _python_non_code_lines,
@@ -226,11 +226,11 @@ class TestTraceImpactExcludesImportAndStringMatches:
             ]
         )
 
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import TraceImpactTool
+        from codexray.mcp.tools.trace_impact_tool import TraceImpactTool
 
         tool = TraceImpactTool(str(tmp_path))
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture",
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture",
             new=AsyncMock(return_value=(0, rg_stdout, b"")),
         ):
             result = await tool.execute({"symbol": "my_func"})
@@ -286,11 +286,11 @@ class TestTraceImpactExcludesImportAndStringMatches:
         # nav callers (graph-based) correctly returns 2 call sites.
         nav_caller_count = 2  # ground truth from graph
 
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import TraceImpactTool
+        from codexray.mcp.tools.trace_impact_tool import TraceImpactTool
 
         tool = TraceImpactTool(str(tmp_path))
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture",
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture",
             new=AsyncMock(return_value=(0, rg_stdout, b"")),
         ):
             result = await tool.execute({"symbol": "my_func"})
@@ -312,7 +312,7 @@ class TestFStringCallSitesNotFiltered:
 
     @staticmethod
     def _only_in_strings(line, symbol):
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+        from codexray.mcp.tools.trace_impact_tool import (
             _is_symbol_only_in_strings,
         )
 
@@ -345,7 +345,7 @@ class TestNonCodeLineAndStringEdges:
 
     @staticmethod
     def _noncode(text):
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+        from codexray.mcp.tools.trace_impact_tool import (
             _python_non_code_lines,
         )
 
@@ -353,7 +353,7 @@ class TestNonCodeLineAndStringEdges:
 
     @staticmethod
     def _only_in_strings(line, symbol):
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+        from codexray.mcp.tools.trace_impact_tool import (
             _is_symbol_only_in_strings,
         )
 
@@ -387,14 +387,14 @@ class TestCLikeAndEscapePaths:
 
     @staticmethod
     def _only_in_strings(line, symbol):
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+        from codexray.mcp.tools.trace_impact_tool import (
             _is_symbol_only_in_strings,
         )
 
         return _is_symbol_only_in_strings(line, symbol)
 
     def test_c_block_comment_unclosed_spans_lines(self, tmp_path):
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+        from codexray.mcp.tools.trace_impact_tool import (
             _filter_comment_docstring_matches,
         )
 

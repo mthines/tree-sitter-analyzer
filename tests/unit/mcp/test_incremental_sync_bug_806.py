@@ -22,8 +22,8 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.incremental_sync import IncrementalSync, SyncResult
-from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+from codexray.incremental_sync import IncrementalSync, SyncResult
+from codexray.mcp.tools.incremental_sync_tool import (
     CodeGraphIncrementalSyncTool,
 )
 

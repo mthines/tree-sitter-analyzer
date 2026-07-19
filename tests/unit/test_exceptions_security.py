@@ -1,7 +1,7 @@
 """Unit tests for _exceptions_security — security exception hierarchy."""
 
-from tree_sitter_analyzer.exceptions.core import TreeSitterAnalyzerError
-from tree_sitter_analyzer.exceptions.security import (
+from codexray.exceptions.core import CodeXrayError
+from codexray.exceptions.security import (
     FileRestrictionError,
     PathTraversalError,
     RegexSecurityError,
@@ -36,7 +36,7 @@ class TestSecurityError:
 
     def test_inherits_from_base(self):
         exc = SecurityError("msg")
-        assert isinstance(exc, TreeSitterAnalyzerError)
+        assert isinstance(exc, CodeXrayError)
 
     def test_to_dict_includes_context(self):
         exc = SecurityError("msg", security_type="xss", file_path="/tmp/x")
@@ -66,7 +66,7 @@ class TestPathTraversalError:
     def test_inherits_from_security_error(self):
         exc = PathTraversalError("msg")
         assert isinstance(exc, SecurityError)
-        assert isinstance(exc, TreeSitterAnalyzerError)
+        assert isinstance(exc, CodeXrayError)
 
 
 class TestRegexSecurityError:

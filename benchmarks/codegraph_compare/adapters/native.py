@@ -20,7 +20,7 @@ _DEFAULT_SYSTEM_PROMPT = """\
 You are answering an architecture question about a software codebase.
 
 Tools available to you: Read, Bash, Grep, Glob.
-You may NOT use any codegraph or tree-sitter-analyzer index tools.
+You may NOT use any codegraph or codexray index tools.
 
 When answering:
 - Cite the specific file path and line number for every claim you make.

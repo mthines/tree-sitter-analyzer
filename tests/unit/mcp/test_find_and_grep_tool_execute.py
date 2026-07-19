@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import (
+from codexray.mcp.tools.find_and_grep_tool import (
     FindAndGrepTool,
 )
 
@@ -42,7 +42,7 @@ class TestExecuteErrorPaths:
     async def test_execute_missing_commands(self, tool):
         """Test execute fails when fd or rg commands are not found."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=["fd", "rg"],
         ):
             arguments = {"roots": ["."], "query": "test"}
@@ -55,11 +55,11 @@ class TestExecuteErrorPaths:
     async def test_execute_fd_failure(self, tool, sample_project_structure):
         """Test execute when fd command fails."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (1, b"", b"fd: error")
@@ -79,11 +79,11 @@ class TestExecuteErrorPaths:
     async def test_execute_no_files_found(self, tool, sample_project_structure):
         """Test execute when no files are found."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b"", b"")
@@ -105,11 +105,11 @@ class TestExecuteErrorPaths:
     async def test_execute_rg_failure(self, tool, sample_project_structure):
         """Test execute when ripgrep command fails."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -132,11 +132,11 @@ class TestExecuteErrorPaths:
     async def test_execute_file_save_error(self, tool, sample_project_structure):
         """Test execute when file save fails."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -145,7 +145,7 @@ class TestExecuteErrorPaths:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py", "line": 1}],
                 ):
                     with patch.object(
@@ -173,11 +173,11 @@ class TestExecuteOutputModes:
     async def test_execute_total_only_mode(self, tool, sample_project_structure):
         """Test execute in total_only mode."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -186,7 +186,7 @@ class TestExecuteOutputModes:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_count_output",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_count_output",
                     return_value={"__total__": 42},
                 ):
                     arguments = {
@@ -205,11 +205,11 @@ class TestExecuteOutputModes:
     ):
         """Test execute in count_only_matches mode."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -218,7 +218,7 @@ class TestExecuteOutputModes:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_count_output",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_count_output",
                     return_value={"__total__": 15, "file1.py": 10, "file2.py": 5},
                 ):
                     arguments = {
@@ -240,11 +240,11 @@ class TestExecuteOutputModes:
     async def test_execute_group_by_file_mode(self, tool, sample_project_structure):
         """Test execute in group_by_file mode."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -253,14 +253,14 @@ class TestExecuteOutputModes:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[
                         {"path": "file1.py", "line": 1, "content": "test"},
                         {"path": "file2.py", "line": 2, "content": "test"},
                     ],
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.group_matches_by_file",
+                        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.group_matches_by_file",
                         return_value={
                             "success": True,
                             "count": 2,
@@ -287,11 +287,11 @@ class TestExecuteOutputModes:
     async def test_execute_summary_only_mode(self, tool, sample_project_structure):
         """Test execute in summary_only mode."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -300,11 +300,11 @@ class TestExecuteOutputModes:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py", "line": 1}],
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.summarize_search_results",
+                        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.summarize_search_results",
                         return_value={"top_files": ["file1.py"], "total_count": 1},
                     ):
                         arguments = {
@@ -325,11 +325,11 @@ class TestExecuteOutputModes:
     async def test_execute_with_toon_format(self, tool, sample_project_structure):
         """Test execute with toon output format."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -338,11 +338,11 @@ class TestExecuteOutputModes:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py", "line": 1}],
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.find_and_grep_response.apply_toon_format_to_response"
+                        "codexray.mcp.tools.find_and_grep_response.apply_toon_format_to_response"
                     ) as mock_toon:
                         mock_toon.return_value = {"toon": "formatted"}
 
@@ -365,11 +365,11 @@ class TestExecuteOptionsAndFeatures:
     async def test_execute_with_file_output(self, tool, sample_project_structure):
         """Test execute with file output."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -378,7 +378,7 @@ class TestExecuteOptionsAndFeatures:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py", "line": 1}],
                 ):
                     with patch.object(
@@ -401,11 +401,11 @@ class TestExecuteOptionsAndFeatures:
     async def test_execute_with_suppress_output(self, tool, sample_project_structure):
         """Test execute with suppress_output."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -414,7 +414,7 @@ class TestExecuteOptionsAndFeatures:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py", "line": 1}],
                 ):
                     with patch.object(
@@ -438,11 +438,11 @@ class TestExecuteOptionsAndFeatures:
     async def test_execute_with_optimize_paths(self, tool, sample_project_structure):
         """Test execute with optimize_paths."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -451,11 +451,11 @@ class TestExecuteOptionsAndFeatures:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "/path/to/file1.py", "line": 1}],
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.optimize_match_paths",
+                        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.optimize_match_paths",
                         return_value=[{"path": "file1.py", "line": 1}],
                     ):
                         arguments = {
@@ -475,16 +475,16 @@ class TestExecuteOptionsAndFeatures:
     ):
         """Test that .gitignore detection works."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.build_fd_command"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.build_fd_command"
             ) as mock_build:
                 mock_build.return_value = ["fd", "test"]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                     new_callable=AsyncMock,
                 ) as mock_run:
                     mock_run.side_effect = [
@@ -493,7 +493,7 @@ class TestExecuteOptionsAndFeatures:
                     ]
 
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.get_default_detector"
+                        "codexray.mcp.tools.find_and_grep_tool.get_default_detector"
                     ) as mock_detector:
                         mock_detector.return_value.should_use_no_ignore.return_value = (
                             True
@@ -516,11 +516,11 @@ class TestExecuteOptionsAndFeatures:
     async def test_execute_with_sort_path(self, tool, sample_project_structure):
         """Test execute with sort by path."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -542,16 +542,16 @@ class TestExecuteOptionsAndFeatures:
     async def test_execute_file_limit_clamping(self, tool, sample_project_structure):
         """Test that file_limit is properly clamped."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.build_fd_command"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.build_fd_command"
             ) as mock_build:
                 mock_build.return_value = ["fd", "test"]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                     new_callable=AsyncMock,
                 ) as mock_run:
                     mock_run.side_effect = [
@@ -568,7 +568,7 @@ class TestExecuteOptionsAndFeatures:
                     await tool.execute(arguments)
 
                     call_kwargs = mock_build.call_args.kwargs
-                    from tree_sitter_analyzer.mcp.tools import fd_rg_utils
+                    from codexray.mcp.tools import fd_rg_utils
 
                     assert call_kwargs["limit"] == fd_rg_utils.MAX_RESULTS_HARD_CAP
 
@@ -576,11 +576,11 @@ class TestExecuteOptionsAndFeatures:
     async def test_execute_with_max_count(self, tool, sample_project_structure):
         """Test execute with max_count parameter."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [
@@ -593,7 +593,7 @@ class TestExecuteOptionsAndFeatures:
                 ]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[
                         {"path": "file1.py", "line": 1},
                         {"path": "file1.py", "line": 2},
@@ -614,11 +614,11 @@ class TestExecuteOptionsAndFeatures:
     async def test_execute_with_timeout(self, tool, sample_project_structure):
         """Test execute with timeout parameter."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
+            "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.get_missing_commands",
             return_value=[],
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.side_effect = [

@@ -2,7 +2,7 @@
 
 ## 支持的版本
 
-目前，以下版本的 Tree-sitter Analyzer 正在接受安全更新支持：
+目前，以下版本的 CodeXray 正在接受安全更新支持：
 
 | 版本 | 支持状态 |
 | ---- | -------- |
@@ -12,17 +12,17 @@
 
 ## 报告漏洞
 
-我们非常重视 Tree-sitter Analyzer 的安全性。如果您发现安全漏洞，请按照以下步骤操作：
+我们非常重视 CodeXray 的安全性。如果您发现安全漏洞，请按照以下步骤操作：
 
 ### 如何报告
 
 1. **请勿**针对安全漏洞创建公开的 GitHub Issue。
 
 2. **直接发送电子邮件给我们**：aimasteracc@gmail.com
-   - 邮件主题请使用：`[SECURITY] tree-sitter-analyzer vulnerability report`
+   - 邮件主题请使用：`[SECURITY] codexray vulnerability report`
    - 请尽可能详细地包含有关漏洞的信息
 
-3. **或者**，使用 [GitHub 的私有漏洞报告功能](https://github.com/aimasteracc/tree-sitter-analyzer/security/advisories/new) 提交您的报告。
+3. **或者**，使用 [GitHub 的私有漏洞报告功能](https://github.com/aimasteracc/codexray/security/advisories/new) 提交您的报告。
 
 ### 应包含的内容
 
@@ -59,7 +59,7 @@
 
 ## 安全最佳实践
 
-在使用 Tree-sitter Analyzer 时：
+在使用 CodeXray 时：
 
 1. **保持更新**：始终使用最新的稳定版本
 2. **环境变量**：使用 `TREE_SITTER_PROJECT_ROOT` 来限制文件访问
@@ -68,7 +68,7 @@
 
 ## 安全功能
 
-Tree-sitter Analyzer 包含内置的安全措施：
+CodeXray 包含内置的安全措施：
 
 - **目录遍历保护**：防止访问允许目录之外的内容
 - **文件大小限制**：防止超大文件导致拒绝服务 (DoS)
@@ -81,4 +81,4 @@ Tree-sitter Analyzer 包含内置的安全措施：
 
 ---
 
-感谢您帮助 Tree-sitter Analyzer 及其用户保持安全！
+感谢您帮助 CodeXray 及其用户保持安全！

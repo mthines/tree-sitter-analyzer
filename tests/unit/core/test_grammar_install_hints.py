@@ -10,7 +10,7 @@ import importlib.util
 from argparse import Namespace
 from unittest.mock import patch
 
-from tree_sitter_analyzer.language_loader import (
+from codexray.language_loader import (
     LanguageLoader,
     grammar_install_hint,
 )
@@ -43,18 +43,18 @@ class TestGrammarInstallHint:
         """A language not in LANGUAGE_MODULES has no hint."""
         assert grammar_install_hint("unknown_lang_xyz") is None
 
-    def test_hint_format_uses_tree_sitter_analyzer_bracket(self):
-        """Hints must use the canonical 'pip install tree-sitter-analyzer[<extra>]' form."""
+    def test_hint_format_uses_codexray_bracket(self):
+        """Hints must use the canonical 'pip install codexray[<extra>]' form."""
         hint = grammar_install_hint("swift")
-        assert "tree-sitter-analyzer[swift]" in hint
+        assert "codexray[swift]" in hint
 
     def test_rust_hint_format(self):
         hint = grammar_install_hint("rust")
-        assert "tree-sitter-analyzer[rust]" in hint
+        assert "codexray[rust]" in hint
 
     def test_go_hint_format(self):
         hint = grammar_install_hint("go")
-        assert "tree-sitter-analyzer[go]" in hint
+        assert "codexray[go]" in hint
 
     def test_csharp_hint_format(self):
         hint = grammar_install_hint("csharp")
@@ -77,13 +77,13 @@ class TestGrammarInstalledField:
 
     def test_json_output_has_installed_field(self):
         """Each language dict in the JSON envelope must have an 'installed' key."""
-        from tree_sitter_analyzer.cli.info_commands import ShowLanguagesCommand
+        from codexray.cli.info_commands import ShowLanguagesCommand
 
         args = Namespace(output_format="json", format="json")
         cmd = ShowLanguagesCommand(args)
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.output_json",
+            "codexray.cli.info_commands.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             rc = cmd.execute()
@@ -97,13 +97,13 @@ class TestGrammarInstalledField:
 
     def test_installed_true_for_available_grammar(self):
         """Languages whose grammar module is importable must have installed=True."""
-        from tree_sitter_analyzer.cli.info_commands import ShowLanguagesCommand
+        from codexray.cli.info_commands import ShowLanguagesCommand
 
         args = Namespace(output_format="json", format="json")
         cmd = ShowLanguagesCommand(args)
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.output_json",
+            "codexray.cli.info_commands.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             cmd.execute()
@@ -117,7 +117,7 @@ class TestGrammarInstalledField:
 
     def test_installed_false_for_missing_grammar(self):
         """Languages whose grammar module is not importable must have installed=False."""
-        from tree_sitter_analyzer.cli.info_commands import ShowLanguagesCommand
+        from codexray.cli.info_commands import ShowLanguagesCommand
 
         args = Namespace(output_format="json", format="json")
         cmd = ShowLanguagesCommand(args)
@@ -134,7 +134,7 @@ class TestGrammarInstalledField:
         with (
             patch("importlib.util.find_spec", side_effect=patched_find_spec),
             patch(
-                "tree_sitter_analyzer.cli.info_commands.output_json",
+                "codexray.cli.info_commands.output_json",
                 side_effect=lambda d: (
                     captured.update(d) if isinstance(d, dict) else None
                 ),
@@ -150,7 +150,7 @@ class TestGrammarInstalledField:
 
     def test_install_hint_field_present_for_missing_grammar(self):
         """Entries with installed=False must also carry an 'install_hint' key."""
-        from tree_sitter_analyzer.cli.info_commands import ShowLanguagesCommand
+        from codexray.cli.info_commands import ShowLanguagesCommand
 
         args = Namespace(output_format="json", format="json")
         cmd = ShowLanguagesCommand(args)
@@ -166,7 +166,7 @@ class TestGrammarInstalledField:
         with (
             patch("importlib.util.find_spec", side_effect=patched_find_spec),
             patch(
-                "tree_sitter_analyzer.cli.info_commands.output_json",
+                "codexray.cli.info_commands.output_json",
                 side_effect=lambda d: (
                     captured.update(d) if isinstance(d, dict) else None
                 ),
@@ -184,7 +184,7 @@ class TestGrammarInstalledField:
 
     def test_text_output_marks_not_installed(self):
         """Text output must visually flag languages whose grammar is missing."""
-        from tree_sitter_analyzer.cli.info_commands import ShowLanguagesCommand
+        from codexray.cli.info_commands import ShowLanguagesCommand
 
         args = Namespace(output_format="text", format=None)
         cmd = ShowLanguagesCommand(args)
@@ -200,7 +200,7 @@ class TestGrammarInstalledField:
         with (
             patch("importlib.util.find_spec", side_effect=patched_find_spec),
             patch(
-                "tree_sitter_analyzer.cli.info_commands.output_list",
+                "codexray.cli.info_commands.output_list",
                 side_effect=lambda msg: text_lines.append(msg),
             ),
         ):
@@ -223,7 +223,7 @@ class TestParserErrorMessageCarriesHint:
 
     def test_parse_code_error_message_contains_hint_for_grammar_missing(self):
         """When grammar module is absent, error_message must contain install hint."""
-        from tree_sitter_analyzer.core.parser import Parser
+        from codexray.core.parser import Parser
 
         parser = Parser.__new__(Parser)
 
@@ -246,7 +246,7 @@ class TestParserErrorMessageCarriesHint:
         from unittest.mock import patch
 
         with patch(
-            "tree_sitter_analyzer.core.parser.is_grammar_installed",
+            "codexray.core.parser.is_grammar_installed",
             return_value=False,
         ):
             result = parser.parse_code("let x = 1", "swift")

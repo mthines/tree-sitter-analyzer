@@ -6,7 +6,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from tree_sitter_analyzer.languages._swift_plugin_nodes import (
+from codexray.languages._swift_plugin_nodes import (
     TYPE_DECLARATION_KINDS,
     VISIBILITY_MODIFIERS,
     base_element_fields,

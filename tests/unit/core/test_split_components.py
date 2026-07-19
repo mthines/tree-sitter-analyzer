@@ -5,8 +5,8 @@ Unit tests for split core components (TDD)
 
 import time
 
-from tree_sitter_analyzer.core.performance import PerformanceMonitor
-from tree_sitter_analyzer.core.request import AnalysisRequest
+from codexray.core.performance import PerformanceMonitor
+from codexray.core.request import AnalysisRequest
 
 
 class TestCoreComponents:

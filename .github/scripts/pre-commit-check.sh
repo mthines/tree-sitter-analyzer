@@ -30,9 +30,9 @@ echo ""
 
 # Run MyPy on staged files
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "MyPy Check (staged files in tree_sitter_analyzer/)"
+echo "MyPy Check (staged files in codexray/)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-TSA_FILES=$(echo "$STAGED_PY_FILES" | grep '^tree_sitter_analyzer/' || true)
+TSA_FILES=$(echo "$STAGED_PY_FILES" | grep '^codexray/' || true)
 if [ -n "$TSA_FILES" ]; then
     if ! uv run mypy $TSA_FILES --strict; then
         echo ""
@@ -41,7 +41,7 @@ if [ -n "$TSA_FILES" ]; then
     fi
     echo "✅ MyPy: PASSED"
 else
-    echo "⏭️  No files in tree_sitter_analyzer/, skipping MyPy"
+    echo "⏭️  No files in codexray/, skipping MyPy"
 fi
 echo ""
 

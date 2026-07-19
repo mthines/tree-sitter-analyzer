@@ -10,7 +10,7 @@ Targets:
 
 import pytest
 
-from tree_sitter_analyzer.formatters.javascript_formatter import (
+from codexray.formatters.javascript_formatter import (
     JavaScriptTableFormatter,
 )
 

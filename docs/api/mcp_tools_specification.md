@@ -1,4 +1,4 @@
-# Tree-sitter Analyzer MCP Tools API Specification
+# CodeXray MCP Tools API Specification
 
 > ⚠️ **OUTDATED — historical reference only.** This document describes the
 > pre-v2.0 surface of 55+ discrete MCP tools. As of v2.0 the server exposes
@@ -14,7 +14,7 @@
 
 ## Overview
 
-Tree-sitter Analyzer MCPサーバーは、AI統合コード解析のための55の専門ツール、2つのリソース、および2つのSMART workflowプロンプトを提供します。すべてのツールはMCP v1.0仕様に準拠し、統一されたエラーハンドリングとセキュリティ機能を実装しています。
+CodeXray MCPサーバーは、AI統合コード解析のための55の専門ツール、2つのリソース、および2つのSMART workflowプロンプトを提供します。すべてのツールはMCP v1.0仕様に準拠し、統一されたエラーハンドリングとセキュリティ機能を実装しています。
 
 ### v1.13.0 Changes
 - **40 new autonomous-development tools**: AST cache + CodeGraph parity + pre-edit safety + decision journal — see [Autonomous Development Tools (v1.13.0)](#autonomous-development-tools-v1130) section below for the full catalogue
@@ -33,7 +33,7 @@ Tree-sitter Analyzer MCPサーバーは、AI統合コード解析のための55�
 
 ## Server Information
 
-- **Name**: `tree-sitter-analyzer`
+- **Name**: `codexray`
 - **Version**: `1.13.0`
 - **Protocol Version**: `2024-11-05`
 - **Capabilities**: `tools`, `resources`, `logging`, `prompts`
@@ -1129,11 +1129,11 @@ Tree-sitter Analyzer MCPサーバーは、AI統合コード解析のための55�
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "command": "uvx",
       "args": [
-        "--from", "tree-sitter-analyzer[mcp]",
-        "tree-sitter-analyzer-mcp"
+        "--from", "codexray[mcp]",
+        "codexray-mcp"
       ]
     }
   }
@@ -1146,11 +1146,11 @@ Tree-sitter Analyzer MCPサーバーは、AI統合コード解析のための55�
 {
   "mcp": {
     "servers": {
-      "tree-sitter-analyzer": {
+      "codexray": {
         "command": "uvx",
         "args": [
-          "--from", "tree-sitter-analyzer[mcp]",
-          "tree-sitter-analyzer-mcp"
+          "--from", "codexray[mcp]",
+          "codexray-mcp"
         ],
         "env": {
           "PROJECT_ROOT": "${workspaceFolder}"
@@ -1165,8 +1165,8 @@ Tree-sitter Analyzer MCPサーバーは、AI統合コード解析のための55�
 
 ```yaml
 mcp_servers:
-  - name: tree-sitter-analyzer
-    command: uvx --from tree-sitter-analyzer[mcp] tree-sitter-analyzer-mcp
+  - name: codexray
+    command: uvx --from codexray[mcp] codexray-mcp
     working_directory: ${workspace}
     capabilities:
       - tools
@@ -1239,8 +1239,8 @@ mcp_servers:
 `skills_root` is optional and must stay inside the configured project root. The CLI parity path is:
 
 ```bash
-uv run tree-sitter-analyzer agent-skills --format json
-uv run tree-sitter-analyzer --agent-skills --agent-skills-root .agents/skills --format json
+uv run codexray agent-skills --format json
+uv run codexray --agent-skills --agent-skills-root .agents/skills --format json
 ```
 
 **Output**: `success`, `inventory`, `skills_root`, `skill_count`, per-skill metadata (`description`, `agent_trigger`, `read_order`, `support_files`, `scripts`, `requires_context`, `side_effects`, `model_invocation_enabled`, `completion_guidance_present`, `gaps`), aggregate `gaps`, `validation` (`status`, grouped gaps, counts, `next_fix`), compact `agent_summary`, and `toon_content`.
@@ -1255,7 +1255,7 @@ uv run tree-sitter-analyzer --agent-skills --agent-skills-root .agents/skills --
 
 ```json
 {
-  "target_path": "tree_sitter_analyzer/mcp/server.py",
+  "target_path": "codexray/mcp/server.py",
   "output_format": "toon"
 }
 ```
@@ -1263,8 +1263,8 @@ uv run tree-sitter-analyzer --agent-skills --agent-skills-root .agents/skills --
 `target_path` is optional and must stay inside the configured project root when provided. The CLI parity path is:
 
 ```bash
-uv run tree-sitter-analyzer agent-workflow --format json
-uv run tree-sitter-analyzer agent-workflow tree_sitter_analyzer/mcp/server.py --format json
+uv run codexray agent-workflow --format json
+uv run codexray agent-workflow codexray/mcp/server.py --format json
 ```
 
 **Output**: `success`, `workflow`, `workflow_mode`, `project_root`, optional `target_path`, `current_phase`, `phase_order`, `current_step`, `routing`, `recommended_commands`, `steps` with `mcp_tools`, `cli_commands`, and `handoff` (`to`, `condition`, `goal`, `transition_command`) in JSON mode, `queue_boundary_commands`, `sprint_contract` (mode/scope/transition/evaluator checks), compact `agent_summary`, and `toon_content`. When `target_path` is provided, `agent_summary.queue_ledger_command` points to the scoped `change-impact --agent-summary-only` command that emits the queue ledger. TOON mode omits full structured `steps` and returns the compact decision surface, current step, and a `handoffs:` block.
@@ -1288,9 +1288,9 @@ uv run tree-sitter-analyzer agent-workflow tree_sitter_analyzer/mcp/server.py --
 `language` is optional. When omitted, the tool reports parser packages that are declared locally but do not yet have a plugin. The CLI parity path is:
 
 ```bash
-uv run tree-sitter-analyzer parser-readiness --format json
-uv run tree-sitter-analyzer parser-readiness swift --format json
-uv run tree-sitter-analyzer --parser-readiness --parser-readiness-include-supported --format toon
+uv run codexray parser-readiness --format json
+uv run codexray parser-readiness swift --format json
+uv run codexray --parser-readiness --parser-readiness-include-supported --format toon
 ```
 
 **Output**: `success`, `advisor`, `project_root`, `wiki_inspired_signals`, `implemented_languages`, `parser_packages`, per-language `readiness` records (`status`, `score`, `requirements`, `signals`, `next_steps`, `verification_commands`), ranked `recommendations`, compact `agent_summary`, and `toon_content`.
@@ -1380,12 +1380,12 @@ uv run tree-sitter-analyzer --parser-readiness --parser-readiness-include-suppor
       "file": "src/legacy.py",
       "priority": "critical",
       "recommended_mcp_command": "refactoring_suggestions(file_path='src/legacy.py')",
-      "recommended_cli_command": "uv run python -m tree_sitter_analyzer src/legacy.py --refactor --format json",
+      "recommended_cli_command": "uv run python -m codexray src/legacy.py --refactor --format json",
       "safety_mcp_command": "safe_to_edit(file_path='src/legacy.py')",
-      "safety_cli_command": "uv run python -m tree_sitter_analyzer src/legacy.py --safe-to-edit --format json",
+      "safety_cli_command": "uv run python -m codexray src/legacy.py --safe-to-edit --format json",
       "post_edit_commands": [
-        "uv run python -m tree_sitter_analyzer src/legacy.py --file-health --format json",
-        "uv run python -m tree_sitter_analyzer --change-impact --format json",
+        "uv run python -m codexray src/legacy.py --file-health --format json",
+        "uv run python -m codexray --change-impact --format json",
         "uv run pytest -q"
       ]
     }
@@ -1393,7 +1393,7 @@ uv run tree-sitter-analyzer --parser-readiness --parser-readiness-include-suppor
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --project-health --format json`
+**CLI Parity**: `uv run python -m codexray --project-health --format json`
 
 **SMART Workflow**: Use before autonomous improvement loops to choose the next highest-value queue item.
 
@@ -1437,7 +1437,7 @@ uv run tree-sitter-analyzer --parser-readiness --parser-readiness-include-suppor
     "target_line": 42,
     "target_symbol": "run_pipeline",
     "target_detail": "Complexity score: 28/100; inspect 'run_pipeline' at L42",
-    "verification_command": "uv run python -m tree_sitter_analyzer src/main.py --file-health --format json"
+    "verification_command": "uv run python -m codexray src/main.py --file-health --format json"
   },
   "recommendation": "File is in good shape. No immediate action needed."
 }
@@ -1525,7 +1525,7 @@ The v1.13.0 release adds 40 specialised tools for autonomous-agent workflows: AS
 ```json
 {
   "mode": "index",
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "query": "AnalyzeScaleTool",
   "limit": 50,
   "max_files": 5000,
@@ -1536,7 +1536,7 @@ The v1.13.0 release adds 40 specialised tools for autonomous-agent workflows: AS
 
 Modes: `index` (project or single file), `lookup` (cached parse data for a file), `search` (FTS5-ranked symbol search; LIKE fallback when FTS5 unavailable), `sync` (incremental — detect changes via content hash), `changes` (preview without re-indexing), `stats` (cache statistics), `invalidate` (remove cached entry). `fts_search` is accepted as a deprecated alias for `search`.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --ast-cache index --format json`
+**CLI Parity**: `uv run python -m codexray --ast-cache index --format json`
 
 **SMART Workflow**: Run once at session start in the **Map (M)** step. All codegraph_* tools (resolve, navigate, xref, symbol_search, dependency_matrix, sitemap, class_hierarchy) require this index.
 
@@ -1548,7 +1548,7 @@ Modes: `index` (project or single file), `lookup` (cached parse data for a file)
 ```json
 {
   "mode": "diff_git",
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "old_ref": "HEAD~1",
   "new_ref": "HEAD",
   "output_format": "toon"
@@ -1557,7 +1557,7 @@ Modes: `index` (project or single file), `lookup` (cached parse data for a file)
 
 Modes: `diff_files` (two file paths), `diff_strings` (two source strings), `diff_git` (a file between two git refs).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --ast-diff --ast-diff-mode diff_git --ast-diff-file PATH --ast-diff-old-ref REF --ast-diff-new-ref REF --format json`
+**CLI Parity**: `uv run python -m codexray --ast-diff --ast-diff-mode diff_git --ast-diff-file PATH --ast-diff-old-ref REF --ast-diff-new-ref REF --format json`
 
 **SMART Workflow**: Use during code review and PR analysis when text diff is too noisy — surfaces semantic-only changes.
 
@@ -1578,7 +1578,7 @@ Modes: `diff_files` (two file paths), `diff_strings` (two source strings), `diff
 
 Use when searching for 3+ patterns at once (cross-cutting refactor verification, multi-symbol usage scan). Do not use for single or paired searches — the parallel overhead is not worth it.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --batch-search --batch-search-file queries.json --format json`
+**CLI Parity**: `uv run python -m codexray --batch-search --batch-search-file queries.json --format json`
 
 ### 19. build_project_index
 
@@ -1592,9 +1592,9 @@ Use when searching for 3+ patterns at once (cross-cutting refactor verification,
 }
 ```
 
-Call when project structure changed significantly, `get_project_summary` returns stale data, or setting up tree-sitter-analyzer in a new project. Do NOT call every session — the index auto-loads and stays fresh for 24 hours.
+Call when project structure changed significantly, `get_project_summary` returns stale data, or setting up codexray in a new project. Do NOT call every session — the index auto-loads and stays fresh for 24 hours.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --build-project-index --format json`
+**CLI Parity**: `uv run python -m codexray --build-project-index --format json`
 
 ### 20. check_constraints
 
@@ -1603,13 +1603,13 @@ Call when project structure changed significantly, `get_project_summary` returns
 **Input**:
 ```json
 {
-  "path_filter": "tree_sitter_analyzer/mcp/",
+  "path_filter": "codexray/mcp/",
   "severity_min": "warning",
   "output_format": "toon"
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --check-constraints --format json`
+**CLI Parity**: `uv run python -m codexray --check-constraints --format json`
 
 **SMART Workflow**: Call in the **Trace (T)** step before approving architectural changes.
 
@@ -1624,7 +1624,7 @@ Call when project structure changed significantly, `get_project_summary` returns
 
 Call when `list_files`, `search_content`, or `find_and_grep` return unexpected empty results, when setting up in a new environment, or when diagnosing missing files. Verdict vocabulary: `SAFE` / `WARN` / `ERROR` / `NOT_FOUND`. The verdict is a hard environment-readiness gate — agents must surface `recommended_fix` instead of proceeding past a non-SAFE verdict.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --check-tools --format json`
+**CLI Parity**: `uv run python -m codexray --check-tools --format json`
 
 ### 22. code_patterns
 
@@ -1633,14 +1633,14 @@ Call when `list_files`, `search_content`, or `find_and_grep` return unexpected e
 **Input**:
 ```json
 {
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "categories": ["smells", "security"],
   "severity_threshold": "warning",
   "output_format": "toon"
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer FILE --code-patterns --format json`
+**CLI Parity**: `uv run python -m codexray FILE --code-patterns --format json`
 
 **SMART Workflow**: Pair with `refactoring_suggestions` — `code_patterns` lists smells faster; `refactoring_suggestions` provides extraction recipes.
 
@@ -1652,7 +1652,7 @@ Call when `list_files`, `search_content`, or `find_and_grep` return unexpected e
 ```json
 {
   "mode": "path",
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "line": 42,
   "max_depth": 20,
   "output_format": "toon"
@@ -1661,7 +1661,7 @@ Call when `list_files`, `search_content`, or `find_and_grep` return unexpected e
 
 Modes: `path` (full AST path from root to node at line), `scope` (innermost enclosing function/class + siblings), `outline` (hierarchical file outline), `siblings` (declarations at same scope level).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --ast-path --ast-path-file FILE --ast-path-line N --format json`
+**CLI Parity**: `uv run python -m codexray --ast-path --ast-path-file FILE --ast-path-line N --format json`
 
 ### 24. codegraph_autoindex
 
@@ -1678,7 +1678,7 @@ Modes: `path` (full AST path from root to node at line), `scope` (innermost encl
 
 Other codegraph_* tools auto-warm on first call; this tool gives explicit control over the lifecycle.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --autoindex --autoindex-mode status --format json`
+**CLI Parity**: `uv run python -m codexray --autoindex --autoindex-mode status --format json`
 
 ### 25. codegraph_call_graph
 
@@ -1689,7 +1689,7 @@ Other codegraph_* tools auto-warm on first call; this tool gives explicit contro
 {
   "mode": "callers",
   "function_name": "AnalyzeScaleTool.execute",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py",
   "depth": 3,
   "output_format": "toon"
 }
@@ -1697,7 +1697,7 @@ Other codegraph_* tools auto-warm on first call; this tool gives explicit contro
 
 Modes: `callers` (who calls X), `callees` (what does X call), `chain` (transitive call chain), `summary` (stats), `all_functions` (list all discovered functions).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --call-graph --call-graph-mode callers --call-graph-function NAME --format json`
+**CLI Parity**: `uv run python -m codexray --call-graph --call-graph-mode callers --call-graph-function NAME --format json`
 
 ### 26. codegraph_call_path
 
@@ -1715,7 +1715,7 @@ Modes: `callers` (who calls X), `callees` (what does X call), `chain` (transitiv
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --call-path --call-path-source SRC --call-path-target TGT --format json`
+**CLI Parity**: `uv run python -m codexray --call-path --call-path-source SRC --call-path-target TGT --format json`
 
 ### 27. codegraph_callees
 
@@ -1725,13 +1725,13 @@ Modes: `callers` (who calls X), `callees` (what does X call), `chain` (transitiv
 ```json
 {
   "function_name": "AnalyzeScaleTool.execute",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py",
   "include_activation": false,
   "output_format": "toon"
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --call-graph --call-graph-mode callees --call-graph-function NAME --format json`
+**CLI Parity**: `uv run python -m codexray --call-graph --call-graph-mode callees --call-graph-function NAME --format json`
 
 ### 28. codegraph_callers
 
@@ -1741,13 +1741,13 @@ Modes: `callers` (who calls X), `callees` (what does X call), `chain` (transitiv
 ```json
 {
   "function_name": "AnalyzeScaleTool.execute",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py",
   "include_activation": false,
   "output_format": "toon"
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --call-graph --call-graph-mode callers --call-graph-function NAME --format json`
+**CLI Parity**: `uv run python -m codexray --call-graph --call-graph-mode callers --call-graph-function NAME --format json`
 
 ### 29. codegraph_class_hierarchy
 
@@ -1765,7 +1765,7 @@ Modes: `callers` (who calls X), `callees` (what does X call), `chain` (transitiv
 
 Modes: `subclasses` (descendants), `superclasses` (ancestors), `tree` (full subtree rooted at a class), `impact` (risk analysis for modifying a base class), `all` (list all discovered classes), `summary` (hierarchy statistics).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --class-hierarchy --class-hierarchy-mode subclasses --class-hierarchy-class NAME --format json`
+**CLI Parity**: `uv run python -m codexray --class-hierarchy --class-hierarchy-mode subclasses --class-hierarchy-class NAME --format json`
 
 ### 30. codegraph_complexity_heatmap
 
@@ -1775,9 +1775,9 @@ Modes: `subclasses` (descendants), `superclasses` (ancestors), `tree` (full subt
 ```json
 {
   "mode": "project",
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "function_name": "execute",
-  "directory": "tree_sitter_analyzer/mcp",
+  "directory": "codexray/mcp",
   "max_files": 5000,
   "output_format": "toon"
 }
@@ -1785,7 +1785,7 @@ Modes: `subclasses` (descendants), `superclasses` (ancestors), `tree` (full subt
 
 Modes: `project` (full heatmap), `file` (single file), `function` (named function).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --codegraph-complexity-heatmap --format json`
+**CLI Parity**: `uv run python -m codexray --codegraph-complexity-heatmap --format json`
 
 ### 31. codegraph_dead_code
 
@@ -1803,7 +1803,7 @@ Modes: `project` (full heatmap), `file` (single file), `function` (named functio
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --dead-code --format json`
+**CLI Parity**: `uv run python -m codexray --dead-code --format json`
 
 **SMART Workflow**: Run periodically as part of project hygiene to surface dead code that survived refactoring.
 
@@ -1815,7 +1815,7 @@ Modes: `project` (full heatmap), `file` (single file), `function` (named functio
 ```json
 {
   "mode": "hotspots",
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "top_k": 20,
   "threshold": 0.5,
   "output_format": "toon"
@@ -1824,7 +1824,7 @@ Modes: `project` (full heatmap), `file` (single file), `function` (named functio
 
 Modes: `summary` (stats), `matrix` (all pairs), `hotspots` (top-K coupling), `file` (coupling for one file), `unstable` (high-instability modules).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --dependency-matrix --dependency-matrix-mode hotspots --format json`
+**CLI Parity**: `uv run python -m codexray --dependency-matrix --dependency-matrix-mode hotspots --format json`
 
 ### 33. codegraph_full_index
 
@@ -1842,7 +1842,7 @@ Modes: `summary` (stats), `matrix` (all pairs), `hotspots` (top-K coupling), `fi
 
 Modes: `full` (force re-index), `incremental` (only process changes).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --full-index --full-index-mode incremental --format json`
+**CLI Parity**: `uv run python -m codexray --full-index --full-index-mode incremental --format json`
 
 **SMART Workflow**: Recommended first command of any agent session targeting a fresh checkout.
 
@@ -1855,7 +1855,7 @@ Modes: `full` (force re-index), `incremental` (only process changes).
 {
   "mode": "function_impact",
   "function_name": "AnalyzeScaleTool.execute",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py",
   "depth": 3,
   "output_format": "toon"
 }
@@ -1863,7 +1863,7 @@ Modes: `full` (force re-index), `incremental` (only process changes).
 
 Modes: `function_impact` (transitive callers/callees + risk for one function), `blast_radius` (aggregate impact for multiple functions via `function_names`), `risk_score` (quantified 0-100 risk).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --codegraph-impact --codegraph-impact-mode function_impact --codegraph-impact-function NAME --format json`
+**CLI Parity**: `uv run python -m codexray --codegraph-impact --codegraph-impact-mode function_impact --codegraph-impact-function NAME --format json`
 
 ### 35. codegraph_import_graph
 
@@ -1873,7 +1873,7 @@ Modes: `function_impact` (transitive callers/callees + risk for one function), `
 ```json
 {
   "mode": "blast_radius",
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "max_depth": 4,
   "output_format": "toon"
 }
@@ -1881,7 +1881,7 @@ Modes: `function_impact` (transitive callers/callees + risk for one function), `
 
 Modes: `summary` (project overview), `deps` (what a file imports), `dependents` (who imports a file), `blast_radius` (transitive impact), `cycles` (circular imports), `coupling` (import hotspots).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --import-graph --import-graph-mode blast_radius --import-graph-file PATH --format json`
+**CLI Parity**: `uv run python -m codexray --import-graph --import-graph-mode blast_radius --import-graph-file PATH --format json`
 
 ### 36. codegraph_incremental_sync
 
@@ -1898,7 +1898,7 @@ Modes: `summary` (project overview), `deps` (what a file imports), `dependents` 
 
 Modes: `sync` (detect + re-index changed files), `changes` (preview only — no re-index), `status` (indexed-vs-on-disk file counts).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --incremental-sync --incremental-sync-mode sync --format json`
+**CLI Parity**: `uv run python -m codexray --incremental-sync --incremental-sync-mode sync --format json`
 
 ### 37. codegraph_metrics
 
@@ -1914,7 +1914,7 @@ Modes: `sync` (detect + re-index changed files), `changes` (preview only — no 
 
 Suggests which tools to run first if any underlying index is empty.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --codegraph-metrics --format json`
+**CLI Parity**: `uv run python -m codexray --codegraph-metrics --format json`
 
 ### 38. codegraph_navigate
 
@@ -1925,7 +1925,7 @@ Suggests which tools to run first if any underlying index is empty.
 {
   "symbol": "AnalyzeScaleTool",
   "mode": "full",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py",
   "depth": 3,
   "output_format": "toon"
 }
@@ -1933,7 +1933,7 @@ Suggests which tools to run first if any underlying index is empty.
 
 Modes: `definition`, `references`, `hierarchy`, `full`. Requires `ast_cache` index.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --codegraph-navigate --codegraph-navigate-symbol NAME --format json`
+**CLI Parity**: `uv run python -m codexray --codegraph-navigate --codegraph-navigate-symbol NAME --format json`
 
 ### 39. codegraph_overview
 
@@ -1950,7 +1950,7 @@ Modes: `definition`, `references`, `hierarchy`, `full`. Requires `ast_cache` ind
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --codegraph-overview --format json`
+**CLI Parity**: `uv run python -m codexray --codegraph-overview --format json`
 
 **SMART Workflow**: Use in the **Map (M)** step to identify the public API surface and hotspots.
 
@@ -1970,7 +1970,7 @@ Modes: `definition`, `references`, `hierarchy`, `full`. Requires `ast_cache` ind
 
 Unlike `analyze_change_impact` (test-focused), this produces reviewer-oriented structured analysis.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --pr-review --pr-review-mode branch --format json`
+**CLI Parity**: `uv run python -m codexray --pr-review --pr-review-mode branch --format json`
 
 ### 41. codegraph_resolve
 
@@ -1987,7 +1987,7 @@ Unlike `analyze_change_impact` (test-focused), this produces reviewer-oriented s
 
 Modes: `definition`, `references`.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --symbol-resolve --symbol-resolve-symbol NAME --format json`
+**CLI Parity**: `uv run python -m codexray --symbol-resolve --symbol-resolve-symbol NAME --format json`
 
 ### 42. codegraph_similarity
 
@@ -2005,7 +2005,7 @@ Modes: `definition`, `references`.
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --code-similarity --format json`
+**CLI Parity**: `uv run python -m codexray --code-similarity --format json`
 
 ### 43. codegraph_sitemap
 
@@ -2016,7 +2016,7 @@ Modes: `definition`, `references`.
 {
   "mode": "api",
   "language": "python",
-  "directory": "tree_sitter_analyzer",
+  "directory": "codexray",
   "max_files": 5000,
   "output_format": "toon"
 }
@@ -2024,7 +2024,7 @@ Modes: `definition`, `references`.
 
 Modes: `full` (complete map), `api` (public API only), `module` (per-module metrics), `flat` (flat symbol list).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --codegraph-sitemap --codegraph-sitemap-mode api --format json`
+**CLI Parity**: `uv run python -m codexray --codegraph-sitemap --codegraph-sitemap-mode api --format json`
 
 ### 44. codegraph_symbol_search
 
@@ -2041,7 +2041,7 @@ Modes: `full` (complete map), `api` (public API only), `module` (per-module metr
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --symbol-search --symbol-search-query QUERY --format json`
+**CLI Parity**: `uv run python -m codexray --symbol-search --symbol-search-query QUERY --format json`
 
 ### 45. codegraph_visualize
 
@@ -2051,7 +2051,7 @@ Modes: `full` (complete map), `api` (public API only), `module` (per-module metr
 ```json
 {
   "mode": "function",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py",
   "function": "AnalyzeScaleTool.execute",
   "depth": 3,
   "max_edges": 200,
@@ -2064,7 +2064,7 @@ Modes: `full` (complete map), `api` (public API only), `module` (per-module metr
 Modes: `full` (all edges), `file` (single-file scope), `function` (transitive chain from seed).
 Visualization formats: `mermaid` (default text flowchart), `sigma` (Graphology-compatible nodes/edges with LOD metadata).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --codegraph-visualize --codegraph-visualize-mode function --codegraph-visualize-function NAME --format json`
+**CLI Parity**: `uv run python -m codexray --codegraph-visualize --codegraph-visualize-mode function --codegraph-visualize-function NAME --format json`
 
 ### 46. codegraph_uml
 
@@ -2087,7 +2087,7 @@ Visualization formats: `mermaid` (default text flowchart), `sigma` (Graphology-c
 
 Modes: `class`, `package`, `component`, `sequence`. Sequence diagrams require `source` and `target`; they are static call-path approximations, not runtime traces.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --uml class --format json`
+**CLI Parity**: `uv run python -m codexray --uml class --format json`
 
 ### 47. codegraph_xref
 
@@ -2098,7 +2098,7 @@ Modes: `class`, `package`, `component`, `sequence`. Sequence diagrams require `s
 {
   "mode": "symbol",
   "symbol": "AnalyzeScaleTool",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py",
   "include_callers": true,
   "include_callees": true,
   "include_imports": true,
@@ -2107,7 +2107,7 @@ Modes: `class`, `package`, `component`, `sequence`. Sequence diagrams require `s
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --codegraph-xref --codegraph-xref-mode symbol --codegraph-xref-symbol NAME --format json`
+**CLI Parity**: `uv run python -m codexray --codegraph-xref --codegraph-xref-mode symbol --codegraph-xref-symbol NAME --format json`
 
 ### 48. decision_journal
 
@@ -2120,7 +2120,7 @@ Modes: `class`, `package`, `component`, `sequence`. Sequence diagrams require `s
   "title": "Prefer env+CLI flag over set_project_path for startup",
   "rationale": "Env TREE_SITTER_PROJECT_ROOT / --project-root configures the root once at startup, before the security validator and cache are warmed. The set_project_path tool still works for runtime project switching but should not be the default UX.",
   "verdict": "SAFE",
-  "scope_paths": ["tree_sitter_analyzer/mcp/server.py"],
+  "scope_paths": ["codexray/mcp/server.py"],
   "alternatives": ["remove set_project_path entirely (rejected — runtime switching has real use cases)"],
   "related_symbols": ["BaseMCPTool"],
   "tags": ["mcp", "boundary"],
@@ -2130,7 +2130,7 @@ Modes: `class`, `package`, `component`, `sequence`. Sequence diagrams require `s
 
 Modes: `record` (new entry), `get` (by id), `search` (substring + verdict + path filter), `supersede` (link old→new). Call `search` BEFORE proposing a refactor; settled decisions should not be re-litigated. Call `record` AFTER landing a non-trivial design choice. Verdict vocabulary: `SAFE` / `CAUTION` / `REVIEW` / `UNSAFE` / `INFO` / `WARN` / `ERROR` / `NOT_FOUND`. Agents MUST surface a recorded `REVIEW`/`UNSAFE`/`WARN` verdict verbatim.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --decision-journal --decision-journal-mode search --decision-journal-query "topic" --format json`
+**CLI Parity**: `uv run python -m codexray --decision-journal --decision-journal-mode search --decision-journal-query "topic" --format json`
 
 ### 49. detect_routes
 
@@ -2149,7 +2149,7 @@ Modes: `record` (new entry), `get` (by id), `search` (substring + verdict + path
 
 Modes: `all` (list all routes), `summary` (stats), `lookup` (find handler for URL), `prefix` (routes matching prefix), `file` (routes in a specific file).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --detect-routes --detect-routes-mode all --format json`
+**CLI Parity**: `uv run python -m codexray --detect-routes --detect-routes-mode all --format json`
 
 ### 50. modification_guard
 
@@ -2160,7 +2160,7 @@ Modes: `all` (list all routes), `summary` (stats), `lookup` (find handler for UR
 {
   "symbol": "AnalyzeScaleTool",
   "modification_type": "rename",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py"
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py"
 }
 ```
 
@@ -2168,7 +2168,7 @@ Modes: `all` (list all routes), `summary` (stats), `lookup` (find handler for UR
 
 Do NOT call alongside `trace_impact` — `modification_guard` invokes it internally.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --modification-guard --modification-guard-symbol NAME --modification-guard-type rename --format json`
+**CLI Parity**: `uv run python -m codexray --modification-guard --modification-guard-symbol NAME --modification-guard-type rename --format json`
 
 ### 51. refactoring_suggestions
 
@@ -2177,7 +2177,7 @@ Do NOT call alongside `trace_impact` — `modification_guard` invokes it interna
 **Input**:
 ```json
 {
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "language": "python",
   "max_suggestions": 10,
   "include_extractions": true,
@@ -2186,7 +2186,7 @@ Do NOT call alongside `trace_impact` — `modification_guard` invokes it interna
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer FILE --refactor --format json`
+**CLI Parity**: `uv run python -m codexray FILE --refactor --format json`
 
 **SMART Workflow**: Call after `check_file_health` flags a file as B/C/D/F grade. Pair with `safe_to_edit` before applying. Verdict vocabulary: `SAFE` / `CAUTION` / `REVIEW` / `UNSAFE` / `INFO`. If the verdict is `INFO` (nothing to extract), do not invent extractions to satisfy the user.
 
@@ -2197,13 +2197,13 @@ Do NOT call alongside `trace_impact` — `modification_guard` invokes it interna
 **Input**:
 ```json
 {
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "edit_type": "modify",
   "output_format": "toon"
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer FILE --safe-to-edit --format json`
+**CLI Parity**: `uv run python -m codexray FILE --safe-to-edit --format json`
 
 **SMART Workflow**: Use in the **Trace (T)** step before any edit to a public-facing module or utility. Pair with `modification_guard` for symbol-level rename impact.
 
@@ -2215,7 +2215,7 @@ Do NOT call alongside `trace_impact` — `modification_guard` invokes it interna
 ```json
 {
   "mode": "classify_file",
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "old_ref": "HEAD~1",
   "new_ref": "HEAD",
   "output_format": "toon"
@@ -2224,7 +2224,7 @@ Do NOT call alongside `trace_impact` — `modification_guard` invokes it interna
 
 Modes: `classify_string` (two code strings), `classify_file` (file between git refs).
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --semantic-classify --semantic-classify-mode classify_file --semantic-classify-file PATH --format json`
+**CLI Parity**: `uv run python -m codexray --semantic-classify --semantic-classify-mode classify_file --semantic-classify-file PATH --format json`
 
 ### 54. smart_context
 
@@ -2233,12 +2233,12 @@ Modes: `classify_string` (two code strings), `classify_file` (file between git r
 **Input**:
 ```json
 {
-  "file_path": "tree_sitter_analyzer/mcp/server.py",
+  "file_path": "codexray/mcp/server.py",
   "output_format": "toon"
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer FILE --smart-context --format json`
+**CLI Parity**: `uv run python -m codexray FILE --smart-context --format json`
 
 **SMART Workflow**: First tool when picking up an unfamiliar file. Includes compact `agent_summary` (risk, next step, verification command, stop condition).
 
@@ -2255,7 +2255,7 @@ Modes: `classify_string` (two code strings), `classify_file` (file between git r
 }
 ```
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --symbol-lineage --symbol-lineage-symbol NAME --format json`
+**CLI Parity**: `uv run python -m codexray --symbol-lineage --symbol-lineage-symbol NAME --format json`
 
 ### 56. trace_impact
 
@@ -2265,7 +2265,7 @@ Modes: `classify_string` (two code strings), `classify_file` (file between git r
 ```json
 {
   "symbol": "AnalyzeScaleTool",
-  "file_path": "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
+  "file_path": "codexray/mcp/tools/analyze_scale_tool.py",
   "project_root": "/path/to/project",
   "case_sensitive": true,
   "word_match": true,
@@ -2276,7 +2276,7 @@ Modes: `classify_string` (two code strings), `classify_file` (file between git r
 
 Provide `file_path` when available — this filters results to the same language and eliminates cross-language false positives. Set `word_match=true` (the default) to avoid substring noise.
 
-**CLI Parity**: `uv run python -m tree_sitter_analyzer --trace-impact --trace-impact-symbol NAME --format json`
+**CLI Parity**: `uv run python -m codexray --trace-impact --trace-impact-symbol NAME --format json`
 
 **SMART Workflow**: Use BEFORE renaming, removing, or changing the signature of any public symbol. Skip for private/internal methods (single-underscore prefix) within the same file — impact is local and visible in context.
 
@@ -2344,10 +2344,10 @@ Categories: `file_not_found`, `language_unsupported`, `project_not_set`, `securi
 
 ## Support & Documentation
 
-- **GitHub**: https://github.com/your-org/tree-sitter-analyzer
-- **Documentation**: https://tree-sitter-analyzer.readthedocs.io/
-- **Issues**: https://github.com/your-org/tree-sitter-analyzer/issues
-- **Discussions**: https://github.com/your-org/tree-sitter-analyzer/discussions
+- **GitHub**: https://github.com/your-org/codexray
+- **Documentation**: https://codexray.readthedocs.io/
+- **Issues**: https://github.com/your-org/codexray/issues
+- **Discussions**: https://github.com/your-org/codexray/discussions
 
 ## License
 

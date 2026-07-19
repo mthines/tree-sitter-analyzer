@@ -122,7 +122,7 @@ class TestR37afCLIEnvelopeContract:
 
     def test_advanced_full_envelope(self):
         """AdvancedCommand full mode → envelope."""
-        from tree_sitter_analyzer.cli.commands.advanced_command import (
+        from codexray.cli.commands.advanced_command import (
             AdvancedCommand,
         )
 
@@ -135,14 +135,14 @@ class TestR37afCLIEnvelopeContract:
         cmd = AdvancedCommand(args)
         payload = _capture_output_json(
             lambda: cmd._output_full_analysis(_make_analysis_result()),
-            target_attr="tree_sitter_analyzer.cli.commands.advanced_command.output_json",
+            target_attr="codexray.cli.commands.advanced_command.output_json",
         )
         _assert_envelope(payload, "AdvancedCommand[full]")
         assert "mode=full" in payload["summary_line"]
 
     def test_advanced_statistics_envelope(self):
         """AdvancedCommand --statistics mode → envelope."""
-        from tree_sitter_analyzer.cli.commands.advanced_command import (
+        from codexray.cli.commands.advanced_command import (
             AdvancedCommand,
         )
 
@@ -155,14 +155,14 @@ class TestR37afCLIEnvelopeContract:
         cmd = AdvancedCommand(args)
         payload = _capture_output_json(
             lambda: cmd._output_statistics(_make_analysis_result()),
-            target_attr="tree_sitter_analyzer.cli.commands.advanced_command.output_json",
+            target_attr="codexray.cli.commands.advanced_command.output_json",
         )
         _assert_envelope(payload, "AdvancedCommand[statistics]")
         assert "mode=stats" in payload["summary_line"]
 
     def test_summary_command_envelope(self):
         """SummaryCommand → envelope."""
-        from tree_sitter_analyzer.cli.commands.summary_command import (
+        from codexray.cli.commands.summary_command import (
             SummaryCommand,
         )
 
@@ -175,13 +175,13 @@ class TestR37afCLIEnvelopeContract:
         cmd = SummaryCommand(args)
         payload = _capture_output_json(
             lambda: cmd._output_summary_analysis(_make_analysis_result()),
-            target_attr="tree_sitter_analyzer.cli.commands.summary_command.output_json",
+            target_attr="codexray.cli.commands.summary_command.output_json",
         )
         _assert_envelope(payload, "SummaryCommand")
 
     def test_structure_command_envelope(self):
         """StructureCommand → envelope (via _convert_to_legacy_format)."""
-        from tree_sitter_analyzer.cli.commands.structure_command import (
+        from codexray.cli.commands.structure_command import (
             StructureCommand,
         )
 
@@ -196,7 +196,7 @@ class TestR37afCLIEnvelopeContract:
 
     def test_table_command_envelope(self):
         """TableCommand (table=json path) → envelope via _attach_table_envelope."""
-        from tree_sitter_analyzer.cli.commands.table_command import (
+        from codexray.cli.commands.table_command import (
             _attach_table_envelope,
         )
 
@@ -222,7 +222,7 @@ class TestR37afCLIEnvelopeContract:
         """QueryCommand → MUST be dict, not list (r37ac fix)."""
         from unittest.mock import AsyncMock
 
-        from tree_sitter_analyzer.cli.commands.query_command import QueryCommand
+        from codexray.cli.commands.query_command import QueryCommand
 
         args = Namespace(
             file_path="/test/foo.py",
@@ -238,7 +238,7 @@ class TestR37afCLIEnvelopeContract:
         with (
             patch.object(cmd, "execute_query", new_callable=AsyncMock) as mock_exec,
             patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_json",
+                "codexray.cli.commands.query_command.output_json",
                 side_effect=lambda d: (
                     captured.update(d)
                     if isinstance(d, dict)
@@ -263,7 +263,7 @@ class TestR37afCLIEnvelopeContract:
 
     def test_list_queries_specific_language_envelope(self):
         """ListQueriesCommand single-language JSON → envelope."""
-        from tree_sitter_analyzer.cli.info_commands import ListQueriesCommand
+        from codexray.cli.info_commands import ListQueriesCommand
 
         args = Namespace(
             language="python",
@@ -274,14 +274,14 @@ class TestR37afCLIEnvelopeContract:
         cmd = ListQueriesCommand(args)
         payload = _capture_output_json(
             cmd.execute,
-            target_attr="tree_sitter_analyzer.cli.info_commands.output_json",
+            target_attr="codexray.cli.info_commands.output_json",
         )
         _assert_envelope(payload, "ListQueriesCommand[single]")
         assert payload.get("scope") == "single_language"
 
     def test_list_queries_all_languages_envelope(self):
         """ListQueriesCommand all-languages JSON → envelope."""
-        from tree_sitter_analyzer.cli.info_commands import ListQueriesCommand
+        from codexray.cli.info_commands import ListQueriesCommand
 
         args = Namespace(
             language=None,
@@ -292,14 +292,14 @@ class TestR37afCLIEnvelopeContract:
         cmd = ListQueriesCommand(args)
         payload = _capture_output_json(
             cmd.execute,
-            target_attr="tree_sitter_analyzer.cli.info_commands.output_json",
+            target_attr="codexray.cli.info_commands.output_json",
         )
         _assert_envelope(payload, "ListQueriesCommand[all]")
         assert payload.get("scope") == "all_languages"
 
     def test_describe_query_envelope(self):
         """DescribeQueryCommand → envelope."""
-        from tree_sitter_analyzer.cli.info_commands import DescribeQueryCommand
+        from codexray.cli.info_commands import DescribeQueryCommand
 
         args = Namespace(
             language="python",
@@ -311,31 +311,31 @@ class TestR37afCLIEnvelopeContract:
         cmd = DescribeQueryCommand(args)
         payload = _capture_output_json(
             cmd.execute,
-            target_attr="tree_sitter_analyzer.cli.info_commands.output_json",
+            target_attr="codexray.cli.info_commands.output_json",
         )
         _assert_envelope(payload, "DescribeQueryCommand")
 
     def test_show_supported_languages_envelope(self):
         """ShowLanguagesCommand → envelope."""
-        from tree_sitter_analyzer.cli.info_commands import ShowLanguagesCommand
+        from codexray.cli.info_commands import ShowLanguagesCommand
 
         args = Namespace(output_format="json", format="json")
         cmd = ShowLanguagesCommand(args)
         payload = _capture_output_json(
             cmd.execute,
-            target_attr="tree_sitter_analyzer.cli.info_commands.output_json",
+            target_attr="codexray.cli.info_commands.output_json",
         )
         _assert_envelope(payload, "ShowLanguagesCommand")
 
     def test_show_supported_extensions_envelope(self):
         """ShowExtensionsCommand → envelope."""
-        from tree_sitter_analyzer.cli.info_commands import ShowExtensionsCommand
+        from codexray.cli.info_commands import ShowExtensionsCommand
 
         args = Namespace(output_format="json", format="json")
         cmd = ShowExtensionsCommand(args)
         payload = _capture_output_json(
             cmd.execute,
-            target_attr="tree_sitter_analyzer.cli.info_commands.output_json",
+            target_attr="codexray.cli.info_commands.output_json",
         )
         _assert_envelope(payload, "ShowExtensionsCommand")
 
@@ -344,12 +344,12 @@ class TestR37afCLIEnvelopeContract:
         envelope support. Now emits canonical envelope when
         ``--format json`` (or default ``--output-format=json``).
         """
-        from tree_sitter_analyzer.cli_main import _print_filter_help
+        from codexray.cli_main import _print_filter_help
 
         args = Namespace(format="json", output_format="json")
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.output_manager.output_json",
+            "codexray.output_manager.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             _print_filter_help(args)
@@ -361,12 +361,12 @@ class TestR37afCLIEnvelopeContract:
 
     def test_filter_help_text_path_preserved(self):
         """Text path (no --format json) must still emit text via output_info."""
-        from tree_sitter_analyzer.cli_main import _print_filter_help
+        from codexray.cli_main import _print_filter_help
 
         args = Namespace(format=None, output_format="text")
         with (
-            patch("tree_sitter_analyzer.cli_main.output_info") as mock_info,
-            patch("tree_sitter_analyzer.output_manager.output_json") as mock_json,
+            patch("codexray.cli_main.output_info") as mock_info,
+            patch("codexray.output_manager.output_json") as mock_json,
         ):
             _print_filter_help(args)
         assert mock_json.call_count == 0, "text mode must not call output_json"
@@ -380,7 +380,7 @@ class TestR37afCLIEnvelopeContract:
         """
         from argparse import Namespace
 
-        from tree_sitter_analyzer.cli.commands.sql_platform_helpers import (
+        from codexray.cli.commands.sql_platform_helpers import (
             handle_sql_platform_info,
         )
 
@@ -411,7 +411,7 @@ class TestR37afCLIEnvelopeContract:
         """
         from argparse import Namespace
 
-        from tree_sitter_analyzer.cli.special_commands import (
+        from codexray.cli.special_commands import (
             SpecialCommandContext,
             _handle_query_language_commands,
         )
@@ -458,7 +458,7 @@ class TestR37afCLIEnvelopeContract:
         """r37aj: ``--show-common-queries --format json`` → envelope."""
         from argparse import Namespace
 
-        from tree_sitter_analyzer.cli.special_commands import (
+        from codexray.cli.special_commands import (
             SpecialCommandContext,
             _handle_query_language_commands,
         )
@@ -511,7 +511,7 @@ class TestR37afCLIEnvelopeContract:
         NOTE: this is the **error** path — the assertion shape differs
         from happy-path. Top-level keys present + verdict mirrored.
         """
-        from tree_sitter_analyzer.cli.commands.mcp_commands import (
+        from codexray.cli.commands.mcp_commands import (
             _build_error_envelope,
         )
 
@@ -551,7 +551,7 @@ class TestR37afCLIEnvelopeContract:
         # Minimal real file is easier than mocking ``file_handler``.
         import tempfile
 
-        from tree_sitter_analyzer.cli.commands.partial_read_command import (
+        from codexray.cli.commands.partial_read_command import (
             PartialReadCommand,
         )
 
@@ -573,7 +573,7 @@ class TestR37afCLIEnvelopeContract:
             cmd = PartialReadCommand(args)
             payload = _capture_output_json(
                 cmd.execute,
-                target_attr="tree_sitter_analyzer.cli.commands.partial_read_command.output_json",
+                target_attr="codexray.cli.commands.partial_read_command.output_json",
             )
             _assert_envelope(payload, "PartialReadCommand")
         finally:

@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.python_plugin import PythonElementExtractor
-from tree_sitter_analyzer.models import Class, Function
+from codexray.languages.python_plugin import PythonElementExtractor
+from codexray.models import Class, Function
 
 
 class TestPythonElementExtractor:
@@ -197,7 +197,7 @@ def __magic_method__(self, other):
 
         # Should not process deeply nested nodes
         with patch(
-            "tree_sitter_analyzer.languages.python_plugin.extractor.log_warning"
+            "codexray.languages.python_plugin.extractor.log_warning"
         ) as mock_log:
             extractor._traverse_and_extract_iterative(
                 root_node, extractors, results, "function"
@@ -272,7 +272,7 @@ def __magic_method__(self, other):
             mock_node_copy.end_point = (0, 10)
 
             with patch(
-                "tree_sitter_analyzer.languages.python_plugin.extractor.extract_text_slice"
+                "codexray.languages.python_plugin.extractor.extract_text_slice"
             ) as mock_extract:
                 mock_extract.return_value = f"text_{i}"
                 extractor._get_node_text_optimized(mock_node_copy)
@@ -327,7 +327,7 @@ class クラス名:
         mock_node.end_point = (len(extractor.content_lines) - 1, 0)
 
         with patch(
-            "tree_sitter_analyzer.languages.python_plugin.extractor.extract_text_slice"
+            "codexray.languages.python_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = unicode_code
             result = extractor._get_node_text_optimized(mock_node)

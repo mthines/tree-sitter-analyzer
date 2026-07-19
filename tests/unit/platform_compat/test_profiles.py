@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from tree_sitter_analyzer.platform_compat.profiles import validate_profile
+from codexray.platform_compat.profiles import validate_profile
 
 
 def _valid_profile_data():

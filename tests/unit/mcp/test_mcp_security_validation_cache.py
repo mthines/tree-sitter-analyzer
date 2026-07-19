@@ -1,9 +1,9 @@
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.base_tool import BaseMCPTool
-from tree_sitter_analyzer.mcp.utils.path_resolver import PathResolver
-from tree_sitter_analyzer.mcp.utils.shared_cache import get_shared_cache
-from tree_sitter_analyzer.security.validator import SecurityValidator
+from codexray.mcp.tools.base_tool import BaseMCPTool
+from codexray.mcp.utils.path_resolver import PathResolver
+from codexray.mcp.utils.shared_cache import get_shared_cache
+from codexray.security.validator import SecurityValidator
 
 
 class _DummyFileTool(BaseMCPTool):

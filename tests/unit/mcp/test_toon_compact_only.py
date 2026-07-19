@@ -16,10 +16,10 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.tools.file_health_tool import FileHealthTool
-from tree_sitter_analyzer.mcp.tools.safe_to_edit_tool import SafeToEditTool
-from tree_sitter_analyzer.mcp.utils.format_helper import (
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.tools.file_health_tool import FileHealthTool
+from codexray.mcp.tools.safe_to_edit_tool import SafeToEditTool
+from codexray.mcp.utils.format_helper import (
     TOON_CONTROL_SURFACE,
     apply_toon_format_to_response,
     reduce_to_control_surface,
@@ -104,9 +104,9 @@ class TestApplyToonCompactOnly:
 # ---------------------------------------------------------------------------
 
 
-def _capture_call_tool_handler(server: TreeSitterAnalyzerMCPServer):
-    with patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True):
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+def _capture_call_tool_handler(server: CodeXrayMCPServer):
+    with patch("codexray.mcp.server.MCP_AVAILABLE", True):
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured: dict = {}
 
@@ -134,7 +134,7 @@ async def test_boundary_compact_only_survives_canonical_envelope(tmp_path) -> No
     success post-hook must NOT re-inflate agent_summary back onto the wire."""
     src = tmp_path / "x.py"
     src.write_text("def f():\n    return 1\n")
-    server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+    server = CodeXrayMCPServer(str(tmp_path))
     handler = _capture_call_tool_handler(server)
 
     compact_res = await handler(
@@ -167,7 +167,7 @@ async def test_boundary_default_unaffected(tmp_path) -> None:
     """Without compact_only the boundary leaves the response shape as-is."""
     src = tmp_path / "y.py"
     src.write_text("def g():\n    return 2\n")
-    server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+    server = CodeXrayMCPServer(str(tmp_path))
     handler = _capture_call_tool_handler(server)
     res = await handler(
         "check_file_health", {"file_path": str(src), "output_format": "toon"}
@@ -186,7 +186,7 @@ async def test_boundary_compact_only_second_tool(tmp_path) -> None:
     (safe_to_edit) to prove it is not file_health-specific."""
     src = tmp_path / "z.py"
     src.write_text("def h():\n    return 3\n")
-    server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+    server = CodeXrayMCPServer(str(tmp_path))
     handler = _capture_call_tool_handler(server)
     res = await handler(
         "safe_to_edit",
@@ -204,7 +204,7 @@ async def test_boundary_compact_only_second_tool(tmp_path) -> None:
 async def test_boundary_compact_only_error_envelope_keeps_hint(tmp_path) -> None:
     """An ERROR response under compact_only must still carry the recovery
     surface (error / error_type / hint) — the sharpest review-nit edge."""
-    server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+    server = CodeXrayMCPServer(str(tmp_path))
     handler = _capture_call_tool_handler(server)
     # change_impact PR mode with a malformed URL returns a success=False,
     # format=toon envelope carrying a ``hint``.
@@ -235,7 +235,7 @@ async def test_boundary_compact_only_legacy_keeps_deprecation(tmp_path) -> None:
     """
     src = tmp_path / "leg.py"
     src.write_text("def m():\n    return 5\n")
-    server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+    server = CodeXrayMCPServer(str(tmp_path))
     handler = _capture_call_tool_handler(server)
     res = await handler(
         "check_file_health",
@@ -256,7 +256,7 @@ async def test_boundary_reduction_is_idempotent(tmp_path) -> None:
     against the execute-level reduction + the boundary reduction disagreeing."""
     src = tmp_path / "i.py"
     src.write_text("def k():\n    return 4\n")
-    server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+    server = CodeXrayMCPServer(str(tmp_path))
     handler = _capture_call_tool_handler(server)
     # execute already compacts (execute-level forwarding); the boundary then
     # re-applies — the two must agree.

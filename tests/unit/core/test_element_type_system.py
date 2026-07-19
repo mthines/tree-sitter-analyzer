@@ -13,8 +13,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli_main import main
-from tree_sitter_analyzer.constants import (
+from codexray.cli_main import main
+from codexray.constants import (
     ELEMENT_TYPE_CLASS,
     ELEMENT_TYPE_FUNCTION,
     ELEMENT_TYPE_IMPORT,

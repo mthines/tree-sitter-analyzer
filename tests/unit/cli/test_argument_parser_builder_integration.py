@@ -3,7 +3,7 @@
 
 import argparse
 
-from tree_sitter_analyzer.cli.argument_parser_builder import (
+from codexray.cli.argument_parser_builder import (
     _add_mcp_analysis_options,
     _add_mcp_change_options,
     _add_mcp_health_options,
@@ -434,7 +434,7 @@ class TestCodeGraphImpactCliParity:
 
     def test_flag_dest_is_codegraph_impact_include_tests(self):
         """--codegraph-impact-include-tests stores to dest codegraph_impact_include_tests."""
-        from tree_sitter_analyzer.cli.argument_parser_builder import (
+        from codexray.cli.argument_parser_builder import (
             create_argument_parser,
         )
 
@@ -445,7 +445,7 @@ class TestCodeGraphImpactCliParity:
 
     def test_flag_can_be_set_true(self):
         """Passing --codegraph-impact-include-tests sets dest to True."""
-        from tree_sitter_analyzer.cli.argument_parser_builder import (
+        from codexray.cli.argument_parser_builder import (
             create_argument_parser,
         )
 
@@ -459,7 +459,7 @@ class TestCodeGraphImpactCliParity:
         """build_tool_args reads codegraph_impact_include_tests=False → include_tests=False."""
         import argparse
 
-        from tree_sitter_analyzer.cli.commands.mcp_commands._specs_extended import (
+        from codexray.cli.commands.mcp_commands._specs_extended import (
             _EXTENDED_SPECS,
         )
 
@@ -484,7 +484,7 @@ class TestCodeGraphImpactCliParity:
         """
         import argparse
 
-        from tree_sitter_analyzer.cli.commands.mcp_commands._specs_extended import (
+        from codexray.cli.commands.mcp_commands._specs_extended import (
             _EXTENDED_SPECS,
         )
 
@@ -505,7 +505,7 @@ class TestCodeGraphPRReviewCliParity:
     def test_build_tool_args_threads_pr_url(self):
         import argparse
 
-        from tree_sitter_analyzer.cli.commands.mcp_commands._specs_extended import (
+        from codexray.cli.commands.mcp_commands._specs_extended import (
             _EXTENDED_SPECS,
         )
 
@@ -541,7 +541,7 @@ class TestEditKindEnumParity:
 
     def test_canonical_edit_kinds_set_is_pinned(self):
         """Lock the canonical set membership exactly so future drift goes red."""
-        from tree_sitter_analyzer.constants import EDIT_KINDS
+        from codexray.constants import EDIT_KINDS
 
         assert set(EDIT_KINDS) == {
             "add_feature",

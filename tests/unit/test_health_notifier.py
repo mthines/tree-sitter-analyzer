@@ -1,7 +1,7 @@
 """RED tests for the Notifier layer.
 
 Target module (does NOT exist yet):
-    tree_sitter_analyzer.health_notifier
+    codexray.health_notifier
 
 Contract under test:
     class Notifier(Protocol):
@@ -49,7 +49,7 @@ pytestmark = pytest.mark.filterwarnings("ignore::DeprecationWarning")
 
 
 def _import_notifier_module():
-    from tree_sitter_analyzer import health_notifier  # noqa: WPS433
+    from codexray import health_notifier  # noqa: WPS433
 
     return health_notifier
 

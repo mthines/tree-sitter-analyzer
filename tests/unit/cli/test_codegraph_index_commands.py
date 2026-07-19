@@ -1,4 +1,4 @@
-"""Tests for tree_sitter_analyzer.cli.commands.codegraph_index_commands.
+"""Tests for codexray.cli.commands.codegraph_index_commands.
 
 Covers payload builders, helpers, and dispatcher error paths via mocking.
 """
@@ -9,7 +9,7 @@ import json
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from tree_sitter_analyzer.cli.commands.codegraph_index_commands import (
+from codexray.cli.commands.codegraph_index_commands import (
     _autoindex_payload,
     _exit_code_for,
     _full_index_payload,
@@ -195,20 +195,20 @@ class TestMetricsPayload:
 # ---------------------------------------------------------------------------
 
 
-_AUTOINDEX_CLS = "tree_sitter_analyzer.mcp.tools.auto_index_tool.CodeGraphAutoIndexTool"
-_FULLINDEX_CLS = "tree_sitter_analyzer.mcp.tools.full_index_tool.CodeGraphFullIndexTool"
+_AUTOINDEX_CLS = "codexray.mcp.tools.auto_index_tool.CodeGraphAutoIndexTool"
+_FULLINDEX_CLS = "codexray.mcp.tools.full_index_tool.CodeGraphFullIndexTool"
 _INCSYNC_CLS = (
-    "tree_sitter_analyzer.mcp.tools.incremental_sync_tool.CodeGraphIncrementalSyncTool"
+    "codexray.mcp.tools.incremental_sync_tool.CodeGraphIncrementalSyncTool"
 )
 _METRICS_CLS = (
-    "tree_sitter_analyzer.mcp.tools.codegraph_metrics_tool.CodeGraphMetricsTool"
+    "codexray.mcp.tools.codegraph_metrics_tool.CodeGraphMetricsTool"
 )
 _KNOWLEDGE_INDEX_CLS = (
-    "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.CodeGraphKnowledgeIndexTool"
+    "codexray.mcp.tools.knowledge_graph_tool.CodeGraphKnowledgeIndexTool"
 )
-_KNOWLEDGE_SERVE = "tree_sitter_analyzer.knowledge_graph.server.serve_knowledge_graph"
+_KNOWLEDGE_SERVE = "codexray.knowledge_graph.server.serve_knowledge_graph"
 _OUTPUT_FMT = (
-    "tree_sitter_analyzer.cli.commands.codegraph_index_commands._output_format"
+    "codexray.cli.commands.codegraph_index_commands._output_format"
 )
 
 
@@ -219,7 +219,7 @@ class TestRunAutoindex:
         errors: list[str] = []
         with patch.dict(
             "sys.modules",
-            {"tree_sitter_analyzer.mcp.tools.auto_index_tool": None},
+            {"codexray.mcp.tools.auto_index_tool": None},
         ):
             code = run_autoindex(args, errors.append)
         assert code == 1

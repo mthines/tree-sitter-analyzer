@@ -3,7 +3,7 @@
 Test coverage helpers and utilities.
 
 This module provides helper functions and fixtures for measuring and
-improving test coverage across the tree-sitter-analyzer codebase.
+improving test coverage across the codexray codebase.
 """
 
 from __future__ import annotations

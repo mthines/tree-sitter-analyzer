@@ -24,7 +24,7 @@ from __future__ import annotations
 import asyncio
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.tools.project_health_tool import ProjectHealthTool
+from codexray.mcp.tools.project_health_tool import ProjectHealthTool
 
 
 def _make_project(tmp_path: Path) -> Path:

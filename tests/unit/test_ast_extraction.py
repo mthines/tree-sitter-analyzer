@@ -1,4 +1,4 @@
-"""Tests for tree_sitter_analyzer._ast_extraction private helpers."""
+"""Tests for codexray._ast_extraction private helpers."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.cache.extraction import (
+from codexray.cache.extraction import (
     _content_hash,
     _count_decision_points,
     _count_nodes,
@@ -318,7 +318,7 @@ class TestWalkForSymbols:
         block), so 26 nested functions need AST depth ~51, which exceeds the old
         cap.  With _WALK_MAX_DEPTH=100 all 26 must be present.
         """
-        from tree_sitter_analyzer.cache.extraction import (
+        from codexray.cache.extraction import (
             Parser,  # type: ignore[attr-defined]
         )
 
@@ -378,7 +378,7 @@ class TestContentHash:
 
 def _walk_c(source: str) -> set[str]:
     """Parse C ``source`` and return the set of recovered function names."""
-    from tree_sitter_analyzer.core.parser import Parser
+    from codexray.core.parser import Parser
 
     result = Parser().parse_code(source, "c")
     assert result.success and result.tree is not None
@@ -409,25 +409,25 @@ class TestCDeclaratorName:
     """Edge cases of the C declarator-name descent helper."""
 
     def test_none_declarator_returns_none(self):
-        from tree_sitter_analyzer.cache.extraction import _c_declarator_name
+        from codexray.cache.extraction import _c_declarator_name
 
         assert _c_declarator_name(None, "", 0) is None
 
     def test_depth_guard_returns_none(self):
-        from tree_sitter_analyzer.cache.extraction import _c_declarator_name
+        from codexray.cache.extraction import _c_declarator_name
 
         # depth past the bound short-circuits even with a real node
         node = SimpleNamespace(type="identifier")
         assert _c_declarator_name(node, "x", 99) is None
 
     def test_unknown_declarator_type_returns_none(self):
-        from tree_sitter_analyzer.cache.extraction import _c_declarator_name
+        from codexray.cache.extraction import _c_declarator_name
 
         node = SimpleNamespace(type="abstract_declarator", children=[])
         assert _c_declarator_name(node, "", 0) is None
 
     def test_parenthesized_without_name_returns_none(self):
-        from tree_sitter_analyzer.cache.extraction import _c_declarator_name
+        from codexray.cache.extraction import _c_declarator_name
 
         # parenthesized_declarator whose children carry no name-bearing node
         paren = SimpleNamespace(
@@ -445,8 +445,8 @@ class TestCDeclaratorName:
 def _symbols_for(source: str, lang: str) -> list[dict]:
     """Parse source and return all symbols from _extract_symbols."""
 
-    from tree_sitter_analyzer.cache.extraction import _extract_symbols
-    from tree_sitter_analyzer.core.parser import Parser
+    from codexray.cache.extraction import _extract_symbols
+    from codexray.core.parser import Parser
 
     result = Parser().parse_code(source, lang)
     if not result.success or result.tree is None:
@@ -1109,14 +1109,14 @@ class TestPhpConstantsGuards:
     """Cover defensive branches unreachable from valid PHP source (codecov)."""
 
     def test_nameless_const_element_skipped(self):
-        from tree_sitter_analyzer.cache.extraction import _php_constants
+        from codexray.cache.extraction import _php_constants
 
         nameless = _PhpStubNode("const_element", children=[])
         decl = _PhpStubNode("const_declaration", children=[nameless])
         assert _php_constants(decl, "") == []
 
     def test_php_helper_name_field_fast_path(self):
-        from tree_sitter_analyzer.languages.php_helpers import (
+        from codexray.languages.php_helpers import (
             _build_php_constant_variable,
         )
 
@@ -1231,7 +1231,7 @@ class TestJsTsLocalVariableContraction:
         # The ast_cache path only ever delivers "javascript"/"typescript" for
         # this family — .tsx (and .jsx -> "javascript") included — so the
         # language gate on those two ids covers every indexed file.
-        from tree_sitter_analyzer.languages.lang_extension_map import EXT_TO_LANG
+        from codexray.languages.lang_extension_map import EXT_TO_LANG
 
         assert EXT_TO_LANG[".tsx"] == "typescript"
         assert EXT_TO_LANG[".jsx"] == "javascript"
@@ -1591,7 +1591,7 @@ class TestHasFts5PragmaSuccess:
 class TestBashSubscriptBase:
     def test_returns_name_field_when_present(self):
         """subscript with ``name`` field → returns it directly."""
-        from tree_sitter_analyzer.cache.extraction import _bash_subscript_base
+        from codexray.cache.extraction import _bash_subscript_base
 
         base_node = SimpleNamespace(type="variable_name")
         subscript = SimpleNamespace(
@@ -1606,7 +1606,7 @@ class TestBashSubscriptBase:
 
     def test_falls_back_to_variable_name_child(self):
         """No ``name`` field → scan children for variable_name."""
-        from tree_sitter_analyzer.cache.extraction import _bash_subscript_base
+        from codexray.cache.extraction import _bash_subscript_base
 
         var_node = SimpleNamespace(type="variable_name")
         other = SimpleNamespace(type="[")
@@ -1618,7 +1618,7 @@ class TestBashSubscriptBase:
 
     def test_falls_back_to_word_child(self):
         """No ``name`` field and no variable_name → scan for word child."""
-        from tree_sitter_analyzer.cache.extraction import _bash_subscript_base
+        from codexray.cache.extraction import _bash_subscript_base
 
         word_node = SimpleNamespace(type="word")
         subscript = MagicMock()
@@ -1629,7 +1629,7 @@ class TestBashSubscriptBase:
 
     def test_returns_none_when_no_matching_child(self):
         """No name field and no matching child type → returns None."""
-        from tree_sitter_analyzer.cache.extraction import _bash_subscript_base
+        from codexray.cache.extraction import _bash_subscript_base
 
         subscript = MagicMock()
         subscript.child_by_field_name.return_value = None
@@ -1646,7 +1646,7 @@ class TestBashSubscriptBase:
 class TestScalaHelpers:
     def test_scala_symbol_from_node_non_scala_type_returns_none(self):
         """Node type not in _SCALA_CLASS_LIKE → None."""
-        from tree_sitter_analyzer.cache.extraction import _scala_symbol_from_node
+        from codexray.cache.extraction import _scala_symbol_from_node
 
         node = MagicMock()
         node.type = "some_unknown_type"
@@ -1654,7 +1654,7 @@ class TestScalaHelpers:
 
     def test_scala_symbol_from_node_enum_definition(self):
         """enum_definition produces kind='enum'."""
-        from tree_sitter_analyzer.cache.extraction import _scala_symbol_from_node
+        from codexray.cache.extraction import _scala_symbol_from_node
 
         name_node = MagicMock()
         name_node.text = b"Color"
@@ -1672,7 +1672,7 @@ class TestScalaHelpers:
 
     def test_scala_symbol_from_node_object_definition(self):
         """object_definition produces kind='class'."""
-        from tree_sitter_analyzer.cache.extraction import _scala_symbol_from_node
+        from codexray.cache.extraction import _scala_symbol_from_node
 
         name_node = MagicMock()
         name_node.text = b"MyObject"
@@ -1690,7 +1690,7 @@ class TestScalaHelpers:
 
     def test_scala_symbol_from_node_empty_name_returns_none(self):
         """If name resolution returns empty string → None."""
-        from tree_sitter_analyzer.cache.extraction import _scala_symbol_from_node
+        from codexray.cache.extraction import _scala_symbol_from_node
 
         # name field returns a node with empty text, no children with identifier
         empty_name = MagicMock()
@@ -1709,7 +1709,7 @@ class TestScalaHelpers:
 
     def test_scala_symbol_name_fallback_to_identifier_child(self):
         """No name field → scan children for identifier."""
-        from tree_sitter_analyzer.cache.extraction import _scala_symbol_name
+        from codexray.cache.extraction import _scala_symbol_name
 
         ident_child = MagicMock()
         ident_child.type = "identifier"
@@ -1730,7 +1730,7 @@ class TestScalaHelpers:
         'type_identifier' children; a 'generic_type' child doesn't match, so the
         function falls through to the given_definition branch.
         """
-        from tree_sitter_analyzer.cache.extraction import _scala_symbol_name
+        from codexray.cache.extraction import _scala_symbol_name
 
         generic_child = MagicMock()
         generic_child.type = "generic_type"
@@ -1747,7 +1747,7 @@ class TestScalaHelpers:
 
     def test_scala_symbol_name_given_definition_anonymous(self):
         """given_definition with no matching type child → anonymous name with line."""
-        from tree_sitter_analyzer.cache.extraction import _scala_symbol_name
+        from codexray.cache.extraction import _scala_symbol_name
 
         # Use a child type that matches neither identifier/type_identifier
         # (for the loop) nor any of the _scala_given_type_text types.
@@ -1765,7 +1765,7 @@ class TestScalaHelpers:
 
     def test_scala_given_type_text_returns_generic_type(self):
         """_scala_given_type_text returns text of generic_type child."""
-        from tree_sitter_analyzer.cache.extraction import _scala_given_type_text
+        from codexray.cache.extraction import _scala_given_type_text
 
         child = MagicMock()
         child.type = "generic_type"
@@ -1779,7 +1779,7 @@ class TestScalaHelpers:
 
     def test_scala_given_type_text_returns_none_when_no_match(self):
         """No matching child type → None."""
-        from tree_sitter_analyzer.cache.extraction import _scala_given_type_text
+        from codexray.cache.extraction import _scala_given_type_text
 
         child = MagicMock()
         child.type = "some_other_type"
@@ -1799,8 +1799,8 @@ class TestScalaHelpers:
 class TestPythonDocstring:
     def test_concatenated_string_docstring(self):
         """Adjacent string literals folded into concatenated_string are extracted."""
-        from tree_sitter_analyzer.cache.extraction import _python_docstring
-        from tree_sitter_analyzer.core.parser import Parser
+        from codexray.cache.extraction import _python_docstring
+        from codexray.core.parser import Parser
 
         src = 'def f():\n    ("hello "\n     "world")\n    pass\n'
         result = Parser().parse_code(src, "python")
@@ -1812,7 +1812,7 @@ class TestPythonDocstring:
 
     def test_no_body_returns_none(self):
         """Node with no body field → None."""
-        from tree_sitter_analyzer.cache.extraction import _python_docstring
+        from codexray.cache.extraction import _python_docstring
 
         node = MagicMock()
         node.child_by_field_name.return_value = None
@@ -1820,7 +1820,7 @@ class TestPythonDocstring:
 
     def test_body_no_named_children_returns_none(self):
         """Node with empty body → None."""
-        from tree_sitter_analyzer.cache.extraction import _python_docstring
+        from codexray.cache.extraction import _python_docstring
 
         body = MagicMock()
         body.named_children = []
@@ -1830,7 +1830,7 @@ class TestPythonDocstring:
 
     def test_non_expression_statement_first_child_returns_none(self):
         """First body child is not expression_statement → None."""
-        from tree_sitter_analyzer.cache.extraction import _python_docstring
+        from codexray.cache.extraction import _python_docstring
 
         first = MagicMock()
         first.type = "return_statement"
@@ -1845,8 +1845,8 @@ class TestPythonDocstring:
 
     def test_real_python_function_docstring_extracted(self):
         """A real Python function with a string docstring returns the text."""
-        from tree_sitter_analyzer.cache.extraction import _python_docstring
-        from tree_sitter_analyzer.core.parser import Parser
+        from codexray.cache.extraction import _python_docstring
+        from codexray.core.parser import Parser
 
         src = 'def greet():\n    """Say hello."""\n    return "hi"\n'
         result = Parser().parse_code(src, "python")
@@ -1864,8 +1864,8 @@ class TestPythonDocstring:
 class TestExtractCallEdgesReal:
     def test_call_edges_python_simple_caller(self):
         """A function that calls another produces a non-empty edge list."""
-        from tree_sitter_analyzer.cache.extraction import _extract_symbols
-        from tree_sitter_analyzer.core.parser import Parser
+        from codexray.cache.extraction import _extract_symbols
+        from codexray.core.parser import Parser
 
         src = "def helper():\n    pass\n\ndef main():\n    helper()\n"
         result = Parser().parse_code(src, "python")
@@ -1878,8 +1878,8 @@ class TestExtractCallEdgesReal:
 
     def test_call_edges_caller_attribution(self):
         """The call inside main() is attributed to main."""
-        from tree_sitter_analyzer.cache.extraction import _extract_symbols
-        from tree_sitter_analyzer.core.parser import Parser
+        from codexray.cache.extraction import _extract_symbols
+        from codexray.core.parser import Parser
 
         src = "def helper():\n    pass\n\ndef main():\n    helper()\n"
         result = Parser().parse_code(src, "python")

@@ -5,7 +5,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.legacy_table_formatter import (
+from codexray.legacy_table_formatter import (
     LegacyTableFormatter,
 )
 

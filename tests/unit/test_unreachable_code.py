@@ -10,7 +10,7 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from tree_sitter_analyzer.unreachable_code import (
+from codexray.unreachable_code import (
     UnreachableBlock,
     UnreachableCodeResult,
     _is_false_literal,

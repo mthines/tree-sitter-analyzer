@@ -23,8 +23,8 @@ from __future__ import annotations
 # Import the decoder — this will fail with ImportError until the decoder
 # module is created.  The test is intentionally RED at that point.
 # ---------------------------------------------------------------------------
-from tree_sitter_analyzer.formatters.toon_decoder import decode_toon
-from tree_sitter_analyzer.formatters.toon_encoder import ToonEncoder
+from codexray.formatters.toon_decoder import decode_toon
+from codexray.formatters.toon_encoder import ToonEncoder
 
 # ===========================================================================
 # Section 1 — Encoder conformance: scalar-ambiguous strings must be quoted

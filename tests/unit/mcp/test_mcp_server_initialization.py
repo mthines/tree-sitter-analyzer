@@ -14,9 +14,9 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from tree_sitter_analyzer.mcp import MCP_INFO
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.utils.error_handler import (
+from codexray.mcp import MCP_INFO
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.utils.error_handler import (
     ErrorCategory,
     ErrorSeverity,
     MCPError,
@@ -29,7 +29,7 @@ class TestMCPServerInitialization:
     def test_server_initialization_state(self):
         """Test that server properly tracks initialization state."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Server should be initialized after construction
             assert server.is_initialized() is True
@@ -37,12 +37,12 @@ class TestMCPServerInitialization:
 
     def test_server_initialization_logging(self, caplog):
         """Test that initialization produces proper log messages."""
-        # Set log level to INFO for tree_sitter_analyzer logger
-        caplog.set_level(logging.INFO, logger="tree_sitter_analyzer")
-        caplog.set_level(logging.INFO, logger="tree_sitter_analyzer.mcp.server")
+        # Set log level to INFO for codexray logger
+        caplog.set_level(logging.INFO, logger="codexray")
+        caplog.set_level(logging.INFO, logger="codexray.mcp.server")
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            TreeSitterAnalyzerMCPServer(temp_dir)
+            CodeXrayMCPServer(temp_dir)
 
             # Check for initialization log messages
             assert "Starting MCP server initialization..." in caplog.text
@@ -51,7 +51,7 @@ class TestMCPServerInitialization:
     def test_ensure_initialized_when_ready(self):
         """Test _ensure_initialized when server is ready."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Should not raise any exception
             server._ensure_initialized()
@@ -59,7 +59,7 @@ class TestMCPServerInitialization:
     def test_ensure_initialized_when_not_ready(self):
         """Test _ensure_initialized when server is not ready."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Manually set initialization to false to simulate uninitialized state
             server._initialization_complete = False
@@ -72,7 +72,7 @@ class TestMCPServerInitialization:
     async def test_analyze_code_scale_with_initialization_check(self):
         """Test that analyze_code_scale checks initialization."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Mock the universal_analyze_tool to avoid actual analysis
             server.universal_analyze_tool = Mock()
@@ -91,7 +91,7 @@ class TestMCPServerInitialization:
     async def test_analyze_code_scale_fails_when_not_initialized(self):
         """Test that analyze_code_scale fails when not initialized."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Set server as not initialized
             server._initialization_complete = False
@@ -103,17 +103,17 @@ class TestMCPServerInitialization:
     def test_server_metadata_after_initialization(self):
         """Test that server metadata is properly set after initialization."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Check metadata
-            assert server.name == "tree-sitter-analyzer-mcp"
+            assert server.name == "codexray-mcp"
             assert isinstance(server.version, str)
             assert server.version.startswith(MCP_INFO["version"])
 
     def test_components_initialized_properly(self):
         """Test that all server components are initialized."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Check that all components are initialized
             assert callable(server.analysis_engine.analyze_file)
@@ -140,7 +140,7 @@ class TestMCPServerInitialization:
     async def test_server_run_method_exists(self):
         """Test that server has a run method."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Check that run method exists and is callable
             assert hasattr(server, "run")
@@ -148,7 +148,7 @@ class TestMCPServerInitialization:
 
     def test_initialization_with_none_project_root(self):
         """Test initialization with None project root."""
-        server = TreeSitterAnalyzerMCPServer(None)
+        server = CodeXrayMCPServer(None)
 
         # Should still initialize successfully
         assert server.is_initialized() is True
@@ -161,7 +161,7 @@ class TestMCPServerInitialization:
 
         # SecurityValidator catches the SecurityError and sets boundary_manager to None
         # So the server should initialize successfully but with limited security validation
-        server = TreeSitterAnalyzerMCPServer(invalid_path)
+        server = CodeXrayMCPServer(invalid_path)
 
         # Server should still initialize successfully
         assert server.is_initialized() is True
@@ -177,7 +177,7 @@ class TestMCPServerErrorHandling:
     @pytest.mark.asyncio
     async def test_initialization_error_handling_in_decorator(self):
         """Test that the error handling decorator properly handles initialization errors."""
-        from tree_sitter_analyzer.mcp.utils.error_handler import handle_mcp_errors
+        from codexray.mcp.utils.error_handler import handle_mcp_errors
 
         # Create a mock function that raises initialization error
         @handle_mcp_errors("test_operation")
@@ -197,7 +197,7 @@ class TestMCPServerErrorHandling:
     @pytest.mark.asyncio
     async def test_other_runtime_errors_not_converted(self):
         """Test that other RuntimeErrors are not converted to initialization errors."""
-        from tree_sitter_analyzer.mcp.utils.error_handler import handle_mcp_errors
+        from codexray.mcp.utils.error_handler import handle_mcp_errors
 
         # Create a mock function that raises different runtime error
         @handle_mcp_errors("test_operation")
@@ -220,7 +220,7 @@ class TestMCPServerIntegration:
             with open(test_file, "w") as f:
                 f.write("def hello(): pass")
 
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Server should be ready
             assert server.is_initialized()
@@ -240,7 +240,7 @@ class TestMCPServerIntegration:
     async def test_server_handles_concurrent_initialization_checks(self):
         """Test that server handles concurrent initialization checks properly."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            server = TreeSitterAnalyzerMCPServer(temp_dir)
+            server = CodeXrayMCPServer(temp_dir)
 
             # Run multiple concurrent initialization checks
             tasks = [

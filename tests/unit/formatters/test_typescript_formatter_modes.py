@@ -8,7 +8,7 @@ format_table, format_summary, format_advanced, and JSON formatting.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.typescript_formatter import (
+from codexray.formatters.typescript_formatter import (
     TypeScriptTableFormatter,
 )
 

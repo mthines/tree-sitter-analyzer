@@ -8,7 +8,7 @@ for faster review and safer local refactoring.
 import argparse
 from unittest.mock import Mock, patch
 
-from tree_sitter_analyzer.cli_main import handle_special_commands
+from codexray.cli_main import handle_special_commands
 
 
 class TestHandleSpecialCommandsProfileMixin:
@@ -53,8 +53,8 @@ class TestHandleSpecialCommandsProfileMixin:
 
     # --- show_common_queries ---
 
-    @patch("tree_sitter_analyzer.cli_main.query_loader.get_common_queries")
-    @patch("tree_sitter_analyzer.cli_main.output_list")
+    @patch("codexray.cli_main.query_loader.get_common_queries")
+    @patch("codexray.cli_main.output_list")
     def test_show_common_queries_with_results(self, mock_output_list, mock_get_common):
         """show_common_queries lists common queries when available."""
         mock_get_common.return_value = ["class", "method"]
@@ -75,8 +75,8 @@ class TestHandleSpecialCommandsProfileMixin:
         mock_get_common.assert_called_once()
         assert mock_output_list.call_count >= 2  # ratchet: nondeterministic
 
-    @patch("tree_sitter_analyzer.cli_main.query_loader.get_common_queries")
-    @patch("tree_sitter_analyzer.cli_main.output_info")
+    @patch("codexray.cli_main.query_loader.get_common_queries")
+    @patch("codexray.cli_main.output_info")
     def test_show_common_queries_empty(self, mock_output_info, mock_get_common):
         """show_common_queries shows info when no common queries."""
         mock_get_common.return_value = []
@@ -98,9 +98,9 @@ class TestHandleSpecialCommandsProfileMixin:
 
     # --- sql_platform_info ---
 
-    @patch("tree_sitter_analyzer.platform_compat.detector.PlatformDetector")
-    @patch("tree_sitter_analyzer.platform_compat.profiles.BehaviorProfile")
-    @patch("tree_sitter_analyzer.cli_main.output_list")
+    @patch("codexray.platform_compat.detector.PlatformDetector")
+    @patch("codexray.platform_compat.profiles.BehaviorProfile")
+    @patch("codexray.cli_main.output_list")
     def test_sql_platform_info_with_profile(
         self, mock_output_list, mock_profile_cls, mock_detector
     ):
@@ -135,9 +135,9 @@ class TestHandleSpecialCommandsProfileMixin:
         mock_profile_cls.load.assert_called_once_with("macos-14-arm64")
         assert mock_output_list.call_count >= 2  # ratchet: nondeterministic
 
-    @patch("tree_sitter_analyzer.platform_compat.detector.PlatformDetector")
-    @patch("tree_sitter_analyzer.platform_compat.profiles.BehaviorProfile")
-    @patch("tree_sitter_analyzer.cli_main.output_list")
+    @patch("codexray.platform_compat.detector.PlatformDetector")
+    @patch("codexray.platform_compat.profiles.BehaviorProfile")
+    @patch("codexray.cli_main.output_list")
     def test_sql_platform_info_no_profile(
         self, mock_output_list, mock_profile_cls, mock_detector
     ):
@@ -174,9 +174,9 @@ class TestHandleSpecialCommandsProfileMixin:
 
     # --- record_sql_profile ---
 
-    @patch("tree_sitter_analyzer.platform_compat.recorder.BehaviorRecorder")
-    @patch("tree_sitter_analyzer.cli_main.output_info")
-    @patch("tree_sitter_analyzer.cli.commands.sql_platform_helpers.pathlib.Path")
+    @patch("codexray.platform_compat.recorder.BehaviorRecorder")
+    @patch("codexray.cli_main.output_info")
+    @patch("codexray.cli.commands.sql_platform_helpers.pathlib.Path")
     def test_record_sql_profile_success(
         self, mock_path_cls, mock_output_info, mock_recorder_cls
     ):
@@ -206,9 +206,9 @@ class TestHandleSpecialCommandsProfileMixin:
         mock_recorder.record_all.assert_called_once()
         mock_profile.save.assert_called_once_with(mock_output_dir)
 
-    @patch("tree_sitter_analyzer.platform_compat.recorder.BehaviorRecorder")
-    @patch("tree_sitter_analyzer.cli_main.output_error")
-    @patch("tree_sitter_analyzer.cli_main.output_info")
+    @patch("codexray.platform_compat.recorder.BehaviorRecorder")
+    @patch("codexray.cli_main.output_error")
+    @patch("codexray.cli_main.output_info")
     def test_record_sql_profile_failure(
         self, mock_output_info, mock_output_error, mock_recorder_cls
     ):
@@ -232,8 +232,8 @@ class TestHandleSpecialCommandsProfileMixin:
 
     # --- compare_sql_profiles ---
 
-    @patch("tree_sitter_analyzer.cli.commands.sql_platform_helpers.pathlib.Path")
-    @patch("tree_sitter_analyzer.cli_main.output_error")
+    @patch("codexray.cli.commands.sql_platform_helpers.pathlib.Path")
+    @patch("codexray.cli_main.output_error")
     def test_compare_sql_profiles_missing_first(self, mock_output_error, mock_path_cls):
         """compare_sql_profiles when first profile doesn't exist."""
         mock_p1 = Mock()
@@ -257,8 +257,8 @@ class TestHandleSpecialCommandsProfileMixin:
         assert result == 1
         mock_output_error.assert_called_once()
 
-    @patch("tree_sitter_analyzer.cli.commands.sql_platform_helpers.pathlib.Path")
-    @patch("tree_sitter_analyzer.cli_main.output_error")
+    @patch("codexray.cli.commands.sql_platform_helpers.pathlib.Path")
+    @patch("codexray.cli_main.output_error")
     def test_compare_sql_profiles_missing_second(
         self, mock_output_error, mock_path_cls
     ):
@@ -284,9 +284,9 @@ class TestHandleSpecialCommandsProfileMixin:
         assert result == 1
         mock_output_error.assert_called_once()
 
-    @patch("tree_sitter_analyzer.cli.commands.sql_platform_helpers.pathlib.Path")
-    @patch("tree_sitter_analyzer.platform_compat.compare.compare_profiles")
-    @patch("tree_sitter_analyzer.platform_compat.compare.generate_diff_report")
+    @patch("codexray.cli.commands.sql_platform_helpers.pathlib.Path")
+    @patch("codexray.platform_compat.compare.compare_profiles")
+    @patch("codexray.platform_compat.compare.generate_diff_report")
     @patch("builtins.print")
     def test_compare_sql_profiles_success(
         self, mock_print, mock_generate_diff, mock_compare, mock_path_cls
@@ -343,8 +343,8 @@ class TestHandleSpecialCommandsProfileMixin:
             mock_generate_diff.assert_called_once_with(mock_comparison)
             mock_print.assert_called_once_with("Diff report content")
 
-    @patch("tree_sitter_analyzer.cli.commands.sql_platform_helpers.pathlib.Path")
-    @patch("tree_sitter_analyzer.cli_main.output_error")
+    @patch("codexray.cli.commands.sql_platform_helpers.pathlib.Path")
+    @patch("codexray.cli_main.output_error")
     def test_compare_sql_profiles_error(self, mock_output_error, mock_path_cls):
         """compare_sql_profiles when comparison raises."""
         mock_p1 = Mock()

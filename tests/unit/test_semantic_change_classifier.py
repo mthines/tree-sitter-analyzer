@@ -1,13 +1,13 @@
 """Tests for Semantic Change Classifier."""
 
-from tree_sitter_analyzer.ast_diff import (
+from codexray.ast_diff import (
     ASTDiffHunk,
     ASTDiffResult,
     ASTNodeInfo,
     ASTNodeKind,
     DiffKind,
 )
-from tree_sitter_analyzer.semantic_change_classifier import (
+from codexray.semantic_change_classifier import (
     ClassifiedHunk,
     SemanticCategory,
     SemanticChangeClassifier,

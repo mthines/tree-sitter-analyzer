@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.core._query_execution import (
+from codexray.core._query_execution import (
     _execute_query_string,
     _input_error,
     _language_name_from_object,
@@ -16,7 +16,7 @@ from tree_sitter_analyzer.core._query_execution import (
     execute_query_by_name,
     execute_raw_query_string,
 )
-from tree_sitter_analyzer.core._query_results import (
+from codexray.core._query_results import (
     _unpack_capture,
     create_error_result,
     create_result_dict,

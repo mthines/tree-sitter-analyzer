@@ -1,8 +1,8 @@
 import tempfile
 from pathlib import Path
 
-from tree_sitter_analyzer.platform_compat.fixtures import ALL_FIXTURES
-from tree_sitter_analyzer.platform_compat.recorder import BehaviorRecorder
+from codexray.platform_compat.fixtures import ALL_FIXTURES
+from codexray.platform_compat.recorder import BehaviorRecorder
 
 
 class TestRecorderProperties:

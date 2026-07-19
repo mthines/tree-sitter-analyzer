@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.hyphae.evaluator import Evaluator
-from tree_sitter_analyzer.hyphae.parser import HyphaeSyntaxError, parse
+from codexray.hyphae.evaluator import Evaluator
+from codexray.hyphae.parser import HyphaeSyntaxError, parse
 
 
 class FakeCache:

@@ -5,8 +5,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.call_graph import FunctionRef
-from tree_sitter_analyzer.mcp.tools.codegraph_overview_tool import (
+from codexray.call_graph import FunctionRef
+from codexray.mcp.tools.codegraph_overview_tool import (
     CodeGraphOverviewTool,
     _compute_depth_distribution,
     _compute_module_coupling,

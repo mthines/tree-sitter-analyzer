@@ -7,14 +7,14 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.dependency_analysis_tool import (
+from codexray.mcp.tools.dependency_analysis_tool import (
     DependencyAnalysisTool,
     _blast_recommendation,
     _cycles,
     _file_deps,
     _summary,
 )
-from tree_sitter_analyzer.project_graph import DependencyGraph
+from codexray.project_graph import DependencyGraph
 
 
 def _run(coro):

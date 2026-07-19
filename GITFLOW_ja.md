@@ -1,6 +1,6 @@
 # GitFlow ブランチ戦略 (日本語説明)
 
-本ドキュメントでは、`tree-sitter-analyzer` プロジェクトで実装されている GitFlow ブランチ戦略を Mermaid 図表と日本語で説明します。
+本ドキュメントでは、`codexray` プロジェクトで実装されている GitFlow ブランチ戦略を Mermaid 図表と日本語で説明します。
 
 ## GitFlow フロー図
 
@@ -112,7 +112,7 @@ gitGraph
     # 自動化ワークフローの PyPI リリース完了を待機
     # GitHub Actions ページでリリース状況を監視可能
     # PyPI パッケージが正常にリリースされたかを検証：
-    # pip install tree-sitter-analyzer==1.0.0 --dry-run
+    # pip install codexray==1.0.0 --dry-run
     ```
 5.  **PyPI リリース成功後、`main` と `develop` にマージ**:
     ```bash
@@ -181,7 +181,7 @@ gitGraph
 
     # 現在のテスト数とカバレッジ統計を取得：
     # テスト数: uv run python -m pytest --collect-only -q | findstr /C:"collected"
-    # カバレッジ: uv run python -m pytest --cov=tree_sitter_analyzer --cov-report=term-missing --cov-report=json -x -q | findstr "TOTAL"
+    # カバレッジ: uv run python -m pytest --cov=codexray --cov-report=term-missing --cov-report=json -x -q | findstr "TOTAL"
 
     # ドキュメントを更新：
     # - CHANGELOG.md にホットフィックス詳細を追加
@@ -203,7 +203,7 @@ gitGraph
     # 自動化ワークフローの PyPI リリース完了を待機
     # GitHub Actions ページでリリース状況を監視可能
     # PyPI パッケージが正常にリリースされたかを検証：
-    # pip install tree-sitter-analyzer==1.0.1 --dry-run
+    # pip install codexray==1.0.1 --dry-run
     ```
 6.  **PyPI リリース成功後、`main` と `develop` にマージ**:
     ```bash
@@ -260,7 +260,7 @@ gitGraph
 
 ## 自動化ワークフロー (Authority CI/CD Pipeline)
 
-`tree-sitter-analyzer` プロジェクトは、エンタープライズグレードの CI/CD パイプラインを実装しています。私たちの「Authority Pipeline」は、モジュール化された再利用可能なコンポーネントに基づいて構築されており、すべてのリリースが最高水準の品質、セキュリティ、パフォーマンスを満たすことを保証します。
+`codexray` プロジェクトは、エンタープライズグレードの CI/CD パイプラインを実装しています。私たちの「Authority Pipeline」は、モジュール化された再利用可能なコンポーネントに基づいて構築されており、すべてのリリースが最高水準の品質、セキュリティ、パフォーマンスを満たすことを保証します。
 
 ### 🏗️ パイプラインアーキテクチャ
 - **モジュール設計**: すべてのコアロジックは `reusable-*.yml` ワークフローにカプセル化され、一貫性を確保しています。

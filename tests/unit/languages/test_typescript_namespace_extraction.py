@@ -13,7 +13,7 @@ from __future__ import annotations
 import tree_sitter
 from tree_sitter_typescript import language_typescript
 
-from tree_sitter_analyzer.languages.typescript_plugin.extractor import (
+from codexray.languages.typescript_plugin.extractor import (
     TypeScriptElementExtractor,
 )
 
@@ -109,7 +109,7 @@ def test_nameless_namespace_node_returns_none() -> None:
     """A namespace node with no name child must be skipped, not crash."""
     from unittest.mock import Mock
 
-    from tree_sitter_analyzer.languages.typescript_plugin._class import (
+    from codexray.languages.typescript_plugin._class import (
         extract_namespace,
     )
 
@@ -127,7 +127,7 @@ def test_namespace_extractor_exception_returns_none() -> None:
     """An exploding node must be caught and yield None (error path)."""
     from unittest.mock import Mock
 
-    from tree_sitter_analyzer.languages.typescript_plugin._class import (
+    from codexray.languages.typescript_plugin._class import (
         extract_namespace,
     )
 

@@ -19,7 +19,7 @@ from tests.unit.cli._test_cli_main_module_parser_mixin import (
 from tests.unit.cli._test_cli_main_module_test_mixin import (
     TestCLICommandFactoryTestMixin,
 )
-from tree_sitter_analyzer.cli_main import (
+from codexray.cli_main import (
     CLICommandFactory,
     create_argument_parser,
     handle_special_commands,
@@ -44,7 +44,7 @@ class TestCreateArgumentParser(TestCreateArgumentParserMixin):
 class TestHandleSpecialCommandsBranchCoverage:
     """Tests for handle_special_commands function."""
 
-    @patch("tree_sitter_analyzer.cli_main.output_list")
+    @patch("codexray.cli_main.output_list")
     def test_handle_show_query_languages(self, mock_output_list):
         """Test handling --show-query-languages."""
         args = argparse.Namespace(
@@ -61,7 +61,7 @@ class TestHandleSpecialCommandsBranchCoverage:
         assert result == 0
         mock_output_list.assert_called()
 
-    @patch("tree_sitter_analyzer.output_manager.output_json")
+    @patch("codexray.output_manager.output_json")
     def test_handle_agent_skills_outputs_inventory(self, mock_output_json, tmp_path):
         """Agent skills returns project-local skill metadata and gaps."""
         skill_dir = tmp_path / ".agents" / "skills" / "demo"
@@ -95,7 +95,7 @@ class TestHandleSpecialCommandsBranchCoverage:
         assert payload["skills"][0]["name"] == "demo"
         assert payload["skills"][0]["acceptance_criteria_present"] is True
 
-    @patch("tree_sitter_analyzer.output_manager.output_json")
+    @patch("codexray.output_manager.output_json")
     def test_handle_agent_workflow_outputs_pack(self, mock_output_json, tmp_path):
         """Agent workflow returns a structured SMART command pack."""
         target = tmp_path / "target.py"
@@ -115,14 +115,14 @@ class TestHandleSpecialCommandsBranchCoverage:
         assert payload["workflow"] == "SMART agent workflow pack"
         assert payload["target_path"] == "target.py"
         assert payload["agent_summary"]["next_step"].startswith(
-            "uv run tree-sitter-analyzer safe-to-edit target.py"
+            "uv run codexray safe-to-edit target.py"
         )
         assert payload["agent_summary"]["queue_ledger_command"] == (
-            "uv run tree-sitter-analyzer change-impact "
+            "uv run codexray change-impact "
             "--change-impact-scope target.py --agent-summary-only --format json"
         )
 
-    @patch("tree_sitter_analyzer.cli_main.output_list")
+    @patch("codexray.cli_main.output_list")
     def test_handle_show_common_queries(self, mock_output_list):
         """Test handling --show-common-queries."""
         args = argparse.Namespace(
@@ -153,7 +153,7 @@ class TestHandleSpecialCommandsBranchCoverage:
             "BehaviorRecorder is imported inside handle_special_commands function"
         )
 
-    @patch("tree_sitter_analyzer.cli_main.output_error")
+    @patch("codexray.cli_main.output_error")
     def test_handle_partial_read_missing_start_line(self, mock_output_error):
         """Test handling partial read without --start-line."""
         args = argparse.Namespace(
@@ -167,7 +167,7 @@ class TestHandleSpecialCommandsBranchCoverage:
         assert result == 1
         mock_output_error.assert_called()
 
-    @patch("tree_sitter_analyzer.cli_main.output_error")
+    @patch("codexray.cli_main.output_error")
     def test_handle_partial_read_invalid_start_line(self, mock_output_error):
         """Test handling partial read with invalid --start-line."""
         args = argparse.Namespace(
@@ -181,7 +181,7 @@ class TestHandleSpecialCommandsBranchCoverage:
         assert result == 1
         mock_output_error.assert_called()
 
-    @patch("tree_sitter_analyzer.cli_main.output_error")
+    @patch("codexray.cli_main.output_error")
     def test_handle_partial_read_invalid_end_line(self, mock_output_error):
         """Test handling partial read with invalid --end-line."""
         args = argparse.Namespace(
@@ -195,7 +195,7 @@ class TestHandleSpecialCommandsBranchCoverage:
         assert result == 1
         mock_output_error.assert_called()
 
-    @patch("tree_sitter_analyzer.cli_main.output_error")
+    @patch("codexray.cli_main.output_error")
     def test_handle_partial_read_invalid_start_column(self, mock_output_error):
         """Test handling partial read with invalid --start-column."""
         args = argparse.Namespace(
@@ -209,7 +209,7 @@ class TestHandleSpecialCommandsBranchCoverage:
         assert result == 1
         mock_output_error.assert_called()
 
-    @patch("tree_sitter_analyzer.cli_main.output_error")
+    @patch("codexray.cli_main.output_error")
     def test_handle_partial_read_invalid_end_column(self, mock_output_error):
         """Test handling partial read with invalid --end-column."""
         args = argparse.Namespace(
@@ -223,7 +223,7 @@ class TestHandleSpecialCommandsBranchCoverage:
         assert result == 1
         mock_output_error.assert_called()
 
-    @patch("tree_sitter_analyzer.output_manager.output_json")
+    @patch("codexray.output_manager.output_json")
     def test_handle_metrics_only_no_file_paths(self, mock_output_json):
         """Test handling --metrics-only without --file-paths or --files-from.
 
@@ -273,9 +273,9 @@ class TestMainFunction:
         # which exits before setting LOG_LEVEL environment variable
         pytest.skip("Complex mocking required for main() function")
 
-    @patch("tree_sitter_analyzer.cli_main.create_argument_parser")
-    @patch("tree_sitter_analyzer.cli_main.handle_special_commands")
-    @patch("tree_sitter_analyzer.cli_main.sys.exit")
+    @patch("codexray.cli_main.create_argument_parser")
+    @patch("codexray.cli_main.handle_special_commands")
+    @patch("codexray.cli_main.sys.exit")
     def test_main_format_alias(self, mock_exit, mock_handle_special, mock_parser):
         """Test that --format is aliased to --output-format."""
         args = argparse.Namespace(
@@ -304,10 +304,10 @@ class TestMainFunction:
 
         assert args.output_format == "toon"
 
-    @patch("tree_sitter_analyzer.cli_main.create_argument_parser")
-    @patch("tree_sitter_analyzer.cli_main.handle_special_commands")
-    @patch("tree_sitter_analyzer.cli_main.CLICommandFactory")
-    @patch("tree_sitter_analyzer.cli_main.sys.exit")
+    @patch("codexray.cli_main.create_argument_parser")
+    @patch("codexray.cli_main.handle_special_commands")
+    @patch("codexray.cli_main.CLICommandFactory")
+    @patch("codexray.cli_main.sys.exit")
     def test_main_creates_command(
         self, mock_exit, mock_factory, mock_handle_special, mock_parser
     ):
@@ -341,10 +341,10 @@ class TestMainFunction:
         mock_factory.create_command.assert_called_once_with(args)
         mock_command.execute.assert_called_once()
 
-    @patch("tree_sitter_analyzer.cli_main.create_argument_parser")
-    @patch("tree_sitter_analyzer.cli_main.handle_special_commands")
-    @patch("tree_sitter_analyzer.cli_main.CLICommandFactory")
-    @patch("tree_sitter_analyzer.cli_main.sys.exit")
+    @patch("codexray.cli_main.create_argument_parser")
+    @patch("codexray.cli_main.handle_special_commands")
+    @patch("codexray.cli_main.CLICommandFactory")
+    @patch("codexray.cli_main.sys.exit")
     def test_main_no_command_no_file_path(
         self, mock_exit, mock_factory, mock_handle_special, mock_parser
     ):
@@ -374,14 +374,14 @@ class TestMainFunction:
 
         mock_exit.assert_called_once_with(1)
 
-    @patch("tree_sitter_analyzer.cli_main.create_argument_parser")
-    @patch("tree_sitter_analyzer.cli_main.output_error")
-    @patch("tree_sitter_analyzer.cli_main.sys.exit")
+    @patch("codexray.cli_main.create_argument_parser")
+    @patch("codexray.cli_main.output_error")
+    @patch("codexray.cli_main.sys.exit")
     def test_main_keyboard_interrupt(self, mock_exit, mock_output_error, mock_parser):
         """Test that main handles KeyboardInterrupt."""
         mock_parser.return_value.parse_args.side_effect = KeyboardInterrupt()
 
-        with patch("tree_sitter_analyzer.cli_main.output_info"):
+        with patch("codexray.cli_main.output_info"):
             try:
                 main()
             except KeyboardInterrupt:
@@ -443,9 +443,9 @@ class TestSpecialCommandsIntegration:
 class TestLoggingConfiguration:
     """Tests for logging configuration."""
 
-    @patch("tree_sitter_analyzer.cli_main.create_argument_parser")
-    @patch("tree_sitter_analyzer.cli_main.handle_special_commands")
-    @patch("tree_sitter_analyzer.cli_main.sys.exit")
+    @patch("codexray.cli_main.create_argument_parser")
+    @patch("codexray.cli_main.handle_special_commands")
+    @patch("codexray.cli_main.sys.exit")
     def test_logging_configured_to_error(
         self, mock_exit, mock_handle_special, mock_parser
     ):
@@ -473,7 +473,7 @@ class TestLoggingConfiguration:
         import logging
 
         with patch(
-            "tree_sitter_analyzer.cli_main.logging.getLogger"
+            "codexray.cli_main.logging.getLogger"
         ) as mock_get_logger:
             main()
 
@@ -484,9 +484,9 @@ class TestLoggingConfiguration:
             # calls contains tuples like (logging.ERROR,), so check if logging.ERROR is in the tuple
             assert any(logging.ERROR in call for call in calls)
 
-    @patch("tree_sitter_analyzer.cli_main.create_argument_parser")
-    @patch("tree_sitter_analyzer.cli_main.handle_special_commands")
-    @patch("tree_sitter_analyzer.cli_main.sys.exit")
+    @patch("codexray.cli_main.create_argument_parser")
+    @patch("codexray.cli_main.handle_special_commands")
+    @patch("codexray.cli_main.sys.exit")
     def test_logging_configured_for_table_output(
         self, mock_exit, mock_handle_special, mock_parser
     ):
@@ -515,7 +515,7 @@ class TestLoggingConfiguration:
         import logging
 
         with patch(
-            "tree_sitter_analyzer.cli_main.logging.getLogger"
+            "codexray.cli_main.logging.getLogger"
         ) as mock_get_logger:
             main()
 
@@ -530,9 +530,9 @@ class TestLoggingConfiguration:
 class TestErrorHandling:
     """Tests for error handling."""
 
-    @patch("tree_sitter_analyzer.cli_main.create_argument_parser")
-    @patch("tree_sitter_analyzer.cli_main.output_info")
-    @patch("tree_sitter_analyzer.cli_main.sys.exit")
+    @patch("codexray.cli_main.create_argument_parser")
+    @patch("codexray.cli_main.output_info")
+    @patch("codexray.cli_main.sys.exit")
     def test_validation_error_shows_usage(
         self, mock_exit, mock_output_info, mock_parser
     ):
@@ -556,7 +556,7 @@ class TestErrorHandling:
         mock_parser.return_value.parse_args.return_value = args
 
         with patch(
-            "tree_sitter_analyzer.cli_main.CLIArgumentValidator"
+            "codexray.cli_main.CLIArgumentValidator"
         ) as mock_validator:
             mock_validator.return_value.validate_arguments.return_value = (
                 "Validation error"
@@ -569,9 +569,9 @@ class TestErrorHandling:
 
             mock_output_info.assert_called_once_with("Usage examples")
 
-    @patch("tree_sitter_analyzer.cli_main.create_argument_parser")
-    @patch("tree_sitter_analyzer.cli_main.output_error")
-    @patch("tree_sitter_analyzer.cli_main.sys.exit")
+    @patch("codexray.cli_main.create_argument_parser")
+    @patch("codexray.cli_main.output_error")
+    @patch("codexray.cli_main.sys.exit")
     def test_command_execute_error_exits_with_code(
         self, mock_exit, mock_output_error, mock_parser
     ):
@@ -596,12 +596,12 @@ class TestErrorHandling:
         mock_parser.return_value.parse_args.return_value = args
 
         with patch(
-            "tree_sitter_analyzer.cli_main.handle_special_commands"
+            "codexray.cli_main.handle_special_commands"
         ) as mock_handle_special:
             mock_handle_special.return_value = None
 
             with patch(
-                "tree_sitter_analyzer.cli_main.CLICommandFactory"
+                "codexray.cli_main.CLICommandFactory"
             ) as mock_factory:
                 mock_command = Mock()
                 mock_command.execute.return_value = 1

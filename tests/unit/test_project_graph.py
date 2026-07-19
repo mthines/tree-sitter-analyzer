@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 # Will be imported after implementation
-# from tree_sitter_analyzer.project_graph import (
+# from codexray.project_graph import (
 #     DependencyGraph,
 #     BlastRadius,
 #     extract_imports_from_file,
@@ -30,7 +30,7 @@ class TestImportExtraction:
 
     def test_extract_python_imports_from_main(self):
         """main.py should yield imports to utils, models.user, models.base, pkg.submodule."""
-        from tree_sitter_analyzer.project_graph import extract_imports_from_file
+        from codexray.project_graph import extract_imports_from_file
 
         imports = extract_imports_from_file(str(PY_PROJECT / "main.py"), "python")
         assert imports, "Should extract at least one import"
@@ -50,7 +50,7 @@ class TestImportExtraction:
 
     def test_extract_python_imports_from_utils(self):
         """utils.py has no imports → empty list."""
-        from tree_sitter_analyzer.project_graph import extract_imports_from_file
+        from codexray.project_graph import extract_imports_from_file
 
         imports = extract_imports_from_file(str(PY_PROJECT / "utils.py"), "python")
         # Only count non-stdlib imports
@@ -61,7 +61,7 @@ class TestImportExtraction:
 
     def test_extract_js_imports_from_index(self):
         """index.js should yield imports to src/utils, src/models/user, src/formatter."""
-        from tree_sitter_analyzer.project_graph import extract_imports_from_file
+        from codexray.project_graph import extract_imports_from_file
 
         imports = extract_imports_from_file(str(JS_PROJECT / "index.js"), "javascript")
         assert imports, "Should extract imports from JS file"
@@ -75,14 +75,14 @@ class TestImportExtraction:
 
     def test_extract_imports_unsupported_language(self):
         """Unsupported language returns empty list."""
-        from tree_sitter_analyzer.project_graph import extract_imports_from_file
+        from codexray.project_graph import extract_imports_from_file
 
         imports = extract_imports_from_file(str(PY_PROJECT / "main.py"), "brainfuck")
         assert imports == []
 
     def test_extract_go_imports_from_main(self):
         """main.go should yield imports to internal packages, not stdlib."""
-        from tree_sitter_analyzer.project_graph import extract_imports_from_file
+        from codexray.project_graph import extract_imports_from_file
 
         imports = extract_imports_from_file(str(GO_PROJECT / "main.go"), "go")
         modules = {i["module_name"] for i in imports}
@@ -93,7 +93,7 @@ class TestImportExtraction:
 
     def test_extract_rust_imports_from_main(self):
         """main.rs should yield crate-local imports, not std."""
-        from tree_sitter_analyzer.project_graph import extract_imports_from_file
+        from codexray.project_graph import extract_imports_from_file
 
         imports = extract_imports_from_file(
             str(RUST_PROJECT / "src" / "main.rs"), "rust"
@@ -108,7 +108,7 @@ class TestImportExtraction:
 
     def test_extract_cpp_imports_from_main(self):
         """main.cpp should yield local includes, not system includes."""
-        from tree_sitter_analyzer.project_graph import extract_imports_from_file
+        from codexray.project_graph import extract_imports_from_file
 
         imports = extract_imports_from_file(str(CPP_PROJECT / "main.cpp"), "cpp")
         modules = {i["module_name"] for i in imports}
@@ -120,7 +120,7 @@ class TestImportExtraction:
 
     def test_extract_java_imports_from_main(self):
         """Main.java should yield com.example imports, not java.util."""
-        from tree_sitter_analyzer.project_graph import extract_imports_from_file
+        from codexray.project_graph import extract_imports_from_file
 
         imports = extract_imports_from_file(
             str(JAVA_PROJECT / "com" / "example" / "Main.java"), "java"
@@ -144,13 +144,13 @@ class TestDependencyGraph:
 
     @pytest.fixture
     def py_graph(self):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         return DependencyGraph(str(PY_PROJECT))
 
     @pytest.fixture
     def js_graph(self):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         return DependencyGraph(str(JS_PROJECT))
 
@@ -201,7 +201,7 @@ class TestDependencyGraph:
 
     def test_empty_project_handled(self, tmp_path):
         """Empty project directory produces empty graph."""
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         empty = tmp_path / "empty_project"
         empty.mkdir()
@@ -226,7 +226,7 @@ class TestSymbolInDegree:
 
     @pytest.fixture
     def py_graph(self):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         return DependencyGraph(str(PY_PROJECT))
 
@@ -235,7 +235,7 @@ class TestSymbolInDegree:
         """Build a small focused project for the cases the PY_PROJECT
         fixture doesn't cover (ambiguous defs, repeated imports, etc.).
         """
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         (tmp_path / "utils.py").write_text(
             "def format_thing(x):\n    return str(x)\n"
@@ -288,7 +288,7 @@ class TestSymbolInDegree:
         assert sum(1 for f in result.importer_files if f == "main.py") == 1
 
     def test_R5_ambiguous_when_two_files_define_same_name(self, tmp_path):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         (tmp_path / "a.py").write_text("class Helper: pass\n", encoding="utf-8")
         (tmp_path / "b.py").write_text("class Helper: pass\n", encoding="utf-8")
@@ -299,7 +299,7 @@ class TestSymbolInDegree:
         assert set(result.defining_files) == {"a.py", "b.py"}
 
     def test_R6_disambiguate_by_defining_file(self, tmp_path):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         (tmp_path / "a.py").write_text("class Helper: pass\n", encoding="utf-8")
         (tmp_path / "b.py").write_text("class Helper: pass\n", encoding="utf-8")
@@ -336,7 +336,7 @@ class TestSymbolInDegree:
         # PR-0.2 ships Python-only symbol extraction; JS files yield
         # no symbol-level data (the import_extractors emit ``names: []``
         # for JS bare imports, so the symbol-importer guard skips them).
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         (tmp_path / "lib.js").write_text("export function foo() {}\n", encoding="utf-8")
         (tmp_path / "app.js").write_text(
@@ -376,7 +376,7 @@ class TestSymbolInDegree:
         # must skip this; otherwise every file that does ``from . import
         # sub`` would falsely count itself as a symbol-importer of every
         # name in sub.py.
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         (tmp_path / "sub.py").write_text(
             "def real_symbol():\n    pass\n", encoding="utf-8"
@@ -402,7 +402,7 @@ class TestCycleDetection:
 
     @pytest.fixture
     def py_graph(self):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         return DependencyGraph(str(PY_PROJECT))
 
@@ -423,13 +423,13 @@ class TestBlastRadius:
 
     @pytest.fixture
     def py_graph(self):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         return DependencyGraph(str(PY_PROJECT))
 
     @pytest.fixture
     def radius(self, py_graph):
-        from tree_sitter_analyzer.project_graph import BlastRadius
+        from codexray.project_graph import BlastRadius
 
         return BlastRadius(py_graph)
 
@@ -483,7 +483,7 @@ class TestDependencyGraphCache:
 
     def test_cache_hit_on_rebuild(self, tmp_path):
         """Rebuilding the same project should use cache (fast second build)."""
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         # Create a small project
         proj = tmp_path / "cache_test"
@@ -504,7 +504,7 @@ class TestDependencyGraphPublicAPI:
 
     @pytest.fixture
     def tiny(self, tmp_path):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         (tmp_path / "a.py").write_text("from . import b\n")
         (tmp_path / "b.py").write_text("from . import c\n")
@@ -579,7 +579,7 @@ class TestDependencyGraphPublicAccessors:
 
     @pytest.fixture
     def small_graph(self, tmp_path):
-        from tree_sitter_analyzer.project_graph import DependencyGraph
+        from codexray.project_graph import DependencyGraph
 
         proj = tmp_path / "small"
         proj.mkdir()

@@ -57,7 +57,7 @@ _GAUNTLET_REPOS: list[tuple[str, str, str, str, str]] = [
     ),
     (
         "tsa",
-        "tree-sitter-analyzer (this repo)",
+        "codexray (this repo)",
         "",  # local — no clone needed
         "",
         "13 langs",
@@ -95,7 +95,7 @@ class GauntletRow(NamedTuple):
 
 def _run_audit(repo_path: str, *, reindex: bool = True) -> tuple[int, int, float, int]:
     """Return (call_edges, naive_miswires, naive_pct, tsa_miswires) for repo_path."""
-    from tree_sitter_analyzer.miswire_audit import audit
+    from codexray.miswire_audit import audit
 
     result = audit(repo_path, reindex=reindex)
     pct = (
@@ -306,12 +306,12 @@ def main(argv: list[str] | None = None) -> int:
         print("[dry-run] Gauntlet Runner — verifying imports and config...")
         # Verify the audit module is importable
         try:
-            from tree_sitter_analyzer.miswire_audit import (  # noqa: F401
+            from codexray.miswire_audit import (  # noqa: F401
                 AuditResult,
                 audit,
             )
 
-            print("[dry-run] tree_sitter_analyzer.miswire_audit: OK")
+            print("[dry-run] codexray.miswire_audit: OK")
         except ImportError as exc:
             print(f"[dry-run] IMPORT ERROR: {exc}", file=sys.stderr)
             return 1

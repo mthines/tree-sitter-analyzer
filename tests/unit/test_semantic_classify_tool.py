@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.semantic_classify_tool import SemanticClassifyTool
+from codexray.mcp.tools.semantic_classify_tool import SemanticClassifyTool
 
 
 @pytest.fixture
@@ -176,7 +176,7 @@ class TestSemanticClassifyExecution:
 class TestSemanticClassifyToolRegistry:
     def test_tool_registered(self):
         # Wave C2: semantic_classify is now the edit facade action=classify.
-        from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+        from codexray.mcp._tool_registry import create_tool_registry
 
         _, by_name = create_tool_registry(None)
         assert "edit" in by_name
@@ -187,14 +187,14 @@ class TestSemanticClassifyToolRegistry:
         )
 
     def test_tool_in_cli_class_names(self):
-        from tree_sitter_analyzer.cli.commands.mcp_commands import _TOOL_CLASS_NAMES
+        from codexray.cli.commands.mcp_commands import _TOOL_CLASS_NAMES
 
         assert "SemanticClassifyTool" in _TOOL_CLASS_NAMES
 
 
 class TestSemanticClassifyChangeImpactIntegration:
     def test_change_impact_includes_semantic_when_changed(self, tmp_path):
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _classify_changed_files,
         )
 
@@ -208,7 +208,7 @@ class TestSemanticClassifyChangeImpactIntegration:
         assert isinstance(results, list)
 
     def test_classify_changed_files_empty(self):
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _classify_changed_files,
         )
 
@@ -346,7 +346,7 @@ class TestCompactHelpers:
     """Unit tests for _compact_classification / _compact_hunk helpers (#528)."""
 
     def test_compact_classification_passthrough_when_include_ast_nodes(self):
-        from tree_sitter_analyzer.mcp.tools.semantic_classify_tool import (
+        from codexray.mcp.tools.semantic_classify_tool import (
             _compact_classification,
         )
 
@@ -359,7 +359,7 @@ class TestCompactHelpers:
 
     def test_compact_classification_returns_entry_when_hunk_not_dict(self):
         """Covers the defensive branch when hunk is None or missing."""
-        from tree_sitter_analyzer.mcp.tools.semantic_classify_tool import (
+        from codexray.mcp.tools.semantic_classify_tool import (
             _compact_classification,
         )
 
@@ -372,7 +372,7 @@ class TestCompactHelpers:
         assert result2 is entry_null_hunk
 
     def test_compact_hunk_strips_children_from_old_and_new(self):
-        from tree_sitter_analyzer.mcp.tools.semantic_classify_tool import _compact_hunk
+        from codexray.mcp.tools.semantic_classify_tool import _compact_hunk
 
         hunk = {
             "kind": "modified",
@@ -387,7 +387,7 @@ class TestCompactHelpers:
         assert result["kind"] == "modified"
 
     def test_compact_hunk_passthrough_non_old_new_keys(self):
-        from tree_sitter_analyzer.mcp.tools.semantic_classify_tool import _compact_hunk
+        from codexray.mcp.tools.semantic_classify_tool import _compact_hunk
 
         hunk = {"kind": "added", "summary": "hello", "details": {"x": 1}}
         result = _compact_hunk(hunk)
@@ -397,7 +397,7 @@ class TestCompactHelpers:
 
     def test_compact_hunk_old_new_non_dict_passthrough(self):
         """When old/new value is not a dict, pass it through unchanged."""
-        from tree_sitter_analyzer.mcp.tools.semantic_classify_tool import _compact_hunk
+        from codexray.mcp.tools.semantic_classify_tool import _compact_hunk
 
         # 'old' and 'new' that are not dicts (e.g., None or a string)
         hunk = {"kind": "deleted", "old": None, "new": "not_a_dict"}
@@ -674,8 +674,8 @@ class TestClassifiedHunkSerializerOptIn:
 
     def _make_classified_hunk(self) -> Any:
         """Return a real ClassifiedHunk with a hunk whose old/new nodes have children."""
-        from tree_sitter_analyzer.ast_diff import ASTDiffer
-        from tree_sitter_analyzer.semantic_change_classifier import (
+        from codexray.ast_diff import ASTDiffer
+        from codexray.semantic_change_classifier import (
             SemanticChangeClassifier,
         )
 
@@ -731,8 +731,8 @@ class TestClassifiedHunkSerializerOptIn:
 
     def test_semantic_classification_to_dict_default_is_lean(self):
         """SemanticClassification.to_dict() must thread include_children=False to each ClassifiedHunk."""
-        from tree_sitter_analyzer.ast_diff import ASTDiffer
-        from tree_sitter_analyzer.semantic_change_classifier import (
+        from codexray.ast_diff import ASTDiffer
+        from codexray.semantic_change_classifier import (
             SemanticChangeClassifier,
         )
 
@@ -754,8 +754,8 @@ class TestClassifiedHunkSerializerOptIn:
 
     def test_semantic_classification_to_dict_opt_in_delivers_children(self):
         """SemanticClassification.to_dict(include_children=True) must deliver children."""
-        from tree_sitter_analyzer.ast_diff import ASTDiffer
-        from tree_sitter_analyzer.semantic_change_classifier import (
+        from codexray.ast_diff import ASTDiffer
+        from codexray.semantic_change_classifier import (
             SemanticChangeClassifier,
         )
 

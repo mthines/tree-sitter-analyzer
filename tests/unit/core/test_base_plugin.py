@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.plugins.base import (
+from codexray.plugins.base import (
     DefaultExtractor,
     DefaultLanguagePlugin,
     ElementExtractor,
@@ -423,7 +423,7 @@ class TestDefaultLanguagePluginAnalyze:
         test_file = tmp_path / "test.txt"
         test_file.write_text("Hello world")
 
-        from tree_sitter_analyzer.models.result import AnalysisResult
+        from codexray.models.result import AnalysisResult
 
         result = await plugin.analyze_file(str(test_file), MagicMock())
 

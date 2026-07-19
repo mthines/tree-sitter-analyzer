@@ -14,16 +14,16 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 from ._test_phase7_comprehensive_security_helpers import (
     assert_comprehensive_security_checks,
@@ -85,7 +85,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_path_traversal_protection_comprehensive(self, secure_test_project):
         """包括的パストラバーサル保護テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         malicious_paths = create_malicious_paths()
@@ -121,7 +121,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_malicious_query_protection(self, secure_test_project):
         """悪意のあるクエリ保護テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         malicious_queries = create_malicious_queries()
@@ -163,7 +163,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_unicode_normalization_attacks(self, secure_test_project):
         """Unicode正規化攻撃テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         unicode_attacks = create_unicode_attacks()
@@ -183,7 +183,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_sensitive_data_exposure_prevention(self, secure_test_project):
         """機密データ露出防止テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         # 機密データパターンを検索
@@ -210,7 +210,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_concurrent_security_stress(self, secure_test_project):
         """同時セキュリティストレステスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         # パストラバーサル攻撃
@@ -232,7 +232,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_security_policy_consistency(self, secure_test_project):
         """セキュリティポリシー一貫性テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         # 全ツールで同じセキュリティポリシーが適用されることを確認
@@ -254,7 +254,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_information_leakage_prevention(self, secure_test_project):
         """情報漏洩防止テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         # 意図的にエラーを発生させて、エラーメッセージから情報が漏洩しないことを確認
@@ -278,7 +278,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_security_under_load(self, secure_test_project):
         """負荷下でのセキュリティテスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         (
@@ -310,7 +310,7 @@ class TestPhase7SecurityIntegration:
     @pytest.mark.asyncio
     async def test_comprehensive_security_validation(self, secure_test_project):
         """包括的セキュリティ検証テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(secure_test_project)
 
         # 全セキュリティ機能の統合テスト

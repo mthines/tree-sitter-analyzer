@@ -31,7 +31,7 @@ class TestWrapperNodesFalsePositivesA:
     @pytest.mark.asyncio
     async def test_python_decorated_function_not_false_positive(self):
         """测试 Python decorator 不会导致被包裹的函数被误标记"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -86,11 +86,11 @@ class TestWrapperNodesFalsePositivesA:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="@decorator\ndef foo(): pass"),
@@ -108,7 +108,7 @@ class TestWrapperNodesFalsePositivesA:
     @pytest.mark.asyncio
     async def test_typescript_export_class_wrapper(self):
         """测试 TypeScript export 语句包裹的 class 不被误标记"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -156,11 +156,11 @@ class TestWrapperNodesFalsePositivesA:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="export class Foo {}"),
@@ -178,7 +178,7 @@ class TestWrapperNodesFalsePositivesA:
     @pytest.mark.asyncio
     async def test_rust_attribute_function_wrapper(self):
         """测试 Rust attribute 包裹的函数不被误标记"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -225,11 +225,11 @@ class TestWrapperNodesFalsePositivesA:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="#[test]\nfn foo() {}"),
@@ -246,7 +246,7 @@ class TestWrapperNodesFalsePositivesA:
     @pytest.mark.asyncio
     async def test_ruby_visibility_method_wrapper(self):
         """测试 Ruby visibility modifier 包裹的方法不被误标记"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -294,11 +294,11 @@ class TestWrapperNodesFalsePositivesA:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="private\ndef foo; end"),
@@ -313,7 +313,7 @@ class TestWrapperNodesFalsePositivesA:
     @pytest.mark.asyncio
     async def test_single_layer_nesting_python(self):
         """测试单层嵌套（Python decorator）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -359,11 +359,11 @@ class TestWrapperNodesFalsePositivesA:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="@dec\ndef foo(): pass"),
@@ -380,7 +380,7 @@ class TestWrapperNodesFalsePositivesA:
     @pytest.mark.asyncio
     async def test_multi_layer_nesting_python(self):
         """测试多层嵌套（Python 多个 decorator）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -436,11 +436,11 @@ class TestWrapperNodesFalsePositivesA:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(

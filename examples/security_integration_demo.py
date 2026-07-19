@@ -3,22 +3,22 @@
 Security Integration Demo
 
 Demonstrates how security features are integrated across all components
-of the tree-sitter-analyzer system.
+of the codexray system.
 """
 
 import asyncio
 import tempfile
 from pathlib import Path
 
-from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
-from tree_sitter_analyzer.mcp.tools.table_format_tool import TableFormatTool
-from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
-from tree_sitter_analyzer.security import SecurityValidator
+from codexray.core.analysis_engine import get_analysis_engine
+from codexray.mcp.tools.table_format_tool import TableFormatTool
+from codexray.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
+from codexray.security import SecurityValidator
 
 
 async def main():
     """Demonstrate security integration across components."""
-    print("🔒 Tree-sitter Analyzer Security Integration Demo")
+    print("🔒 CodeXray Security Integration Demo")
     print("=" * 60)
 
     # Create a temporary test environment
@@ -215,7 +215,7 @@ class MathUtils:
     print("✅ File Path Validation: Multi-layer security")
     print("✅ Performance: Minimal overhead")
     print()
-    print("🔒 Your tree-sitter-analyzer is now enterprise-ready!")
+    print("🔒 Your codexray is now enterprise-ready!")
 
 
 if __name__ == "__main__":

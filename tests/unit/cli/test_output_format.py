@@ -6,7 +6,7 @@ r37am (dogfood): consolidated three duplicate ``_wants_json`` /
 
 1. The helper behaves correctly across the format / output_format /
    default cases.
-2. No other module in ``tree_sitter_analyzer/cli/`` re-declares the
+2. No other module in ``codexray/cli/`` re-declares the
    same helper (anti-duplication guard).
 """
 
@@ -18,7 +18,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli.output_format import wants_json_output
+from codexray.cli.output_format import wants_json_output
 
 
 class TestWantsJsonOutput:
@@ -74,7 +74,7 @@ class TestSingleSourceOfTruth:
         one.
         """
         cli_root = (
-            Path(__file__).parent.parent.parent.parent / "tree_sitter_analyzer" / "cli"
+            Path(__file__).parent.parent.parent.parent / "codexray" / "cli"
         )
         # Match standalone ``def _wants_json...`` or ``def wants_json_output``
         # — not ``= wants_json_output`` (re-export alias).
@@ -113,7 +113,7 @@ class TestSingleSourceOfTruth:
         boolean — different semantics so an explicit allowlist entry.
         """
         cli_root = (
-            Path(__file__).parent.parent.parent.parent / "tree_sitter_analyzer" / "cli"
+            Path(__file__).parent.parent.parent.parent / "codexray" / "cli"
         )
         # Match the two-call getattr pattern that drove r37am consolidation.
         inline_re = re.compile(

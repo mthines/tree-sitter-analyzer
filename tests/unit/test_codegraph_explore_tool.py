@@ -11,14 +11,14 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._codegraph_explore_helpers import (
+from codexray.mcp.tools._codegraph_explore_helpers import (
     extract_snippet as _extract_snippet,
 )
-from tree_sitter_analyzer.mcp.tools._codegraph_explore_helpers import (
+from codexray.mcp.tools._codegraph_explore_helpers import (
     split_query as _split_query,
 )
-from tree_sitter_analyzer.mcp.tools.codegraph_explore_tool import CodeGraphExploreTool
-from tree_sitter_analyzer.symbol_resolver import DefinitionLocation, ResolveResult
+from codexray.mcp.tools.codegraph_explore_tool import CodeGraphExploreTool
+from codexray.symbol_resolver import DefinitionLocation, ResolveResult
 
 
 @pytest.fixture
@@ -60,7 +60,7 @@ def _patch_resolver_with(defs_per_token: dict[str, list[DefinitionLocation]]):
     mock_resolver = MagicMock()
     mock_resolver.resolve.side_effect = _resolve
     return patch(
-        "tree_sitter_analyzer.symbol_resolver.SymbolResolver",
+        "codexray.symbol_resolver.SymbolResolver",
         return_value=mock_resolver,
     )
 
@@ -69,7 +69,7 @@ def _patch_cache_with(total_files: int = 5):
     """Patch ASTCache so the tool's _try_get_cache walks the success branch."""
     mock_cache = MagicMock()
     mock_cache.get_stats.return_value = {"total_files": total_files}
-    return patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache)
+    return patch("codexray.ast_cache.ASTCache", return_value=mock_cache)
 
 
 class TestToolDefinition:
@@ -218,7 +218,7 @@ class TestExecuteNotFound:
             _patch_cache_with(),
             _patch_resolver_with({}),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_explore_tool._h.concept_search",
+                "codexray.mcp.tools.codegraph_explore_tool._h.concept_search",
                 return_value=concept_files,
             ),
         ):
@@ -308,7 +308,7 @@ class TestExecuteHappyPath:
         mock_cache.query_callees.return_value = [{"callee_name": "beta"}]
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with(defs),
             patch.object(
                 tool_with_root,
@@ -347,7 +347,7 @@ class TestExecuteHappyPath:
         mock_cache.query_callees.side_effect = _query_callees
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with(defs),
         ):
             result = await tool_with_root.execute(
@@ -386,7 +386,7 @@ class TestExecuteHappyPath:
             _patch_cache_with(),
             _patch_resolver_with(defs),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_explore_tool._h.concept_search",
+                "codexray.mcp.tools.codegraph_explore_tool._h.concept_search",
                 return_value=concept_files,
             ),
         ):

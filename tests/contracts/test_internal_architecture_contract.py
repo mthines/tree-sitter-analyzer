@@ -17,8 +17,8 @@ except ImportError:  # Python 3.10 — fall back to the tomli back-port
     import tomli as tomllib
 from hypothesis import settings as hypothesis_settings
 
-from tree_sitter_analyzer.cli_main import create_argument_parser
-from tree_sitter_analyzer.mcp.server import _create_tool_registry
+from codexray.cli_main import create_argument_parser
+from codexray.mcp.server import _create_tool_registry
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SKIPPED_SCAN_DIRS = {
@@ -36,7 +36,7 @@ def test_package_and_mcp_versions_are_aligned() -> None:
     """Release prep must keep package and MCP server versions in lockstep."""
     data = tomllib.loads((PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     project_version = data["project"]["version"]
-    package_init = (PROJECT_ROOT / "tree_sitter_analyzer" / "__init__.py").read_text(
+    package_init = (PROJECT_ROOT / "codexray" / "__init__.py").read_text(
         encoding="utf-8"
     )
 
@@ -46,7 +46,7 @@ def test_package_and_mcp_versions_are_aligned() -> None:
 
 def test_ast_cache_call_edge_extraction_does_not_depend_on_call_graph() -> None:
     """ASTCache and CallGraph must share extraction helpers without a back-edge."""
-    path = PROJECT_ROOT / "tree_sitter_analyzer" / "cache" / "extraction.py"
+    path = PROJECT_ROOT / "codexray" / "cache" / "extraction.py"
     tree = ast.parse(path.read_text(encoding="utf-8"))
     imports: list[str] = []
     for node in ast.walk(tree):
@@ -56,19 +56,19 @@ def test_ast_cache_call_edge_extraction_does_not_depend_on_call_graph() -> None:
             imports.append(node.module)
 
     assert "call_graph" not in imports
-    assert "tree_sitter_analyzer.call_graph" not in imports
+    assert "codexray.call_graph" not in imports
 
 
 def test_callee_resolution_algorithm_has_single_shared_home() -> None:
     """CallGraph/CrossFile/Synapse may expose APIs, but not bespoke algorithms."""
-    call_graph = (PROJECT_ROOT / "tree_sitter_analyzer" / "call_graph.py").read_text(
+    call_graph = (PROJECT_ROOT / "codexray" / "call_graph.py").read_text(
         encoding="utf-8"
     )
     cross_file = (
-        PROJECT_ROOT / "tree_sitter_analyzer" / "cross_file_resolver.py"
+        PROJECT_ROOT / "codexray" / "cross_file_resolver.py"
     ).read_text(encoding="utf-8")
     synapse_context = (
-        PROJECT_ROOT / "tree_sitter_analyzer" / "synapse_resolver" / "_context.py"
+        PROJECT_ROOT / "codexray" / "synapse_resolver" / "_context.py"
     ).read_text(encoding="utf-8")
 
     assert "def _resolve_callee_from_cache" not in call_graph
@@ -79,15 +79,15 @@ def test_callee_resolution_algorithm_has_single_shared_home() -> None:
 
 def test_no_mcp_tool_imports_from_cli() -> None:
     """ARCH-A1 regression: ``mcp/tools/*.py`` must not import from
-    ``tree_sitter_analyzer.cli.*``. The dependency arrow goes one way:
+    ``codexray.cli.*``. The dependency arrow goes one way:
     ``cli/`` may use ``mcp/`` tools, but ``mcp/tools/`` reaches shared
-    builders via ``tree_sitter_analyzer.services`` instead.
+    builders via ``codexray.services`` instead.
 
     The shared builders live (physically) in ``cli/`` for now and are
     re-exported from ``services/``; a future sprint can do the file
     move under that boundary without changing any consumer.
     """
-    tools_dir = PROJECT_ROOT / "tree_sitter_analyzer" / "mcp" / "tools"
+    tools_dir = PROJECT_ROOT / "codexray" / "mcp" / "tools"
     offenders: list[str] = []
     for path in sorted(tools_dir.glob("*.py")):
         source = path.read_text(encoding="utf-8")
@@ -98,10 +98,10 @@ def test_no_mcp_tool_imports_from_cli() -> None:
         for node in ast.walk(tree):
             if isinstance(node, ast.ImportFrom) and node.module:
                 # Catch both absolute and relative styles:
-                #   from tree_sitter_analyzer.cli.X import …
+                #   from codexray.cli.X import …
                 #   from ...cli.X import …
                 if (
-                    node.module.startswith("tree_sitter_analyzer.cli.")
+                    node.module.startswith("codexray.cli.")
                     or node.module.startswith("cli.")
                     or (node.level >= 1 and node.module.startswith("cli."))
                 ):
@@ -111,7 +111,7 @@ def test_no_mcp_tool_imports_from_cli() -> None:
                 # already catches them, but be explicit for readability.
     assert offenders == [], (
         "mcp/tools/* must not import from cli/* (ARCH-A1). Reach via "
-        "tree_sitter_analyzer.services instead:\n  " + "\n  ".join(offenders)
+        "codexray.services instead:\n  " + "\n  ".join(offenders)
     )
 
 
@@ -137,7 +137,7 @@ def test_no_mcp_tool_overrides_set_project_path() -> None:
         with different init logic (constructor-built tools observe
         different state than rebound ones)
     """
-    tools_dir = PROJECT_ROOT / "tree_sitter_analyzer" / "mcp" / "tools"
+    tools_dir = PROJECT_ROOT / "codexray" / "mcp" / "tools"
     offenders: list[str] = []
     for path in sorted(tools_dir.glob("*.py")):
         if path.name == "base_tool.py":
@@ -165,7 +165,7 @@ def test_mcp_command_specs_have_resolvable_tool_classes() -> None:
     ``_TOOL_CLASS_NAMES``). Adding a spec without updating the lookup
     set used to fail at runtime with ``Unknown MCP tool: …``; this test
     catches the drift at collection time."""
-    from tree_sitter_analyzer.cli.commands.mcp_commands import (
+    from codexray.cli.commands.mcp_commands import (
         _TOOL_CLASS_NAMES,
         MCP_COMMAND_SPECS,
     )
@@ -184,12 +184,12 @@ def test_mcp_command_specs_have_resolvable_tool_classes() -> None:
 
 
 def test_mcp_server_module_does_not_eagerly_import_tools() -> None:
-    """PERF-3 regression: ``tree_sitter_analyzer.mcp.server`` must not import
+    """PERF-3 regression: ``codexray.mcp.server`` must not import
     the 23 individual tool modules at module load. Tool imports belong inside
     ``_create_tool_registry`` so callers that only touch the server module's
     surface (e.g. for help-text introspection) don't pay the cold-start tax.
     """
-    source = (PROJECT_ROOT / "tree_sitter_analyzer" / "mcp" / "server.py").read_text(
+    source = (PROJECT_ROOT / "codexray" / "mcp" / "server.py").read_text(
         encoding="utf-8"
     )
     tree = ast.parse(source)

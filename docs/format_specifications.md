@@ -1,10 +1,10 @@
-# Tree-Sitter Analyzer Format Specifications
+# CodeXray Format Specifications
 
-このドキュメントは、tree-sitter-analyzerが出力する各フォーマットタイプの正式な仕様を定義します。
+このドキュメントは、codexrayが出力する各フォーマットタイプの正式な仕様を定義します。
 
 ## 概要
 
-tree-sitter-analyzerは以下の3つの主要なフォーマットタイプをサポートします：
+codexrayは以下の3つの主要なフォーマットタイプをサポートします：
 
 1. **Full Format** - 完全な詳細情報を含むMarkdown形式
 2. **Compact Format** - 簡潔な情報を含むMarkdown形式  

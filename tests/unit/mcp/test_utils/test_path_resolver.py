@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.path_resolver import (
+from codexray.mcp.utils.path_resolver import (
     PathResolver,
     _is_windows_absolute_path,
     _normalize_path_cross_platform,

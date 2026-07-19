@@ -34,7 +34,7 @@ class TestCLIRegression:
 
     def run_cli_command(self, args):
         """Helper to run CLI commands and return output"""
-        cmd = [sys.executable, "-m", "tree_sitter_analyzer"] + args
+        cmd = [sys.executable, "-m", "codexray"] + args
         result = subprocess.run(
             cmd,
             capture_output=True,

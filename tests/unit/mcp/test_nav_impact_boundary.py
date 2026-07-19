@@ -22,18 +22,18 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.call_graph import FunctionRef
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+from codexray.call_graph import FunctionRef
+from codexray.mcp.server import CodeXrayMCPServer
 
 
 def _make_ref(name: str, file: str) -> FunctionRef:
     return FunctionRef(file_path=file, name=name, start_line=1, language="python")
 
 
-def _capture_call_tool_handler(server: TreeSitterAnalyzerMCPServer):
+def _capture_call_tool_handler(server: CodeXrayMCPServer):
     """Capture the ``handle_call_tool`` closure registered by ``create_server``."""
-    with patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True):
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+    with patch("codexray.mcp.server.MCP_AVAILABLE", True):
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured: dict = {}
 
@@ -94,12 +94,12 @@ class TestNavImpactBoundary:
         test_callers = [_make_ref(f"test_{i}", "tests/test_mod.py") for i in range(3)]
         mock_graph = _make_mock_graph(func_ref, callers=test_callers)
 
-        server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+        server = CodeXrayMCPServer(str(tmp_path))
         handler = _capture_call_tool_handler(server)
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_impact_tool"
+                "codexray.mcp.tools.codegraph_impact_tool"
                 ".CodeGraphImpactTool._get_call_graph",
                 return_value=mock_graph,
             ),
@@ -145,12 +145,12 @@ class TestNavImpactBoundary:
         ]
         mock_graph = _make_mock_graph(func_ref, callers=test_callers)
 
-        server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+        server = CodeXrayMCPServer(str(tmp_path))
         handler = _capture_call_tool_handler(server)
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_impact_tool"
+                "codexray.mcp.tools.codegraph_impact_tool"
                 ".CodeGraphImpactTool._get_call_graph",
                 return_value=mock_graph,
             ),
@@ -191,12 +191,12 @@ class TestNavImpactBoundary:
         test_caller = _make_ref("test_my_fn", "tests/test_a.py")
         mock_graph = _make_mock_graph(func_ref, callers=[test_caller])
 
-        server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+        server = CodeXrayMCPServer(str(tmp_path))
         handler = _capture_call_tool_handler(server)
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_impact_tool"
+                "codexray.mcp.tools.codegraph_impact_tool"
                 ".CodeGraphImpactTool._get_call_graph",
                 return_value=mock_graph,
             ),
@@ -235,12 +235,12 @@ class TestNavImpactBoundary:
         graph.callee_refs_of.return_value = []
         graph.call_chain.return_value = []
 
-        server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+        server = CodeXrayMCPServer(str(tmp_path))
         handler = _capture_call_tool_handler(server)
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_impact_tool"
+                "codexray.mcp.tools.codegraph_impact_tool"
                 ".CodeGraphImpactTool._get_call_graph",
                 return_value=graph,
             ),
@@ -292,12 +292,12 @@ class TestNavImpactBoundary:
         graph.callee_refs_of.return_value = []
         graph.call_chain.return_value = []
 
-        server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+        server = CodeXrayMCPServer(str(tmp_path))
         handler = _capture_call_tool_handler(server)
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_impact_tool"
+                "codexray.mcp.tools.codegraph_impact_tool"
                 ".CodeGraphImpactTool._get_call_graph",
                 return_value=graph,
             ),
@@ -340,12 +340,12 @@ class TestNavImpactBoundary:
         graph.callee_refs_of.return_value = []
         graph.call_chain.return_value = []
 
-        server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+        server = CodeXrayMCPServer(str(tmp_path))
         handler = _capture_call_tool_handler(server)
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_impact_tool"
+                "codexray.mcp.tools.codegraph_impact_tool"
                 ".CodeGraphImpactTool._get_call_graph",
                 return_value=graph,
             ),

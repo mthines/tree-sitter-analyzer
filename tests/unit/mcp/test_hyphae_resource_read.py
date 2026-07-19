@@ -24,7 +24,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server_utils.resource_registration import (
+from codexray.mcp.server_utils.resource_registration import (
     register_resources,
 )
 
@@ -98,7 +98,7 @@ class TestHyphaeResourceReadBoundary:
         fake_result = {"selector": ".function", "items": fake_items, "count": 1}
 
         with patch(
-            "tree_sitter_analyzer.mcp.resources.hyphae_resource.read_hyphae_resource",
+            "codexray.mcp.resources.hyphae_resource.read_hyphae_resource",
             new=AsyncMock(return_value=fake_result),
         ):
             result = await handlers["read_resource"](
@@ -145,7 +145,7 @@ class TestHyphaeResourceReadBoundary:
         fake_result = {"selector": "#foo", "items": [], "count": 0}
 
         with patch(
-            "tree_sitter_analyzer.mcp.resources.hyphae_resource.read_hyphae_resource",
+            "codexray.mcp.resources.hyphae_resource.read_hyphae_resource",
             new=AsyncMock(return_value=fake_result),
         ):
             result = await handlers["read_resource"]("tsa://hyphae/%23foo")
@@ -177,7 +177,7 @@ class TestHyphaeResourceReadBoundary:
         register_resources(server, instance)
 
         # Simulate: session was unsubscribed (session store cleared)
-        from tree_sitter_analyzer.mcp.tools import hyphae_subscribe_tool as hst
+        from codexray.mcp.tools import hyphae_subscribe_tool as hst
 
         hst._SESSION_SESSIONS.pop("task-gone", None)
         hst._SESSION_LOOPS.pop("task-gone", None)
@@ -185,7 +185,7 @@ class TestHyphaeResourceReadBoundary:
         # But reading the resource URI should still work via live evaluation
         fake_result = {"selector": ".class", "items": [], "count": 0}
         with patch(
-            "tree_sitter_analyzer.mcp.resources.hyphae_resource.read_hyphae_resource",
+            "codexray.mcp.resources.hyphae_resource.read_hyphae_resource",
             new=AsyncMock(return_value=fake_result),
         ):
             result = await handlers["read_resource"]("tsa://hyphae/.class")

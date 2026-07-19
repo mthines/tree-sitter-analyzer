@@ -1,10 +1,10 @@
-"""Tests for tree_sitter_analyzer.languages.shared.complexity."""
+"""Tests for codexray.languages.shared.complexity."""
 
 from __future__ import annotations
 
 from types import SimpleNamespace
 
-from tree_sitter_analyzer.languages.shared.complexity import (
+from codexray.languages.shared.complexity import (
     ComplexityResult,
     CyclomaticCounter,
     LogicalBranchCounter,

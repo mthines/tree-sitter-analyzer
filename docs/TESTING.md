@@ -1,6 +1,6 @@
 # Testing Guide
 
-This document provides comprehensive guidelines for testing the tree-sitter-analyzer codebase, including patterns, best practices, and coverage requirements.
+This document provides comprehensive guidelines for testing the codexray codebase, including patterns, best practices, and coverage requirements.
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ This document provides comprehensive guidelines for testing the tree-sitter-anal
 
 ## Overview
 
-The tree-sitter-analyzer project maintains high testing standards with comprehensive test coverage across all components. Our testing philosophy prioritizes:
+The codexray project maintains high testing standards with comprehensive test coverage across all components. Our testing philosophy prioritizes:
 
 - **Comprehensive Coverage**: >80% overall coverage, with critical modules at >85%
 - **Clear Documentation**: Self-documenting tests with descriptive names
@@ -324,13 +324,13 @@ assertion_helpers.assert_performance_acceptable(
 
 ### Coverage Reporting
 
-Coverage is automatically reported to [Codecov](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer) on every PR and push to main/develop branches.
+Coverage is automatically reported to [Codecov](https://codecov.io/gh/aimasteracc/codexray) on every PR and push to main/develop branches.
 
 View coverage locally:
 
 ```bash
 # Generate coverage report
-uv run pytest --cov=tree_sitter_analyzer --cov-report=html --cov-report=term-missing
+uv run pytest --cov=codexray --cov-report=html --cov-report=term-missing
 
 # Open HTML report
 open htmlcov/index.html  # macOS
@@ -342,7 +342,7 @@ Before pushing a PR that changes Python source, also check the patch itself:
 
 ```bash
 # Use the focused tests reported by --change-impact, but add coverage JSON.
-uv run pytest <focused tests> --cov=tree_sitter_analyzer --cov-report=json --cov-report=term-missing
+uv run pytest <focused tests> --cov=codexray --cov-report=json --cov-report=term-missing
 
 # Fail locally on added executable lines or branch partials that Codecov would flag.
 uv run python scripts/check_patch_coverage.py --base origin/develop --coverage-json coverage.json
@@ -369,7 +369,7 @@ PYTEST_XDIST_AUTO_NUM_WORKERS=1 uv run pytest -q --maxfail=1 -m "not slow and no
 ### Run with Coverage
 
 ```bash
-uv run pytest --cov=tree_sitter_analyzer --cov-report=term-missing
+uv run pytest --cov=codexray --cov-report=term-missing
 ```
 
 ### Run Specific Test Files
@@ -427,16 +427,16 @@ uv run pytest tests/benchmarks/ -m benchmark --benchmark-enable --benchmark-only
 
 ```bash
 # Terminal report
-uv run pytest --cov=tree_sitter_analyzer --cov-report=term-missing
+uv run pytest --cov=codexray --cov-report=term-missing
 
 # HTML report
-uv run pytest --cov=tree_sitter_analyzer --cov-report=html
+uv run pytest --cov=codexray --cov-report=html
 
 # XML report (for CI)
-uv run pytest --cov=tree_sitter_analyzer --cov-report=xml
+uv run pytest --cov=codexray --cov-report=xml
 
 # JSON report
-uv run pytest --cov=tree_sitter_analyzer --cov-report=json
+uv run pytest --cov=codexray --cov-report=json
 ```
 
 ## Best Practices

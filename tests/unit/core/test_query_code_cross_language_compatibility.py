@@ -11,7 +11,7 @@ import tempfile
 
 import pytest
 
-from tree_sitter_analyzer.core.query_service import QueryService
+from codexray.core.query_service import QueryService
 
 
 def _assert_result_structure(result: dict, language: str) -> None:

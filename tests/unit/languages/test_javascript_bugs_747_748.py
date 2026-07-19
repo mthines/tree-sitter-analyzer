@@ -21,7 +21,7 @@ try:
 except ImportError:
     _TREE_SITTER_AVAILABLE = False
 
-from tree_sitter_analyzer.languages.javascript_plugin.extractor import (
+from codexray.languages.javascript_plugin.extractor import (
     JavaScriptElementExtractor,
 )
 

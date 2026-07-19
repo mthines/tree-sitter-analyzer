@@ -7,7 +7,7 @@
 ## ディレクトリ構造
 
 ```
-tree-sitter-analyzer/
+codexray/
 ├── tests/
 │   ├── golden_masters/          # ゴールデンマスター（期待される出力）
 │   │   ├── full/               # full フォーマット

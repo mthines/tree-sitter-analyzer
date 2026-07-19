@@ -8,7 +8,7 @@ added for Python grammar coverage.
 
 from dataclasses import asdict
 
-from tree_sitter_analyzer.models import (
+from codexray.models import (
     Comprehension,
     Expression,
     Lambda,

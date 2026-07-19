@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools.utils import change_impact_cached_graph as cached
-from tree_sitter_analyzer.mcp.tools.utils.change_impact_cached_graph import (
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools.utils import change_impact_cached_graph as cached
+from codexray.mcp.tools.utils.change_impact_cached_graph import (
     CachedDependencyGraph,
 )
 

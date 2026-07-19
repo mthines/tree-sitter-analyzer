@@ -10,9 +10,9 @@ import asyncio
 import tempfile
 from pathlib import Path
 
-from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
-from tree_sitter_analyzer.mcp.tools.table_format_tool import TableFormatTool
-from tree_sitter_analyzer.project_detector import (
+from codexray.core.analysis_engine import get_analysis_engine
+from codexray.mcp.tools.table_format_tool import TableFormatTool
+from codexray.project_detector import (
     ProjectRootDetector,
     detect_project_root,
 )
@@ -20,7 +20,7 @@ from tree_sitter_analyzer.project_detector import (
 
 async def main():
     """Demonstrate project root detection and usage."""
-    print("🔍 Tree-sitter Analyzer Project Root Detection Demo")
+    print("🔍 CodeXray Project Root Detection Demo")
     print("=" * 70)
 
     # Create a mock project structure
@@ -39,7 +39,7 @@ async def main():
 [tool.poetry]
 name = "demo-project"
 version = "0.1.0"
-description = "Demo project for tree-sitter-analyzer"
+description = "Demo project for codexray"
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -238,11 +238,11 @@ class TestFibonacci(unittest.TestCase):
 
     print("📝 CLI Usage Examples:")
     print("   # Auto-detect project root:")
-    print(f"   tree-sitter-analyzer {src_file} --table=full")
+    print(f"   codexray {src_file} --table=full")
     print()
     print("   # Explicit project root:")
     print(
-        f"   tree-sitter-analyzer {src_file} --project-root {project_root} --table=full"
+        f"   codexray {src_file} --project-root {project_root} --table=full"
     )
     print()
 
@@ -252,11 +252,11 @@ class TestFibonacci(unittest.TestCase):
 
     print("📝 MCP Server Configuration Examples:")
     print("   # Auto-detect project root:")
-    print('   "command": "python", "args": ["-m", "tree_sitter_analyzer.mcp.server"]')
+    print('   "command": "python", "args": ["-m", "codexray.mcp.server"]')
     print()
     print("   # Explicit project root:")
     print(
-        f'   "command": "python", "args": ["-m", "tree_sitter_analyzer.mcp.server", "--project-root", "{project_root}"]'
+        f'   "command": "python", "args": ["-m", "codexray.mcp.server", "--project-root", "{project_root}"]'
     )
     print()
     print("   # Environment variable:")
@@ -279,7 +279,7 @@ class TestFibonacci(unittest.TestCase):
     print("✅ Security validation with project boundaries")
     print("✅ Multiple project root support (different instances)")
     print()
-    print("🚀 Your tree-sitter-analyzer now has intelligent project management!")
+    print("🚀 Your codexray now has intelligent project management!")
 
 
 if __name__ == "__main__":

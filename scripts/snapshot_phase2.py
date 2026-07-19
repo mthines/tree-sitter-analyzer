@@ -92,7 +92,7 @@ def _analyze_with_plugin(corpus_file: Path, lang_key: str) -> dict[str, Any]:
     """Use PluginManager + direct tree-sitter parse to extract symbols."""
     import tree_sitter
 
-    from tree_sitter_analyzer.plugins.manager import PluginManager
+    from codexray.plugins.manager import PluginManager
 
     pm = PluginManager()
     pm.load_plugins()

@@ -19,7 +19,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.cli_main import (
+from codexray.cli_main import (
     create_argument_parser,
 )
 
@@ -28,7 +28,7 @@ from tree_sitter_analyzer.cli_main import (
 
 def _make_context(**overrides) -> object:
     """Return a minimal SpecialCommandContext-like namespace."""
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.special_commands import SpecialCommandContext
 
     defaults = {
         "asyncio_run": asyncio.run,
@@ -135,7 +135,7 @@ class TestOutlineDispatch:
 
     def test_returns_none_when_outline_absent(self) -> None:
         """When ``outline`` is ``None``, handler returns ``None``."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         args = self._base_args()
         ctx = _make_context()
@@ -144,7 +144,7 @@ class TestOutlineDispatch:
 
     def test_returns_0_on_success(self, tmp_path: Path) -> None:
         """Handler returns ``0`` when GetCodeOutlineTool returns success."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         target = tmp_path / "sample.py"
         target.write_text("def foo(): pass\n", newline="\n")
@@ -172,7 +172,7 @@ class TestOutlineDispatch:
 
     def test_returns_1_on_tool_failure(self, tmp_path: Path) -> None:
         """Handler returns ``1`` when GetCodeOutlineTool returns success=False."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         target = tmp_path / "broken.py"
         target.write_text("", newline="\n")
@@ -185,7 +185,7 @@ class TestOutlineDispatch:
 
     def test_missing_file_returns_1_with_json_error(self, tmp_path: Path) -> None:
         """Nonexistent file → exit 1 with a JSON error envelope."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         output_json_calls: list = []
         output_error_calls: list = []
@@ -205,7 +205,7 @@ class TestOutlineDispatch:
 
     def test_project_root_resolves_relative_path(self, tmp_path: Path) -> None:
         """--project-root /repo --outline rel/path.py works from any CWD."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         (tmp_path / "src").mkdir()
         (tmp_path / "src" / "foo.py").write_text(
@@ -223,7 +223,7 @@ class TestOutlineDispatch:
 
     def test_language_override_forwarded(self, tmp_path: Path) -> None:
         """--language reaches GetCodeOutlineTool."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         target = tmp_path / "script.txt"
         target.write_text("def foo(): pass\n", newline="\n")
@@ -243,7 +243,7 @@ class TestOutlineDispatch:
 
     def test_listed_cap_forwarded(self, tmp_path: Path) -> None:
         """--outline-listed-cap is forwarded to GetCodeOutlineTool."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         target = tmp_path / "sample.py"
         target.write_text("def foo(): pass\n", newline="\n")
@@ -286,7 +286,7 @@ class TestOutlineMcpCliParity:
 
     @staticmethod
     def _run_cli_outline(target: Path, project_root: Path) -> dict:
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         cli_result_holder: list = []
         ctx = _make_context(
@@ -308,7 +308,7 @@ class TestOutlineMcpCliParity:
 
     def test_core_schema_keys_match_mcp_output(self, tmp_path: Path) -> None:
         """CLI JSON output contains the same core keys as MCP execute response."""
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 
@@ -331,7 +331,7 @@ class TestOutlineMcpCliParity:
         assert mcp_result["success"] is True
 
         # CLI path via _handle_outline
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         cli_result_holder: list = []
         ctx = _make_context(
@@ -386,7 +386,7 @@ class TestOutlineMcpCliParity:
 
     def test_parse_error_signal_keys_match_mcp_output(self, tmp_path: Path) -> None:
         """#707: CLI must preserve outline parse-error signals from MCP."""
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 
@@ -411,7 +411,7 @@ class TestOutlineMcpCliParity:
 
     def test_encoding_signal_keys_match_mcp_output(self, tmp_path: Path) -> None:
         """#707: CLI must preserve non-UTF8 outline signals from MCP."""
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 
@@ -447,7 +447,7 @@ class TestBareOutlineValidation(TestOutlineDispatch):
     def test_bare_outline_without_any_file_errors(self):
         """Codex P3 on #582: bare --outline with no file must fail with a
         clear validation error, not leak the sentinel to the dispatcher."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_outline
+        from codexray.cli.special_commands import _handle_outline
 
         args = self._base_args(outline="__POSITIONAL__")
         args.file_path = None

@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
 
 
 class TestFindAndGrepToolFileOutput:
@@ -83,11 +83,11 @@ def nested_hello():
         """Test basic file output functionality"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock fd output (file discovery)
@@ -150,11 +150,11 @@ def nested_hello():
         """Test suppress_output functionality"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock outputs
@@ -201,11 +201,11 @@ def nested_hello():
         """Test group_by_file mode with file output"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock outputs with multiple matches in same file
@@ -251,11 +251,11 @@ def nested_hello():
         """Test summary_only mode with file output"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock outputs
@@ -298,11 +298,11 @@ def nested_hello():
         """Test count_only_matches mode"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock outputs
@@ -336,11 +336,11 @@ def nested_hello():
         """Test total_only mode"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock outputs
@@ -370,11 +370,11 @@ def nested_hello():
         """Test various file filtering options with output"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock outputs
@@ -409,11 +409,11 @@ def nested_hello():
         """Test error handling when file output fails"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock successful fd and rg outputs
@@ -449,11 +449,11 @@ def nested_hello():
         """Test handling of fd command failure"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock fd failure
@@ -477,11 +477,11 @@ def nested_hello():
         """Test handling of ripgrep command failure"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock successful fd but failed rg
@@ -509,11 +509,11 @@ def nested_hello():
         """Test behavior when no files are found by fd"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock fd returning no files
@@ -540,11 +540,11 @@ def nested_hello():
         """Test file sorting options"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock fd output with multiple files
@@ -597,11 +597,11 @@ def nested_hello():
         """Test complex workflow combining multiple features with file output"""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture"
             ) as mock_run,
         ):
             # Mock outputs for complex search

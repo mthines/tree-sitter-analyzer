@@ -1,4 +1,4 @@
-from tree_sitter_analyzer.formatters._php_formatter_helpers import (
+from codexray.formatters._php_formatter_helpers import (
     extract_namespace,
     format_compact_signature,
     format_compact_table,

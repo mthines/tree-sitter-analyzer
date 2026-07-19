@@ -5,8 +5,8 @@ import time
 from collections.abc import Iterable
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 PATH_TRAVERSAL_CHECKS = [
     "../../../etc/passwd",

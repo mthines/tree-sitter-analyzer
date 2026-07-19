@@ -20,19 +20,19 @@ import pytest
 
 class TestParseMcpArgs:
     def test_no_args(self):
-        from tree_sitter_analyzer.mcp.server import parse_mcp_args
+        from codexray.mcp.server import parse_mcp_args
 
         args = parse_mcp_args([])
         assert args.project_root is None
 
     def test_unknown_args_raises(self):
-        from tree_sitter_analyzer.mcp.server import parse_mcp_args
+        from codexray.mcp.server import parse_mcp_args
 
         with pytest.raises(SystemExit):
             parse_mcp_args(["--unknown-arg"])
 
     def test_with_project_root(self):
-        from tree_sitter_analyzer.mcp.server import parse_mcp_args
+        from codexray.mcp.server import parse_mcp_args
 
         args = parse_mcp_args(["--project-root", "/tmp/foo"])
         assert args.project_root == "/tmp/foo"
@@ -56,9 +56,9 @@ class TestHandleAnalyzeCode:
     @pytest.mark.asyncio
     async def test_missing_file_path_uses_universal_tool(self, tmp_path):
         """no file_path, universal tool available, succeeds"""
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         server.universal_analyze_tool = AsyncMock()
         server.universal_analyze_tool.execute = AsyncMock(
             return_value={"universal": "result"}
@@ -69,9 +69,9 @@ class TestHandleAnalyzeCode:
     @pytest.mark.asyncio
     async def test_missing_file_path_no_universal_raises(self, tmp_path):
         """no file_path and no universal tool"""
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         server.universal_analyze_tool = None
         with pytest.raises(ValueError, match="file_path is required"):
             await server._analyze_code_scale({})
@@ -79,9 +79,9 @@ class TestHandleAnalyzeCode:
     @pytest.mark.asyncio
     async def test_universal_tool_raises_valueerror(self, tmp_path):
         """Universal tool re-raises ValueError"""
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         server.universal_analyze_tool = AsyncMock()
         server.universal_analyze_tool.execute = AsyncMock(
             side_effect=ValueError("bad input")
@@ -92,11 +92,11 @@ class TestHandleAnalyzeCode:
     @pytest.mark.asyncio
     async def test_analysis_failure(self, tmp_path):
         """analysis_result.success == False"""
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
         file = tmp_path / "test.py"
         file.write_text("x = 1")
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         server.analysis_engine.analyze = AsyncMock(
             return_value=MagicMock(success=False, error_message="boom")
         )
@@ -108,11 +108,11 @@ class TestHandleAnalyzeCode:
     @pytest.mark.asyncio
     async def test_analysis_none_result(self, tmp_path):
         """analysis_result is None"""
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
         file = tmp_path / "test.py"
         file.write_text("x = 1")
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         server.analysis_engine.analyze = AsyncMock(return_value=None)
         with pytest.raises(RuntimeError, match="Failed to analyze file"):
             await server._analyze_code_scale(
@@ -132,30 +132,30 @@ class TestCalculateFileMetrics:
             yield Path(td)
 
     def test_calculate_metrics(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
         file = tmp_path / "test.py"
         file.write_text("def foo(): pass\n")
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         metrics = server._calculate_file_metrics(str(file), "python")
         assert isinstance(metrics, dict)
         assert metrics["total_lines"] == 1
         assert metrics["file_size_bytes"] == 16
 
     def test_calculate_metrics_nonexistent_file(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         metrics = server._calculate_file_metrics(str(tmp_path / "missing.py"), "python")
         assert isinstance(metrics, dict)
         assert "total_lines" in metrics
 
     def test_calculate_metrics_empty_file(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
         file = tmp_path / "empty.py"
         file.write_text("")
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         metrics = server._calculate_file_metrics(str(file), "python")
         assert isinstance(metrics, dict)
         assert metrics["total_lines"] == 0
@@ -175,9 +175,9 @@ class TestReadResource:
 
     @pytest.mark.asyncio
     async def test_read_code_file_resource(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         server.code_file_resource = MagicMock()
         server.code_file_resource.read_resource = AsyncMock(
             return_value={"code": "x=1"}
@@ -187,9 +187,9 @@ class TestReadResource:
 
     @pytest.mark.asyncio
     async def test_read_project_stats_resource(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         server.project_stats_resource = MagicMock()
         server.project_stats_resource.read_resource = AsyncMock(
             return_value={"stats": "ok"}
@@ -199,9 +199,9 @@ class TestReadResource:
 
     @pytest.mark.asyncio
     async def test_read_resource_not_found(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         with pytest.raises(ValueError, match="Unknown resource URI"):
             await server._read_resource("unknown://x")
 
@@ -218,34 +218,34 @@ class TestCreateServerToolHandlers:
             yield Path(td)
 
     def test_create_server_returns_server(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         mcp_server = server.create_server()
         assert mcp_server is not None
         assert hasattr(mcp_server, "name")
 
     def test_set_project_path(self, tmp_path):
-        from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.core.analysis_engine import UnifiedAnalysisEngine
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         server.set_project_path(str(tmp_path))
         assert isinstance(server.analysis_engine, UnifiedAnalysisEngine)
         assert server.analysis_engine._project_root == str(tmp_path)
 
     def test_project_root_stored(self, tmp_path):
-        from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.core.analysis_engine import UnifiedAnalysisEngine
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         assert isinstance(server.analysis_engine, UnifiedAnalysisEngine)
         assert server.analysis_engine._project_root == str(tmp_path)
 
     def test_set_project_path_reinit(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         original_engine = server.analysis_engine
         server.set_project_path(str(tmp_path))
         assert server.analysis_engine is original_engine
@@ -264,10 +264,10 @@ class TestRun:
 
     @pytest.mark.asyncio
     async def test_run_raises_when_mcp_not_available(self, tmp_path):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
-        with patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", False):
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
+        with patch("codexray.mcp.server.MCP_AVAILABLE", False):
             with pytest.raises(RuntimeError, match="MCP library not available"):
                 await server.run()
 
@@ -280,15 +280,15 @@ class TestRun:
 class TestMainFunction:
     @pytest.mark.asyncio
     async def test_main_keyboard_interrupt(self):
-        from tree_sitter_analyzer.mcp.server import main
+        from codexray.mcp.server import main
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.server.parse_mcp_args",
+                "codexray.mcp.server.parse_mcp_args",
                 return_value=MagicMock(project_root=None),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+                "codexray.mcp.server.CodeXrayMCPServer"
             ) as mock_srv_cls,
         ):
             mock_srv = MagicMock()
@@ -300,15 +300,15 @@ class TestMainFunction:
 
     @pytest.mark.asyncio
     async def test_main_exception(self):
-        from tree_sitter_analyzer.mcp.server import main
+        from codexray.mcp.server import main
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.server.parse_mcp_args",
+                "codexray.mcp.server.parse_mcp_args",
                 return_value=MagicMock(project_root=None),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+                "codexray.mcp.server.CodeXrayMCPServer"
             ) as mock_srv_cls,
         ):
             mock_srv = MagicMock()
@@ -319,7 +319,7 @@ class TestMainFunction:
                 mock_exit.assert_called_with(1)
 
     def test_main_sync(self):
-        from tree_sitter_analyzer.mcp.server import main_sync
+        from codexray.mcp.server import main_sync
 
         with patch("asyncio.run") as mock_run:
             main_sync()

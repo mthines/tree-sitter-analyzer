@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-PROJECT_DIR="${1:-/Users/aisheng.yu/git-private/tree-sitter-analyzer}"
+PROJECT_DIR="${1:-/Users/aisheng.yu/git-private/codexray}"
 RUNTIME_DIR="${PROJECT_DIR}/.autonomous-runtime"
 STATUS_SCRIPT="${RUNTIME_DIR}/status.sh"
 LOOP_SCRIPT="${RUNTIME_DIR}/loop.sh"

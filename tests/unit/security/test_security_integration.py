@@ -3,7 +3,7 @@
 Security Integration Tests
 
 Tests to verify that security features are properly integrated
-across all components of the tree-sitter-analyzer system.
+across all components of the codexray system.
 """
 
 import tempfile
@@ -11,16 +11,16 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.base_command import BaseCommand
-from tree_sitter_analyzer.cli.commands.query_command import QueryCommand
-from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.cli.commands.base_command import BaseCommand
+from codexray.cli.commands.query_command import QueryCommand
+from codexray.core.analysis_engine import get_analysis_engine
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
-from tree_sitter_analyzer.security import SecurityValidator
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
+from codexray.security import SecurityValidator
 
 
 class TestSecurityIntegration:
@@ -29,7 +29,7 @@ class TestSecurityIntegration:
     def setup_method(self):
         """Set up test environment."""
         # Reset singleton instance to ensure clean state
-        from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
+        from codexray.core.analysis_engine import UnifiedAnalysisEngine
 
         UnifiedAnalysisEngine._instances = {}
 
@@ -79,7 +79,7 @@ class TestClass:
     async def test_mcp_tools_security_integration(self):
         """Test that MCP tools properly validate inputs."""
         # Reset singleton instance to ensure clean state
-        from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
+        from codexray.core.analysis_engine import UnifiedAnalysisEngine
 
         UnifiedAnalysisEngine._instances = {}
 
@@ -146,7 +146,7 @@ class TestClass:
     async def test_analyze_scale_tool_security(self):
         """Test AnalyzeScaleTool security validation."""
         # Reset singleton instance to ensure clean state
-        from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
+        from codexray.core.analysis_engine import UnifiedAnalysisEngine
 
         UnifiedAnalysisEngine._instances = {}
 
@@ -299,7 +299,7 @@ class TestClass:
         # Capture log output
         log_capture = StringIO()
         handler = logging.StreamHandler(log_capture)
-        logger = logging.getLogger("tree_sitter_analyzer")
+        logger = logging.getLogger("codexray")
         logger.addHandler(handler)
         logger.setLevel(logging.WARNING)
 

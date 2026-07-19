@@ -1,6 +1,6 @@
 """RED tests for Feature 1 (Synapse): cross-file callee resolution.
 
-Implementation (``tree_sitter_analyzer/synapse_resolver.py``) does NOT exist
+Implementation (``codexray/synapse_resolver.py``) does NOT exist
 yet — every test in this file is expected to FAIL today (the RED state).
 
 Exercises: schema additions to ast_call_edges + new ast_imports table,
@@ -20,8 +20,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.callee_resolution import CalleeResolver
+from codexray.ast_cache import ASTCache
+from codexray.callee_resolution import CalleeResolver
 
 _FIXTURE_DIR = Path(__file__).resolve().parent.parent / "fixtures" / "synapse"
 
@@ -397,7 +397,7 @@ class TestResolveUnknown:
 
 
 class TestResolverModuleSurface:
-    """The new ``tree_sitter_analyzer.synapse_resolver`` module must export
+    """The new ``codexray.synapse_resolver`` module must export
     ``ResolverContext`` and ``resolve_callee``.
 
     NOTE: we deliberately do NOT use ``pytest.importorskip`` here — per the
@@ -407,13 +407,13 @@ class TestResolverModuleSurface:
 
     @pytest.mark.parametrize("attr", ["ResolverContext", "resolve_callee"])
     def test_public_api_present(self, attr: str) -> None:
-        from tree_sitter_analyzer import synapse_resolver  # noqa: F401
+        from codexray import synapse_resolver  # noqa: F401
 
         assert hasattr(synapse_resolver, attr), f"synapse_resolver must export {attr!r}"
 
     def test_resolve_callee_returns_expected_tuple_shape(self, tmp_path: Path) -> None:
         """`resolve_callee` returns a value with the documented attributes."""
-        from tree_sitter_analyzer import synapse_resolver
+        from codexray import synapse_resolver
 
         proj = _make_pkg(tmp_path, ["local_calls.py"])
         cache = ASTCache(str(proj))
@@ -436,7 +436,7 @@ class TestResolverModuleSurface:
 
     def test_resolve_callee_uses_shared_resolver_for_local_and_import(self) -> None:
         """Synapse keeps its cascade while sharing local/import resolution."""
-        from tree_sitter_analyzer import synapse_resolver
+        from codexray import synapse_resolver
 
         ctx = synapse_resolver.ResolverContext(
             project_root="",
@@ -475,7 +475,7 @@ class TestResolverModuleSurface:
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
         """Constructing ResolverContext should be cheap; first use loads maps."""
-        from tree_sitter_analyzer.synapse_resolver import _context
+        from codexray.synapse_resolver import _context
 
         cache = MagicMock()
         cache.project_root = "/repo"
@@ -562,8 +562,8 @@ class TestRFC0002BuiltinClassifier:
         stdlib: frozenset[str] = frozenset(),
         functions_by_name: dict | None = None,
     ):
-        from tree_sitter_analyzer.callee_resolution import CalleeResolver
-        from tree_sitter_analyzer.synapse_resolver import ResolverContext
+        from codexray.callee_resolution import CalleeResolver
+        from codexray.synapse_resolver import ResolverContext
 
         return ResolverContext(
             project_root="",
@@ -579,7 +579,7 @@ class TestRFC0002BuiltinClassifier:
 
     def test_builtin_name_resolves_to_builtin(self) -> None:
         """``len()`` with no local shadow → resolution="builtin" (RFC-0002 criterion 1)."""
-        from tree_sitter_analyzer.synapse_resolver import resolve_callee
+        from codexray.synapse_resolver import resolve_callee
 
         ctx = self._make_ctx(builtins=frozenset({"len", "print", "range"}))
         result = resolve_callee("len", "module.py", ctx, caller_name="f")
@@ -591,7 +591,7 @@ class TestRFC0002BuiltinClassifier:
 
     def test_project_binding_shadows_builtin(self) -> None:
         """A project function named ``len`` shadows the builtin (RFC-0002 criterion 2)."""
-        from tree_sitter_analyzer.synapse_resolver import resolve_callee
+        from codexray.synapse_resolver import resolve_callee
 
         ctx = self._make_ctx(
             builtins=frozenset({"len"}),
@@ -609,11 +609,11 @@ class TestRFC0002BuiltinClassifier:
 
     def test_stdlib_import_wins_over_builtin_name_collision(self) -> None:
         """When a name is both a known builtin and stdlib-imported, stdlib wins (runs earlier)."""
-        from tree_sitter_analyzer.synapse_resolver import (
+        from codexray.synapse_resolver import (
             ResolverContext,
             resolve_callee,
         )
-        from tree_sitter_analyzer.synapse_resolver._imports import ImportEntry
+        from codexray.synapse_resolver._imports import ImportEntry
 
         # ``path`` treated as a builtin AND imported from stdlib ``os`` module.
         # ``_try_stdlib`` must fire before ``_try_builtin`` per cascade order.

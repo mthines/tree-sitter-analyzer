@@ -3,7 +3,7 @@
 # on docstring + comment lines.
 #
 # The Agent-Teams parallel scanner flagged
-# tree_sitter_analyzer/mcp/tools/refactoring_suggestions_tool.py:272 as
+# codexray/mcp/tools/refactoring_suggestions_tool.py:272 as
 # a CRITICAL security finding (eval_usage) and L204 as an
 # AP001 mutable_default_argument. Both were actually documentation text
 # - L272 is inside a triple-quoted docstring, L204 is a "# def f(x=[])"
@@ -28,8 +28,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.security_scanner import detect_security_issues
-from tree_sitter_analyzer.mcp.tools.utils.anti_patterns import detect_anti_patterns
+from codexray.mcp.tools.security_scanner import detect_security_issues
+from codexray.mcp.tools.utils.anti_patterns import detect_anti_patterns
 
 
 def _ids(findings: list[dict[str, object]]) -> list[str]:
@@ -160,7 +160,7 @@ def test_refactoring_suggestions_tool_self_scan(smell_id_in_target_file: str) ->
     project_root = Path(__file__).parent.parent.parent.parent.parent
     target = (
         project_root
-        / "tree_sitter_analyzer"
+        / "codexray"
         / "mcp"
         / "tools"
         / "refactoring_suggestions_tool.py"
@@ -169,7 +169,7 @@ def test_refactoring_suggestions_tool_self_scan(smell_id_in_target_file: str) ->
         [
             sys.executable,
             "-m",
-            "tree_sitter_analyzer",
+            "codexray",
             "--code-patterns",
             str(target),
             "--format",

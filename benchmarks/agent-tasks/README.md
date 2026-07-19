@@ -11,7 +11,7 @@
 | Claude Code reverse-eng | Python+Rust | ~2k files | self-recursive credibility |
 | Excalidraw | TS | ~600 files | mid-size SPA |
 | Alamofire | Swift | ~300 files | iOS canonical |
-| **tree-sitter-analyzer** (self) | Python | ~1.4k files | dogfood demonstration |
+| **codexray** (self) | Python | ~1.4k files | dogfood demonstration |
 | Aider | Python | ~200 files | direct competitor self-analysis |
 
 ## 4 task scenarios (per repo)
@@ -31,7 +31,7 @@
 {
   "repo": "vscode",
   "task": "cold-start",
-  "tool": "tree-sitter-analyzer",
+  "tool": "codexray",
   "tool_calls": 1,
   "tokens_in": 850,
   "tokens_out": 1100,
@@ -60,7 +60,7 @@ Output: `benchmarks/agent-tasks/results-YYYY-MM-DD.json` + README table.
 
 ## CodeGraph parity table (2026-05-22 self-bench)
 
-Self-bench against ``tree-sitter-analyzer`` itself (~1.4k Python files,
+Self-bench against ``codexray`` itself (~1.4k Python files,
 24k indexed functions, 330k call edges). CodeGraph's public numbers come
 from their VS Code benchmark in the [Voideditor CodeGraph
 README](https://github.com/voideditor/codegraph) — direct apples-to-apples
@@ -69,10 +69,10 @@ on tool-call count; tokens/time are estimated from their published
 
 | Repo | Task | CodeGraph (calls / time) | **Us (TSA)** (calls / time / tokens-out) | Baseline (calls / time / tokens-out) |
 |---|---|---|---|---|
-| tree-sitter-analyzer | cold-start | 1 / ~0.4 s | **1 / 0.31 s / 1542** | 4 / 0.042 s / 1032 |
-| tree-sitter-analyzer | find-callers (`compute_graph_fingerprint`, 8 callers) | 1 / ~0.3 s | **1 / 2.22 s / 457** | 4 / 0.025 s / 1029 |
-| tree-sitter-analyzer | change-impact (git diff) | 1 / ~0.5 s | **1 / 3.35 s / 1205** | 3 / 0.050 s / 118 |
-| tree-sitter-analyzer | refactor-suggest (`get_project_summary_tool.py`) | n/a | **1 / 0.16 s / 2137** | 3 / 0.051 s / 1060 |
+| codexray | cold-start | 1 / ~0.4 s | **1 / 0.31 s / 1542** | 4 / 0.042 s / 1032 |
+| codexray | find-callers (`compute_graph_fingerprint`, 8 callers) | 1 / ~0.3 s | **1 / 2.22 s / 457** | 4 / 0.025 s / 1029 |
+| codexray | change-impact (git diff) | 1 / ~0.5 s | **1 / 3.35 s / 1205** | 3 / 0.050 s / 118 |
+| codexray | refactor-suggest (`get_project_summary_tool.py`) | n/a | **1 / 0.16 s / 2137** | 3 / 0.051 s / 1060 |
 
 **Decidable column (the one CodeGraph doesn't break out):**
 

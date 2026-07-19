@@ -3,7 +3,7 @@
 
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     _convert_parameters,
     _get_field_modifiers,
     _get_method_modifiers,

@@ -8,7 +8,7 @@ shared caching across MCP tool instances.
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.shared_cache import (
+from codexray.mcp.utils.shared_cache import (
     SharedCache,
     get_shared_cache,
 )

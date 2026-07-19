@@ -3,7 +3,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.test_gap_analyzer import (
+from codexray.test_gap_analyzer import (
     CoverageGapResult,
     ProductionSymbol,
     _extract_test_targets,

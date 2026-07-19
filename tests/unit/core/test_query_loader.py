@@ -8,7 +8,7 @@ import sys
 # Add project root to path
 sys.path.insert(0, ".")
 
-from tree_sitter_analyzer.query_loader import (
+from codexray.query_loader import (
     QueryLoader,
     get_query,
     is_language_supported,

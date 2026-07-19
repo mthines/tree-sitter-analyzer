@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_query_tool import (
+from codexray.mcp.tools.codegraph_query_tool import (
     CodeGraphQueryTool,
     parse_chain,
 )

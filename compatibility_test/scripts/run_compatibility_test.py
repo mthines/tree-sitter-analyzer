@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tree-sitter-analyzer MCP互換性テスト標準化スクリプト
+codexray MCP互換性テスト標準化スクリプト
 
 使用方法:
     python compatibility_test/scripts/run_compatibility_test.py --version-a 1.9.2 --version-b 1.9.3
@@ -37,37 +37,37 @@ def _set_project_path_result(params: dict[str, Any]) -> dict[str, Any]:
 
 def _load_mcp_tool_class(tool_name: str) -> type[Any]:
     if tool_name == "check_code_scale":
-        from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+        from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
         return AnalyzeScaleTool
 
     if tool_name == "analyze_code_structure":
-        from tree_sitter_analyzer.mcp.tools.table_format_tool import TableFormatTool
+        from codexray.mcp.tools.table_format_tool import TableFormatTool
 
         return TableFormatTool
 
     if tool_name == "query_code":
-        from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+        from codexray.mcp.tools.query_tool import QueryTool
 
         return QueryTool
 
     if tool_name == "extract_code_section":
-        from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+        from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
         return ReadPartialTool
 
     if tool_name == "list_files":
-        from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+        from codexray.mcp.tools.list_files_tool import ListFilesTool
 
         return ListFilesTool
 
     if tool_name == "find_and_grep":
-        from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
+        from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
 
         return FindAndGrepTool
 
     if tool_name == "search_content":
-        from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+        from codexray.mcp.tools.search_content_tool import SearchContentTool
 
         return SearchContentTool
 
@@ -295,16 +295,16 @@ class StandardizedCompatibilityTester:
         if not settings:
             return False
 
-        # 全てのtree-sitter-analyzerサーバーを無効化
+        # 全てのcodexrayサーバーを無効化
         for server_name in settings.get("mcpServers", {}):
-            if "tree-sitter-analyzer" in server_name:
+            if "codexray" in server_name:
                 settings["mcpServers"][server_name]["disabled"] = True
 
         # 指定されたバージョンのみ有効化
         target_servers = [
-            f"tree-sitter-analyzer-{version}",
-            f"tree-sitter-analyzer-v{version}",
-            f"tree-sitter-analyzer-{version.replace('.', '-')}",
+            f"codexray-{version}",
+            f"codexray-v{version}",
+            f"codexray-{version.replace('.', '-')}",
         ]
 
         enabled = False
@@ -633,7 +633,7 @@ class StandardizedCompatibilityTester:
 
     async def run_compatibility_test(self) -> bool:
         """互換性テストの実行"""
-        print("🚀 tree-sitter-analyzer MCP互換性テスト開始")
+        print("🚀 codexray MCP互換性テスト開始")
         print("=" * 60)
         print(f"📊 比較対象: v{self.version_a} vs v{self.version_b}")
         print(f"🧹 キャッシュクリア: {'有効' if self.clear_cache else '無効'}")
@@ -695,7 +695,7 @@ class StandardizedCompatibilityTester:
 
 async def main():
     """メイン実行関数"""
-    parser = argparse.ArgumentParser(description="tree-sitter-analyzer MCP互換性テスト")
+    parser = argparse.ArgumentParser(description="codexray MCP互換性テスト")
     parser.add_argument(
         "--version-a", required=True, help="比較元バージョン (例: 1.9.2)"
     )

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 スタンドアロン実行ファイル作成用スクリプト
-PyInstallerを使用してtree-sitter-analyzerの実行ファイルを作成します。
+PyInstallerを使用してcodexrayの実行ファイルを作成します。
 """
 
 import subprocess
@@ -29,20 +29,20 @@ def create_spec_file() -> None:
 block_cipher = None
 
 a = Analysis(
-    ['tree_sitter_analyzer/cli_main.py'],
+    ['codexray/cli_main.py'],
     pathex=[],
     binaries=[],
     datas=[
-        ('tree_sitter_analyzer/queries', 'tree_sitter_analyzer/queries'),
+        ('codexray/queries', 'codexray/queries'),
     ],
     hiddenimports=[
-        'tree_sitter_analyzer',
-        'tree_sitter_analyzer.cli',
-        'tree_sitter_analyzer.core',
-        'tree_sitter_analyzer.languages',
-        'tree_sitter_analyzer.plugins',
-        'tree_sitter_analyzer.formatters',
-        'tree_sitter_analyzer.interfaces',
+        'codexray',
+        'codexray.cli',
+        'codexray.core',
+        'codexray.languages',
+        'codexray.plugins',
+        'codexray.formatters',
+        'codexray.interfaces',
         'tree_sitter',
         'tree_sitter_java',
         'chardet',
@@ -67,7 +67,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='tree-sitter-analyzer',
+    name='codexray',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -83,9 +83,9 @@ exe = EXE(
 )
 """
 
-    with open("tree-sitter-analyzer.spec", "w", encoding="utf-8") as f:
+    with open("codexray.spec", "w", encoding="utf-8") as f:
         f.write(spec_content)
-    print("Created tree-sitter-analyzer.spec")
+    print("Created codexray.spec")
 
 
 def build_executable() -> bool:
@@ -98,11 +98,11 @@ def build_executable() -> bool:
                 "-m",
                 "PyInstaller",
                 "--clean",
-                "tree-sitter-analyzer.spec",
+                "codexray.spec",
             ]
         )
         print("Build completed successfully!")
-        print("Executable location: dist/tree-sitter-analyzer.exe")
+        print("Executable location: dist/codexray.exe")
     except subprocess.CalledProcessError as e:
         print(f"Build failed: {e}")
         return False
@@ -111,7 +111,7 @@ def build_executable() -> bool:
 
 def main() -> None:
     """メイン処理"""
-    print("=== Tree-sitter Analyzer Standalone Builder ===")
+    print("=== CodeXray Standalone Builder ===")
 
     # 必要な依存関係をインストール
     install_pyinstaller()
@@ -123,10 +123,10 @@ def main() -> None:
     if build_executable():
         print("\n=== Build Summary ===")
         print("✓ Standalone executable created successfully")
-        print("✓ Location: dist/tree-sitter-analyzer.exe")
+        print("✓ Location: dist/codexray.exe")
         print("✓ This executable can run without Python installation")
         print("\nUsage:")
-        print("  ./dist/tree-sitter-analyzer.exe examples/Sample.java --advanced")
+        print("  ./dist/codexray.exe examples/Sample.java --advanced")
     else:
         print("\n❌ Build failed")
         sys.exit(1)

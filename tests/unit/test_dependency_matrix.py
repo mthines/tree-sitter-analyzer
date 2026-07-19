@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.dependency_matrix import (
+from codexray.dependency_matrix import (
     CouplingEntry,
     DependencyMatrix,
     DependencyMatrixResult,
@@ -64,7 +64,7 @@ class TestDependencyMatrixBuild:
         ]
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             result = dm.build()
 
@@ -81,7 +81,7 @@ class TestDependencyMatrixBuild:
         mock_cache.get_resolved_call_edges.return_value = []
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             result = dm.build()
 
@@ -90,7 +90,7 @@ class TestDependencyMatrixBuild:
 
     def test_build_cache_failure(self, tmp_path):
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache", side_effect=Exception("no db")
+            "codexray.ast_cache.ASTCache", side_effect=Exception("no db")
         ):
             dm = DependencyMatrix(str(tmp_path))
             result = dm.build()
@@ -106,7 +106,7 @@ class TestDependencyMatrixBuild:
         mock_cache.get_resolved_call_edges.return_value = []
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             entry = dm.coupling_between("a.py", "b.py")
 
@@ -119,7 +119,7 @@ class TestDependencyMatrixBuild:
         mock_cache.get_resolved_call_edges.return_value = []
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             entry = dm.coupling_between("a.py", "z.py")
 
@@ -139,7 +139,7 @@ class TestDependencyMatrixBuild:
         ]
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             top = dm.most_coupled(top_k=2)
 
@@ -159,7 +159,7 @@ class TestDependencyMatrixBuild:
         mock_cache.get_resolved_call_edges.return_value = []
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             unstable = dm.unstable_modules(threshold=0.7)
 
@@ -174,7 +174,7 @@ class TestDependencyMatrixBuild:
         mock_cache.get_resolved_call_edges.return_value = []
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             s = dm.summary()
 
@@ -195,7 +195,7 @@ class TestDependencyMatrixBuild:
         ]
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             result = dm.build()
 
@@ -214,7 +214,7 @@ class TestDependencyMatrixSelfCallFilter:
         ]
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             result = dm.build()
 
@@ -241,7 +241,7 @@ class TestDependencyMatrixCallEdges:
         ]
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             dm.build()
             entry = dm.coupling_between("a.py", "b.py")
@@ -257,7 +257,7 @@ class TestDependencyMatrixCallEdges:
         ]
         mock_cache.close.return_value = None
 
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache):
+        with patch("codexray.ast_cache.ASTCache", return_value=mock_cache):
             dm = DependencyMatrix(str(tmp_path))
             result = dm.build()
 
@@ -274,7 +274,7 @@ class TestDependencyMatrixCrossFileIntegration:
             "from b import foo\n\n\ndef bar():\n    return foo()\n"
         )
 
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         cache = ASTCache(str(tmp_path))
         cache.index_project(force=True)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test Quality Audit Script for tree-sitter-analyzer
+Test Quality Audit Script for codexray
 
 Detects 6 anti-patterns (P1-P6) in test files using AST analysis:
 - P1: assert True only (with no docstring excuse)

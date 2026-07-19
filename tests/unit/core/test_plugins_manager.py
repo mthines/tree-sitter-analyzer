@@ -9,8 +9,8 @@ from pathlib import Path
 from typing import Any
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.plugins.base import LanguagePlugin
-from tree_sitter_analyzer.plugins.manager import (
+from codexray.plugins.base import LanguagePlugin
+from codexray.plugins.manager import (
     PluginManager,
     _is_running_under_pytest,
     _is_source_checkout,
@@ -58,7 +58,7 @@ class MockPlugin2(LanguagePlugin):
 class TestIsSourceCheckout:
     """Tests for _is_source_checkout function"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.Path")
+    @patch("codexray.plugins.manager.Path")
     def test_is_source_checkout_with_git(self, mock_path: MagicMock) -> None:
         """Test detection when .git directory exists"""
         mock_file = MagicMock()
@@ -70,7 +70,7 @@ class TestIsSourceCheckout:
         result = _is_source_checkout()
         assert result is True
 
-    @patch("tree_sitter_analyzer.plugins.manager.Path")
+    @patch("codexray.plugins.manager.Path")
     def test_is_source_checkout_without_git(self, mock_path: MagicMock) -> None:
         """Test detection when no .git directory exists"""
         mock_file = MagicMock()
@@ -84,7 +84,7 @@ class TestIsSourceCheckout:
         result = _is_source_checkout()
         assert result is False
 
-    @patch("tree_sitter_analyzer.plugins.manager.Path")
+    @patch("codexray.plugins.manager.Path")
     def test_is_source_checkout_exception(self, mock_path: MagicMock) -> None:
         """Test exception handling"""
         mock_path.side_effect = Exception("Test error")
@@ -145,7 +145,7 @@ class TestPluginManagerInitialization:
         manager = PluginManager()
         assert manager._loaded_plugins == {}
         assert manager._plugin_modules == {}
-        assert manager._entry_point_group == "tree_sitter_analyzer.plugins"
+        assert manager._entry_point_group == "codexray.plugins"
         assert manager._discovered is False
 
 
@@ -187,8 +187,8 @@ class TestPluginManagerLoadPlugins:
 class TestPluginManagerDiscoverFromEntryPoints:
     """Tests for _discover_from_entry_points method"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.importlib.metadata.entry_points")
-    @patch("tree_sitter_analyzer.plugins.manager.log_debug")
+    @patch("codexray.plugins.manager.importlib.metadata.entry_points")
+    @patch("codexray.plugins.manager.log_debug")
     def test_discover_with_select_api(
         self, mock_log_debug: MagicMock, mock_entry_points: MagicMock
     ) -> None:
@@ -204,8 +204,8 @@ class TestPluginManagerDiscoverFromEntryPoints:
         assert hasattr(manager, "_entry_point_map")
         assert "test_plugin" in manager._entry_point_map
 
-    @patch("tree_sitter_analyzer.plugins.manager.importlib.metadata.entry_points")
-    @patch("tree_sitter_analyzer.plugins.manager.log_warning")
+    @patch("codexray.plugins.manager.importlib.metadata.entry_points")
+    @patch("codexray.plugins.manager.log_warning")
     def test_discover_exception_handling(
         self, mock_log_warning: MagicMock, mock_entry_points: MagicMock
     ) -> None:
@@ -221,7 +221,7 @@ class TestPluginManagerDiscoverFromEntryPoints:
 class TestPluginManagerDiscoverFromLocalDirectory:
     """Tests for _discover_from_local_directory method"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.Path")
+    @patch("codexray.plugins.manager.Path")
     def test_discover_no_languages_dir(self, mock_path: MagicMock) -> None:
         """Test when languages directory doesn't exist"""
         manager = PluginManager()
@@ -268,11 +268,11 @@ class TestPluginManagerGetPlugin:
 
         assert result is plugin
 
-    @patch("tree_sitter_analyzer.plugins.manager.importlib.import_module")
+    @patch("codexray.plugins.manager.importlib.import_module")
     def test_get_plugin_lazy_load(self, mock_import: MagicMock) -> None:
         """Test lazy loading of plugin"""
         manager = PluginManager()
-        manager._plugin_modules["mock"] = "tree_sitter_analyzer.languages.mock_plugin"
+        manager._plugin_modules["mock"] = "codexray.languages.mock_plugin"
 
         mock_module = MagicMock()
         mock_plugin_class = MockPlugin
@@ -289,8 +289,8 @@ class TestPluginManagerGetPlugin:
 class TestPluginManagerLoadFromEntryPoints:
     """Tests for _load_from_entry_points method"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.importlib.metadata.entry_points")
-    @patch("tree_sitter_analyzer.plugins.manager.log_debug")
+    @patch("codexray.plugins.manager.importlib.metadata.entry_points")
+    @patch("codexray.plugins.manager.log_debug")
     def test_load_from_entry_points_success(
         self, mock_log_debug: MagicMock, mock_entry_points: MagicMock
     ) -> None:
@@ -308,8 +308,8 @@ class TestPluginManagerLoadFromEntryPoints:
         assert len(plugins) == 1
         assert isinstance(plugins[0], MockPlugin)
 
-    @patch("tree_sitter_analyzer.plugins.manager.importlib.metadata.entry_points")
-    @patch("tree_sitter_analyzer.plugins.manager.log_warning")
+    @patch("codexray.plugins.manager.importlib.metadata.entry_points")
+    @patch("codexray.plugins.manager.log_warning")
     def test_load_invalid_plugin(
         self, mock_log_warning: MagicMock, mock_entry_points: MagicMock
     ) -> None:
@@ -331,7 +331,7 @@ class TestPluginManagerLoadFromEntryPoints:
 class TestPluginManagerLoadFromLocalDirectory:
     """Tests for _load_from_local_directory method"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.Path")
+    @patch("codexray.plugins.manager.Path")
     def test_load_local_plugins(self, mock_path: MagicMock) -> None:
         """Test loading local plugins"""
         manager = PluginManager()
@@ -350,8 +350,8 @@ class TestPluginManagerLoadFromLocalDirectory:
         # Verify that the method returns a list (may be empty due to mocking)
         assert isinstance(plugins, list)
 
-    @patch("tree_sitter_analyzer.plugins.manager.Path")
-    @patch("tree_sitter_analyzer.plugins.manager.log_debug")
+    @patch("codexray.plugins.manager.Path")
+    @patch("codexray.plugins.manager.log_debug")
     def test_load_creates_languages_dir(
         self, mock_log_debug: MagicMock, mock_path: MagicMock
     ) -> None:
@@ -474,7 +474,7 @@ class TestPluginManagerGetSupportedLanguages:
 class TestPluginManagerReloadPlugins:
     """Tests for reload_plugins method"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_info")
+    @patch("codexray.plugins.manager.log_info")
     def test_reload_plugins(self, mock_log_info: MagicMock) -> None:
         """Test reloading plugins"""
         manager = PluginManager()
@@ -494,7 +494,7 @@ class TestPluginManagerReloadPlugins:
 class TestPluginManagerRegisterPlugin:
     """Tests for register_plugin method"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_debug")
+    @patch("codexray.plugins.manager.log_debug")
     def test_register_plugin_success(self, mock_log_debug: MagicMock) -> None:
         """Test successful plugin registration"""
         manager = PluginManager()
@@ -506,7 +506,7 @@ class TestPluginManagerRegisterPlugin:
         assert manager._loaded_plugins["mock"] is plugin
         mock_log_debug.assert_called_once()
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_warning")
+    @patch("codexray.plugins.manager.log_warning")
     def test_register_plugin_duplicate(self, mock_log_warning: MagicMock) -> None:
         """Test registering duplicate plugin"""
         manager = PluginManager()
@@ -520,7 +520,7 @@ class TestPluginManagerRegisterPlugin:
         assert manager._loaded_plugins["mock"] is plugin2
         mock_log_warning.assert_called_once()
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_error")
+    @patch("codexray.plugins.manager.log_error")
     def test_register_plugin_exception(self, mock_log_error: MagicMock) -> None:
         """Test exception handling during registration"""
         manager = PluginManager()
@@ -536,7 +536,7 @@ class TestPluginManagerRegisterPlugin:
 class TestPluginManagerUnregisterPlugin:
     """Tests for unregister_plugin method"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_debug")
+    @patch("codexray.plugins.manager.log_debug")
     def test_unregister_plugin_success(self, mock_log_debug: MagicMock) -> None:
         """Test successful plugin unregistration"""
         manager = PluginManager()
@@ -587,7 +587,7 @@ class TestPluginManagerGetPluginInfo:
 class TestPluginManagerValidatePlugin:
     """Tests for validate_plugin method"""
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_error")
+    @patch("codexray.plugins.manager.log_error")
     def test_validate_plugin_success(self, mock_log_error: MagicMock) -> None:
         """Test validating a valid plugin"""
         manager = PluginManager()
@@ -598,7 +598,7 @@ class TestPluginManagerValidatePlugin:
         assert result is True
         mock_log_error.assert_not_called()
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_error")
+    @patch("codexray.plugins.manager.log_error")
     def test_validate_plugin_missing_method(self, mock_log_error: MagicMock) -> None:
         """Test validating plugin with missing method"""
         manager = PluginManager()
@@ -613,7 +613,7 @@ class TestPluginManagerValidatePlugin:
         assert result is False
         mock_log_error.assert_called()
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_error")
+    @patch("codexray.plugins.manager.log_error")
     def test_validate_plugin_invalid_language_name(
         self, mock_log_error: MagicMock
     ) -> None:
@@ -629,7 +629,7 @@ class TestPluginManagerValidatePlugin:
         assert result is False
         mock_log_error.assert_called()
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_error")
+    @patch("codexray.plugins.manager.log_error")
     def test_validate_plugin_invalid_extensions(
         self, mock_log_error: MagicMock
     ) -> None:
@@ -645,7 +645,7 @@ class TestPluginManagerValidatePlugin:
         assert result is False
         mock_log_error.assert_called()
 
-    @patch("tree_sitter_analyzer.plugins.manager.log_error")
+    @patch("codexray.plugins.manager.log_error")
     def test_validate_plugin_no_extractor(self, mock_log_error: MagicMock) -> None:
         """Test validating plugin that returns no extractor"""
         manager = PluginManager()

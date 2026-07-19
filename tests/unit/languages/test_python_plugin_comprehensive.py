@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from tree_sitter_analyzer.languages.python_plugin import (
+from codexray.languages.python_plugin import (
     PythonElementExtractor,
     PythonPlugin,
 )

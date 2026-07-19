@@ -9,7 +9,7 @@ other language query implementations.
 
 import pytest
 
-from tree_sitter_analyzer.queries import javascript as js_queries
+from codexray.queries import javascript as js_queries
 
 
 class TestJavaScriptExtendedQueries:

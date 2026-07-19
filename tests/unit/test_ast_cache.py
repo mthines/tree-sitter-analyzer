@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import (
+from codexray.ast_cache import (
     _AST_CACHE_EXTRACTOR_VERSION,
     _EXT_TO_LANG,
     ASTCache,
@@ -52,7 +52,7 @@ class TestContentHash:
 
 class TestAstCacheWriteHelpers:
     def test_empty_fts5_symbol_batches_return_empty(self):
-        from tree_sitter_analyzer.cache.write import (
+        from codexray.cache.write import (
             write_fts5_symbols,
             write_fts5_symbols_from_tuples,
         )
@@ -74,7 +74,7 @@ class TestAstCacheWriteHelpers:
 
 class TestAstExtractionWorker:
     def test_init_worker_parser_sets_reusable_parser(self):
-        import tree_sitter_analyzer.cache.extraction as extraction
+        import codexray.cache.extraction as extraction
 
         extraction._worker_parser = None
 
@@ -278,7 +278,7 @@ class TestIndexProject:
     def test_index_project_serial_and_parallel_agree(self, tmp_project):
         """PERF-4 correctness: parallel and serial paths must produce
         identical indexed counts and SQLite contents."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         db_serial = tmp_project / "ser.db"
         db_parallel = tmp_project / "par.db"
@@ -345,7 +345,7 @@ class TestIndexProject:
         """Large-repo warm-cache builds must not run per-file git history by default."""
         monkeypatch.delenv("TSA_INDEX_ACTIVATION", raising=False)
         with patch(
-            "tree_sitter_analyzer.git_activation.compute_symbol_activation"
+            "codexray.git_activation.compute_symbol_activation"
         ) as compute:
             result = cache.index_project(workers=0)
 
@@ -360,7 +360,7 @@ class TestIndexProject:
     def test_index_project_activation_opt_in_via_argument(self, cache, monkeypatch):
         monkeypatch.delenv("TSA_INDEX_ACTIVATION", raising=False)
         with patch(
-            "tree_sitter_analyzer.git_activation.compute_symbol_activation",
+            "codexray.git_activation.compute_symbol_activation",
             return_value=[],
         ) as compute:
             result = cache.index_project(workers=0, include_activation=True)
@@ -371,7 +371,7 @@ class TestIndexProject:
     def test_index_project_activation_opt_in_via_env(self, cache, monkeypatch):
         monkeypatch.setenv("TSA_INDEX_ACTIVATION", "1")
         with patch(
-            "tree_sitter_analyzer.git_activation.compute_symbol_activation",
+            "codexray.git_activation.compute_symbol_activation",
             return_value=[],
         ) as compute:
             result = cache.index_project(workers=0)
@@ -440,7 +440,7 @@ class TestStats:
             pytest.skip("FTS5 not available")
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.json.loads",
+            "codexray.ast_cache.json.loads",
             side_effect=AssertionError("get_stats should not scan symbols_json"),
         ):
             stats = cache.get_stats()
@@ -891,7 +891,7 @@ class TestPostIndexEdgeRefreshSkip:
     it was ~47% of django's index time for an identical edge set."""
 
     def test_refresh_skipped_when_fts5_available(self, tmp_project, monkeypatch):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         c = ASTCache(str(tmp_project))
         if not c.fts5_available:
@@ -918,7 +918,7 @@ class TestPostIndexEdgeRefreshSkip:
             c.close()
 
     def test_refresh_runs_when_fts5_unavailable(self, tmp_project, monkeypatch):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         c = ASTCache(str(tmp_project))
         try:
@@ -966,7 +966,7 @@ class TestMethodKindClassification:
     def test_method_stored_as_kind_method(self, method_project):
         """After indexing a file with a class method, ast_symbol_rows must have
         at least one row with kind='method'."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         c = ASTCache(str(method_project))
         try:
@@ -985,7 +985,7 @@ class TestMethodKindClassification:
 
     def test_method_kind_bark_found(self, method_project):
         """The method 'bark' inside class Dog must be stored with kind='method'."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         c = ASTCache(str(method_project))
         try:
@@ -1003,7 +1003,7 @@ class TestMethodKindClassification:
 
     def test_top_level_function_stays_kind_function(self, method_project):
         """Top-level functions (no parent class) must keep kind='function'."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         c = ASTCache(str(method_project))
         try:
@@ -1024,7 +1024,7 @@ class TestMethodKindClassification:
     )
     def test_fts_search_finds_method_by_kind(self, method_project):
         """fts_search results for 'bark' must include kind='method' entry in FTS."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         c = ASTCache(str(method_project))
         try:
@@ -1043,7 +1043,7 @@ class TestMethodKindClassification:
         """Both the serial (workers=0) and parallel (workers=2) indexing paths
         must produce the same kind='method' rows (regression guard for the
         worker tuple serialization path)."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         db_serial = method_project / "ser.db"
         db_parallel = method_project / "par.db"

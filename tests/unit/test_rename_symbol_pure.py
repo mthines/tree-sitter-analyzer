@@ -9,7 +9,7 @@ from __future__ import annotations
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.rename_symbol import (
+from codexray.rename_symbol import (
     RenameResult,
     RenameSite,
     _apply_rename_to_file,
@@ -470,7 +470,7 @@ class TestRenameSymbol:
         cache = _make_mock_cache(str(tmp_path))
         resolver = _make_mock_resolver()
         with patch(
-            "tree_sitter_analyzer.symbol_resolver.SymbolResolver", return_value=resolver
+            "codexray.symbol_resolver.SymbolResolver", return_value=resolver
         ):
             result = rename_symbol(cache, "foo", "bar", dry_run=True)
         assert result.symbol == "foo"
@@ -486,7 +486,7 @@ class TestRenameSymbol:
         defn = SimpleNamespace(file=str(f), line=1)
         resolver = _make_mock_resolver(definitions=[defn])
         with patch(
-            "tree_sitter_analyzer.symbol_resolver.SymbolResolver", return_value=resolver
+            "codexray.symbol_resolver.SymbolResolver", return_value=resolver
         ):
             result = rename_symbol(cache, "foo", "bar", dry_run=True)
         # File unchanged
@@ -501,7 +501,7 @@ class TestRenameSymbol:
         defn = SimpleNamespace(file=str(f), line=1)
         resolver = _make_mock_resolver(definitions=[defn])
         with patch(
-            "tree_sitter_analyzer.symbol_resolver.SymbolResolver", return_value=resolver
+            "codexray.symbol_resolver.SymbolResolver", return_value=resolver
         ):
             result = rename_symbol(cache, "foo", "bar", dry_run=False)
         assert result.files_changed == 1
@@ -515,10 +515,10 @@ class TestRenameSymbol:
         defn = SimpleNamespace(file=str(f), line=1)
         resolver = _make_mock_resolver(definitions=[defn])
         with patch(
-            "tree_sitter_analyzer.symbol_resolver.SymbolResolver", return_value=resolver
+            "codexray.symbol_resolver.SymbolResolver", return_value=resolver
         ):
             with patch(
-                "tree_sitter_analyzer.rename_symbol._apply_rename_to_file",
+                "codexray.rename_symbol._apply_rename_to_file",
                 return_value=False,
             ):
                 result = rename_symbol(cache, "foo", "bar", dry_run=False)

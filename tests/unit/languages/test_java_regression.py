@@ -49,7 +49,7 @@ class TestAnnotationExtractionOrder:
         import tree_sitter
         import tree_sitter_java as ts_java
 
-        from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+        from codexray.languages.java_plugin import JavaElementExtractor
 
         src = """
 @Controller
@@ -84,7 +84,7 @@ public class FooController {
         import tree_sitter
         import tree_sitter_java as ts_java
 
-        from tree_sitter_analyzer.languages.java_plugin import JavaPlugin
+        from codexray.languages.java_plugin import JavaPlugin
 
         src = """
 @Controller
@@ -114,7 +114,7 @@ public class FooController {
 
     def test_reset_caches_preserves_annotations_source_data(self):
         """Bug 2 fix: _reset_caches() clears lookup caches but keeps self.annotations."""
-        from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+        from codexray.languages.java_plugin import JavaElementExtractor
 
         ext = JavaElementExtractor()
         ext.annotations.append({"name": "Controller", "line": 1})
@@ -144,7 +144,7 @@ class TestFieldAnnotationExtraction:
         import tree_sitter
         import tree_sitter_java as ts_java
 
-        from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+        from codexray.languages.java_plugin import JavaElementExtractor
 
         src = """
 public class Entity {
@@ -184,7 +184,7 @@ class TestImplementsGenerics:
         import tree_sitter
         import tree_sitter_java as ts_java
 
-        from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+        from codexray.languages.java_plugin import JavaElementExtractor
 
         src = """\
 package test;
@@ -218,7 +218,7 @@ abstract class BoundedLocalCache<K, V> implements LocalCache<K, V> {
         import tree_sitter
         import tree_sitter_java as ts_java
 
-        from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+        from codexray.languages.java_plugin import JavaElementExtractor
 
         src = """\
 package test;
@@ -257,7 +257,7 @@ class Foo<K, V> implements Runnable, Comparable<Foo<K, V>>, Serializable {
         import tree_sitter
         import tree_sitter_java as ts_java
 
-        from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+        from codexray.languages.java_plugin import JavaElementExtractor
 
         src = """\
 package test;
@@ -304,7 +304,7 @@ class TestAnnotationAttribution:
         import tree_sitter
         import tree_sitter_java as ts_java
 
-        from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+        from codexray.languages.java_plugin import JavaElementExtractor
 
         src = """\
 package test;
@@ -349,7 +349,7 @@ class Outer {
         import tree_sitter
         import tree_sitter_java as ts_java
 
-        from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+        from codexray.languages.java_plugin import JavaElementExtractor
 
         src = """\
 package test;
@@ -432,13 +432,13 @@ abstract class BoundedLocalCache<K, V>
 
     @pytest.fixture(scope="class")
     def mcp_result(self, tmp_path_factory):
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
         base = tmp_path_factory.mktemp("caffeine_synthetic")
         java_file = base / "BoundedLocalCache.java"
         java_file.write_text(self._SRC, encoding="utf-8")
 
-        server = TreeSitterAnalyzerMCPServer(str(base))
+        server = CodeXrayMCPServer(str(base))
         result = asyncio.run(
             server.call_tool(
                 "analyze_code_structure",
@@ -529,7 +529,7 @@ def _extract_classes_from_src() -> dict[str, str]:
     import tree_sitter
     import tree_sitter_java
 
-    from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+    from codexray.languages.java_plugin import JavaElementExtractor
 
     lang = tree_sitter.Language(tree_sitter_java.language())
     parser = tree_sitter.Parser(lang)
@@ -569,7 +569,7 @@ def test_record_method_still_extracted():
     import tree_sitter
     import tree_sitter_java
 
-    from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
+    from codexray.languages.java_plugin import JavaElementExtractor
 
     lang = tree_sitter.Language(tree_sitter_java.language())
     parser = tree_sitter.Parser(lang)
@@ -605,7 +605,7 @@ class TestJavaAnnotationMethodQuery:
     `(modifiers [(annotation) (marker_annotation)]+ @annotation)`."""
 
     def test_single_marker_annotation_count(self):
-        from tree_sitter_analyzer import api
+        from codexray import api
 
         java_code = """
 public class TestClass {
@@ -630,7 +630,7 @@ public class TestClass {
             _cleanup(test_file)
 
     def test_annotation_with_parameters(self):
-        from tree_sitter_analyzer import api
+        from codexray import api
 
         java_code = """
 public class TestClass {
@@ -654,7 +654,7 @@ public class TestClass {
             _cleanup(test_file)
 
     def test_mixed_methods_only_annotated_matched(self):
-        from tree_sitter_analyzer import api
+        from codexray import api
 
         java_code = """
 public class TestClass {
@@ -689,7 +689,7 @@ public class TestClass {
             _cleanup(test_file)
 
     def test_query_result_has_expected_captures(self):
-        from tree_sitter_analyzer import api
+        from codexray import api
 
         java_code = """
 public class TestClass {
@@ -766,16 +766,16 @@ def _query(server, file_path, query_key):
 
 @pytest.fixture(scope="module")
 def petclinic_server():
-    from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+    from codexray.mcp.server import CodeXrayMCPServer
 
-    return TreeSitterAnalyzerMCPServer(str(PETCLINIC_BASE))
+    return CodeXrayMCPServer(str(PETCLINIC_BASE))
 
 
 @pytest.fixture(scope="module")
 def spring_server():
-    from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+    from codexray.mcp.server import CodeXrayMCPServer
 
-    return TreeSitterAnalyzerMCPServer(str(SPRING_BASE))
+    return CodeXrayMCPServer(str(SPRING_BASE))
 
 
 @pytest.mark.skipif(not PETCLINIC_BASE.exists(), reason="spring-petclinic not cloned")
@@ -890,7 +890,7 @@ class TestJava16RecordQuery:
 
         1 record match × 2 captures = 2 results (measured 2026-06-13).
         """
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
         src = b"""
 package test;
@@ -902,7 +902,7 @@ public record Point(int x, int y) {
             f.write(src)
             tmp_path = f.name
 
-        server = TreeSitterAnalyzerMCPServer(os.path.dirname(tmp_path))
+        server = CodeXrayMCPServer(os.path.dirname(tmp_path))
         r = asyncio.run(
             server.query_tool.execute(
                 {

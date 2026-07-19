@@ -9,7 +9,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
+from codexray.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
 
 
 @pytest.fixture
@@ -268,7 +268,7 @@ class Greeter:
         numbers (the line classifier's treatment of trailing blank lines
         and shebangs varies).
         """
-        from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import (
+        from codexray.mcp.tools.analyze_scale_tool import (
             AnalyzeScaleTool,
         )
 

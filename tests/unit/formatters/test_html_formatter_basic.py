@@ -15,14 +15,14 @@ from tests.unit.formatters._test_html_formatter_mixin import (
     TestHtmlFormatterRegistrationMixin,
     TestHtmlJsonFormatterMixin,
 )
-from tree_sitter_analyzer.formatters.formatter_registry import IFormatter
-from tree_sitter_analyzer.formatters.html_formatter import (
+from codexray.formatters.formatter_registry import IFormatter
+from codexray.formatters.html_formatter import (
     HtmlCompactFormatter,
     HtmlCsvFormatter,
     HtmlFormatter,
     HtmlJsonFormatter,
 )
-from tree_sitter_analyzer.models import Function, MarkupElement, StyleElement
+from codexray.models import Function, MarkupElement, StyleElement
 
 
 class TestHtmlFormatter(TestHtmlFormatterMixin):

@@ -2,7 +2,7 @@
 
 Real `miswire-audit` runs on public repos (no CodeGraph install — TSA models the
 name-only design from its own index). Reproduce on any tree:
-`uvx --from "git+https://github.com/aimasteracc/tree-sitter-analyzer@develop" miswire-audit <path>`.
+`uvx --from "git+https://github.com/aimasteracc/codexray@develop" miswire-audit <path>`.
 
 ## Summary
 
@@ -20,7 +20,7 @@ name-only design from its own index). Reproduce on any tree:
 | huggingface/tokenizers | Rust+Py+JS+TS | 16,329 | — | **1,259** (7.71%) | **0** | v1.21.0 (2026-06-07) — re-run `gauntlet_runner.py --all` before publication <!-- re-measure --> |
 | astral-sh/ruff | Rust+Py+TS | 187,418 | — | **7,557** (4.03%) | **0** | v1.21.0 (2026-06-07) — re-run `gauntlet_runner.py --all` before publication <!-- re-measure --> |
 | pola-rs/polars | Rust+Py | 267,066 | — | **9,016** (3.38%) | **0** | v1.21.0 (2026-06-07) — re-run `gauntlet_runner.py --all` before publication <!-- re-measure --> |
-| tree-sitter-analyzer (this repo) | 14 langs | 116,672 | 3,946 (3.38%) | **680** (0.58%) | **1** | measured 2026-06-10 at v1.22.0 (g6b2a266d) |
+| codexray (this repo) | 14 langs | 116,672 | 3,946 (3.38%) | **680** (0.58%) | **1** | measured 2026-06-10 at v1.22.0 (g6b2a266d) |
 | gin-gonic/gin | Go (single) | 9,134 | **0** | **0** | **0** | v1.21.0 (2026-06-07) — re-run `gauntlet_runner.py --all` before publication <!-- re-measure --> |
 
 Across 5 repos TSA resolves **0 or 1 cross-language mis-wires** on the four polyglot

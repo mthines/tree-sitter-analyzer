@@ -24,7 +24,7 @@ not one ``languages_compatible`` family.
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.synapse_resolver.languages.kotlin import (
+from codexray.synapse_resolver.languages.kotlin import (
     build_kotlin_resolver_context,
     resolve_kotlin_callee,
 )
@@ -360,7 +360,7 @@ def test_stdlib_name_collision_with_java_symbol_still_stdlib() -> None:
 # ---------------------------------------------------------------------------
 def test_kotlin_is_registered() -> None:
     """Importing the languages package registers 'kotlin' in the registry."""
-    import tree_sitter_analyzer.synapse_resolver.languages as _languages  # noqa: F401
-    from tree_sitter_analyzer.synapse_resolver._registry import registered_languages
+    import codexray.synapse_resolver.languages as _languages  # noqa: F401
+    from codexray.synapse_resolver._registry import registered_languages
 
     assert "kotlin" in registered_languages()

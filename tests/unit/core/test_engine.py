@@ -22,17 +22,17 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.api import get_engine
-from tree_sitter_analyzer.core import AnalysisEngine
-from tree_sitter_analyzer.core.analysis_engine import (
+from codexray.api import get_engine
+from codexray.core import AnalysisEngine
+from codexray.core.analysis_engine import (
     AnalysisRequest,
     MockLanguagePlugin,
     UnifiedAnalysisEngine,
     UnsupportedLanguageError,
 )
-from tree_sitter_analyzer.core.parser import ParseResult
-from tree_sitter_analyzer.exceptions import AnalysisError, ParseError
-from tree_sitter_analyzer.models import AnalysisResult
+from codexray.core.parser import ParseResult
+from codexray.exceptions import AnalysisError, ParseError
+from codexray.models import AnalysisResult
 
 # =============================================================================
 # Test Classes from test_engine.py (original)
@@ -292,7 +292,7 @@ class TestUnifiedAnalysisEngineInit:
 
     def test_singleton_pattern_same_project_root(self):
         """Test that same project root returns same instance."""
-        from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
+        from codexray.core.analysis_engine import get_analysis_engine
 
         engine1 = get_analysis_engine(project_root="/test")
         engine2 = get_analysis_engine(project_root="/test")
@@ -300,7 +300,7 @@ class TestUnifiedAnalysisEngineInit:
 
     def test_singleton_pattern_different_project_root(self):
         """Test that different project roots return different instances."""
-        from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
+        from codexray.core.analysis_engine import get_analysis_engine
 
         engine1 = get_analysis_engine(project_root="/test1")
         engine2 = get_analysis_engine(project_root="/test2")
@@ -308,7 +308,7 @@ class TestUnifiedAnalysisEngineInit:
 
     def test_singleton_pattern_default_project_root(self):
         """Test that default project root returns same instance."""
-        from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
+        from codexray.core.analysis_engine import get_analysis_engine
 
         engine1 = get_analysis_engine()
         engine2 = get_analysis_engine()
@@ -316,7 +316,7 @@ class TestUnifiedAnalysisEngineInit:
 
     def test_lazy_initialization(self):
         """Test that heavy components are lazily initialized."""
-        from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
+        from codexray.core.analysis_engine import UnifiedAnalysisEngine
 
         engine = UnifiedAnalysisEngine()
         # Before ensure_initialized, components should be None
@@ -330,7 +330,7 @@ class TestUnifiedAnalysisEngineInit:
 
     def test_get_analysis_engine_function(self):
         """Test get_analysis_engine convenience function."""
-        from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
+        from codexray.core.analysis_engine import get_analysis_engine
 
         engine1 = get_analysis_engine(project_root="/test")
         engine2 = get_analysis_engine(project_root="/test")
@@ -765,7 +765,7 @@ class TestAnalysisEngineInitComprehensive:
     __test__ = True
 
     @patch(
-        "tree_sitter_analyzer.core.analysis_engine.UnifiedAnalysisEngine._load_plugins"
+        "codexray.core.analysis_engine.UnifiedAnalysisEngine._load_plugins"
     )
     def test_init_success(self, _):
         """Test successful engine initialization."""
@@ -774,7 +774,7 @@ class TestAnalysisEngineInitComprehensive:
         # Components are lazily initialized, so we need to access them to trigger init
         _assert_engine_components(engine)
 
-    @patch("tree_sitter_analyzer.core.parser.Parser")
+    @patch("codexray.core.parser.Parser")
     def test_init_parser_failure(self, mock_parser_class):
         """Test initialization failure when parser fails."""
         mock_parser_class.side_effect = Exception("Parser init failed")
@@ -789,7 +789,7 @@ class TestAnalysisEngineInitComprehensive:
 
         assert "Parser init failed" in str(exc_info.value)
 
-    @patch("tree_sitter_analyzer.plugins.manager.PluginManager")
+    @patch("codexray.plugins.manager.PluginManager")
     def test_init_plugin_manager_failure(self, mock_plugin_manager_class):
         """Test initialization failure when plugin manager fails."""
         mock_plugin_manager_class.side_effect = RuntimeError("Plugin manager failed")
@@ -1280,7 +1280,7 @@ class TestAnalysisEngineConfiguration:
         """Test engine with mocked dependencies."""
         try:
             with patch(
-                "tree_sitter_analyzer.language_loader.LanguageLoader"
+                "codexray.language_loader.LanguageLoader"
             ) as mock_loader:
                 mock_loader.return_value.load_language.return_value = None
 

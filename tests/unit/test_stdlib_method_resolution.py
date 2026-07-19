@@ -11,7 +11,7 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray.ast_cache import ASTCache
 
 
 def _index(tmp_path: Path, files: dict[str, str]) -> Path:
@@ -141,8 +141,8 @@ def test_lazy_context_construction_fires_stdlib_method(tmp_path: Path) -> None:
     classification works for direct API users, not only the hot index path."""
     _index(tmp_path, {"a.py": ("def caller(p):\n    p.write_text('x')\n")})
 
-    from tree_sitter_analyzer.ast_cache import ASTCache
-    from tree_sitter_analyzer.synapse_resolver import ResolverContext
+    from codexray.ast_cache import ASTCache
+    from codexray.synapse_resolver import ResolverContext
 
     cache = ASTCache(str(tmp_path))
     try:
@@ -177,17 +177,17 @@ def test_prebuilt_context_without_file_languages_keeps_python_tiers() -> None:
     ``python`` (not an empty table), or ``path.write_text()`` /
     ``monkeypatch.setattr()`` regress to ``unknown``. A POPULATED non-Python tag
     must still no-op (cross-language gate preserved)."""
-    from tree_sitter_analyzer.synapse_resolver import (
+    from codexray.synapse_resolver import (
         _try_builtin_method,
         _try_external_method,
         _try_stdlib_method,
     )
-    from tree_sitter_analyzer.synapse_resolver._constants import (
+    from codexray.synapse_resolver._constants import (
         BUILTIN_QUALIFIED_PY,
         EXTERNAL_METHODS_PY,
         STDLIB_METHODS_PY,
     )
-    from tree_sitter_analyzer.synapse_resolver._context import ResolverContext
+    from codexray.synapse_resolver._context import ResolverContext
 
     ctx = ResolverContext(
         ".",

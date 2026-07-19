@@ -4,8 +4,8 @@ import asyncio
 import time
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 async def collect_security_under_load_results(

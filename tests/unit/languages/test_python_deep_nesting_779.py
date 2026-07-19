@@ -9,10 +9,10 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.languages.python_plugin._traversal import (
+from codexray.languages.python_plugin._traversal import (
     _MAX_TRAVERSAL_DEPTH,
 )
-from tree_sitter_analyzer.languages.python_plugin.plugin import PythonPlugin
+from codexray.languages.python_plugin.plugin import PythonPlugin
 
 pytestmark = pytest.mark.unit
 

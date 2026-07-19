@@ -13,8 +13,8 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.exceptions import SecurityError
-from tree_sitter_analyzer.security.validator import SecurityValidator
+from codexray.exceptions import SecurityError
+from codexray.security.validator import SecurityValidator
 
 
 class TestSecurityValidatorInitialization:
@@ -22,7 +22,7 @@ class TestSecurityValidatorInitialization:
 
     def test_default_initialization(self):
         """测试默认初始化"""
-        from tree_sitter_analyzer.security.regex_checker import RegexSafetyChecker
+        from codexray.security.regex_checker import RegexSafetyChecker
 
         validator = SecurityValidator()
         assert isinstance(validator, SecurityValidator)
@@ -31,10 +31,10 @@ class TestSecurityValidatorInitialization:
 
     def test_initialization_with_project_root(self):
         """测试带项目根目录的初始化"""
-        from tree_sitter_analyzer.security.boundary_manager import (
+        from codexray.security.boundary_manager import (
             ProjectBoundaryManager,
         )
-        from tree_sitter_analyzer.security.regex_checker import RegexSafetyChecker
+        from codexray.security.regex_checker import RegexSafetyChecker
 
         with tempfile.TemporaryDirectory() as temp_dir:
             validator = SecurityValidator(temp_dir)
@@ -43,7 +43,7 @@ class TestSecurityValidatorInitialization:
 
     def test_initialization_with_invalid_project_root(self):
         """测试无效项目根目录的初始化"""
-        from tree_sitter_analyzer.security.regex_checker import RegexSafetyChecker
+        from codexray.security.regex_checker import RegexSafetyChecker
 
         # Non-existent path: boundary_manager must be None; regex_checker still initializes
         validator = SecurityValidator("/nonexistent/path")
@@ -517,7 +517,7 @@ class TestIsJunctionOrReparsePoint:
         validator = SecurityValidator()
 
         with patch("platform.system", return_value="Windows"):
-            with patch("tree_sitter_analyzer.security.validator.HAS_CTYPES", False):
+            with patch("codexray.security.validator.HAS_CTYPES", False):
                 result = validator._is_junction_or_reparse_point(Path("/test/path"))
                 assert result is False
 

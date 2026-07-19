@@ -356,13 +356,13 @@ class TestComprehensiveFormatValidation:
 
     @pytest.mark.asyncio
     async def test_integration_with_real_components(self, temp_results_dir):
-        """Test integration with real tree-sitter-analyzer components if available"""
+        """Test integration with real codexray components if available"""
         try:
             # Try to import real analyzer components
-            from tree_sitter_analyzer.core.analysis_engine import (  # noqa: F401
+            from codexray.core.analysis_engine import (  # noqa: F401
                 AnalysisEngine,
             )
-            from tree_sitter_analyzer.formatters.formatter_registry import (  # noqa: F401
+            from codexray.formatters.formatter_registry import (  # noqa: F401
                 FormatterRegistry,
             )
 
@@ -383,7 +383,7 @@ class TestComprehensiveFormatValidation:
 
         except ImportError:
             # If real components not available, skip this test
-            pytest.skip("Real tree-sitter-analyzer components not available")
+            pytest.skip("Real codexray components not available")
 
     def test_results_serialization(self, temp_results_dir):
         """Test that results can be properly serialized and saved"""

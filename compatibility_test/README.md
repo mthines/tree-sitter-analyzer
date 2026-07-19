@@ -1,6 +1,6 @@
-# tree-sitter-analyzer MCP互換性テスト 標準化プロセス
+# codexray MCP互換性テスト 標準化プロセス
 
-このディレクトリには、`tree-sitter-analyzer` の異なるバージョン間におけるMCP（Model Context Protocol）ツールの互換性を、一貫性と再現性をもって評価するための標準化されたプロセスとツールが含まれています。
+このディレクトリには、`codexray` の異なるバージョン間におけるMCP（Model Context Protocol）ツールの互換性を、一貫性と再現性をもって評価するための標準化されたプロセスとツールが含まれています。
 
 ## 📋 概要
 
@@ -235,7 +235,7 @@ graph TD
 
 ## 📄 ライセンス
 
-このテストプロセスは、tree-sitter-analyzerプロジェクトと同じライセンスの下で提供されます。
+このテストプロセスは、codexrayプロジェクトと同じライセンスの下で提供されます。
 
 ---
 

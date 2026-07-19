@@ -36,7 +36,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer import api
+from codexray import api
 
 pytestmark = pytest.mark.full_language
 

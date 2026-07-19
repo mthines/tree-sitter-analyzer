@@ -134,19 +134,19 @@ This is equivalent to the JSON:
 
 ```bash
 # Structure analysis with TOON output
-uv run python -m tree_sitter_analyzer.cli file.py --structure --format toon
+uv run python -m codexray.cli file.py --structure --format toon
 
 # Or use --output-format
-uv run python -m tree_sitter_analyzer.cli file.py --structure --output-format toon
+uv run python -m codexray.cli file.py --structure --output-format toon
 
 # Summary with TOON
-uv run python -m tree_sitter_analyzer.cli file.py --summary --format toon
+uv run python -m codexray.cli file.py --summary --format toon
 
 # Advanced analysis
-uv run python -m tree_sitter_analyzer.cli file.py --advanced --format toon
+uv run python -m codexray.cli file.py --advanced --format toon
 
 # Partial read
-uv run python -m tree_sitter_analyzer.cli file.py --partial-read --start-line 1 --end-line 50 --format toon
+uv run python -m codexray.cli file.py --partial-read --start-line 1 --end-line 50 --format toon
 ```
 
 ### Tab Delimiter Mode
@@ -154,13 +154,13 @@ uv run python -m tree_sitter_analyzer.cli file.py --partial-read --start-line 1 
 For additional compression, use tab delimiters:
 
 ```bash
-uv run python -m tree_sitter_analyzer.cli file.py --structure --format toon --toon-use-tabs
+uv run python -m codexray.cli file.py --structure --format toon --toon-use-tabs
 ```
 
 ### Example Output
 
 ```bash
-$ uv run python -m tree_sitter_analyzer.cli examples/sample.py --structure --format toon
+$ uv run python -m codexray.cli examples/sample.py --structure --format toon
 
 --- Structure Analysis Results ---
 file_path: examples/sample.py
@@ -252,7 +252,7 @@ All MCP tools support the `output_format` parameter:
 ### Using ToonEncoder (Low-Level)
 
 ```python
-from tree_sitter_analyzer.formatters.toon_encoder import ToonEncoder
+from codexray.formatters.toon_encoder import ToonEncoder
 
 encoder = ToonEncoder()
 
@@ -278,7 +278,7 @@ print(encoder.encode_array_table(methods))
 ### Using ToonFormatter (High-Level)
 
 ```python
-from tree_sitter_analyzer.formatters.toon_formatter import ToonFormatter
+from codexray.formatters.toon_formatter import ToonFormatter
 
 formatter = ToonFormatter()
 
@@ -296,7 +296,7 @@ print(formatter.format(data))
 ### Using OutputManager
 
 ```python
-from tree_sitter_analyzer.output_manager import OutputManager
+from codexray.output_manager import OutputManager
 
 manager = OutputManager(output_format="toon")
 manager.data({"key": "value"})
@@ -316,7 +316,7 @@ formatter = ToonFormatter(use_tabs=True)
 TOON encoder automatically detects and handles circular references:
 
 ```python
-from tree_sitter_analyzer.formatters.toon_encoder import ToonEncoder, ToonEncodeError
+from codexray.formatters.toon_encoder import ToonEncoder, ToonEncodeError
 
 encoder = ToonEncoder(fallback_to_json=False)
 

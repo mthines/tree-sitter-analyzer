@@ -11,7 +11,7 @@ sys.path.insert(0, ".")
 import os
 import tempfile
 
-from tree_sitter_analyzer.language_detector import (
+from codexray.language_detector import (
     detect_language_from_file,
     detector,
     is_language_supported,

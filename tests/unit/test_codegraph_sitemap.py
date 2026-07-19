@@ -31,7 +31,7 @@ def indexed_project(tmp_path):
         "        pass\n"
     )
     (project / "app" / "utils.py").write_text("def add(a, b):\n    return a + b\n")
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     cache = ASTCache(str(project))
     result = cache.index_project()
@@ -46,7 +46,7 @@ def indexed_project(tmp_path):
 )
 class TestSitemapTool:
     def _make_tool(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+        from codexray.mcp.tools.codegraph_sitemap_tool import (
             CodeGraphSitemapTool,
         )
 
@@ -152,7 +152,7 @@ def large_indexed_project(tmp_path):
             f"def func_{i}_{j}(a, b):\n    return a + b\n\n\n" for j in range(10)
         )
         (pkg / f"mod_{i:03d}.py").write_text(body)
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     cache = ASTCache(str(project))
     result = cache.index_project()
@@ -170,7 +170,7 @@ class TestSitemapOutputBudget:
     """F3: bound sitemap symbol output so large repos don't emit a wall of text."""
 
     def _make_tool(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+        from codexray.mcp.tools.codegraph_sitemap_tool import (
             CodeGraphSitemapTool,
         )
 
@@ -230,7 +230,7 @@ class TestSitemapOutputBudget:
 
 
 def test_sitemap_builders_normalize_cached_slash_paths(tmp_path):
-    from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+    from codexray.mcp.tools.codegraph_sitemap_tool import (
         CodeGraphSitemapTool,
     )
 
@@ -254,7 +254,7 @@ def test_sitemap_builders_normalize_cached_slash_paths(tmp_path):
 
 class TestSitemapCLI:
     def _run_cli(self, indexed_project, monkeypatch, mode):
-        from tree_sitter_analyzer.cli_main import main
+        from codexray.cli_main import main
 
         monkeypatch.setattr(
             sys,
@@ -296,7 +296,7 @@ class TestSitemapCLI:
 
     def test_cli_max_symbols_flag_truncates(self, large_indexed_project, monkeypatch):
         """F3 CLI parity: --codegraph-sitemap-max-symbols bounds the output."""
-        from tree_sitter_analyzer.cli_main import main
+        from codexray.cli_main import main
 
         monkeypatch.setattr(
             sys,
@@ -337,7 +337,7 @@ class TestSitemapFileLimitTruncation:
     truncated, and non-positive budgets must be rejected."""
 
     def _tool(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+        from codexray.mcp.tools.codegraph_sitemap_tool import (
             CodeGraphSitemapTool,
         )
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.uml_export import (
+from codexray.uml_export import (
     UMLDiagram,
     UMLEdge,
     render_class_mermaid,

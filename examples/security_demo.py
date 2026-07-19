@@ -3,14 +3,14 @@
 Security Module Demonstration
 
 This script demonstrates the enhanced security features implemented in Phase 1
-of the tree-sitter-analyzer security improvements.
+of the codexray security improvements.
 """
 
 import tempfile
 from pathlib import Path
 
-from tree_sitter_analyzer.exceptions import SecurityError
-from tree_sitter_analyzer.security import (
+from codexray.exceptions import SecurityError
+from codexray.security import (
     ProjectBoundaryManager,
     RegexSafetyChecker,
     SecurityValidator,
@@ -262,7 +262,7 @@ def demo_comprehensive_security():
 
 def main():
     """Run all security demonstrations."""
-    print("🔐 Tree-sitter Analyzer Security Module Demo")
+    print("🔐 CodeXray Security Module Demo")
     print("=" * 60)
     print("This demo showcases the enhanced security features implemented")
     print("in Phase 1 of the security improvements.")

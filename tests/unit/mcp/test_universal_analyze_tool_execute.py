@@ -9,8 +9,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
-from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+from codexray.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
+from codexray.mcp.utils.error_handler import AnalysisError
 
 
 @pytest.fixture
@@ -53,7 +53,7 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="unknown",
             ),
         ):
@@ -70,11 +70,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="unsupported",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=False,
             ),
         ):
@@ -91,11 +91,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
         ):
@@ -121,11 +121,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
             patch.object(
@@ -135,7 +135,7 @@ class TestUniversalAnalyzeToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -161,11 +161,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
             patch.object(
@@ -175,7 +175,7 @@ class TestUniversalAnalyzeToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -201,11 +201,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
             patch.object(
@@ -215,7 +215,7 @@ class TestUniversalAnalyzeToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -241,11 +241,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
             patch.object(
@@ -255,7 +255,7 @@ class TestUniversalAnalyzeToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -281,11 +281,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
             patch.object(
@@ -295,7 +295,7 @@ class TestUniversalAnalyzeToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -321,11 +321,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
             patch.object(
@@ -341,7 +341,7 @@ class TestUniversalAnalyzeToolExecute:
                 return_value={"language": "python", "queries": []},
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -367,11 +367,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
             patch.object(
@@ -381,7 +381,7 @@ class TestUniversalAnalyzeToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.universal_analyze_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -398,11 +398,11 @@ class TestUniversalAnalyzeToolExecute:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file",
+                "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported",
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported",
                 return_value=True,
             ),
             patch.object(

@@ -20,7 +20,7 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_kotlin
 
-from tree_sitter_analyzer.languages.kotlin_helpers import extract_kotlin_function
+from codexray.languages.kotlin_helpers import extract_kotlin_function
 
 # ---------------------------------------------------------------------------
 # Helpers (same parse harness as test_kotlin_method_receiver.py)
@@ -157,7 +157,7 @@ def test_malformed_expression_body_returns_unknown() -> None:
     # Defensive: a function_body holding only '=' (no expression). Real
     # parses turn this into an ERROR node, so drive the helper directly
     # with explicit stub nodes (never MagicMock — unbounded attr chains).
-    from tree_sitter_analyzer.languages.kotlin_helpers import (
+    from codexray.languages.kotlin_helpers import (
         _kotlin_expression_body_type,
     )
 

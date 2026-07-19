@@ -2,7 +2,7 @@
 
 import textwrap
 
-from tree_sitter_analyzer.doc_sync import (
+from codexray.doc_sync import (
     DocRef,
     extract_file_refs,
     run_doc_sync,
@@ -16,10 +16,10 @@ from tree_sitter_analyzer.doc_sync import (
 
 class TestExtractFileRefs:
     def test_backtick_py_file(self):
-        content = "See `tree_sitter_analyzer/ast_cache.py` for details."
+        content = "See `codexray/ast_cache.py` for details."
         refs = extract_file_refs(content, "docs/README.md")
         assert len(refs) == 1
-        assert refs[0].path == "tree_sitter_analyzer/ast_cache.py"
+        assert refs[0].path == "codexray/ast_cache.py"
         assert refs[0].line == 1
         assert refs[0].doc_file == "docs/README.md"
 
@@ -30,10 +30,10 @@ class TestExtractFileRefs:
         assert refs[0].path == "docs/architecture.md"
 
     def test_markdown_link_target(self):
-        content = "Read [ast cache](tree_sitter_analyzer/ast_cache.py) for details."
+        content = "Read [ast cache](codexray/ast_cache.py) for details."
         refs = extract_file_refs(content, "docs/README.md")
         assert len(refs) == 1
-        assert refs[0].path == "tree_sitter_analyzer/ast_cache.py"
+        assert refs[0].path == "codexray/ast_cache.py"
 
     def test_skips_glob_patterns(self):
         content = "All formatters: `formatters/*.py`"
@@ -86,12 +86,12 @@ class TestExtractFileRefs:
         assert refs == []
 
     def test_path_without_extension_skipped(self):
-        content = "Module `tree_sitter_analyzer` is the main package."
+        content = "Module `codexray` is the main package."
         refs = extract_file_refs(content, "docs/README.md")
         assert refs == []
 
     def test_path_with_slash_and_no_ext_skipped(self):
-        content = "Directory `tree_sitter_analyzer/formatters/`"
+        content = "Directory `codexray/formatters/`"
         refs = extract_file_refs(content, "docs/README.md")
         assert refs == []
 

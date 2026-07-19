@@ -5,13 +5,13 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.formatters.formatter_registry import IFormatter
-from tree_sitter_analyzer.formatters.html_formatter import (
+from codexray.formatters.formatter_registry import IFormatter
+from codexray.formatters.html_formatter import (
     HtmlCompactFormatter,
     HtmlFormatter,
     HtmlJsonFormatter,
 )
-from tree_sitter_analyzer.models import Function, MarkupElement, StyleElement, Variable
+from codexray.models import Function, MarkupElement, StyleElement, Variable
 
 
 class TestHtmlFormatterMixin:
@@ -675,7 +675,7 @@ class TestHtmlFormatterRegistrationMixin:
     )
     def test_html_formatters_auto_registration(self):
         """Test that HTML formatters are automatically registered"""
-        from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
+        from codexray.formatters.formatter_registry import FormatterRegistry
 
         available_formats = FormatterRegistry.get_available_formats()
 
@@ -688,7 +688,7 @@ class TestHtmlFormatterRegistrationMixin:
     )
     def test_get_html_formatters(self):
         """Test getting HTML formatter instances"""
-        from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
+        from codexray.formatters.formatter_registry import FormatterRegistry
 
         html_formatter = FormatterRegistry.get_formatter("html")
         html_json_formatter = FormatterRegistry.get_formatter("html_json")

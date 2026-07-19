@@ -14,7 +14,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.class_inspect_tool import ClassInspectTool
+from codexray.mcp.tools.class_inspect_tool import ClassInspectTool
 
 # ---------------------------------------------------------------------------
 # Synthetic fixture source
@@ -97,7 +97,7 @@ def _run_class_detail(
     class_name: str,
 ) -> dict[str, Any]:
     """Index the fixture file and execute ClassInspectTool against it."""
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     project_root = str(fixture_file.parent)
     tool = ClassInspectTool(project_root)
@@ -296,7 +296,7 @@ class TestBaseMCPToolClosureRegression:
         p = tmp_path / "tool_base.py"
         p.write_text(src, encoding="utf-8")
 
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         project_root = str(tmp_path)
         cache = ASTCache(project_root)
@@ -327,7 +327,7 @@ class TestBaseMCPToolClosureRegression:
 class TestEdgeCases:
     def test_not_found_class_returns_not_found_verdict(self, tmp_path: Path) -> None:
         """Asking for a class that doesn't exist returns NOT_FOUND verdict."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         project_root = str(tmp_path)
         ASTCache(project_root)  # Ensure cache is created
@@ -363,7 +363,7 @@ class TestEdgeCases:
         self, tmp_path: Path
     ) -> None:
         """A class whose only parent is an external library has inherited.available=False."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         src = "from external_lib import ExternalBase\n\nclass MyTool(ExternalBase):\n    def run(self) -> None:\n        pass\n"
         p = tmp_path / "my_tool.py"
@@ -387,7 +387,7 @@ class TestEdgeCases:
         """When the source file cannot be read, fields returns empty list without crashing."""
         from unittest.mock import patch
 
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         project_root = str(fixture_file.parent)
         cache = ASTCache(project_root)
@@ -411,7 +411,7 @@ class TestEdgeCases:
         self, tmp_path: Path
     ) -> None:
         """Duplicate self.x = ... in __init__ must produce exactly one field entry."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         src = textwrap.dedent("""\
             class Dup:
@@ -439,7 +439,7 @@ class TestEdgeCases:
 
     def test_class_with_comment_lines_in_body(self, tmp_path: Path) -> None:
         """Comment lines in class body must not produce spurious fields."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         src = textwrap.dedent("""\
             class Commented:
@@ -469,7 +469,7 @@ class TestEdgeCases:
 
     def test_class_init_at_end_of_class(self, tmp_path: Path) -> None:
         """Class where __init__ is the last method — init_end detected at class end."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         src = textwrap.dedent("""\
             class LastInit:
@@ -503,7 +503,7 @@ class TestEdgeCases:
         self, tmp_path: Path
     ) -> None:
         """Class attr 'value' and self.value = ... in __init__ → only one 'value' field."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         src = textwrap.dedent("""\
             class SameName:
@@ -534,7 +534,7 @@ class TestEdgeCases:
 
     def test_class_init_followed_by_decorator(self, tmp_path: Path) -> None:
         """__init__ followed by @staticmethod — init_end must be set before the decorator."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         src = textwrap.dedent("""\
             class Deco:
@@ -568,7 +568,7 @@ class TestEdgeCases:
         Exercises the path where _find_override_source returns None —
         overrides_from key must not appear in the method entry.
         """
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         # Create a child class that overrides a method from an external (unindexed) parent
         # by declaring the parent in a separate file that won't be indexed
@@ -631,7 +631,7 @@ class TestEdgeCases:
         """_parent_method_names catches Exception from bad conn and returns set()."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
+        from codexray.class_hierarchy import ClassHierarchy
 
         tool = ClassInspectTool(None)
         bad_cache = MagicMock()
@@ -648,7 +648,7 @@ class TestEdgeCases:
         """_find_override_source catches Exception from bad conn and returns None."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
+        from codexray.class_hierarchy import ClassHierarchy
 
         tool = ClassInspectTool(None)
         bad_cache = MagicMock()
@@ -664,7 +664,7 @@ class TestEdgeCases:
         """_collect_inherited_methods handles db exception gracefully."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
+        from codexray.class_hierarchy import ClassHierarchy
 
         tool = ClassInspectTool(None)
         bad_cache = MagicMock()
@@ -681,7 +681,7 @@ class TestEdgeCases:
         """_collect_inherited_methods with no ancestors returns unavailable."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
+        from codexray.class_hierarchy import ClassHierarchy
 
         tool = ClassInspectTool(None)
         mock_cache = MagicMock()
@@ -694,7 +694,7 @@ class TestEdgeCases:
 
     def test_class_with_class_attr_after_init(self, tmp_path: Path) -> None:
         """Class attribute at indent 4 AFTER __init__ body — exercises 141->False branch."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         src = textwrap.dedent("""\
             class TrailingAttr:
@@ -727,7 +727,7 @@ class TestEdgeCases:
         """_find_override_source returns None when class has no ancestors."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
+        from codexray.class_hierarchy import ClassHierarchy
 
         tool = ClassInspectTool(None)
         mock_cache = MagicMock()
@@ -743,7 +743,7 @@ class TestEdgeCases:
         """_find_override_source returns None when method not found in any ancestor's methods."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
+        from codexray.class_hierarchy import ClassHierarchy
 
         tool = ClassInspectTool(None)
 
@@ -770,7 +770,7 @@ class TestEdgeCases:
         """_collect_inherited_methods returns unavailable when ancestor has no methods."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
+        from codexray.class_hierarchy import ClassHierarchy
 
         tool = ClassInspectTool(None)
 
@@ -797,7 +797,7 @@ class TestEdgeCases:
 
         Exercises the 163->149 branch (attr already in seen, instance scan skips).
         """
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         src = textwrap.dedent("""\
             class Both:
@@ -835,11 +835,11 @@ def test_base_mcp_tool_fields_extracted_from_delegated_init() -> None:
 
     The issue's own repro class must yield non-empty fields — an
     __init__-only scan returns [] here (the original gap)."""
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import (
+    from codexray.mcp.tools.class_inspect_tool import (
         _extract_fields_from_source,
     )
 
-    src = Path("tree_sitter_analyzer/mcp/tools/base_tool.py").read_text(
+    src = Path("codexray/mcp/tools/base_tool.py").read_text(
         encoding="utf-8"
     )
     fields = _extract_fields_from_source(src, "BaseMCPTool", 118, 563)
@@ -861,7 +861,7 @@ def test_annotation_only_fields_extracted() -> None:
     """Codex P2 (#482): dataclass/Pydantic required fields have no '='.
 
     ``name: str`` (annotation-only) must be reported as a class field."""
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import (
+    from codexray.mcp.tools.class_inspect_tool import (
         _extract_fields_from_source,
     )
 
@@ -888,7 +888,7 @@ def test_annotation_only_fields_extracted() -> None:
 
 def test_is_method_abstract_at_line_one() -> None:
     """Method defined at line 1 has no preceding lines — must return False (no IndexError)."""
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import _is_method_abstract
+    from codexray.mcp.tools.class_inspect_tool import _is_method_abstract
 
     result = _is_method_abstract(["def foo() -> None: ...\n"], def_line_1indexed=1)
     assert result is False
@@ -896,7 +896,7 @@ def test_is_method_abstract_at_line_one() -> None:
 
 def test_is_method_abstract_abc_qualified() -> None:
     """@abc.abstractmethod (qualified form) must also be detected."""
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import _is_method_abstract
+    from codexray.mcp.tools.class_inspect_tool import _is_method_abstract
 
     lines = ["    @abc.abstractmethod\n", "    def bar(self) -> None: ...\n"]
     assert _is_method_abstract(lines, def_line_1indexed=2) is True
@@ -905,7 +905,7 @@ def test_is_method_abstract_abc_qualified() -> None:
 def test_is_method_abstract_comment_between_decorator_and_def() -> None:
     """Codex P2 on #665: a comment between @abstractmethod and def must not
     stop the upward scan — the decorator is still detected."""
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import _is_method_abstract
+    from codexray.mcp.tools.class_inspect_tool import _is_method_abstract
 
     lines = [
         "    @abstractmethod\n",
@@ -916,7 +916,7 @@ def test_is_method_abstract_comment_between_decorator_and_def() -> None:
 
 
 def test_is_method_abstract_blank_line_between_decorator_and_def() -> None:
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import _is_method_abstract
+    from codexray.mcp.tools.class_inspect_tool import _is_method_abstract
 
     lines = ["    @abstractmethod\n", "\n", "    def bar(self) -> None: ...\n"]
     assert _is_method_abstract(lines, def_line_1indexed=3) is True
@@ -924,7 +924,7 @@ def test_is_method_abstract_blank_line_between_decorator_and_def() -> None:
 
 def test_read_source_lines_io_error_returns_empty() -> None:
     """_read_source_lines returns [] when the file does not exist."""
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import _read_source_lines
+    from codexray.mcp.tools.class_inspect_tool import _read_source_lines
 
     result = _read_source_lines("nonexistent_file_xyz.py", "/tmp")
     assert result == []
@@ -981,7 +981,7 @@ class TestAbstractMethodSurfaced:
         return p
 
     def _run_shape(self, abstract_file: Path) -> dict[str, Any]:
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         project_root = str(abstract_file.parent)
         cache = ASTCache(project_root)
@@ -1021,7 +1021,7 @@ class TestAbstractMethodSurfaced:
 
     def test_toon_output_contains_is_abstract(self, abstract_file: Path) -> None:
         """TOON toon_content blob must include the is_abstract flag."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         project_root = str(abstract_file.parent)
         cache = ASTCache(project_root)
@@ -1052,7 +1052,7 @@ class TestSameNameClassScoped:
         file_a: Path,
         file_b: Path,
     ) -> dict[str, Any]:
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         project_root = str(tmp_path)
         cache = ASTCache(project_root)

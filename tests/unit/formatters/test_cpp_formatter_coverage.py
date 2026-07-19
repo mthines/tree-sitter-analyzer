@@ -1,7 +1,7 @@
 import pytest
 
-from tree_sitter_analyzer.formatters.cpp_formatter import CppTableFormatter
-from tree_sitter_analyzer.models import (
+from codexray.formatters.cpp_formatter import CppTableFormatter
+from codexray.models import (
     AnalysisResult,
     Class,
     Function,

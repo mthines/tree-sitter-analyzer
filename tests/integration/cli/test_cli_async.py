@@ -173,7 +173,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 sample_files[0],
@@ -196,7 +196,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 sample_javascript_file,
@@ -219,7 +219,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "class",
                 sample_files[1],
@@ -243,7 +243,7 @@ async function asyncFunction() {
                 [
                     sys.executable,
                     "-m",
-                    "tree_sitter_analyzer",
+                    "codexray",
                     "--query-key",
                     "function",
                     file_path,
@@ -266,7 +266,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 "--output-format",
@@ -295,7 +295,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 "--output-format",
@@ -316,7 +316,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-string",
                 "(function_definition name: (identifier) @function)",
                 sample_files[0],
@@ -335,7 +335,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 "--filter",
@@ -359,7 +359,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 sample_files[0],
@@ -379,7 +379,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 "--language",
@@ -400,7 +400,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 "nonexistent_file.py",
@@ -428,7 +428,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 "--language",
@@ -454,7 +454,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "invalid_query_key",
                 sample_files[0],
@@ -479,7 +479,7 @@ async function asyncFunction() {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-string",
                 "((invalid query syntax",
                 sample_files[0],
@@ -498,7 +498,7 @@ async function asyncFunction() {
     def test_help_command(self):
         """ヘルプコマンドのテスト"""
         result = subprocess.run(
-            [sys.executable, "-m", "tree_sitter_analyzer", "query", "--help"],
+            [sys.executable, "-m", "codexray", "query", "--help"],
             capture_output=True,
             text=True,
             timeout=30,
@@ -520,7 +520,7 @@ async function asyncFunction() {
     def test_version_command(self):
         """バージョンコマンドのテスト"""
         result = subprocess.run(
-            [sys.executable, "-m", "tree_sitter_analyzer", "--version"],
+            [sys.executable, "-m", "codexray", "--version"],
             capture_output=True,
             text=True,
             timeout=30,
@@ -543,7 +543,7 @@ async function asyncFunction() {
                 [
                     sys.executable,
                     "-m",
-                    "tree_sitter_analyzer",
+                    "codexray",
                     "--query-key",
                     "function",
                     file_path,
@@ -600,7 +600,7 @@ class Class_{i}:
                 [
                     sys.executable,
                     "-m",
-                    "tree_sitter_analyzer",
+                    "codexray",
                     "--query-key",
                     "function",
                     str(large_file),
@@ -641,7 +641,7 @@ class Class_{i}:
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--query-key",
                 "function",
                 sample_files[0],

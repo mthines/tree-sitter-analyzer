@@ -1,6 +1,6 @@
 """Documentation contracts — every CLI example in our docs must parse.
 
-If a doc shows ``uv run tree-sitter-analyzer --foo bar``, the parser must
+If a doc shows ``uv run codexray --foo bar``, the parser must
 accept ``--foo``. This catches doc drift (flag was renamed, doc didn't
 catch up) at CI time instead of at user-frustration time.
 
@@ -13,7 +13,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from tree_sitter_analyzer.cli_main import create_argument_parser
+from codexray.cli_main import create_argument_parser
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -34,12 +34,12 @@ DOCS_REQUIRING_CLI_EXAMPLES = [
     PROJECT_ROOT / "README.md",
 ]
 
-# Match ``uv run tree-sitter-analyzer ...`` or bare ``tree-sitter-analyzer ...``
+# Match ``uv run codexray ...`` or bare ``codexray ...``
 # Capture the rest of the line so we can extract long-form flags.
 # Require trailing whitespace or end-of-line so we don't match
-# ``tree-sitter-analyzer[mcp]`` (a package extra, not a CLI invocation).
+# ``codexray[mcp]`` (a package extra, not a CLI invocation).
 _CLI_LINE = re.compile(
-    r"(?:uv\s+run\s+)?tree-sitter-analyzer(?:\s+|$)([^\n`]*)",
+    r"(?:uv\s+run\s+)?codexray(?:\s+|$)([^\n`]*)",
 )
 # Long-form flag (``--foo`` or ``--foo-bar``).
 _FLAG = re.compile(r"--[a-z][a-z0-9-]*")
@@ -86,7 +86,7 @@ def test_documented_cli_flags_exist_in_parser() -> None:
 
 def test_canonical_cli_reference_doc_has_examples() -> None:
     """Guard against the canonical CLI-reference doc(s) going empty.
-    If README.md ever stops mentioning ``tree-sitter-analyzer``, users
+    If README.md ever stops mentioning ``codexray``, users
     lose their entry-point cheat sheet — fail loudly."""
     sparse: list[str] = []
     for path in DOCS_REQUIRING_CLI_EXAMPLES:
@@ -98,6 +98,6 @@ def test_canonical_cli_reference_doc_has_examples() -> None:
             sparse.append(f"NO CLI EXAMPLES: {path.relative_to(PROJECT_ROOT)}")
     assert sparse == [], (
         "These canonical CLI-reference docs have ZERO "
-        f"tree-sitter-analyzer CLI examples — users get no concrete "
+        f"codexray CLI examples — users get no concrete "
         f"reference: {sparse}"
     )

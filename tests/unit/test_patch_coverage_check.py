@@ -18,9 +18,9 @@ spec.loader.exec_module(check_patch_coverage)
 
 
 def test_parse_added_lines_from_zero_context_diff() -> None:
-    diff = """diff --git a/tree_sitter_analyzer/foo.py b/tree_sitter_analyzer/foo.py
---- a/tree_sitter_analyzer/foo.py
-+++ b/tree_sitter_analyzer/foo.py
+    diff = """diff --git a/codexray/foo.py b/codexray/foo.py
+--- a/codexray/foo.py
++++ b/codexray/foo.py
 @@ -1,2 +1,4 @@
  context
 +if flag:
@@ -30,14 +30,14 @@ def test_parse_added_lines_from_zero_context_diff() -> None:
 """
 
     assert check_patch_coverage.parse_added_lines(diff) == {
-        "tree_sitter_analyzer/foo.py": {2, 3, 4}
+        "codexray/foo.py": {2, 3, 4}
     }
 
 
 def test_missing_patch_coverage_reports_added_missing_lines() -> None:
     coverage = {
         "files": {
-            "tree_sitter_analyzer/foo.py": {
+            "codexray/foo.py": {
                 "executed_lines": [2],
                 "missing_lines": [3],
                 "excluded_lines": [],
@@ -47,14 +47,14 @@ def test_missing_patch_coverage_reports_added_missing_lines() -> None:
     }
 
     misses = check_patch_coverage.missing_patch_coverage(
-        {"tree_sitter_analyzer/foo.py": {2, 3, 10}},
+        {"codexray/foo.py": {2, 3, 10}},
         coverage,
         PROJECT_ROOT,
     )
 
     assert misses == [
         check_patch_coverage.PatchCoverageMiss(
-            "tree_sitter_analyzer/foo.py", 3, "line not covered"
+            "codexray/foo.py", 3, "line not covered"
         )
     ]
 
@@ -62,7 +62,7 @@ def test_missing_patch_coverage_reports_added_missing_lines() -> None:
 def test_missing_patch_coverage_reports_added_partial_branches() -> None:
     coverage = {
         "files": {
-            "tree_sitter_analyzer/foo.py": {
+            "codexray/foo.py": {
                 "executed_lines": [2],
                 "missing_lines": [],
                 "excluded_lines": [],
@@ -72,14 +72,14 @@ def test_missing_patch_coverage_reports_added_partial_branches() -> None:
     }
 
     misses = check_patch_coverage.missing_patch_coverage(
-        {"tree_sitter_analyzer/foo.py": {2}},
+        {"codexray/foo.py": {2}},
         coverage,
         PROJECT_ROOT,
     )
 
     assert misses == [
         check_patch_coverage.PatchCoverageMiss(
-            "tree_sitter_analyzer/foo.py", 2, "branch partially covered"
+            "codexray/foo.py", 2, "branch partially covered"
         )
     ]
 
@@ -87,7 +87,7 @@ def test_missing_patch_coverage_reports_added_partial_branches() -> None:
 def test_missing_patch_coverage_skips_tests_and_non_executable_lines() -> None:
     coverage = {
         "files": {
-            "tree_sitter_analyzer/foo.py": {
+            "codexray/foo.py": {
                 "executed_lines": [4],
                 "missing_lines": [],
                 "excluded_lines": [2],
@@ -104,7 +104,7 @@ def test_missing_patch_coverage_skips_tests_and_non_executable_lines() -> None:
 
     misses = check_patch_coverage.missing_patch_coverage(
         {
-            "tree_sitter_analyzer/foo.py": {1, 2, 4},
+            "codexray/foo.py": {1, 2, 4},
             "tests/unit/test_foo.py": {2},
         },
         coverage,
@@ -118,9 +118,9 @@ def test_cli_fails_when_diff_has_added_missing_line(tmp_path: Path) -> None:
     diff_file = tmp_path / "patch.diff"
     coverage_file = tmp_path / "coverage.json"
     diff_file.write_text(
-        """diff --git a/tree_sitter_analyzer/foo.py b/tree_sitter_analyzer/foo.py
---- a/tree_sitter_analyzer/foo.py
-+++ b/tree_sitter_analyzer/foo.py
+        """diff --git a/codexray/foo.py b/codexray/foo.py
+--- a/codexray/foo.py
++++ b/codexray/foo.py
 @@ -1,0 +1,2 @@
 +def new_func():
 +    return 1
@@ -131,7 +131,7 @@ def test_cli_fails_when_diff_has_added_missing_line(tmp_path: Path) -> None:
         json.dumps(
             {
                 "files": {
-                    "tree_sitter_analyzer/foo.py": {
+                    "codexray/foo.py": {
                         "executed_lines": [1],
                         "missing_lines": [2],
                         "excluded_lines": [],
@@ -159,4 +159,4 @@ def test_cli_fails_when_diff_has_added_missing_line(tmp_path: Path) -> None:
     )
 
     assert result.returncode == 1
-    assert "tree_sitter_analyzer/foo.py:2: line not covered" in result.stdout
+    assert "codexray/foo.py:2: line not covered" in result.stdout

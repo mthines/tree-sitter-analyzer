@@ -12,15 +12,15 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.default_table_formatter import DefaultTableFormatter
-from tree_sitter_analyzer.formatters._java_formatter_signatures_mixin import (
+from codexray.default_table_formatter import DefaultTableFormatter
+from codexray.formatters._java_formatter_signatures_mixin import (
     _method_sig_line,
     _shorten_return_type,
 )
-from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
-from tree_sitter_analyzer.formatters.go_formatter import GoTableFormatter
-from tree_sitter_analyzer.formatters.java_formatter import JavaTableFormatter
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.formatters.formatter_registry import FormatterRegistry
+from codexray.formatters.go_formatter import GoTableFormatter
+from codexray.formatters.java_formatter import JavaTableFormatter
+from codexray.mcp.tools.analyze_code_structure_tool import (
     _validate_format_type,
 )
 
@@ -117,7 +117,7 @@ class TestInstantiation:
         assert fmt.format_type == "compact"
 
     def test_formatter_inherits_from_base(self):
-        from tree_sitter_analyzer.formatters.base_formatter import BaseTableFormatter
+        from codexray.formatters.base_formatter import BaseTableFormatter
 
         assert isinstance(JavaTableFormatter(), BaseTableFormatter)
 
@@ -942,7 +942,7 @@ def test_default_formatter_signatures_dispatch():
 
 def test_formatter_registry_returns_formatter_for_signatures():
     # Ensure registry is initialized (conftest may reset singletons between tests)
-    from tree_sitter_analyzer.formatters.formatter_registry import (
+    from codexray.formatters.formatter_registry import (
         register_builtin_formatters,
     )
 

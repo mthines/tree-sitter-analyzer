@@ -12,7 +12,7 @@ from pathlib import Path
 # Mock functionality now provided by pytest-mock
 import pytest
 
-from tree_sitter_analyzer.mcp.resources.code_file_resource import CodeFileResource
+from codexray.mcp.resources.code_file_resource import CodeFileResource
 
 
 class TestCodeFileResourceSchema:
@@ -223,7 +223,7 @@ class TestCodeFileResourceIntegration:
     def test_integration_with_file_handler(self) -> None:
         """Test integration with existing file_handler module"""
         # This should use the existing read_file_safe function
-        from tree_sitter_analyzer.encoding_utils import read_file_safe
+        from codexray.encoding_utils import read_file_safe
 
         # Verify function exists and is callable
         assert callable(read_file_safe)
@@ -233,7 +233,7 @@ class TestCodeFileResourceIntegration:
 
     def test_integration_with_encoding_utils(self) -> None:
         """Test integration with encoding utilities"""
-        from tree_sitter_analyzer.encoding_utils import EncodingManager
+        from codexray.encoding_utils import EncodingManager
 
         # Verify encoding manager exists
         assert hasattr(EncodingManager, "read_file_safe")

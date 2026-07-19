@@ -7,7 +7,7 @@ Tests for Markdown language detection functionality.
 
 import pytest
 
-from tree_sitter_analyzer.language_detector import LanguageDetector
+from codexray.language_detector import LanguageDetector
 
 
 class TestMarkdownLanguageDetection:
@@ -378,7 +378,7 @@ if __name__ == "__main__":
         [
             __file__,
             "-v",
-            "--cov=tree_sitter_analyzer.language_detector",
+            "--cov=codexray.language_detector",
             "--cov-report=term-missing",
         ]
     )

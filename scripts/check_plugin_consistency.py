@@ -17,8 +17,8 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PLUGINS_DIR = PROJECT_ROOT / "tree_sitter_analyzer" / "languages"
-BASE_PLUGIN = PROJECT_ROOT / "tree_sitter_analyzer" / "plugins" / "base.py"
+PLUGINS_DIR = PROJECT_ROOT / "codexray" / "languages"
+BASE_PLUGIN = PROJECT_ROOT / "codexray" / "plugins" / "base.py"
 
 REQUIRED_PLUGIN_METHODS = {
     "get_language_name",

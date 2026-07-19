@@ -7,7 +7,7 @@ from typing import Any
 import pytest
 import tree_sitter
 
-from tree_sitter_analyzer.languages.sql_plugin import SQLPlugin
+from codexray.languages.sql_plugin import SQLPlugin
 
 COMMON_COLUMN_NAMES = {
     "PRICE",

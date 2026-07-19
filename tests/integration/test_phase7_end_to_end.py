@@ -19,16 +19,16 @@ from typing import Any
 import psutil
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
-from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.utils.error_handler import AnalysisError
 
 from ._test_phase7_end_to_end_helpers import run_performance_under_load
 from ._test_phase7_project_builders import (
@@ -90,7 +90,7 @@ class TestPhase7EndToEnd:
                 f"External dependencies missing: ripgrep={has_ripgrep}, fd={has_fd}"
             )
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(enterprise_project)
 
         try:
@@ -127,7 +127,7 @@ class TestPhase7EndToEnd:
             pytest.fail(f"Enterprise workflow test failed: {e}")
 
     async def _analyze_project_overview(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """プロジェクト全体の概要分析"""
         results = {"success": True, "analyses": []}
@@ -170,7 +170,7 @@ class TestPhase7EndToEnd:
         return results
 
     async def _analyze_language_details(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """各言語の詳細分析"""
         results = {"success": True, "analyses": []}
@@ -190,7 +190,7 @@ class TestPhase7EndToEnd:
         return results
 
     async def _analyze_java_components(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """Java コンポーネント分析"""
         results = {"success": True, "components": []}
@@ -223,7 +223,7 @@ class TestPhase7EndToEnd:
         return results
 
     async def _analyze_python_components(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """Python コンポーネント分析"""
         results = {"success": True, "components": []}
@@ -257,7 +257,7 @@ class TestPhase7EndToEnd:
         return results
 
     async def _analyze_javascript_components(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """JavaScript コンポーネント分析"""
         results = {"success": True, "components": []}
@@ -278,7 +278,7 @@ class TestPhase7EndToEnd:
         return results
 
     async def _verify_security_compliance(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """セキュリティコンプライアンス検証"""
         results = {"success": True, "security_checks": []}
@@ -317,7 +317,7 @@ class TestPhase7EndToEnd:
         return results
 
     async def _verify_performance_requirements(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """パフォーマンス要件検証"""
         results = {"success": True, "performance_metrics": []}
@@ -366,7 +366,7 @@ class TestPhase7EndToEnd:
 
     async def _verify_integration_quality(
         self,
-        server: TreeSitterAnalyzerMCPServer,
+        server: CodeXrayMCPServer,
         project_path: str,
         overview_results: dict,
         detailed_results: dict,
@@ -447,7 +447,7 @@ class TestPhase7EndToEnd:
                 f"External dependencies missing: ripgrep={has_ripgrep}, fd={has_fd}"
             )
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(enterprise_project)
 
         try:
@@ -474,7 +474,7 @@ class TestPhase7EndToEnd:
             pytest.fail(f"Real world development workflow test failed: {e}")
 
     async def _simulate_code_investigation(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """新機能開発のためのコード調査シミュレーション"""
         results = {"success": True, "steps": []}
@@ -521,7 +521,7 @@ class TestPhase7EndToEnd:
         return results
 
     async def _simulate_bug_analysis(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """バグ修正のためのコード分析シミュレーション"""
         results = {"success": True, "steps": []}
@@ -574,7 +574,7 @@ class TestPhase7EndToEnd:
         return results
 
     async def _simulate_refactoring_analysis(
-        self, server: TreeSitterAnalyzerMCPServer, project_path: str
+        self, server: CodeXrayMCPServer, project_path: str
     ) -> dict[str, Any]:
         """リファクタリングのための影響範囲調査シミュレーション"""
         results = {"success": True, "steps": []}
@@ -632,7 +632,7 @@ class TestPhase7EndToEnd:
                 f"External dependencies missing: ripgrep={has_ripgrep}, fd={has_fd}"
             )
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(enterprise_project)
 
         try:
@@ -643,7 +643,7 @@ class TestPhase7EndToEnd:
     @pytest.mark.asyncio
     async def test_error_recovery_and_resilience(self, enterprise_project):
         """エラー回復と回復力テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(enterprise_project)
 
         # 1. 存在しないファイルでのエラーハンドリング

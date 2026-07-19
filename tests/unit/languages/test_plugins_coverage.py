@@ -12,8 +12,8 @@ import pytest
 # Add project root to path
 sys.path.insert(0, ".")
 
-from tree_sitter_analyzer.plugins import DefaultExtractor
-from tree_sitter_analyzer.plugins.manager import PluginManager
+from codexray.plugins import DefaultExtractor
+from codexray.plugins.manager import PluginManager
 
 
 @pytest.fixture

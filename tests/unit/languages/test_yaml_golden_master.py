@@ -39,9 +39,9 @@ def normalize_yaml_output(content: str) -> str:
 
 async def run_yaml_analyzer(input_file: str, table_format: str = "full") -> str:
     """YAMLアナライザーを実行して出力を取得"""
-    from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
-    from tree_sitter_analyzer.formatters.yaml_formatter import YAMLFormatter
-    from tree_sitter_analyzer.languages.yaml_plugin import YAMLPlugin
+    from codexray.core.analysis_engine import AnalysisRequest
+    from codexray.formatters.yaml_formatter import YAMLFormatter
+    from codexray.languages.yaml_plugin import YAMLPlugin
 
     plugin = YAMLPlugin()
     request = AnalysisRequest(file_path=input_file)

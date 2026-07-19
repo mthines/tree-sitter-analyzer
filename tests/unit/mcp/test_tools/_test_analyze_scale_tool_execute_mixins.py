@@ -41,7 +41,7 @@ class AnalyzeScaleToolExecuteMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="unknown",
             ),
         ):
@@ -70,11 +70,11 @@ class AnalyzeScaleToolExecuteMixin:
                 },
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
             patch(
-                "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response",
+                "codexray.mcp.utils.format_helper.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -99,7 +99,7 @@ class AnalyzeScaleToolExecuteMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -121,7 +121,7 @@ class AnalyzeScaleToolExecuteMixin:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -146,7 +146,7 @@ class AnalyzeScaleToolExecuteMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -168,7 +168,7 @@ class AnalyzeScaleToolExecuteMixin:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -193,7 +193,7 @@ class AnalyzeScaleToolExecuteMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -215,7 +215,7 @@ class AnalyzeScaleToolExecuteMixin:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -240,7 +240,7 @@ class AnalyzeScaleToolExecuteMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -262,7 +262,7 @@ class AnalyzeScaleToolExecuteMixin:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -279,7 +279,7 @@ class AnalyzeScaleToolExecuteMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -349,7 +349,7 @@ class AnalyzeScaleToolExecuteMetricsBatchMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -365,7 +365,7 @@ class AnalyzeScaleToolExecuteMetricsBatchMixin:
                 },
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -382,7 +382,7 @@ class AnalyzeScaleToolExecuteMetricsBatchMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -398,7 +398,7 @@ class AnalyzeScaleToolExecuteMetricsBatchMixin:
                 },
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -415,7 +415,7 @@ class AnalyzeScaleToolExecuteMetricsBatchMixin:
             ),
             patch("pathlib.Path.exists", return_value=False),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 return_value={"formatted": True},
             ),
         ):
@@ -438,7 +438,7 @@ class AnalyzeScaleToolCreateJsonFileAnalysisMixin:
             "file_size_bytes": 1000,
         }
         with patch(
-            "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response",
+            "codexray.mcp.utils.format_helper.apply_toon_format_to_response",
             return_value={"formatted": True},
         ):
             result = tool._create_json_file_analysis(
@@ -457,7 +457,7 @@ class AnalyzeScaleToolCreateJsonFileAnalysisMixin:
             "file_size_bytes": 10000,
         }
         with patch(
-            "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response",
+            "codexray.mcp.utils.format_helper.apply_toon_format_to_response",
             return_value={"formatted": True},
         ):
             result = tool._create_json_file_analysis(
@@ -476,7 +476,7 @@ class AnalyzeScaleToolCreateJsonFileAnalysisMixin:
             "file_size_bytes": 30000,
         }
         with patch(
-            "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response",
+            "codexray.mcp.utils.format_helper.apply_toon_format_to_response",
             return_value={"formatted": True},
         ):
             result = tool._create_json_file_analysis(
@@ -495,7 +495,7 @@ class AnalyzeScaleToolCreateJsonFileAnalysisMixin:
             "file_size_bytes": 2000,
         }
         with patch(
-            "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response",
+            "codexray.mcp.utils.format_helper.apply_toon_format_to_response",
             return_value={"formatted": True},
         ):
             result = tool._create_json_file_analysis(
@@ -514,7 +514,7 @@ class AnalyzeScaleToolCreateJsonFileAnalysisMixin:
             "file_size_bytes": 2000,
         }
         with patch(
-            "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response",
+            "codexray.mcp.utils.format_helper.apply_toon_format_to_response",
             return_value={"formatted": True},
         ):
             result = tool._create_json_file_analysis(
@@ -606,7 +606,7 @@ class AnalyzeScaleToolExecuteJavaMixin:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 side_effect=lambda r, f: r,
             ),
         ):
@@ -704,7 +704,7 @@ class AnalyzeScaleToolExecuteBatchAdvancedMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -720,7 +720,7 @@ class AnalyzeScaleToolExecuteBatchAdvancedMixin:
                 },
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 side_effect=lambda r, f: r,
             ),
         ):
@@ -738,7 +738,7 @@ class AnalyzeScaleToolExecuteBatchAdvancedMixin:
                 side_effect=ValueError("Path traversal detected"),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 side_effect=lambda r, f: r,
             ),
         ):
@@ -756,7 +756,7 @@ class AnalyzeScaleToolExecuteBatchAdvancedMixin:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="unknown",
             ),
             patch.object(
@@ -772,7 +772,7 @@ class AnalyzeScaleToolExecuteBatchAdvancedMixin:
                 },
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 side_effect=lambda r, f: r,
             ),
         ):
@@ -790,7 +790,7 @@ class AnalyzeScaleToolExecuteBatchAdvancedMixin:
                 side_effect=ValueError("Invalid"),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 side_effect=lambda r, f: r,
             ),
         ):

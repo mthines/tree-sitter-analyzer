@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.search_cache import (
+from codexray.mcp.utils.search_cache import (
     SearchCache,
     clear_cache,
     configure_cache,

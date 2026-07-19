@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 from hypothesis import given
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.platform_compat.detector import PlatformDetector, PlatformInfo
+from codexray.platform_compat.detector import PlatformDetector, PlatformInfo
 
 
 @st.composite

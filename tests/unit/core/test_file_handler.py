@@ -7,7 +7,7 @@ Tests file reading functionality with encoding detection and fallback.
 
 from unittest.mock import patch
 
-from tree_sitter_analyzer.file_handler import (
+from codexray.file_handler import (
     detect_language_from_extension,
     log_error,
     log_info,
@@ -21,37 +21,37 @@ from tree_sitter_analyzer.file_handler import (
 class TestLoggingFunctions:
     """Test logging wrapper functions."""
 
-    @patch("tree_sitter_analyzer.file_handler.logger")
+    @patch("codexray.file_handler.logger")
     def test_log_error(self, mock_logger):
         """Test log_error function."""
         log_error("Test error message")
         mock_logger.error.assert_called_once_with("Test error message")
 
-    @patch("tree_sitter_analyzer.file_handler.logger")
+    @patch("codexray.file_handler.logger")
     def test_log_error_with_args(self, mock_logger):
         """Test log_error with arguments."""
         log_error("Error with %s", "arg")
         mock_logger.error.assert_called_once_with("Error with %s", "arg")
 
-    @patch("tree_sitter_analyzer.file_handler.logger")
+    @patch("codexray.file_handler.logger")
     def test_log_info(self, mock_logger):
         """Test log_info function."""
         log_info("Test info message")
         mock_logger.info.assert_called_once_with("Test info message")
 
-    @patch("tree_sitter_analyzer.file_handler.logger")
+    @patch("codexray.file_handler.logger")
     def test_log_info_with_args(self, mock_logger):
         """Test log_info with arguments."""
         log_info("Info with %s and %d", "arg", 42)
         mock_logger.info.assert_called_once_with("Info with %s and %d", "arg", 42)
 
-    @patch("tree_sitter_analyzer.file_handler.logger")
+    @patch("codexray.file_handler.logger")
     def test_log_warning(self, mock_logger):
         """Test log_warning function."""
         log_warning("Test warning message")
         mock_logger.warning.assert_called_once_with("Test warning message")
 
-    @patch("tree_sitter_analyzer.file_handler.logger")
+    @patch("codexray.file_handler.logger")
     def test_log_warning_with_kwargs(self, mock_logger):
         """Test log_warning with keyword arguments."""
         log_warning("Warning with %s", "arg", extra={"key": "value"})
@@ -174,7 +174,7 @@ class TestReadFileWithFallback:
         assert result is not None
         assert result.decode("utf-8") == "こんにちは"
 
-    @patch("tree_sitter_analyzer.file_handler.read_file_safe")
+    @patch("codexray.file_handler.read_file_safe")
     def test_read_file_exception_handling(self, mock_read, tmp_path):
         """Test exception handling when reading file."""
         test_file = tmp_path / "test.txt"
@@ -185,7 +185,7 @@ class TestReadFileWithFallback:
         result = read_file_with_fallback(str(test_file))
         assert result is None
 
-    @patch("tree_sitter_analyzer.file_handler.read_file_safe")
+    @patch("codexray.file_handler.read_file_safe")
     def test_read_file_with_different_encoding(self, mock_read, tmp_path):
         """Test reading file with different detected encoding."""
         test_file = tmp_path / "test.txt"
@@ -358,7 +358,7 @@ class TestReadFilePartial:
         test_file.write_text("content\n", encoding="utf-8")
 
         with patch(
-            "tree_sitter_analyzer.file_handler.read_file_safe_streaming"
+            "codexray.file_handler.read_file_safe_streaming"
         ) as mock_stream:
             mock_stream.side_effect = Exception("Stream error")
 

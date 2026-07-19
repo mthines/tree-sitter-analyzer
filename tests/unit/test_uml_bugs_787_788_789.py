@@ -6,8 +6,8 @@ Written RED-first (TDD): each test must FAIL before the fix and PASS after.
 
 from __future__ import annotations
 
-from tree_sitter_analyzer import uml_export
-from tree_sitter_analyzer.uml_export import UMLExporter
+from codexray import uml_export
+from codexray.uml_export import UMLExporter
 
 # ── Bug #787 — sequence diagram truncated flag ────────────────────────────────
 
@@ -141,7 +141,7 @@ def test_activity_empty_body_returns_nonempty_mermaid(tmp_path) -> None:
     The mermaid string must contain a visible indicator (node, note, or label)
     so consumers see a non-empty diagram string, not a degenerate header only.
     """
-    import tree_sitter_analyzer.uml_activity as _uml_activity_mod
+    import codexray.uml_activity as _uml_activity_mod
 
     src = tmp_path / "stub.py"
     src.write_text('def stub():\n    """Just a stub."""\n    pass\n')
@@ -175,7 +175,7 @@ def test_activity_empty_body_returns_nonempty_mermaid(tmp_path) -> None:
 
 def test_activity_file_missing_returns_nonempty_mermaid(tmp_path) -> None:
     """Bug #788 companion: file_missing error mermaid must also be non-empty."""
-    import tree_sitter_analyzer.uml_activity as _uml_activity_mod
+    import codexray.uml_activity as _uml_activity_mod
 
     class FakeCFGMissing:
         error = "file_missing"
@@ -202,7 +202,7 @@ def test_activity_file_missing_returns_nonempty_mermaid(tmp_path) -> None:
 
 def test_activity_function_missing_returns_nonempty_mermaid(tmp_path) -> None:
     """Bug #788 companion: function_missing error mermaid must also be non-empty."""
-    import tree_sitter_analyzer.uml_activity as _uml_activity_mod
+    import codexray.uml_activity as _uml_activity_mod
 
     class FakeCFGFunctionMissing:
         error = "function_missing"

@@ -1,8 +1,8 @@
-"""Tests for tree_sitter_analyzer.languages.shared.name_resolver."""
+"""Tests for codexray.languages.shared.name_resolver."""
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.languages.shared.name_resolver import (
+from codexray.languages.shared.name_resolver import (
     QualifiedNameBuilder,
     resolve_self_reference,
     strip_type_params,

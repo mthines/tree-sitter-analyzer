@@ -2,7 +2,7 @@
 
 import json
 
-from tree_sitter_analyzer.output_manager import (
+from codexray.output_manager import (
     OutputManager,
     get_output_manager,
     output_data,

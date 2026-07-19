@@ -17,8 +17,8 @@ except ImportError:  # Python 3.10 — fall back to the tomli back-port
     import tomli as tomllib
 from hypothesis import settings as hypothesis_settings
 
-from tree_sitter_analyzer.cli_main import create_argument_parser
-from tree_sitter_analyzer.mcp.server import _create_tool_registry
+from codexray.cli_main import create_argument_parser
+from codexray.mcp.server import _create_tool_registry
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SKIPPED_SCAN_DIRS = {
@@ -179,7 +179,7 @@ def test_benchmarks_are_path_filtered_for_pr_and_push() -> None:
 
     assert "paths:" in text
     assert "tests/benchmarks/**" in text
-    assert "tree_sitter_analyzer/ast_cache.py" in text
+    assert "codexray/ast_cache.py" in text
 
 
 def test_bandit_security_scan_is_blocking_and_configured() -> None:
@@ -196,6 +196,6 @@ def test_bandit_security_scan_is_blocking_and_configured() -> None:
     body = security_job.group("body")
 
     assert "continue-on-error" not in body
-    assert "bandit -c pyproject.toml -r tree_sitter_analyzer/" in body
+    assert "bandit -c pyproject.toml -r codexray/" in body
     assert "|| true" not in body
     assert 'exit "$BANDIT_STATUS"' in body

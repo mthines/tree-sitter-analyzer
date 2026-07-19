@@ -99,7 +99,7 @@ def main() -> int:
 
     threshold = args.set_threshold if args.set_threshold is not None else _THRESHOLD
 
-    root = _PROJECT_ROOT / "tree_sitter_analyzer"
+    root = _PROJECT_ROOT / "codexray"
     all_matches: list[tuple[Path, int, str]] = []
 
     for py_file in sorted(root.rglob("*.py")):

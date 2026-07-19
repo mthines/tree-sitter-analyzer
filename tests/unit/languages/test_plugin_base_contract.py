@@ -7,28 +7,28 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.languages.bash_plugin import BashPlugin
-from tree_sitter_analyzer.languages.c_plugin import CPlugin
-from tree_sitter_analyzer.languages.cpp_plugin import CppPlugin
-from tree_sitter_analyzer.languages.csharp_plugin import CSharpPlugin
-from tree_sitter_analyzer.languages.css_plugin import CssPlugin
-from tree_sitter_analyzer.languages.go_plugin import GoPlugin
-from tree_sitter_analyzer.languages.html_plugin import HtmlPlugin
-from tree_sitter_analyzer.languages.java_plugin import JavaPlugin
-from tree_sitter_analyzer.languages.javascript_plugin import JavaScriptPlugin
-from tree_sitter_analyzer.languages.json_plugin import JSONPlugin
-from tree_sitter_analyzer.languages.kotlin_plugin import KotlinPlugin
-from tree_sitter_analyzer.languages.markdown_plugin import MarkdownPlugin
-from tree_sitter_analyzer.languages.php_plugin import PHPPlugin
-from tree_sitter_analyzer.languages.python_plugin import PythonPlugin
-from tree_sitter_analyzer.languages.ruby_plugin import RubyPlugin
-from tree_sitter_analyzer.languages.rust_plugin import RustPlugin
-from tree_sitter_analyzer.languages.scala_plugin import ScalaPlugin
-from tree_sitter_analyzer.languages.sql_plugin import SQLPlugin
-from tree_sitter_analyzer.languages.swift_plugin import SwiftPlugin
-from tree_sitter_analyzer.languages.typescript_plugin import TypeScriptPlugin
-from tree_sitter_analyzer.languages.yaml_plugin import YAMLPlugin
-from tree_sitter_analyzer.plugins.base import ElementExtractor, LanguagePlugin
+from codexray.languages.bash_plugin import BashPlugin
+from codexray.languages.c_plugin import CPlugin
+from codexray.languages.cpp_plugin import CppPlugin
+from codexray.languages.csharp_plugin import CSharpPlugin
+from codexray.languages.css_plugin import CssPlugin
+from codexray.languages.go_plugin import GoPlugin
+from codexray.languages.html_plugin import HtmlPlugin
+from codexray.languages.java_plugin import JavaPlugin
+from codexray.languages.javascript_plugin import JavaScriptPlugin
+from codexray.languages.json_plugin import JSONPlugin
+from codexray.languages.kotlin_plugin import KotlinPlugin
+from codexray.languages.markdown_plugin import MarkdownPlugin
+from codexray.languages.php_plugin import PHPPlugin
+from codexray.languages.python_plugin import PythonPlugin
+from codexray.languages.ruby_plugin import RubyPlugin
+from codexray.languages.rust_plugin import RustPlugin
+from codexray.languages.scala_plugin import ScalaPlugin
+from codexray.languages.sql_plugin import SQLPlugin
+from codexray.languages.swift_plugin import SwiftPlugin
+from codexray.languages.typescript_plugin import TypeScriptPlugin
+from codexray.languages.yaml_plugin import YAMLPlugin
+from codexray.plugins.base import ElementExtractor, LanguagePlugin
 
 ALL_PLUGINS: list[LanguagePlugin] = [
     BashPlugin(),

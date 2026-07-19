@@ -1,7 +1,7 @@
 """RED tests for Feature 2 — per-symbol temporal activation.
 
 Describes the behaviour of the not-yet-implemented module
-``tree_sitter_analyzer.git_activation``. Every test in this file MUST fail
+``codexray.git_activation``. Every test in this file MUST fail
 today (ImportError, missing table, missing attr) — they only pass once the
 implementation lands. See Feature 2 brief for the SPEC.
 """
@@ -26,7 +26,7 @@ _GIT_TIMEOUT_SECONDS = 15
 
 def _import_git_activation():
     """Deferred import so collection works before the module exists."""
-    return importlib.import_module("tree_sitter_analyzer.git_activation")
+    return importlib.import_module("codexray.git_activation")
 
 
 def _sym(name: str, line: int, end_line: int, sid: int) -> dict:
@@ -108,7 +108,7 @@ def _index_with_activation(repo: Path, files: list[str]) -> str:
     Activation columns are populated as a side-effect of indexing when the
     feature is wired in. Until then this is RED because the table is missing.
     """
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     cache = ASTCache(str(repo))
     try:

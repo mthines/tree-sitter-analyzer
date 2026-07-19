@@ -25,7 +25,7 @@ sys.path.insert(0, str(project_root))
 
 from tests.integration.formatters.golden_master import GoldenMasterManager  # noqa: E402
 from tests.integration.formatters.schema_validation import validate_format  # noqa: E402
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (  # noqa: E402
+from codexray.mcp.tools.analyze_code_structure_tool import (  # noqa: E402
     AnalyzeCodeStructureTool,
 )
 

@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
 
@@ -109,13 +109,13 @@ public class TestClass {
         # Mock all dependencies - avoiding with statements
         mocker.patch("pathlib.Path.exists", return_value=True)
         mocker.patch(
-            "tree_sitter_analyzer.language_detector.detect_language_from_file",
+            "codexray.language_detector.detect_language_from_file",
             return_value="java",
         )
 
         # Mock performance monitor
         mock_monitor = mocker.patch(
-            "tree_sitter_analyzer.mcp.utils.get_performance_monitor"
+            "codexray.mcp.utils.get_performance_monitor"
         )
         mock_context = mocker.MagicMock()
         mock_monitor_instance = mocker.MagicMock()
@@ -145,7 +145,7 @@ public class TestClass {
 
         # Mock the conversion helper to return the expected structure
         mocker.patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
+            "codexray.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
             return_value=mock_structure_data,
         )
 
@@ -199,7 +199,7 @@ public class TestClass {
 
         # Mock performance monitor
         mock_monitor = mocker.patch(
-            "tree_sitter_analyzer.mcp.utils.get_performance_monitor"
+            "codexray.mcp.utils.get_performance_monitor"
         )
         mock_context = mocker.MagicMock()
         mock_monitor_instance = mocker.MagicMock()
@@ -226,7 +226,7 @@ public class TestClass {
 
         # Mock the conversion helper to return the expected structure
         mocker.patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
+            "codexray.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
             return_value=mock_structure_data,
         )
         arguments = {
@@ -247,13 +247,13 @@ public class TestClass {
         # Mock dependencies - avoiding with statements
         mocker.patch("pathlib.Path.exists", return_value=True)
         mocker.patch(
-            "tree_sitter_analyzer.language_detector.detect_language_from_file",
+            "codexray.language_detector.detect_language_from_file",
             return_value="java",
         )
 
         # Mock performance monitor
         mock_monitor = mocker.patch(
-            "tree_sitter_analyzer.mcp.utils.get_performance_monitor"
+            "codexray.mcp.utils.get_performance_monitor"
         )
         mock_context = mocker.MagicMock()
         mock_monitor_instance = mocker.MagicMock()
@@ -285,13 +285,13 @@ public class TestClass {
         # Mock dependencies - avoiding with statements
         mocker.patch("pathlib.Path.exists", return_value=True)
         mocker.patch(
-            "tree_sitter_analyzer.language_detector.detect_language_from_file",
+            "codexray.language_detector.detect_language_from_file",
             return_value="java",
         )
 
         # Mock performance monitor
         mock_monitor = mocker.patch(
-            "tree_sitter_analyzer.mcp.utils.get_performance_monitor"
+            "codexray.mcp.utils.get_performance_monitor"
         )
         mock_context = mocker.MagicMock()
         mock_monitor_instance = mocker.MagicMock()
@@ -318,7 +318,7 @@ public class TestClass {
 
         # Mock the conversion helper to return the expected structure
         mocker.patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
+            "codexray.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
             return_value=mock_structure_data,
         )
 
@@ -353,13 +353,13 @@ public class TestClass {
         # Mock dependencies
         mocker.patch("pathlib.Path.exists", return_value=True)
         mocker.patch(
-            "tree_sitter_analyzer.language_detector.detect_language_from_file",
+            "codexray.language_detector.detect_language_from_file",
             return_value="java",
         )
 
         # Mock performance monitor
         mock_monitor = mocker.patch(
-            "tree_sitter_analyzer.mcp.utils.get_performance_monitor"
+            "codexray.mcp.utils.get_performance_monitor"
         )
         mock_context = mocker.MagicMock()
         mock_monitor_instance = mocker.MagicMock()
@@ -386,7 +386,7 @@ public class TestClass {
 
         # Mock the conversion helper
         mocker.patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
+            "codexray.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
             return_value=mock_structure_data,
         )
 
@@ -429,13 +429,13 @@ public class TestClass {
         # Mock dependencies
         mocker.patch("pathlib.Path.exists", return_value=True)
         mocker.patch(
-            "tree_sitter_analyzer.language_detector.detect_language_from_file",
+            "codexray.language_detector.detect_language_from_file",
             return_value="java",
         )
 
         # Mock performance monitor
         mock_monitor = mocker.patch(
-            "tree_sitter_analyzer.mcp.utils.get_performance_monitor"
+            "codexray.mcp.utils.get_performance_monitor"
         )
         mock_context = mocker.MagicMock()
         mock_monitor_instance = mocker.MagicMock()
@@ -452,7 +452,7 @@ public class TestClass {
 
         # Mock FormatterRegistry to ensure it uses our mock formatter
         mock_formatter_registry = mocker.patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+            "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
         )
         mock_formatter_registry.is_format_supported.return_value = True
         mock_formatter = mocker.MagicMock()
@@ -472,7 +472,7 @@ public class TestClass {
 
         # Mock the conversion helper
         mocker.patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
+            "codexray.mcp.tools.analyze_code_structure_tool._convert_analysis_result",
             return_value=mock_structure_data,
         )
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.utils.logging module
+Tests for codexray.utils.logging module
 
 Comprehensive tests for logging utilities, handlers, and context managers.
 """
@@ -11,7 +11,7 @@ import sys
 from io import StringIO
 from unittest.mock import patch
 
-from tree_sitter_analyzer.utils.logging import (
+from codexray.utils.logging import (
     LoggingContext,
     QuietMode,
     SafeStreamHandler,
@@ -190,7 +190,7 @@ class TestLoggingContext:
 
     def test_logging_context_enabled_with_level(self):
         """Test LoggingContext when enabled with level"""
-        target_logger = logging.getLogger("tree_sitter_analyzer")
+        target_logger = logging.getLogger("codexray")
         original_level = target_logger.level
 
         with LoggingContext(enabled=True, level=logging.DEBUG):
@@ -201,7 +201,7 @@ class TestLoggingContext:
 
     def test_logging_context_disabled(self):
         """Test LoggingContext when disabled"""
-        target_logger = logging.getLogger("tree_sitter_analyzer")
+        target_logger = logging.getLogger("codexray")
         original_level = target_logger.level
 
         with LoggingContext(enabled=False, level=logging.DEBUG):
@@ -212,7 +212,7 @@ class TestLoggingContext:
 
     def test_logging_context_without_level(self):
         """Test LoggingContext without specifying level"""
-        target_logger = logging.getLogger("tree_sitter_analyzer")
+        target_logger = logging.getLogger("codexray")
         original_level = target_logger.level
 
         with LoggingContext(enabled=True):

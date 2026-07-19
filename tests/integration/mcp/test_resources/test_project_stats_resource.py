@@ -13,7 +13,7 @@ from pathlib import Path
 # Mock functionality now provided by pytest-mock
 import pytest
 
-from tree_sitter_analyzer.mcp.resources.project_stats_resource import (
+from codexray.mcp.resources.project_stats_resource import (
     ProjectStatsResource,
 )
 
@@ -296,7 +296,7 @@ class TestProjectStatsResourceIntegration:
 
     def test_integration_with_universal_analyzer(self) -> None:
         """Test integration with UnifiedAnalysisEngine"""
-        from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
+        from codexray.core.analysis_engine import get_analysis_engine
 
         # Verify analysis engine exists and is callable
         engine = get_analysis_engine()
@@ -309,7 +309,7 @@ class TestProjectStatsResourceIntegration:
     def test_integration_with_advanced_analyzer(self) -> None:
         """Test integration with AdvancedAnalyzer"""
         # Verify analysis engine exists and is the expected type
-        from tree_sitter_analyzer.core.analysis_engine import (
+        from codexray.core.analysis_engine import (
             UnifiedAnalysisEngine,
             get_analysis_engine,
         )
@@ -323,7 +323,7 @@ class TestProjectStatsResourceIntegration:
         # Mock analysis engine
         mock_engine = mocker.MagicMock()
         mock_engine_factory = mocker.patch(
-            "tree_sitter_analyzer.mcp.resources.project_stats_resource.get_analysis_engine"
+            "codexray.mcp.resources.project_stats_resource.get_analysis_engine"
         )
         mock_engine_factory.return_value = mock_engine
 
@@ -385,7 +385,7 @@ class TestProjectStatsResourceErrorHandling:
         # Mock analysis engine to raise exception
         mock_engine = mocker.MagicMock()
         mock_engine_factory = mocker.patch(
-            "tree_sitter_analyzer.mcp.resources.project_stats_resource.get_analysis_engine"
+            "codexray.mcp.resources.project_stats_resource.get_analysis_engine"
         )
         mock_engine_factory.return_value = mock_engine
         mock_engine.analyze.side_effect = Exception("Analysis failed")

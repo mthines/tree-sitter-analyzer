@@ -5,7 +5,7 @@ Tests for JavaScript queries module
 
 import pytest
 
-from tree_sitter_analyzer.queries.javascript import (
+from codexray.queries.javascript import (
     ALL_QUERIES,
     CLASSES,
     COMMENTS,

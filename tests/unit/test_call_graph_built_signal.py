@@ -14,18 +14,18 @@ from unittest import mock
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import (
+from codexray.ast_cache import (
     ASTCache,
     _language_from_ext,
     _walk_source_files,
 )
-from tree_sitter_analyzer.cache import callgraph_state
-from tree_sitter_analyzer.cache.fingerprint import (
+from codexray.cache import callgraph_state
+from codexray.cache.fingerprint import (
     _walk_supported_source_paths,
 )
-from tree_sitter_analyzer.mcp.tools.callees_tool import CodeGraphCalleesTool
-from tree_sitter_analyzer.mcp.tools.callers_tool import CodeGraphCallersTool
-from tree_sitter_analyzer.mcp.tools.codegraph_relation_tool import (
+from codexray.mcp.tools.callees_tool import CodeGraphCalleesTool
+from codexray.mcp.tools.callers_tool import CodeGraphCallersTool
+from codexray.mcp.tools.codegraph_relation_tool import (
     CodeGraphRelationToolMixin,
 )
 
@@ -415,7 +415,7 @@ def test_cli_callers_partial_ast_cache_matches_mcp_full_index_hint(
         [
             sys.executable,
             "-m",
-            "tree_sitter_analyzer",
+            "codexray",
             "--callers",
             "solo",
             "--project-root",
@@ -603,7 +603,7 @@ def test_errored_file_does_not_stamp_marker_when_incomplete(
 
     try:
         with mock.patch(
-            "tree_sitter_analyzer.cache.indexer.os.stat",
+            "codexray.cache.indexer.os.stat",
             side_effect=_stat_raising_on_b,
         ):
             result = cache.index_project(workers=0)

@@ -56,7 +56,7 @@ If applicable, provide:
 
 ```python
 # Example usage
-analyzer = TreeSitterAnalyzer()
+analyzer = CodeXray()
 result = analyzer.new_feature(input_data)
 ```
 

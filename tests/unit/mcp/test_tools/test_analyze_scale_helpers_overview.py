@@ -4,7 +4,7 @@ Tests for extract_structural_overview and extract_structural_overview_universal.
 
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_helpers import (
+from codexray.mcp.tools.analyze_scale_helpers import (
     extract_structural_overview,
     extract_structural_overview_universal,
 )

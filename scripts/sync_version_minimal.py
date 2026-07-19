@@ -5,7 +5,7 @@ Minimal Version Synchronization Script
 This script only synchronizes version numbers in essential files:
 - pyproject.toml (source of truth)
 - pyproject.toml [tool.mcp].server_version (MCP metadata)
-- tree_sitter_analyzer/__init__.py (main package version)
+- codexray/__init__.py (main package version)
 
 Other __init__.py files are left unchanged to reduce complexity.
 
@@ -46,7 +46,7 @@ def get_version_from_pyproject() -> str:
 def get_essential_version_files() -> list[Path]:
     """Get only essential files that need version synchronization"""
     essential_files = [
-        Path("tree_sitter_analyzer/__init__.py"),  # Main package version
+        Path("codexray/__init__.py"),  # Main package version
     ]
 
     # Only include files that exist

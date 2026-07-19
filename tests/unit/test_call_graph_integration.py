@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.call_graph import (
+from codexray.call_graph import (
     CallGraph,
     FunctionRef,
 )

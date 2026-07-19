@@ -2,8 +2,8 @@
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.test_gap_tool import CodeGraphTestGapTool
-from tree_sitter_analyzer.test_gap_analyzer import _collect_files, analyze_coverage_gaps
+from codexray.mcp.tools.test_gap_tool import CodeGraphTestGapTool
+from codexray.test_gap_analyzer import _collect_files, analyze_coverage_gaps
 
 
 @pytest.fixture

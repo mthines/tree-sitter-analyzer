@@ -28,8 +28,8 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.code_patterns_tool import CodePatternsTool
-from tree_sitter_analyzer.mcp.tools.file_health_tool import FileHealthTool
+from codexray.mcp.tools.code_patterns_tool import CodePatternsTool
+from codexray.mcp.tools.file_health_tool import FileHealthTool
 
 
 def _run(coro: Any) -> Any:
@@ -179,7 +179,7 @@ class TestN7CanonicalSmellTypeHelper:
     """Unit-level checks for the shared normalization helper."""
 
     def test_strips_security_prefix(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.utils.file_health_smells import (
+        from codexray.mcp.tools.utils.file_health_smells import (
             canonical_smell_type,
         )
 
@@ -187,7 +187,7 @@ class TestN7CanonicalSmellTypeHelper:
         assert canonical_smell_type({"type": "security:bare_except"}) == "bare_except"
 
     def test_passthrough_for_bare_names(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.utils.file_health_smells import (
+        from codexray.mcp.tools.utils.file_health_smells import (
             canonical_smell_type,
         )
 
@@ -197,7 +197,7 @@ class TestN7CanonicalSmellTypeHelper:
         )
 
     def test_unknown_smell_returns_string(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.utils.file_health_smells import (
+        from codexray.mcp.tools.utils.file_health_smells import (
             canonical_smell_type,
         )
 

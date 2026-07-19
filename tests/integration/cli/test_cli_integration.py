@@ -10,18 +10,18 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli_main import CLICommandFactory, create_argument_parser
-from tree_sitter_analyzer.mcp.resources.code_file_resource import CodeFileResource
-from tree_sitter_analyzer.mcp.resources.project_stats_resource import (
+from codexray.cli_main import CLICommandFactory, create_argument_parser
+from codexray.mcp.resources.code_file_resource import CodeFileResource
+from codexray.mcp.resources.project_stats_resource import (
     ProjectStatsResource,
 )
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
 
 class TestCLIArgumentParserIntegration:
@@ -126,7 +126,7 @@ class TestCLIWithMCPServerIntegration:
 
     def test_mcp_server_initializes(self):
         """Test MCP server initializes successfully."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         assert server.is_initialized()
         assert server.analysis_engine is not None
         assert server.name is not None
@@ -134,7 +134,7 @@ class TestCLIWithMCPServerIntegration:
 
     def test_mcp_server_has_required_tools(self):
         """Test MCP server has required tools."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         assert isinstance(server.analyze_scale_tool, AnalyzeScaleTool)
         assert isinstance(server.table_format_tool, AnalyzeCodeStructureTool)
         assert isinstance(server.read_partial_tool, ReadPartialTool)
@@ -142,7 +142,7 @@ class TestCLIWithMCPServerIntegration:
 
     def test_mcp_server_has_required_resources(self):
         """Test MCP server has required resources."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         assert isinstance(server.code_file_resource, CodeFileResource)
         assert isinstance(server.project_stats_resource, ProjectStatsResource)
 

@@ -1,4 +1,4 @@
-"""Unit tests for :mod:`tree_sitter_analyzer.mcp.tools._response_builder`.
+"""Unit tests for :mod:`codexray.mcp.tools._response_builder`.
 
 The factory's job is to make the ``verdict='OK'``-class of bug
 impossible at construction time. These tests pin:
@@ -13,16 +13,16 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._response_builder import (
+from codexray.mcp.tools._response_builder import (
     CANONICAL_VERDICTS,
     InvalidVerdictError,
     build_error,
     build_response,
 )
-from tree_sitter_analyzer.mcp.tools.tool_response import (
+from codexray.mcp.tools.tool_response import (
     CANONICAL_VERDICTS as TOOL_RESPONSE_VERDICTS,
 )
-from tree_sitter_analyzer.mcp.tools.tool_response import validate_tool_response
+from codexray.mcp.tools.tool_response import validate_tool_response
 
 
 class TestCanonicalVerdictSet:

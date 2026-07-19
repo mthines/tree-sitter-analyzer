@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.structure_command import StructureCommand
+from codexray.cli.commands.structure_command import StructureCommand
 
 
 @pytest.fixture
@@ -147,7 +147,7 @@ class TestStructureCommandConvertToLegacyFormat:
 
     def test_convert_to_legacy_format_with_classes(self, command):
         """Test _convert_to_legacy_format with class elements."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         # Create a mock element that has the correct type
         mock_class = MagicMock()
@@ -173,7 +173,7 @@ class TestStructureCommandConvertToLegacyFormat:
 
     def test_convert_to_legacy_format_with_methods(self, command):
         """Test _convert_to_legacy_format with method elements."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         # Create a mock element that has the correct type
         mock_method = MagicMock()
@@ -201,7 +201,7 @@ class TestStructureCommandConvertToLegacyFormat:
         self, command
     ):
         """#742: methods[] entries must carry class_name and is_method for --advanced parity."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         mock_method = MagicMock()
         mock_method.name = "parse_file"
@@ -230,7 +230,7 @@ class TestStructureCommandConvertToLegacyFormat:
 
     def test_convert_to_legacy_format_with_fields(self, command):
         """Test _convert_to_legacy_format with field elements."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_VARIABLE
+        from codexray.constants import ELEMENT_TYPE_VARIABLE
 
         # Create a mock element that has the correct type
         mock_field = MagicMock()
@@ -256,7 +256,7 @@ class TestStructureCommandConvertToLegacyFormat:
 
     def test_convert_to_legacy_format_statistics(self, command):
         """Test _convert_to_legacy_format includes statistics."""
-        from tree_sitter_analyzer.constants import (
+        from codexray.constants import (
             ELEMENT_TYPE_CLASS,
             ELEMENT_TYPE_FUNCTION,
         )
@@ -329,10 +329,10 @@ class TestStructureCommandOutputStructureAnalysis:
         )
         command.args.output_format = "text"
         with patch(
-            "tree_sitter_analyzer.cli.commands.structure_command.output_section"
+            "codexray.cli.commands.structure_command.output_section"
         ) as mock_section:
             with patch(
-                "tree_sitter_analyzer.cli.commands.structure_command.output_data"
+                "codexray.cli.commands.structure_command.output_data"
             ) as mock_data:
                 command._output_structure_analysis(analysis_result)
                 mock_section.assert_called_once_with("Structure Analysis Results")
@@ -351,7 +351,7 @@ class TestStructureCommandOutputStructureAnalysis:
         )
         command.args.output_format = "json"
         with patch(
-            "tree_sitter_analyzer.cli.commands.structure_command.output_json"
+            "codexray.cli.commands.structure_command.output_json"
         ) as mock_json:
             command._output_structure_analysis(analysis_result)
             mock_json.assert_called_once()
@@ -369,7 +369,7 @@ class TestStructureCommandOutputStructureAnalysis:
         )
         command.args.output_format = "toon"
         with patch(
-            "tree_sitter_analyzer.cli.commands.structure_command.ToonFormatter"
+            "codexray.cli.commands.structure_command.ToonFormatter"
         ) as mock_formatter_class:
             mock_formatter = MagicMock()
             mock_formatter.format.return_value = "formatted_output"
@@ -409,7 +409,7 @@ class TestStructureCommandOutputTextFormat:
             },
         }
         with patch(
-            "tree_sitter_analyzer.cli.commands.structure_command.output_data"
+            "codexray.cli.commands.structure_command.output_data"
         ) as mock_data:
             command._output_text_format(structure_dict)
             assert mock_data.call_count
@@ -435,7 +435,7 @@ class TestStructureCommandOutputTextFormat:
             },
         }
         with patch(
-            "tree_sitter_analyzer.cli.commands.structure_command.output_data"
+            "codexray.cli.commands.structure_command.output_data"
         ) as mock_data:
             command._output_text_format(structure_dict)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -462,7 +462,7 @@ class TestStructureCommandOutputTextFormat:
             },
         }
         with patch(
-            "tree_sitter_analyzer.cli.commands.structure_command.output_data"
+            "codexray.cli.commands.structure_command.output_data"
         ) as mock_data:
             command._output_text_format(structure_dict)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -490,7 +490,7 @@ class TestStructureCommandOutputTextFormat:
             },
         }
         with patch(
-            "tree_sitter_analyzer.cli.commands.structure_command.output_data"
+            "codexray.cli.commands.structure_command.output_data"
         ) as mock_data:
             command._output_text_format(structure_dict)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -518,7 +518,7 @@ class TestStructureCommandOutputTextFormat:
             },
         }
         with patch(
-            "tree_sitter_analyzer.cli.commands.structure_command.output_data"
+            "codexray.cli.commands.structure_command.output_data"
         ) as mock_data:
             command._output_text_format(structure_dict)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -571,7 +571,7 @@ class TestR37aaStructureCanonicalEnvelope:
         Verifies the row builder reads the correct field, not a mock attribute.
         """
 
-        from tree_sitter_analyzer.models import Function
+        from codexray.models import Function
 
         # Build a real Function element the same way extractors do
         fn = Function(

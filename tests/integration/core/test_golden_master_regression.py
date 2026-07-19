@@ -33,7 +33,7 @@ def run_analyzer(input_file: str, table_format: str = "full") -> str:
     cmd = [
         python_exe,
         "-m",
-        "tree_sitter_analyzer",
+        "codexray",
         input_file,
         "--table",
         table_format,
@@ -249,7 +249,7 @@ class TestToonGoldenMasterRegression:
         cmd = [
             python_exe,
             "-m",
-            "tree_sitter_analyzer",
+            "codexray",
             input_file,
             "--table",
             "toon",
@@ -366,7 +366,7 @@ class TestToonGoldenMasterRegression:
         json_cmd = [
             python_exe,
             "-m",
-            "tree_sitter_analyzer",
+            "codexray",
             "examples/sample.py",
             "--structure",
             "--format",

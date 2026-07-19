@@ -5,12 +5,12 @@ import time
 from pathlib import Path
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 async def run_performance_under_load(enterprise_project: str) -> None:

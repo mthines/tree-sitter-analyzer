@@ -7,9 +7,9 @@
 - **Last updated**: 2026-06-03
 - **Tracking issue**: TBD
 - **Affected source paths**:
-  - `tree_sitter_analyzer/hyphae/` (subscribable query layer)
-  - `tree_sitter_analyzer/file_watcher.py`, `tree_sitter_analyzer/incremental_sync.py` (the pull half)
-  - `tree_sitter_analyzer/mcp/server.py`, `tree_sitter_analyzer/mcp/tools/search_facade.py` (subscribe/unsubscribe + resource)
+  - `codexray/hyphae/` (subscribable query layer)
+  - `codexray/file_watcher.py`, `codexray/incremental_sync.py` (the pull half)
+  - `codexray/mcp/server.py`, `codexray/mcp/tools/search_facade.py` (subscribe/unsubscribe + resource)
   - `tests/unit/hyphae/`, `tests/e2e/`
 
 ## Summary

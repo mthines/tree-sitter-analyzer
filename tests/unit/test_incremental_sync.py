@@ -7,8 +7,8 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.incremental_sync import IncrementalSync
+from codexray.ast_cache import ASTCache
+from codexray.incremental_sync import IncrementalSync
 
 
 @pytest.fixture

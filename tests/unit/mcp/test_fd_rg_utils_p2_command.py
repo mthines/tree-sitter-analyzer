@@ -6,7 +6,7 @@ This module tests the shared utilities for fd and ripgrep
 command execution and result processing.
 """
 
-from tree_sitter_analyzer.mcp.tools import fd_rg_utils
+from codexray.mcp.tools import fd_rg_utils
 
 
 class TestBuildRgCommand:

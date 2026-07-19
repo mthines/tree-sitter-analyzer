@@ -1,8 +1,8 @@
-# Tree-sitter Analyzer デバッグガイド
+# CodeXray デバッグガイド
 
 ## 概要
 
-Tree-sitter Analyzerのログ設定改善機能により、開発者とユーザーは詳細なデバッグ情報を取得できるようになりました。このガイドでは、効果的なデバッグ手順と環境変数の使用方法について説明します。
+CodeXrayのログ設定改善機能により、開発者とユーザーは詳細なデバッグ情報を取得できるようになりました。このガイドでは、効果的なデバッグ手順と環境変数の使用方法について説明します。
 
 ## 🔧 環境変数による制御
 
@@ -52,11 +52,11 @@ export TREE_SITTER_ANALYZER_FILE_LOG_LEVEL=WARNING
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "command": "uv",
       "args": [
-        "run", "--with", "tree-sitter-analyzer[mcp]",
-        "python", "-m", "tree_sitter_analyzer.mcp.server"
+        "run", "--with", "codexray[mcp]",
+        "python", "-m", "codexray.mcp.server"
       ],
       "env": {
         "TREE_SITTER_PROJECT_ROOT": "/path/to/your/project",
@@ -74,13 +74,13 @@ export TREE_SITTER_ANALYZER_FILE_LOG_LEVEL=WARNING
 1. **ログファイルの場所を確認**：
    ```bash
    # デフォルトの場所（システム一時ディレクトリ）
-   ls /tmp/tree_sitter_analyzer.log  # Linux/macOS
-   dir %TEMP%\tree_sitter_analyzer.log  # Windows
+   ls /tmp/codexray.log  # Linux/macOS
+   dir %TEMP%\codexray.log  # Windows
    ```
 
 2. **リアルタイムでログを監視**：
    ```bash
-   tail -f /tmp/tree_sitter_analyzer.log
+   tail -f /tmp/codexray.log
    ```
 
 ### 2. CLIツールのデバッグ
@@ -92,7 +92,7 @@ export TREE_SITTER_ANALYZER_FILE_LOG_LEVEL=WARNING
 export LOG_LEVEL=DEBUG
 export TREE_SITTER_ANALYZER_ENABLE_FILE_LOG=true
 
-uv run python -m tree_sitter_analyzer examples/BigService.java --advanced
+uv run python -m codexray examples/BigService.java --advanced
 ```
 
 #### 詳細なパフォーマンス分析
@@ -103,7 +103,7 @@ export LOG_LEVEL=DEBUG
 export TREE_SITTER_ANALYZER_ENABLE_FILE_LOG=true
 export TREE_SITTER_ANALYZER_FILE_LOG_LEVEL=DEBUG
 
-uv run tree-sitter-analyzer examples/BigService.java --table full
+uv run codexray examples/BigService.java --table full
 ```
 
 ### 3. 一般的な問題のトラブルシューティング
@@ -135,7 +135,7 @@ export TREE_SITTER_ANALYZER_FILE_LOG_LEVEL=DEBUG
 export LOG_LEVEL=DEBUG
 export TREE_SITTER_ANALYZER_ENABLE_FILE_LOG=true
 
-uv run tree-sitter-analyzer problematic_file.java --advanced
+uv run codexray problematic_file.java --advanced
 ```
 
 #### 問題3: パフォーマンスが遅い
@@ -151,7 +151,7 @@ uv run tree-sitter-analyzer problematic_file.java --advanced
 export TREE_SITTER_ANALYZER_ENABLE_FILE_LOG=true
 export TREE_SITTER_ANALYZER_FILE_LOG_LEVEL=DEBUG
 
-time uv run tree-sitter-analyzer large_file.java --advanced
+time uv run codexray large_file.java --advanced
 ```
 
 ## 📊 ログ出力の理解
@@ -166,9 +166,9 @@ time uv run tree-sitter-analyzer large_file.java --advanced
 ### ログメッセージの例
 
 ```
-2025-10-16 12:00:00,123 - tree_sitter_analyzer - INFO - MCP server starting with project root: /path/to/project
-2025-10-16 12:00:00,124 - tree_sitter_analyzer - DEBUG - File logging enabled: /tmp/tree_sitter_analyzer.log
-2025-10-16 12:00:01,456 - tree_sitter_analyzer.performance - DEBUG - File analysis: 0.1234s - lines: 1419, elements: 85
+2025-10-16 12:00:00,123 - codexray - INFO - MCP server starting with project root: /path/to/project
+2025-10-16 12:00:00,124 - codexray - DEBUG - File logging enabled: /tmp/codexray.log
+2025-10-16 12:00:01,456 - codexray.performance - DEBUG - File analysis: 0.1234s - lines: 1419, elements: 85
 ```
 
 ## 🔍 高度なデバッグテクニック
@@ -202,13 +202,13 @@ export TREE_SITTER_ANALYZER_LOG_DIR=/var/log/tree-sitter
 
 ```bash
 # エラーメッセージのみ抽出
-grep "ERROR" /tmp/tree_sitter_analyzer.log
+grep "ERROR" /tmp/codexray.log
 
 # パフォーマンス情報の抽出
-grep "performance" /tmp/tree_sitter_analyzer.log | grep -o "[0-9]\+\.[0-9]\+s"
+grep "performance" /tmp/codexray.log | grep -o "[0-9]\+\.[0-9]\+s"
 
 # 特定のファイルの処理時間
-grep "File analysis" /tmp/tree_sitter_analyzer.log | grep "BigService.java"
+grep "File analysis" /tmp/codexray.log | grep "BigService.java"
 ```
 
 ## 🚨 注意事項

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.code_patterns_tool import CodePatternsTool
+from codexray.mcp.tools.code_patterns_tool import CodePatternsTool
 
 # ---------------------------------------------------------------------------
 # Cross-language smell detection (regression for bugs H1 + M5)

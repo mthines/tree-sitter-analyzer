@@ -1,12 +1,12 @@
 """Tests for platform_compat.compare module."""
 
-from tree_sitter_analyzer.platform_compat.compare import (
+from codexray.platform_compat.compare import (
     BehaviorDifference,
     ProfileComparison,
     compare_profiles,
     generate_diff_report,
 )
-from tree_sitter_analyzer.platform_compat.profiles import (
+from codexray.platform_compat.profiles import (
     BehaviorProfile,
     ParsingBehavior,
 )

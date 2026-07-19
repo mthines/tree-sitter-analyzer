@@ -225,7 +225,7 @@ class TestCategorizeQueriesTestMixin:
     """Tests for _categorize_queries helper function."""
 
     def test_common_keys_categorized(self):
-        from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+        from codexray.mcp.tools.query_tool import _categorize_queries
 
         result = _categorize_queries(
             ["classes", "methods", "functions", "imports", "variables"], "python"
@@ -240,7 +240,7 @@ class TestCategorizeQueriesTestMixin:
         ]
 
     def test_declaration_keys_categorized(self):
-        from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+        from codexray.mcp.tools.query_tool import _categorize_queries
 
         result = _categorize_queries(
             ["struct_definitions", "enum_members", "interface_declarations"],
@@ -250,7 +250,7 @@ class TestCategorizeQueriesTestMixin:
         assert "struct_definitions" in result["declarations"]
 
     def test_control_flow_keys_categorized(self):
-        from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+        from codexray.mcp.tools.query_tool import _categorize_queries
 
         result = _categorize_queries(
             ["for_loops", "while_loops", "switch_statements"], "java"
@@ -259,7 +259,7 @@ class TestCategorizeQueriesTestMixin:
         assert "for_loops" in result["control_flow"]
 
     def test_framework_keys_categorized(self):
-        from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+        from codexray.mcp.tools.query_tool import _categorize_queries
 
         result = _categorize_queries(
             ["spring_controller", "react_component", "goroutine_definitions"], "go"
@@ -268,14 +268,14 @@ class TestCategorizeQueriesTestMixin:
         assert "spring_controller" in result["framework"]
 
     def test_other_keys_categorized(self):
-        from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+        from codexray.mcp.tools.query_tool import _categorize_queries
 
         result = _categorize_queries(["comments", "strings", "misc_stuff"], "python")
         assert "other" in result
         assert "comments" in result["other"]
 
     def test_empty_categories_removed(self):
-        from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+        from codexray.mcp.tools.query_tool import _categorize_queries
 
         result = _categorize_queries(["classes"], "python")
         assert "common" in result
@@ -283,7 +283,7 @@ class TestCategorizeQueriesTestMixin:
         assert "framework" not in result
 
     def test_mixed_categorization(self):
-        from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+        from codexray.mcp.tools.query_tool import _categorize_queries
 
         result = _categorize_queries(
             [
@@ -302,7 +302,7 @@ class TestCategorizeQueriesTestMixin:
         assert "random_thing" in result["other"]
 
     def test_empty_query_list(self):
-        from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+        from codexray.mcp.tools.query_tool import _categorize_queries
 
         result = _categorize_queries([], "python")
         assert result == {}

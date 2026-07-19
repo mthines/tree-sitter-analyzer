@@ -27,7 +27,7 @@ from tests.unit.languages._test_yaml_element_metadata_properties_helpers import 
     assert_sequence_metadata,
     parse_yaml_elements_and_lines,
 )
-from tree_sitter_analyzer.languages.yaml_plugin import (
+from codexray.languages.yaml_plugin import (
     YAML_AVAILABLE,
     YAMLElementExtractor,
 )

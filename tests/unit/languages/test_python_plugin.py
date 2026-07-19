@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.languages.python_plugin module.
+Tests for codexray.languages.python_plugin module.
 
 This module tests the PythonPlugin class which provides Python language
 support in the new plugin architecture.
@@ -12,12 +12,12 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.python_plugin import (
+from codexray.languages.python_plugin import (
     PythonElementExtractor,
     PythonPlugin,
 )
-from tree_sitter_analyzer.models import Class, Function, Import, Variable
-from tree_sitter_analyzer.plugins.base import ElementExtractor, LanguagePlugin
+from codexray.models import Class, Function, Import, Variable
+from codexray.plugins.base import ElementExtractor, LanguagePlugin
 
 
 class TestPythonElementExtractor:
@@ -568,7 +568,7 @@ class TestPythonPluginErrorHandling:
             mock_request.language = "python"
 
             with patch(
-                "tree_sitter_analyzer.encoding_utils.read_file_safe_async"
+                "codexray.encoding_utils.read_file_safe_async"
             ) as mock_read:
                 mock_read.side_effect = Exception("Read error")
 
@@ -681,7 +681,7 @@ async def async_function():
 
     def test_python_import_variations(self, plugin: PythonPlugin) -> None:
         """Test Python import statement variations"""
-        from tree_sitter_analyzer.languages.python_plugin import PythonElementExtractor
+        from codexray.languages.python_plugin import PythonElementExtractor
 
         extractor = plugin.create_extractor()
         assert isinstance(extractor, PythonElementExtractor)
@@ -796,7 +796,7 @@ class TestPythonGetNodeTypeForElement:
         return PythonPlugin()
 
     def test_function_returns_function_definition(self, plugin):
-        from tree_sitter_analyzer.models import Function
+        from codexray.models import Function
 
         assert (
             plugin._get_node_type_for_element(Function("f", 1, 1, "def f(): pass"))
@@ -804,7 +804,7 @@ class TestPythonGetNodeTypeForElement:
         )
 
     def test_class_returns_class_definition(self, plugin):
-        from tree_sitter_analyzer.models import Class
+        from codexray.models import Class
 
         assert (
             plugin._get_node_type_for_element(Class("C", 1, 1, "class C: pass"))
@@ -812,7 +812,7 @@ class TestPythonGetNodeTypeForElement:
         )
 
     def test_variable_returns_assignment(self, plugin):
-        from tree_sitter_analyzer.models import Variable
+        from codexray.models import Variable
 
         assert (
             plugin._get_node_type_for_element(Variable("x", 1, 1, "x = 1"))
@@ -820,7 +820,7 @@ class TestPythonGetNodeTypeForElement:
         )
 
     def test_import_returns_import_statement(self, plugin):
-        from tree_sitter_analyzer.models import Import
+        from codexray.models import Import
 
         assert (
             plugin._get_node_type_for_element(Import("os", 1, 1, "import os"))

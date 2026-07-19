@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.formatters._cpp_formatter_helpers import (
+from codexray.formatters._cpp_formatter_helpers import (
     create_cpp_compact_signature,
     format_cpp_class_details,
     format_cpp_compact_table,

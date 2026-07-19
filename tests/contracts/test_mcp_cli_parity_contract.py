@@ -17,8 +17,8 @@ except ImportError:  # Python 3.10 — fall back to the tomli back-port
     import tomli as tomllib
 from hypothesis import settings as hypothesis_settings
 
-from tree_sitter_analyzer.cli_main import create_argument_parser
-from tree_sitter_analyzer.mcp.server import _create_tool_registry
+from codexray.cli_main import create_argument_parser
+from codexray.mcp.server import _create_tool_registry
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SKIPPED_SCAN_DIRS = {
@@ -133,7 +133,7 @@ def test_registered_mcp_tools_have_cli_parity() -> None:
     # via ``facade_map.LEGACY_TOOL_MAP``. The 62-row capability coverage
     # is PRESERVED (re-keyed, not deleted) per PRD §4/§5.
     # ------------------------------------------------------------------
-    from tree_sitter_analyzer.mcp.facade_map import (
+    from codexray.mcp.facade_map import (
         FACADE_NAMES,
         LEGACY_TOOL_MAP,
         NEW_ACTION_PARITY,
@@ -209,7 +209,7 @@ def test_registered_mcp_tools_have_cli_parity() -> None:
 # MCP server name used to compose the client-visible ``<server>__<tool>`` name.
 # Cursor caps the composed name at 60 chars; the success metric (PRD §8) is
 # ≤38 chars so even the longest facade leaves headroom.
-_MCP_SERVER_NAME = "tree-sitter-analyzer"
+_MCP_SERVER_NAME = "codexray"
 _MAX_COMPOSED_TOOL_NAME = 38
 
 
@@ -219,11 +219,11 @@ def test_facade_discovery_exposes_exactly_eight_facades() -> None:
     Guards the whole point of the cutover — if a regression re-registers the
     63 discrete tools (or drops a facade), the eager tool-definition token cost
     explodes again and Cursor/Roo break. Also enforces the ≤38-char composed
-    name budget so ``tree-sitter-analyzer__<facade>`` never trips the Cursor
+    name budget so ``codexray__<facade>`` never trips the Cursor
     60-char limit.
     """
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
-    from tree_sitter_analyzer.mcp.facade_map import FACADE_NAMES
+    from codexray.mcp._tool_registry import create_tool_registry
+    from codexray.mcp.facade_map import FACADE_NAMES
 
     tools, lookup = create_tool_registry(str(PROJECT_ROOT))
     names = [name for name, _tool in tools]
@@ -255,7 +255,7 @@ def test_all_facade_descriptions_contain_codegraph_keyword() -> None:
     This keyword is intentional and LOCKED (CLAUDE.md §1) — do NOT remove it
     from facade descriptions or revert this test.
     """
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+    from codexray.mcp._tool_registry import create_tool_registry
 
     _tools, lookup = create_tool_registry(str(PROJECT_ROOT))
     missing: list[str] = []
@@ -286,7 +286,7 @@ def test_facade_delegation_routes_each_action_to_expected_inner() -> None:
     routes (search.content, structure.read, nav.callers/callees — F5/R4) we
     assert the route is registered as a bespoke callable instead.
     """
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+    from codexray.mcp._tool_registry import create_tool_registry
 
     _tools, lookup = create_tool_registry(str(PROJECT_ROOT))
 
@@ -428,7 +428,7 @@ def test_every_tool_declares_mcp_annotations() -> None:
       3. The triple `readOnly=true` + `destructive=true` is impossible
          (mutually exclusive — would mean both safe AND destructive).
     """
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+    from codexray.mcp._tool_registry import create_tool_registry
 
     tools, _ = create_tool_registry(str(PROJECT_ROOT))
     required_hints = {

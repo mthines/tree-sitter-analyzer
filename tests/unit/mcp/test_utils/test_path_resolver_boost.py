@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.path_resolver import PathResolver
+from codexray.mcp.utils.path_resolver import PathResolver
 
 
 class TestValidatePathEdges:

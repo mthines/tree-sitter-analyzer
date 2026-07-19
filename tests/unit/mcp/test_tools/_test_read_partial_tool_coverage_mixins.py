@@ -13,7 +13,7 @@ from tests.unit.mcp.test_tools._test_read_partial_tool_payloads import (
     batch_args,
     batch_request,
 )
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
 
 class ReadPartialToolCoverageExecuteMixin:

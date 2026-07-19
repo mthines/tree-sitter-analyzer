@@ -7,7 +7,7 @@ This demonstrates how the grammar coverage validator works end-to-end.
 
 import pytest
 
-from tree_sitter_analyzer.grammar_coverage.validator import (
+from codexray.grammar_coverage.validator import (
     generate_coverage_report,
     validate_plugin_coverage_sync,
 )

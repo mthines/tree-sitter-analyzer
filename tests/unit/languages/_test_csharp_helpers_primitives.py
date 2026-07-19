@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from tree_sitter_analyzer.languages.csharp_helpers import (
+from codexray.languages.csharp_helpers import (
     calculate_complexity,
     determine_visibility,
     extract_attributes,

@@ -10,7 +10,7 @@ pytest.importorskip("tree_sitter_kotlin")
 import tree_sitter  # noqa: E402
 import tree_sitter_kotlin as _tree_sitter_kotlin  # noqa: E402
 
-from tree_sitter_analyzer.languages.kotlin_plugin import (  # noqa: E402
+from codexray.languages.kotlin_plugin import (  # noqa: E402
     KotlinElementExtractor,
     KotlinPlugin,
 )
@@ -630,7 +630,7 @@ class TestKotlinPluginAnalyzeFile:
     @pytest.mark.asyncio
     async def test_analyze_file_success(self, plugin, tmp_path):
         """Test successful file analysis."""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         kt_file = tmp_path / "test.kt"
         kt_file.write_text("""
@@ -656,7 +656,7 @@ class TestClass {
     @pytest.mark.asyncio
     async def test_analyze_file_with_imports(self, plugin, tmp_path):
         """Test file analysis with imports."""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         kt_file = tmp_path / "imports.kt"
         kt_file.write_text("""
@@ -685,7 +685,7 @@ class ImportTest {
     @pytest.mark.asyncio
     async def test_analyze_file_error_handling(self, plugin):
         """Test file analysis error handling."""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         # Non-existent file - just check it doesn't crash
         request = AnalysisRequest(file_path="/nonexistent/path/file.kt")
@@ -1545,7 +1545,7 @@ import kotlinx.coroutines.*
         whitespace parsing (semicolon stripped, wildcard detected)."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.languages.kotlin_helpers import extract_import
+        from codexray.languages.kotlin_helpers import extract_import
 
         node = MagicMock()
         node.parent = None
@@ -1885,7 +1885,7 @@ class TestKotlinParserSetup:
     @pytest.mark.asyncio
     async def test_analyze_with_different_parser_apis(self, plugin, tmp_path):
         """Test analyze_file with parser that has different API."""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         kt_file = tmp_path / "test.kt"
         kt_file.write_text("class Test")

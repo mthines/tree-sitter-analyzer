@@ -10,8 +10,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from tree_sitter_analyzer.core.query import QueryExecutor
-from tree_sitter_analyzer.exceptions import QueryError
+from codexray.core.query import QueryExecutor
+from codexray.exceptions import QueryError
 
 
 class TestQueryExecutorEdgeCases:

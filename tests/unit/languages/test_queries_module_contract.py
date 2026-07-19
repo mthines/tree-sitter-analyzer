@@ -18,7 +18,7 @@ import types
 
 import pytest
 
-from tree_sitter_analyzer.queries import (
+from codexray.queries import (
     c,
     cpp,
     csharp,

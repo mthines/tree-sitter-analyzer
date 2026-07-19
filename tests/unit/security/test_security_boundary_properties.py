@@ -17,8 +17,8 @@ import pytest
 from hypothesis import HealthCheck, assume, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.exceptions import SecurityError
-from tree_sitter_analyzer.security import ProjectBoundaryManager, SecurityValidator
+from codexray.exceptions import SecurityError
+from codexray.security import ProjectBoundaryManager, SecurityValidator
 
 # Common health check suppressions for property tests using fixtures
 COMMON_HEALTH_CHECKS = [HealthCheck.too_slow, HealthCheck.function_scoped_fixture]

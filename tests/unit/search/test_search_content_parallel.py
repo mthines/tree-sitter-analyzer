@@ -7,8 +7,8 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools import fd_rg_utils
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools import fd_rg_utils
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 class TestSearchContentParallel:
@@ -29,11 +29,11 @@ class TestSearchContentParallel:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
+                "codexray.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
             ) as mock_parallel,
             patch.object(tool, "_validate_roots", return_value=arguments["roots"]),
         ):
@@ -59,14 +59,14 @@ class TestSearchContentParallel:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.fd_rg_utils.run_command_capture"
             ) as mock_single,
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
+                "codexray.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
             ) as mock_parallel,
             patch.object(tool, "_validate_roots", return_value=arguments["roots"]),
         ):
@@ -94,14 +94,14 @@ class TestSearchContentParallel:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.fd_rg_utils.run_command_capture"
             ) as mock_single,
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
+                "codexray.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
             ) as mock_parallel,
             patch.object(tool, "_validate_roots", return_value=arguments["roots"]),
         ):
@@ -149,7 +149,7 @@ class TestSearchContentParallel:
         ]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             # Mock different results for each command
             mock_run.side_effect = [
@@ -208,11 +208,11 @@ class TestSearchContentParallel:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
+                "codexray.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
             ) as mock_parallel,
             patch.object(tool, "_validate_roots", return_value=arguments["roots"]),
         ):
@@ -240,11 +240,11 @@ class TestSearchContentParallel:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
+                "codexray.mcp.tools.fd_rg_utils.run_parallel_rg_searches"
             ) as mock_parallel,
             patch.object(tool, "_validate_roots", return_value=arguments["roots"]),
         ):

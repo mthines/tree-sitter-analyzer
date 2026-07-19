@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import tree_sitter
 
-from tree_sitter_analyzer.language_loader import create_parser_safely
+from codexray.language_loader import create_parser_safely
 
 
 def collect_node_types(node: "tree_sitter.Node", types_dict: dict[str, int]) -> None:
@@ -43,7 +43,7 @@ def main():
         print(f"  {node_type:40s} {count:5d}")
 
     # Check coverage
-    from tree_sitter_analyzer.grammar_coverage.validator import (
+    from codexray.grammar_coverage.validator import (
         validate_plugin_coverage_sync,
     )
 

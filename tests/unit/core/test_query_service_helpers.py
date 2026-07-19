@@ -1,4 +1,4 @@
-"""Tests for tree_sitter_analyzer.core._query_service_helpers."""
+"""Tests for codexray.core._query_service_helpers."""
 
 from dataclasses import dataclass
 from types import SimpleNamespace
@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.core._query_service_helpers import (
+from codexray.core._query_service_helpers import (
     PluginQueryNode,
     _element_to_capture,
     _node_matches_query,

@@ -26,8 +26,8 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.synapse_resolver.languages.typescript import (
+from codexray.ast_cache import ASTCache
+from codexray.synapse_resolver.languages.typescript import (
     build_typescript_resolver_context,
     resolve_typescript_callee,
 )
@@ -452,7 +452,7 @@ def test_shadow_locals_from_cache_are_module_scope_only(tmp_path: Path) -> None:
     """SET-CONSTRUCTION pin through the real cache (#626): module-level
     ``const Promise`` stays in the per-file shadow map; the function-local
     ``const Map`` no longer does (before #626 both did)."""
-    from tree_sitter_analyzer.synapse_resolver.languages.typescript import (
+    from codexray.synapse_resolver.languages.typescript import (
         _build_shadow_locals,
     )
 

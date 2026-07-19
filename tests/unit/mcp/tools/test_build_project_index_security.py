@@ -16,7 +16,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.build_project_index_tool import (
+from codexray.mcp.tools.build_project_index_tool import (
     BuildProjectIndexTool,
 )
 

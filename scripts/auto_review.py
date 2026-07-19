@@ -40,7 +40,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 
-TOOL_BIN = [sys.executable, "-m", "tree_sitter_analyzer"]
+TOOL_BIN = [sys.executable, "-m", "codexray"]
 
 
 def _run_tool(args: list[str], *, timeout: int = 240) -> dict[str, Any]:
@@ -182,7 +182,7 @@ def route_summary() -> dict[str, Any]:
 
 def build_plan(items: list[WorkItem]) -> dict[str, Any]:
     return {
-        "schema": "tree-sitter-analyzer/auto-review/v1",
+        "schema": "codexray/auto-review/v1",
         "generated_at_utc": _utc_now(),
         "project_root": str(ROOT),
         "summary": {

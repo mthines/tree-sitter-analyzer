@@ -1,4 +1,4 @@
-# Architectural Constraints for tree-sitter-analyzer (Feature 3 dogfood).
+# Architectural Constraints for codexray (Feature 3 dogfood).
 #
 # This file is auto-evaluated by every safe_to_edit and analyze_change_impact
 # call. Violations attached to a touched file escalate the verdict so an
@@ -21,20 +21,20 @@ constraints:
   - id: mcp-must-not-depend-on-cli
     severity: error
     rule: forbid
-    from: "tree_sitter_analyzer/mcp/**"
-    to: "tree_sitter_analyzer/cli/**"
+    from: "codexray/mcp/**"
+    to: "codexray/cli/**"
     reason: "MCP layer is a transport boundary; CLI commands belong to the CLI layer. Reverse import only."
 
   - id: core-must-not-import-mcp
     severity: error
     rule: forbid
-    from: "tree_sitter_analyzer/core/**"
-    to: "tree_sitter_analyzer/mcp/**"
+    from: "codexray/core/**"
+    to: "codexray/mcp/**"
     reason: "Core analysis primitives precede the MCP layer; MCP imports core, never the reverse."
 
   - id: languages-isolated-from-mcp
     severity: error
     rule: forbid
-    from: "tree_sitter_analyzer/languages/**"
-    to: "tree_sitter_analyzer/mcp/**"
+    from: "codexray/languages/**"
+    to: "codexray/mcp/**"
     reason: "Language plugins must not know about MCP; they are consumed by it."

@@ -11,17 +11,17 @@ file must NEVER bind to that file).
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.synapse_resolver import ResolverContext, resolve_callee
-from tree_sitter_analyzer.synapse_resolver._context import build_resolver_context
-from tree_sitter_analyzer.synapse_resolver._registry import get_language_resolver
-from tree_sitter_analyzer.synapse_resolver.languages._csharp_constants import (
+from codexray.ast_cache import ASTCache
+from codexray.synapse_resolver import ResolverContext, resolve_callee
+from codexray.synapse_resolver._context import build_resolver_context
+from codexray.synapse_resolver._registry import get_language_resolver
+from codexray.synapse_resolver.languages._csharp_constants import (
     BCL_STATIC_TYPES_CSHARP,
     EXTERNAL_METHODS_CSHARP,
     STDLIB_METHODS_CSHARP,
     is_system_qualifier,
 )
-from tree_sitter_analyzer.synapse_resolver.languages.csharp import (
+from codexray.synapse_resolver.languages.csharp import (
     CSharpResolverContext,
     build_csharp_context,
     resolve_csharp_callee,

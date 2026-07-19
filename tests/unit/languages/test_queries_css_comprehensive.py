@@ -8,7 +8,7 @@ testing all query patterns, utility functions, and edge cases.
 
 import pytest
 
-from tree_sitter_analyzer.queries.css import (
+from codexray.queries.css import (
     ALL_QUERIES,
     CSS_QUERIES,
     CSS_QUERY_DESCRIPTIONS,

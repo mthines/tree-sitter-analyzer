@@ -23,7 +23,7 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_typescript
 
-from tree_sitter_analyzer.languages.typescript_plugin import TypeScriptElementExtractor
+from codexray.languages.typescript_plugin import TypeScriptElementExtractor
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -285,7 +285,7 @@ class Painter {}
 
 def test_enum_kind_in_ast_extraction() -> None:
     """enum_declaration must produce kind='enum' in the _ast_extraction symbol list."""
-    from tree_sitter_analyzer.cache.extraction import _extract_symbols
+    from codexray.cache.extraction import _extract_symbols
 
     code = "enum Status { Active, Inactive }\nconst enum Dir { Up, Down }"
     tree = _parse(code)
@@ -316,8 +316,8 @@ export { Local }
 
 
 def test_enum_export_surface_includes_members() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import get_all_exports
-    from tree_sitter_analyzer.models import AnalysisResult
+    from codexray.mcp.tools.utils.element_extractor import get_all_exports
+    from codexray.models import AnalysisResult
 
     code = "export enum Status { Active = 'active', Inactive = 'inactive' }"
     result = AnalysisResult(
@@ -334,7 +334,7 @@ def test_enum_export_surface_includes_members() -> None:
 
 
 def test_enum_kind_is_available_in_symbol_search_filters() -> None:
-    from tree_sitter_analyzer.mcp.tools.symbol_search_tool import SYMBOL_SEARCH_KINDS
+    from codexray.mcp.tools.symbol_search_tool import SYMBOL_SEARCH_KINDS
 
     assert "enum" in SYMBOL_SEARCH_KINDS
 
@@ -349,7 +349,7 @@ def test_enum_kind_is_available_in_symbol_search_filters() -> None:
 
 def test_enum_members_phantom_from_quoted_comma() -> None:
     """A comma inside a quoted value must NOT fabricate a phantom member."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _enum_members_from_raw_text,
     )
 
@@ -358,7 +358,7 @@ def test_enum_members_phantom_from_quoted_comma() -> None:
 
 def test_enum_members_phantom_from_call_expr_comma() -> None:
     """A comma inside a call-expression value must NOT fabricate a member."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _enum_members_from_raw_text,
     )
 
@@ -367,7 +367,7 @@ def test_enum_members_phantom_from_call_expr_comma() -> None:
 
 def test_enum_members_plain_string_values_regression() -> None:
     """Common string-valued enum still splits correctly."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _enum_members_from_raw_text,
     )
 
@@ -378,8 +378,8 @@ def test_enum_members_plain_string_values_regression() -> None:
 
 def test_enum_export_surface_no_phantom_member() -> None:
     """End-to-end through get_all_exports: quoted comma must not add a member."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import get_all_exports
-    from tree_sitter_analyzer.models import AnalysisResult
+    from codexray.mcp.tools.utils.element_extractor import get_all_exports
+    from codexray.models import AnalysisResult
 
     code = 'export enum E { A = "x,y", B = "z" }'
     result = AnalysisResult(
@@ -424,7 +424,7 @@ def test_reexport_aliased() -> None:
 
 def test_reexport_name_is_substring_does_not_match() -> None:
     """`export { LocalThing }` must NOT report `Local` as re-exported."""
-    from tree_sitter_analyzer.languages.typescript_plugin._variable import (
+    from codexray.languages.typescript_plugin._variable import (
         _is_named_reexport,
     )
 
@@ -433,7 +433,7 @@ def test_reexport_name_is_substring_does_not_match() -> None:
 
 def test_reexport_alias_lhs_substring_does_not_match() -> None:
     """`{ LocalThing as Foo }` must NOT report `Local` (alias-pattern miss)."""
-    from tree_sitter_analyzer.languages.typescript_plugin._variable import (
+    from codexray.languages.typescript_plugin._variable import (
         _is_named_reexport,
     )
 
@@ -442,7 +442,7 @@ def test_reexport_alias_lhs_substring_does_not_match() -> None:
 
 def test_reexport_no_export_block_returns_false() -> None:
     """A source with no `export { ... }` block at all returns False."""
-    from tree_sitter_analyzer.languages.typescript_plugin._variable import (
+    from codexray.languages.typescript_plugin._variable import (
         _is_named_reexport,
     )
 
@@ -451,7 +451,7 @@ def test_reexport_no_export_block_returns_false() -> None:
 
 def test_reexport_alias_form_direct() -> None:
     """`{ Local as Foo }` reports the LHS `Local` via the alias pattern."""
-    from tree_sitter_analyzer.languages.typescript_plugin._variable import (
+    from codexray.languages.typescript_plugin._variable import (
         _is_named_reexport,
     )
 
@@ -460,7 +460,7 @@ def test_reexport_alias_form_direct() -> None:
 
 def test_is_exported_class_unexported_returns_false() -> None:
     """A locally-declared, never-exported class is not reported as exported."""
-    from tree_sitter_analyzer.languages.typescript_plugin._variable import (
+    from codexray.languages.typescript_plugin._variable import (
         is_exported_class,
     )
 
@@ -469,7 +469,7 @@ def test_is_exported_class_unexported_returns_false() -> None:
 
 def test_is_exported_class_interface_prefix() -> None:
     """`export interface X` is recognised via the interface prefix."""
-    from tree_sitter_analyzer.languages.typescript_plugin._variable import (
+    from codexray.languages.typescript_plugin._variable import (
         is_exported_class,
     )
 
@@ -478,7 +478,7 @@ def test_is_exported_class_interface_prefix() -> None:
 
 def test_is_exported_class_default_export() -> None:
     """`export default X` is recognised."""
-    from tree_sitter_analyzer.languages.typescript_plugin._variable import (
+    from codexray.languages.typescript_plugin._variable import (
         is_exported_class,
     )
 
@@ -496,7 +496,7 @@ def test_is_exported_class_default_export() -> None:
 
 
 def test_split_single_quote_string_with_comma() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -504,7 +504,7 @@ def test_split_single_quote_string_with_comma() -> None:
 
 
 def test_split_double_quote_string_with_comma() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -512,7 +512,7 @@ def test_split_double_quote_string_with_comma() -> None:
 
 
 def test_split_backtick_template_with_comma() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -521,7 +521,7 @@ def test_split_backtick_template_with_comma() -> None:
 
 def test_split_escaped_quote_inside_string() -> None:
     """A backslash-escaped quote does not close the string early."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -531,7 +531,7 @@ def test_split_escaped_quote_inside_string() -> None:
 
 
 def test_split_nested_paren_brackets() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -539,7 +539,7 @@ def test_split_nested_paren_brackets() -> None:
 
 
 def test_split_nested_square_brackets() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -547,7 +547,7 @@ def test_split_nested_square_brackets() -> None:
 
 
 def test_split_nested_curly_brackets() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -555,7 +555,7 @@ def test_split_nested_curly_brackets() -> None:
 
 
 def test_split_empty_body() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -563,7 +563,7 @@ def test_split_empty_body() -> None:
 
 
 def test_split_trailing_comma_yields_empty_segment() -> None:
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -573,7 +573,7 @@ def test_split_trailing_comma_yields_empty_segment() -> None:
 def test_split_unbalanced_close_bracket_depth_never_negative() -> None:
     """A stray closing bracket must not drive depth below zero, so a following
     top-level comma still splits (the depth-never-negative guard)."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _split_top_level_commas,
     )
 
@@ -587,7 +587,7 @@ def test_split_unbalanced_close_bracket_depth_never_negative() -> None:
 
 def test_enum_members_trailing_comma_skips_empty_candidate() -> None:
     """A trailing comma produces an empty segment that is skipped (continue)."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _enum_members_from_raw_text,
     )
 
@@ -596,7 +596,7 @@ def test_enum_members_trailing_comma_skips_empty_candidate() -> None:
 
 def test_enum_members_segment_without_identifier_skipped() -> None:
     """A segment whose candidate has no leading identifier is skipped."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _enum_members_from_raw_text,
     )
 
@@ -606,7 +606,7 @@ def test_enum_members_segment_without_identifier_skipped() -> None:
 
 def test_enum_members_no_braces_uses_raw_text() -> None:
     """With no `{...}` wrapper the whole raw text is split directly."""
-    from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+    from codexray.mcp.tools.utils.element_extractor import (
         _enum_members_from_raw_text,
     )
 

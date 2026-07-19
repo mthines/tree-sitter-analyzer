@@ -3,8 +3,8 @@
 import json
 from pathlib import Path
 
-from tree_sitter_analyzer.platform_compat.profiles import ParsingBehavior
-from tree_sitter_analyzer.platform_compat.report import generate_compatibility_matrix
+from codexray.platform_compat.profiles import ParsingBehavior
+from codexray.platform_compat.report import generate_compatibility_matrix
 
 
 def _make_profile(

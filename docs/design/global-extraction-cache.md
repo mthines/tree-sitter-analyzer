@@ -59,8 +59,8 @@ result. Content hashing is the source of truth. (Size + mtime is fine only as a
 
 ```
 $TSA_CACHE_DIR                 # explicit override (tests, CI)
-  else $XDG_CACHE_HOME/tree-sitter-analyzer/graph-extract
-  else ~/.cache/tree-sitter-analyzer/graph-extract
+  else $XDG_CACHE_HOME/codexray/graph-extract
+  else ~/.cache/codexray/graph-extract
     objects/<aa>/<full-hash>.json     # sharded by first 2 hex chars
 ```
 

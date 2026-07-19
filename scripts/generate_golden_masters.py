@@ -19,8 +19,8 @@ from pathlib import Path
 
 
 def run_analyzer(input_file: str, table_format: str) -> str:
-    """Run tree-sitter-analyzer and return output"""
-    cmd = ["uv", "run", "tree-sitter-analyzer", input_file, "--table", table_format]
+    """Run codexray and return output"""
+    cmd = ["uv", "run", "codexray", input_file, "--table", table_format]
 
     result = subprocess.run(  # nosec B603
         cmd, capture_output=True, text=True, encoding="utf-8", check=True

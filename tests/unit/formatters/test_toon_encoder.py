@@ -7,7 +7,7 @@ Tests the TOON (Token-Oriented Object Notation) encoder functionality.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.toon_encoder import (
+from codexray.formatters.toon_encoder import (
     ToonEncodeError,
     ToonEncoder,
 )
@@ -768,7 +768,7 @@ class TestToonEncoderLongFlatStringList:
 # ---------------------------------------------------------------------------
 
 
-from tree_sitter_analyzer.formatters.toon_encoder import (  # noqa: E402
+from codexray.formatters.toon_encoder import (  # noqa: E402
     _Task,
     _TaskType,
 )

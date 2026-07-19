@@ -3,9 +3,9 @@
 The envelope-contract guide documents two live constants:
 
 * the canonical verdict alphabet
-  (:data:`tree_sitter_analyzer.mcp.tools.tool_response.CANONICAL_VERDICTS`)
+  (:data:`codexray.mcp.tools.tool_response.CANONICAL_VERDICTS`)
 * the RFC-0012 ``compact_only`` control-surface allowlist
-  (:data:`tree_sitter_analyzer.mcp.utils.format_helper.TOON_CONTROL_SURFACE`)
+  (:data:`codexray.mcp.utils.format_helper.TOON_CONTROL_SURFACE`)
 
 Hand-copied lists rot. This test extracts the documented sets from the
 marked tables in the doc and asserts EXACT set equality with the live
@@ -17,8 +17,8 @@ source also goes red.
 import re
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.tools.tool_response import CANONICAL_VERDICTS
-from tree_sitter_analyzer.mcp.utils.format_helper import TOON_CONTROL_SURFACE
+from codexray.mcp.tools.tool_response import CANONICAL_VERDICTS
+from codexray.mcp.utils.format_helper import TOON_CONTROL_SURFACE
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 DOC_PATH = PROJECT_ROOT / "docs" / "agent-envelope-contract.md"

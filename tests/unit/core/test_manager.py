@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.plugins.manager module.
+Tests for codexray.plugins.manager module.
 
 This module tests the PluginManager class which handles dynamic
 plugin discovery and management in the new architecture.
@@ -10,8 +10,8 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.plugins.base import LanguagePlugin
-from tree_sitter_analyzer.plugins.manager import PluginManager
+from codexray.plugins.base import LanguagePlugin
+from codexray.plugins.manager import PluginManager
 
 
 class MockLanguagePlugin(LanguagePlugin):
@@ -35,7 +35,7 @@ class MockLanguagePlugin(LanguagePlugin):
 
     async def analyze_file(self, file_path: str, request):
         """Mock implementation of analyze_file"""
-        from tree_sitter_analyzer.models import AnalysisResult
+        from codexray.models import AnalysisResult
 
         return AnalysisResult(
             file_path=file_path,

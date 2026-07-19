@@ -12,11 +12,11 @@ from __future__ import annotations
 import pytest
 import tree_sitter
 
-from tree_sitter_analyzer.languages.python_plugin import (
+from codexray.languages.python_plugin import (
     PythonElementExtractor,
     PythonPlugin,
 )
-from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -39,7 +39,7 @@ def _parse_python(code: str):
 
 def _stub_tool(tmp_path) -> ClassHierarchyTool:
     """Build a ClassHierarchyTool with a minimal stub hierarchy."""
-    from tree_sitter_analyzer.class_hierarchy import ClassHierarchy, ClassInfo
+    from codexray.class_hierarchy import ClassHierarchy, ClassInfo
 
     tool = ClassHierarchyTool(str(tmp_path))
 

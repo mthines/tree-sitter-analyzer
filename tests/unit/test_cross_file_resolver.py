@@ -3,8 +3,8 @@
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cross_file_resolver import (
+from codexray.ast_cache import ASTCache
+from codexray.cross_file_resolver import (
     CrossFileResolver,
     FunctionDef,
     ImportEntry,

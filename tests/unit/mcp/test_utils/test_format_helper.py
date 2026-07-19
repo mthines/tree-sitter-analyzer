@@ -7,7 +7,7 @@ Tests the format helper utility functions for MCP tool output formatting.
 
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.mcp.utils.format_helper import (
+from codexray.mcp.utils.format_helper import (
     JsonFormatter,
     apply_output_format,
     apply_toon_format_to_response,
@@ -101,7 +101,7 @@ class TestFormatAsJson:
 class TestFormatAsToon:
     """Tests for format_as_toon function."""
 
-    @patch("tree_sitter_analyzer.formatters.toon_formatter.ToonFormatter")
+    @patch("codexray.formatters.toon_formatter.ToonFormatter")
     def test_format_as_toon_success(self, mock_formatter_class):
         """Test format_as_toon with successful TOON formatting."""
         mock_formatter = MagicMock()
@@ -115,7 +115,7 @@ class TestFormatAsToon:
         mock_formatter_class.assert_called_once()
         mock_formatter.format.assert_called_once_with(data)
 
-    @patch("tree_sitter_analyzer.formatters.toon_formatter.ToonFormatter")
+    @patch("codexray.formatters.toon_formatter.ToonFormatter")
     def test_format_as_toon_import_error_fallback(self, mock_formatter_class):
         """Test format_as_toon falls back to JSON on ImportError."""
         mock_formatter_class.side_effect = ImportError("ToonFormatter not found")
@@ -125,7 +125,7 @@ class TestFormatAsToon:
 
         assert '"key": "value"' in result
 
-    @patch("tree_sitter_analyzer.formatters.toon_formatter.ToonFormatter")
+    @patch("codexray.formatters.toon_formatter.ToonFormatter")
     def test_format_as_toon_exception_fallback(self, mock_formatter_class):
         """Test format_as_toon falls back to JSON on general exception."""
         mock_formatter = MagicMock()
@@ -151,7 +151,7 @@ class TestGetFormatter:
         formatter = get_formatter()
         assert isinstance(formatter, JsonFormatter)
 
-    @patch("tree_sitter_analyzer.formatters.toon_formatter.ToonFormatter")
+    @patch("codexray.formatters.toon_formatter.ToonFormatter")
     def test_get_formatter_toon(self, mock_formatter_class):
         """Test get_formatter returns ToonFormatter for TOON format."""
         mock_formatter = MagicMock()
@@ -162,7 +162,7 @@ class TestGetFormatter:
         assert formatter == mock_formatter
         mock_formatter_class.assert_called_once()
 
-    @patch("tree_sitter_analyzer.formatters.toon_formatter.ToonFormatter")
+    @patch("codexray.formatters.toon_formatter.ToonFormatter")
     def test_get_formatter_toon_import_error(self, mock_formatter_class):
         """Test get_formatter falls back to JsonFormatter on ImportError."""
         mock_formatter_class.side_effect = ImportError("ToonFormatter not found")
@@ -372,7 +372,7 @@ class TestApplyToonFormatToResponse:
         assert "toon_content" in response
         assert isinstance(response["toon_content"], str)
 
-    @patch("tree_sitter_analyzer.mcp.utils.format_helper.format_as_toon")
+    @patch("codexray.mcp.utils.format_helper.format_as_toon")
     def test_apply_toon_format_exception_fallback(self, mock_format_as_toon):
         """Test apply_toon_format_to_response falls back on exception."""
         mock_format_as_toon.side_effect = Exception("Formatting failed")
@@ -434,7 +434,7 @@ class TestAttachToonContentToResponse:
         assert "format" in response
         assert "toon_content" in response
 
-    @patch("tree_sitter_analyzer.mcp.utils.format_helper.format_as_toon")
+    @patch("codexray.mcp.utils.format_helper.format_as_toon")
     def test_attach_toon_content_exception_fallback(self, mock_format_as_toon):
         """Test attach_toon_content_to_response falls back on exception."""
         mock_format_as_toon.side_effect = Exception("Formatting failed")

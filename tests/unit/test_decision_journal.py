@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.decision_journal import (
+from codexray.decision_journal import (
     _LEGAL_VERDICTS,
     DecisionJournal,
     DecisionRecord,
@@ -28,7 +28,7 @@ class TestVocabularyContract:
     """Storage-side ``_LEGAL_VERDICTS`` must mirror the MCP envelope SOT."""
 
     def test_storage_vocab_matches_base_tool(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.base_tool import (
+        from codexray.mcp.tools.base_tool import (
             _LEGAL_VERDICTS as MCP_VERDICTS,
         )
 

@@ -9,8 +9,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor, RustPlugin
-from tree_sitter_analyzer.models import Class, Function, Import, Variable
+from codexray.languages.rust_plugin import RustElementExtractor, RustPlugin
+from codexray.models import Class, Function, Import, Variable
 
 
 @pytest.fixture
@@ -80,12 +80,12 @@ class TestRustPlugin:
             result = rust_plugin.get_tree_sitter_language()
             assert result is None
 
-    @patch("tree_sitter_analyzer.languages.rust_plugin.log_error")
+    @patch("codexray.languages.rust_plugin.log_error")
     def test_get_tree_sitter_language_exception(self, mock_log, rust_plugin):
         rust_plugin._cached_language = None
         # Patch tree_sitter_rust BEFORE the import inside get_tree_sitter_language
         with patch(
-            "tree_sitter_analyzer.languages.rust_plugin.tree_sitter",
+            "codexray.languages.rust_plugin.tree_sitter",
             create=True,
         ) as _mock_ts:
             import tree_sitter_rust
@@ -105,7 +105,7 @@ class TestRustPlugin:
         result = rust_plugin.extract_elements(None, "")
         assert result == {"functions": [], "classes": [], "variables": []}
 
-    @patch("tree_sitter_analyzer.languages.rust_plugin.log_error")
+    @patch("codexray.languages.rust_plugin.log_error")
     def test_extract_elements_error(self, mock_log, rust_plugin):
         mock_extractor = MagicMock()
         mock_extractor.extract_functions.side_effect = RuntimeError("boom")
@@ -120,23 +120,23 @@ class TestRustPlugin:
     async def test_analyze_file_no_language(self, rust_plugin):
         with patch.object(rust_plugin, "get_tree_sitter_language", return_value=None):
             with patch(
-                "tree_sitter_analyzer.encoding_utils.read_file_safe",
+                "codexray.encoding_utils.read_file_safe",
                 return_value=("fn main() {}", "utf-8"),
             ):
-                from tree_sitter_analyzer.models import AnalysisResult
+                from codexray.models import AnalysisResult
 
                 result = await rust_plugin.analyze_file("test.rs", None)
                 assert isinstance(result, AnalysisResult)
                 assert result.language == "rust"
 
     @pytest.mark.asyncio
-    @patch("tree_sitter_analyzer.languages.rust_plugin.log_error")
+    @patch("codexray.languages.rust_plugin.log_error")
     async def test_analyze_file_exception(self, mock_log, rust_plugin):
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             side_effect=OSError("disk error"),
         ):
-            from tree_sitter_analyzer.models import AnalysisResult
+            from codexray.models import AnalysisResult
 
             result = await rust_plugin.analyze_file("test.rs", None)
             assert isinstance(result, AnalysisResult)
@@ -157,7 +157,7 @@ class TestRustPlugin:
 
             file_content = 'fn main() { println!("Hello"); }'
 
-            with patch("tree_sitter_analyzer.encoding_utils.read_file_safe") as m:
+            with patch("codexray.encoding_utils.read_file_safe") as m:
                 m.return_value = (file_content, "utf-8")
                 result = await rust_plugin.analyze_file("test.rs", None)
                 assert result.language == "rust"
@@ -211,7 +211,7 @@ class TestRustIntegration:
         }
         """
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             return_value=(code, "utf-8"),
         ):
             result = await plugin.analyze_file("test.rs", None)
@@ -241,7 +241,7 @@ fn main() {
 }
 """
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             return_value=(code, "utf-8"),
         ):
             result = await plugin.analyze_file("test.rs", None)
@@ -264,7 +264,7 @@ fn main() {
         }
         """
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             return_value=(code, "utf-8"),
         ):
             result = await plugin.analyze_file("test.rs", None)
@@ -293,7 +293,7 @@ impl Rectangle {
 }
 """
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             return_value=(code, "utf-8"),
         ):
             result = await plugin.analyze_file("test.rs", None)
@@ -315,7 +315,7 @@ impl Rectangle {
     }
     """
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             return_value=(code, "utf-8"),
         ):
             result = await plugin.analyze_file("test.rs", None)
@@ -334,7 +334,7 @@ impl Rectangle {
 pub fn sync_func() -> i32 { 42 }
 """
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             return_value=(code, "utf-8"),
         ):
             result = await plugin.analyze_file("test.rs", None)
@@ -358,7 +358,7 @@ pub struct PublicStruct {
 }
 """
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             return_value=(code, "utf-8"),
         ):
             result = await plugin.analyze_file("test.rs", None)

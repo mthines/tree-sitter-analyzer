@@ -17,8 +17,8 @@ import pytest
 
 from tests.unit.grammar_coverage.conftest import _make_parser_mock
 
-_PM_PATCH = "tree_sitter_analyzer.plugins.manager.PluginManager"
-_PARSER_PATCH = "tree_sitter_analyzer.language_loader.loader.create_parser_safely"
+_PM_PATCH = "codexray.plugins.manager.PluginManager"
+_PARSER_PATCH = "codexray.language_loader.loader.create_parser_safely"
 
 
 def _make_plugin_mock(start_line: int, end_line: int) -> MagicMock:
@@ -61,7 +61,7 @@ class TestBoundaryCases:
     @pytest.mark.asyncio
     async def test_empty_file(self):
         """测试空文件"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -94,7 +94,7 @@ class TestBoundaryCases:
     @pytest.mark.asyncio
     async def test_single_node_file(self):
         """测试单节点文件"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -135,7 +135,7 @@ class TestBoundaryCases:
     @pytest.mark.asyncio
     async def test_no_named_nodes_only_tokens(self):
         """测试无命名节点（只有 token）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -186,7 +186,7 @@ class TestBoundaryCases:
     @pytest.mark.asyncio
     async def test_plugin_returns_empty_elements(self):
         """测试插件返回空元素列表"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -223,7 +223,7 @@ class TestBoundaryCases:
     @pytest.mark.asyncio
     async def test_plugin_raises_exception(self):
         """测试插件抛出异常"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 

@@ -5,8 +5,8 @@ Each test picks a minimal fixture with a known complexity_score and asserts
 the EXACT value appears in the rendered table row.
 """
 
-from tree_sitter_analyzer.formatters.bash_formatter import BashTableFormatter
-from tree_sitter_analyzer.formatters.go_formatter import GoTableFormatter
+from codexray.formatters.bash_formatter import BashTableFormatter
+from codexray.formatters.go_formatter import GoTableFormatter
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Shared fixture builders
@@ -180,14 +180,14 @@ class TestBashFormatterCxColumn:
 
     def test_bash_formatter_registered(self):
         """BashTableFormatter must be reachable via FormatterRegistry."""
-        from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
+        from codexray.formatters.formatter_registry import FormatterRegistry
 
         formatter = FormatterRegistry.get_formatter_for_language("bash", "full")
         assert isinstance(formatter, BashTableFormatter)
 
     def test_sh_alias_registered(self):
         """'sh' language alias must also resolve to BashTableFormatter."""
-        from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
+        from codexray.formatters.formatter_registry import FormatterRegistry
 
         formatter = FormatterRegistry.get_formatter_for_language("sh", "full")
         assert isinstance(formatter, BashTableFormatter)

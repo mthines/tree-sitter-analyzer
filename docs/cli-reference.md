@@ -1,6 +1,6 @@
 # CLI Reference
 
-Complete command-line interface reference for Tree-sitter Analyzer.
+Complete command-line interface reference for CodeXray.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ Complete command-line interface reference for Tree-sitter Analyzer.
 ## Basic Usage
 
 ```bash
-uv run tree-sitter-analyzer <file_path> [options]
+uv run codexray <file_path> [options]
 ```
 
 ### Agent Workflow Pack
@@ -25,8 +25,8 @@ Agents can ask for a ready-to-run SMART workflow command pack before opening a
 new queue item:
 
 ```bash
-uv run tree-sitter-analyzer agent-workflow --format json
-uv run tree-sitter-analyzer agent-workflow tree_sitter_analyzer/cli_main.py --format json
+uv run codexray agent-workflow --format json
+uv run codexray agent-workflow codexray/cli_main.py --format json
 ```
 
 The JSON and TOON responses include `current_phase`, `phase_order`,
@@ -56,9 +56,9 @@ such as missing completion or acceptance guidance. It also returns a
 the next metadata fix:
 
 ```bash
-uv run tree-sitter-analyzer agent-skills --format json
-uv run tree-sitter-analyzer agent-skills --format toon
-uv run tree-sitter-analyzer --agent-skills --agent-skills-root .agents/skills --format json
+uv run codexray agent-skills --format json
+uv run codexray agent-skills --format toon
+uv run codexray --agent-skills --agent-skills-root .agents/skills --format json
 ```
 
 ### Parser Readiness Advisor
@@ -70,9 +70,9 @@ such as package version, project/maintenance URLs, binding ABI, parser semantic
 version, packaged `grammar.json`, and scanner files:
 
 ```bash
-uv run tree-sitter-analyzer parser-readiness --format json
-uv run tree-sitter-analyzer parser-readiness swift --format json
-uv run tree-sitter-analyzer --parser-readiness --parser-readiness-include-supported --format toon
+uv run codexray parser-readiness --format json
+uv run codexray parser-readiness swift --format json
+uv run codexray --parser-readiness --parser-readiness-include-supported --format toon
 ```
 
 ### Agent-Friendly MCP Aliases
@@ -81,18 +81,18 @@ These aliases are equivalent to the flag-based MCP mirror commands and exist so
 agents can call tools in the same order they think about the workflow:
 
 ```bash
-uv run tree-sitter-analyzer agent-skills --format json
-uv run tree-sitter-analyzer parser-readiness swift --format json
-uv run tree-sitter-analyzer file-health tree_sitter_analyzer/cli_main.py --format json
-uv run tree-sitter-analyzer safe-to-edit tree_sitter_analyzer/cli_main.py --edit-type refactor --format json
-uv run tree-sitter-analyzer refactor tree_sitter_analyzer/cli_main.py --format json
-uv run tree-sitter-analyzer smart-context tree_sitter_analyzer/cli_main.py --format json
-uv run tree-sitter-analyzer change-impact --agent-summary-only --format json
-uv run tree-sitter-analyzer change-impact --change-impact-mode staged --change-impact-no-tests --format json
-uv run tree-sitter-analyzer change-impact --change-impact-scope tree_sitter_analyzer/cli_main.py --agent-summary-only --format json
-uv run tree-sitter-analyzer project-health --max-files 5 --format json
-uv run tree-sitter-analyzer --dependencies summary --format json
-uv run tree-sitter-analyzer tree_sitter_analyzer/cli_main.py --dependencies file_deps --format json
+uv run codexray agent-skills --format json
+uv run codexray parser-readiness swift --format json
+uv run codexray file-health codexray/cli_main.py --format json
+uv run codexray safe-to-edit codexray/cli_main.py --edit-type refactor --format json
+uv run codexray refactor codexray/cli_main.py --format json
+uv run codexray smart-context codexray/cli_main.py --format json
+uv run codexray change-impact --agent-summary-only --format json
+uv run codexray change-impact --change-impact-mode staged --change-impact-no-tests --format json
+uv run codexray change-impact --change-impact-scope codexray/cli_main.py --agent-summary-only --format json
+uv run codexray project-health --max-files 5 --format json
+uv run codexray --dependencies summary --format json
+uv run codexray codexray/cli_main.py --dependencies file_deps --format json
 ```
 
 Use `project-health --max-files <n>` when working inside a noisy repository.
@@ -123,50 +123,50 @@ Use it when the working tree is noisy and the current queue is only a few paths.
 
 ```bash
 # Quick summary (file scale and overview)
-uv run tree-sitter-analyzer examples/BigService.java --summary
+uv run codexray examples/BigService.java --summary
 ```
 
 ### Structure Analysis
 
 ```bash
 # Detailed structure (all elements)
-uv run tree-sitter-analyzer examples/BigService.java --structure
+uv run codexray examples/BigService.java --structure
 ```
 
 ### Advanced Analysis
 
 ```bash
 # Advanced analysis with complexity metrics
-uv run tree-sitter-analyzer examples/BigService.java --advanced
+uv run codexray examples/BigService.java --advanced
 
 # With JSON output
-uv run tree-sitter-analyzer examples/BigService.java --advanced --output-format json
+uv run codexray examples/BigService.java --advanced --output-format json
 
 # With text output
-uv run tree-sitter-analyzer examples/BigService.java --advanced --output-format text
+uv run codexray examples/BigService.java --advanced --output-format text
 ```
 
 ### Table Output
 
 ```bash
 # Full table (comprehensive)
-uv run tree-sitter-analyzer examples/BigService.java --table full
+uv run codexray examples/BigService.java --table full
 
 # Compact table (abbreviated)
-uv run tree-sitter-analyzer examples/BigService.java --table compact
+uv run codexray examples/BigService.java --table compact
 
 # CSV format (machine-readable)
-uv run tree-sitter-analyzer examples/BigService.java --table csv
+uv run codexray examples/BigService.java --table csv
 ```
 
 ### Partial Code Extraction
 
 ```bash
 # Extract specific line range
-uv run tree-sitter-analyzer examples/BigService.java --partial-read --start-line 93 --end-line 106
+uv run codexray examples/BigService.java --partial-read --start-line 93 --end-line 106
 
 # Extract from start line to end of file
-uv run tree-sitter-analyzer examples/BigService.java --partial-read --start-line 100
+uv run codexray examples/BigService.java --partial-read --start-line 100
 ```
 
 ### Language-Specific Examples
@@ -175,38 +175,38 @@ uv run tree-sitter-analyzer examples/BigService.java --partial-read --start-line
 
 ```bash
 # HTML analysis
-uv run tree-sitter-analyzer examples/comprehensive_sample.html --table full
-uv run tree-sitter-analyzer examples/comprehensive_sample.html --structure
+uv run codexray examples/comprehensive_sample.html --table full
+uv run codexray examples/comprehensive_sample.html --structure
 
 # CSS analysis
-uv run tree-sitter-analyzer examples/comprehensive_sample.css --table full
-uv run tree-sitter-analyzer examples/comprehensive_sample.css --advanced --output-format text
+uv run codexray examples/comprehensive_sample.css --table full
+uv run codexray examples/comprehensive_sample.css --advanced --output-format text
 ```
 
 #### SQL Database Analysis
 
 ```bash
 # Full table output
-uv run tree-sitter-analyzer examples/sample_database.sql --table full
+uv run codexray examples/sample_database.sql --table full
 
 # Compact summary
-uv run tree-sitter-analyzer examples/sample_database.sql --table compact
+uv run codexray examples/sample_database.sql --table compact
 
 # CSV for export
-uv run tree-sitter-analyzer examples/sample_database.sql --table csv
+uv run codexray examples/sample_database.sql --table csv
 
 # Advanced text analysis
-uv run tree-sitter-analyzer examples/sample_database.sql --advanced --output-format text
+uv run codexray examples/sample_database.sql --advanced --output-format text
 ```
 
 #### Markdown Analysis
 
 ```bash
 # Analyze markdown structure
-uv run tree-sitter-analyzer docs/README.md --table full
+uv run codexray docs/README.md --table full
 
 # View document structure
-uv run tree-sitter-analyzer docs/README.md --structure
+uv run codexray docs/README.md --structure
 ```
 
 ## Query and Filter Commands
@@ -215,38 +215,38 @@ uv run tree-sitter-analyzer docs/README.md --structure
 
 ```bash
 # Query methods
-uv run tree-sitter-analyzer examples/BigService.java --query-key methods
+uv run codexray examples/BigService.java --query-key methods
 
 # Query classes
-uv run tree-sitter-analyzer examples/BigService.java --query-key classes
+uv run codexray examples/BigService.java --query-key classes
 
 # Query functions (for Python, JavaScript)
-uv run tree-sitter-analyzer examples/sample.py --query-key functions
+uv run codexray examples/sample.py --query-key functions
 
 # Query imports
-uv run tree-sitter-analyzer examples/BigService.java --query-key imports
+uv run codexray examples/BigService.java --query-key imports
 ```
 
 ### Filter Query Results
 
 ```bash
 # Find specific method by name
-uv run tree-sitter-analyzer examples/BigService.java --query-key methods --filter "name=main"
+uv run codexray examples/BigService.java --query-key methods --filter "name=main"
 
 # Pattern matching (wildcard)
-uv run tree-sitter-analyzer examples/BigService.java --query-key methods --filter "name=~auth*"
+uv run codexray examples/BigService.java --query-key methods --filter "name=~auth*"
 
 # Find public methods with no parameters
-uv run tree-sitter-analyzer examples/BigService.java --query-key methods --filter "params=0,public=true"
+uv run codexray examples/BigService.java --query-key methods --filter "params=0,public=true"
 
 # Find static methods
-uv run tree-sitter-analyzer examples/BigService.java --query-key methods --filter "static=true"
+uv run codexray examples/BigService.java --query-key methods --filter "static=true"
 ```
 
 ### View Filter Help
 
 ```bash
-uv run tree-sitter-analyzer --filter-help
+uv run codexray --filter-help
 ```
 
 > **⚠️ Note:** `--table` and `--query-key` are mutually exclusive. Use `--query-key` with `--filter` for filtering.
@@ -307,42 +307,42 @@ uv run find-and-grep --roots . --query "public.*static.*void" --extensions java 
 
 ```bash
 # Show help
-uv run tree-sitter-analyzer --help
+uv run codexray --help
 
 # Show supported languages
-uv run tree-sitter-analyzer --show-supported-languages
+uv run codexray --show-supported-languages
 ```
 
 ### Language Support Information
 
 ```bash
 # List supported query keys
-uv run tree-sitter-analyzer --list-queries
+uv run codexray --list-queries
 
 # Show supported languages
-uv run tree-sitter-analyzer --show-supported-languages
+uv run codexray --show-supported-languages
 
 # Show supported file extensions
-uv run tree-sitter-analyzer --show-supported-extensions
+uv run codexray --show-supported-extensions
 
 # Show common queries for each language
-uv run tree-sitter-analyzer --show-common-queries
+uv run codexray --show-common-queries
 
 # Show query language support matrix
-uv run tree-sitter-analyzer --show-query-languages
+uv run codexray --show-query-languages
 ```
 
 ## SQL Cross-Platform Commands
 
 ```bash
 # Show current platform SQL parsing capabilities
-uv run tree-sitter-analyzer --sql-platform-info
+uv run codexray --sql-platform-info
 
 # Record a custom SQL parsing profile
-uv run tree-sitter-analyzer --record-sql-profile
+uv run codexray --record-sql-profile
 
 # Compare two SQL profiles
-uv run tree-sitter-analyzer --compare-sql-profiles windows-3.13 linux-3.10
+uv run codexray --compare-sql-profiles windows-3.13 linux-3.10
 ```
 
 ## Output Formats
@@ -351,7 +351,7 @@ uv run tree-sitter-analyzer --compare-sql-profiles windows-3.13 linux-3.10
 
 ```bash
 # Code analysis to JSON
-uv run tree-sitter-analyzer examples/sample.py --advanced --output-format json
+uv run codexray examples/sample.py --advanced --output-format json
 
 # Search results to JSON
 uv run find-and-grep --roots . --query "def " --extensions py --output-format json
@@ -361,7 +361,7 @@ uv run find-and-grep --roots . --query "def " --extensions py --output-format js
 
 ```bash
 # Human-readable text output
-uv run tree-sitter-analyzer examples/sample.py --advanced --output-format text
+uv run codexray examples/sample.py --advanced --output-format text
 ```
 
 ### Table Formats
@@ -426,7 +426,7 @@ uv run tree-sitter-analyzer examples/sample.py --advanced --output-format text
 
 ## Security Notes
 
-Tree-sitter Analyzer enforces security boundaries:
+CodeXray enforces security boundaries:
 
 - Files outside the project directory are inaccessible
 - Path traversal attacks are automatically prevented
@@ -434,10 +434,10 @@ Tree-sitter Analyzer enforces security boundaries:
 
 ```bash
 # ✅ Allowed: File within project
-uv run tree-sitter-analyzer examples/BigService.java --advanced
+uv run codexray examples/BigService.java --advanced
 
 # ❌ Denied: File outside project boundary
-# uv run tree-sitter-analyzer /etc/passwd --advanced
+# uv run codexray /etc/passwd --advanced
 # Error: Access denied - file outside project boundary
 ```
 
@@ -453,27 +453,27 @@ uv run list-files . --extensions java --types f
 uv run search-content --roots . --query "class.*Service" --include-globs "*.java"
 
 # 3. Analyze found file
-uv run tree-sitter-analyzer src/UserService.java --summary
+uv run codexray src/UserService.java --summary
 
 # 4. Get detailed structure
-uv run tree-sitter-analyzer src/UserService.java --table full
+uv run codexray src/UserService.java --table full
 
 # 5. Extract specific method
-uv run tree-sitter-analyzer src/UserService.java --query-key methods --filter "name=authenticate"
+uv run codexray src/UserService.java --query-key methods --filter "name=authenticate"
 ```
 
 ### Token-Optimized Analysis (for large files)
 
 ```bash
 # 1. Check file scale first
-uv run tree-sitter-analyzer large_file.java --summary
+uv run codexray large_file.java --summary
 
 # 2. If large, use compact format
-uv run tree-sitter-analyzer large_file.java --table compact
+uv run codexray large_file.java --table compact
 
 # 3. Query specific elements instead of full analysis
-uv run tree-sitter-analyzer large_file.java --query-key methods --filter "public=true"
+uv run codexray large_file.java --query-key methods --filter "public=true"
 
 # 4. Extract only the lines you need
-uv run tree-sitter-analyzer large_file.java --partial-read --start-line 100 --end-line 150
+uv run codexray large_file.java --partial-read --start-line 100 --end-line 150
 ```

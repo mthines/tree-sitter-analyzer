@@ -9,10 +9,10 @@ class _RecordingInitializationOptions:
 
 
 def test_build_initialization_options_includes_agent_routing_instructions():
-    from tree_sitter_analyzer.mcp._server_helpers import build_initialization_options
+    from codexray.mcp._server_helpers import build_initialization_options
 
     options = build_initialization_options(
-        "tree-sitter-analyzer",
+        "codexray",
         "1.2.3",
         _RecordingInitializationOptions,
     )

@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from tests.unit._codegraph_query_helpers import _make_def, _patch_resolver_with
-from tree_sitter_analyzer.mcp.tools.codegraph_query_tool import (
+from codexray.mcp.tools.codegraph_query_tool import (
     CodeGraphQueryTool,
 )
 
@@ -65,7 +65,7 @@ class TestCodeGraphQueryToolAdvanced:
         mock_cache.get_conn.return_value = conn
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with({}),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(
@@ -134,7 +134,7 @@ class TestCodeGraphQueryToolAdvanced:
         mock_cache.get_conn.return_value = conn
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with({}),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(
@@ -181,7 +181,7 @@ class TestCodeGraphQueryToolAdvanced:
         }
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with(defs),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(
@@ -227,7 +227,7 @@ class TestCodeGraphQueryToolAdvanced:
         defs = {"run": [_make_def(file="main.py", name="run", line=1)]}
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with(defs),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(
@@ -265,7 +265,7 @@ class TestCodeGraphQueryToolAdvanced:
         }
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=MagicMock()),
+            patch("codexray.ast_cache.ASTCache", return_value=MagicMock()),
             _patch_resolver_with(defs),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(
@@ -292,7 +292,7 @@ class TestCodeGraphQueryToolAdvanced:
         }
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=MagicMock()),
+            patch("codexray.ast_cache.ASTCache", return_value=MagicMock()),
             _patch_resolver_with(defs),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(
@@ -324,7 +324,7 @@ class TestCodeGraphQueryToolAdvanced:
         defs = {"run": [_make_def(file="main.py", name="run", line=1)]}
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with(defs),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(
@@ -361,7 +361,7 @@ class TestCodeGraphQueryToolAdvanced:
         defs = {"run": [_make_def(file="main.py", name="run", line=1)]}
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with(defs),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(
@@ -400,7 +400,7 @@ class TestCodeGraphQueryToolAdvanced:
         defs = {"run": [_make_def(file="main.py", name="run", line=1)]}
 
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache),
+            patch("codexray.ast_cache.ASTCache", return_value=mock_cache),
             _patch_resolver_with(defs),
         ):
             result = await CodeGraphQueryTool(str(tmp_path)).execute(

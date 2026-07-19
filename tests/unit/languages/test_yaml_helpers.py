@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from threading import Lock
 from typing import Any
 
-from tree_sitter_analyzer.languages.yaml_helpers import (
+from codexray.languages.yaml_helpers import (
     analyze_yaml_file,
     append_alias_element,
     append_anchor_element,

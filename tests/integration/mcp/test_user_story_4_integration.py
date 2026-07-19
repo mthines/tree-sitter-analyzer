@@ -21,7 +21,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+from codexray.mcp.server import CodeXrayMCPServer
 
 
 class TestUserStory4Integration:
@@ -182,7 +182,7 @@ This will find all Java files and count TODO comments.
     @pytest.fixture
     def mcp_server(self, temp_project):
         """MCPサーバーインスタンスを作成"""
-        server = TreeSitterAnalyzerMCPServer(temp_project)
+        server = CodeXrayMCPServer(temp_project)
         return server
 
     def test_set_project_path_basic(self, mcp_server, temp_project):

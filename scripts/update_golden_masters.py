@@ -37,7 +37,7 @@ def update_golden_master(
 
     print(f"Generating golden master: {output_file}")
 
-    cmd = ["uv", "run", "tree-sitter-analyzer", input_file, "--table", table_format]
+    cmd = ["uv", "run", "codexray", input_file, "--table", table_format]
 
     returncode, output = run_command(cmd)
 

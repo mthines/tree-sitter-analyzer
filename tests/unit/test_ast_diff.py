@@ -2,7 +2,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.ast_diff import (
+from codexray.ast_diff import (
     ASTDiffer,
     ASTDiffHunk,
     ASTNodeKind,
@@ -74,7 +74,7 @@ class TestComputeStats:
 
 class TestMatchNodes:
     def test_match_by_name(self):
-        from tree_sitter_analyzer.ast_diff import ASTNodeInfo
+        from codexray.ast_diff import ASTNodeInfo
 
         old = [
             ASTNodeInfo(
@@ -108,7 +108,7 @@ class TestMatchNodes:
         assert len(new_rem) == 0
 
     def test_no_match(self):
-        from tree_sitter_analyzer.ast_diff import ASTNodeInfo
+        from codexray.ast_diff import ASTNodeInfo
 
         old = [
             ASTNodeInfo(
@@ -257,7 +257,7 @@ class TestDiffStringPairs:
 
 class TestExtractSignature:
     def test_basic(self):
-        from tree_sitter_analyzer.ast_diff import ASTNodeInfo
+        from codexray.ast_diff import ASTNodeInfo
 
         node = ASTNodeInfo(
             node_type="function_definition",

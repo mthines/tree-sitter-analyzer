@@ -33,7 +33,7 @@ If applicable, add screenshots to help explain your problem.
 
 - OS: [e.g. Windows 11, macOS 14, Ubuntu 22.04]
 - Python version: [e.g. 3.11.5]
-- Tree-sitter Analyzer version: [e.g. 0.2.1]
+- CodeXray version: [e.g. 0.2.1]
 - Installation method: [e.g. pip, uv, conda]
 
 ## 📋 Additional Context
@@ -59,5 +59,5 @@ If the bug is related to parsing specific code, please provide:
 
 - [ ] I have searched existing issues to ensure this is not a duplicate
 - [ ] I have provided all the requested information
-- [ ] I have tested with the latest version of tree-sitter-analyzer
+- [ ] I have tested with the latest version of codexray
 - [ ] I have included a minimal reproducible example

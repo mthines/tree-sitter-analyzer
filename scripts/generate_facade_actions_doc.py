@@ -9,7 +9,7 @@ truth so it can never drift (a CI test regenerates and diffs — see
 
 Sources of truth
 ----------------
-* **Facade routing** — ``tree_sitter_analyzer.mcp._tool_registry.create_tool_registry``
+* **Facade routing** — ``codexray.mcp._tool_registry.create_tool_registry``
   builds the 8 live ``FacadeTool`` instances; each carries ``action_map``
   (action -> inner tool) and ``bespoke_map`` (action -> closure).
 * **Per-action params** — ``inner.get_tool_definition()["inputSchema"]``: the
@@ -119,7 +119,7 @@ BESPOKE_ROUTE_SPECS: dict[tuple[str, str], dict[str, Any]] = {
         # _content_route forwards args verbatim to SearchContentTool.execute,
         # so the inner's strict schema is the authoritative param contract.
         "schema_from": (
-            "tree_sitter_analyzer.mcp.tools.search_content_tool",
+            "codexray.mcp.tools.search_content_tool",
             "SearchContentTool",
         ),
         "source": "search_facade.py::_content_route",
@@ -196,7 +196,7 @@ def _render_cli_entry(kind: str, name: str) -> str:
 
 def _cli_twin_map() -> dict[tuple[str, str], str]:
     """Build ``{(facade, action): rendered CLI twin cell}`` from the crosswalk."""
-    from tree_sitter_analyzer.mcp.facade_map import (
+    from codexray.mcp.facade_map import (
         LEGACY_TOOL_MAP,
         NEW_ACTION_PARITY,
     )
@@ -302,7 +302,7 @@ def _bespoke_params_cell(facade_name: str, action: str, spec: dict[str, Any]) ->
 
 def collect_rows() -> dict[str, list[ActionRow]]:
     """Walk the live facade registry into ``{facade: [ActionRow, ...]}``."""
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+    from codexray.mcp._tool_registry import create_tool_registry
 
     facades, _lookup = create_tool_registry(str(PROJECT_ROOT))
     cli_twins = _cli_twin_map()
@@ -383,7 +383,7 @@ def generate_markdown() -> str:
         f"The MCP server exposes **{len(rows_by_facade)} facade tools** routing "
         f"**{total_actions} actions** via the `action` parameter. This reference is "
         "generated from the live facade registry "
-        "(`tree_sitter_analyzer/mcp/_tool_registry.py`) and each inner tool's "
+        "(`codexray/mcp/_tool_registry.py`) and each inner tool's "
         "`inputSchema` — the same schema the runtime strict-parameter guard "
         "enforces, so a wrong param guess in this table would fail at runtime "
         "too (and vice versa).",

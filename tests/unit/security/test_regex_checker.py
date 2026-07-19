@@ -10,7 +10,7 @@ potentially dangerous constructs.
 import re
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.security.regex_checker import RegexSafetyChecker
+from codexray.security.regex_checker import RegexSafetyChecker
 
 
 class TestRegexSafetyCheckerInitialization:

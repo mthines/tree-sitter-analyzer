@@ -33,7 +33,7 @@ from pathlib import Path
 from typing import Any
 
 # Make sibling modules importable when invoked via ``uv run python`` without
-# installation. The benchmarks dir is intentionally outside ``tree_sitter_analyzer``
+# installation. The benchmarks dir is intentionally outside ``codexray``
 # so it never ships with the wheel.
 _THIS_DIR = Path(__file__).resolve().parent
 if str(_THIS_DIR) not in sys.path:

@@ -18,7 +18,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.cli_main import (
+from codexray.cli_main import (
     create_argument_parser,
 )
 
@@ -27,7 +27,7 @@ from tree_sitter_analyzer.cli_main import (
 
 def _make_context(**overrides) -> object:
     """Return a minimal SpecialCommandContext-like namespace."""
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.special_commands import SpecialCommandContext
 
     defaults = {
         "asyncio_run": asyncio.run,
@@ -116,7 +116,7 @@ class TestCheckScaleDispatch:
 
     def test_returns_none_when_check_scale_absent(self) -> None:
         """When ``check_scale`` is ``None``, handler returns ``None``."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_check_scale
+        from codexray.cli.special_commands import _handle_check_scale
 
         args = self._base_args()
         ctx = _make_context()
@@ -125,7 +125,7 @@ class TestCheckScaleDispatch:
 
     def test_returns_0_on_success(self, tmp_path: Path) -> None:
         """Handler returns ``0`` when AnalyzeScaleTool returns success."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_check_scale
+        from codexray.cli.special_commands import _handle_check_scale
 
         target = tmp_path / "sample.py"
         target.write_text("def foo(): pass\n")
@@ -153,7 +153,7 @@ class TestCheckScaleDispatch:
 
     def test_returns_1_on_tool_failure(self, tmp_path: Path) -> None:
         """Handler returns ``1`` when AnalyzeScaleTool returns success=False."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_check_scale
+        from codexray.cli.special_commands import _handle_check_scale
 
         target = tmp_path / "broken.py"
         target.write_text("")
@@ -166,7 +166,7 @@ class TestCheckScaleDispatch:
 
     def test_missing_file_returns_1_with_json_error(self, tmp_path: Path) -> None:
         """Nonexistent file → exit 1 with a JSON error envelope."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_check_scale
+        from codexray.cli.special_commands import _handle_check_scale
 
         # Existence validation is delegated to AnalyzeScaleTool (so that
         # --project-root resolution applies); the tool reports the miss.
@@ -189,7 +189,7 @@ class TestCheckScaleDispatch:
     def test_project_root_resolves_relative_path(self, tmp_path: Path) -> None:
         """--project-root /repo --check-scale rel/path.py works from any CWD
         (Codex P2 on #527: no CWD-relative preflight)."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_check_scale
+        from codexray.cli.special_commands import _handle_check_scale
 
         (tmp_path / "src").mkdir()
         (tmp_path / "src" / "foo.py").write_text("def foo(): pass\n")
@@ -204,7 +204,7 @@ class TestCheckScaleDispatch:
 
     def test_language_override_forwarded(self, tmp_path: Path) -> None:
         """--language reaches AnalyzeScaleTool (Codex P2 on #527)."""
-        from tree_sitter_analyzer.cli.special_commands import _handle_check_scale
+        from codexray.cli.special_commands import _handle_check_scale
 
         target = tmp_path / "script.txt"
         target.write_text("def foo(): pass\n")
@@ -232,7 +232,7 @@ class TestCheckScaleMcpCliParity:
 
     def test_core_metric_keys_match_mcp_output(self, tmp_path: Path) -> None:
         """CLI JSON output contains the same core keys as MCP execute response."""
-        from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+        from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
         target = tmp_path / "subject.py"
         target.write_text(
@@ -252,7 +252,7 @@ class TestCheckScaleMcpCliParity:
         assert mcp_result["success"] is True
 
         # CLI path via _handle_check_scale
-        from tree_sitter_analyzer.cli.special_commands import _handle_check_scale
+        from codexray.cli.special_commands import _handle_check_scale
 
         cli_result_holder: list = []
         ctx = _make_context(

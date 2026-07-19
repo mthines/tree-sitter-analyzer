@@ -1,6 +1,6 @@
-# tree-sitter-analyzer RFCs
+# codexray RFCs
 
-> Substantial changes to tree-sitter-analyzer (TSA) go through a Request for
+> Substantial changes to codexray (TSA) go through a Request for
 > Comments (RFC) process. This directory holds them. Modeled on the sibling
 > [mycelium](https://github.com/aimasteracc/mycelium) RFC process, adapted for
 > TSA's Python / MCP stack.

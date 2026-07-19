@@ -6,7 +6,7 @@ import sqlite3
 from typing import Any
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.semantic_search import SemanticSymbolSearch
+from codexray.semantic_search import SemanticSymbolSearch
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -50,7 +50,7 @@ def _make_cache(rows: list[tuple[str, str, str, str]]) -> Any:
     cache.get_conn.return_value = conn
     cache._fts5_available = True
     # Delegate fts_search_ranked to a real implementation for accuracy.
-    from tree_sitter_analyzer.cache.query import fts_search_ranked
+    from codexray.cache.query import fts_search_ranked
 
     cache.fts_search_ranked.side_effect = lambda q, **kw: fts_search_ranked(
         conn, q, **kw

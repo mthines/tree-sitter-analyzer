@@ -32,7 +32,7 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray.ast_cache import ASTCache
 
 
 def _index(tmp_path: Path, files: dict[str, str]) -> str:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Weekly north-star metrics snapshot — measure the funnel or you can't optimize it.
 
-Captures the discovery/adoption funnel for tree-sitter-analyzer:
+Captures the discovery/adoption funnel for codexray:
 - GitHub: stars, forks, watchers, open issues (via `gh api`)
 - PyPI: last-week / last-month download counts (via pypistats.org public API)
 
@@ -20,8 +20,8 @@ import sys
 import urllib.request
 from pathlib import Path
 
-REPO = "aimasteracc/tree-sitter-analyzer"
-PACKAGE = "tree-sitter-analyzer"
+REPO = "aimasteracc/codexray"
+PACKAGE = "codexray"
 OUT_DIR = Path(__file__).resolve().parent.parent / ".recon" / "metrics"
 
 

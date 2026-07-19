@@ -12,17 +12,17 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -229,7 +229,7 @@ class TestMCPWorkflowIntegration:
     @pytest.mark.asyncio
     async def test_workflow_search_then_query(self, all_tools, comprehensive_project):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             search_output = b'{"type":"match","data":{"path":{"text":"main.py"},"lines":{"text":"def main():"},"line_number":8,"absolute_offset":100,"submatches":[{"match":{"text":"main"},"start":4,"end":8}]}}\n'
             mock_run.return_value = (0, search_output, b"")
@@ -279,7 +279,7 @@ class TestMCPWorkflowIntegration:
         self, all_tools, comprehensive_project
     ):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             fd_output = (
                 f"{comprehensive_project}/main.py\n{comprehensive_project}/utils.py\n"
@@ -326,7 +326,7 @@ class TestMCPWorkflowIntegration:
     @pytest.mark.asyncio
     async def test_large_project_workflow(self, all_tools, comprehensive_project):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             search_output = b"""{"type":"match","data":{"path":{"text":"main.py"},"lines":{"text":"def main():"},"line_number":8,"absolute_offset":100,"submatches":[{"match":{"text":"def"},"start":0,"end":3}]}}
 {"type":"match","data":{"path":{"text":"utils.py"},"lines":{"text":"def hello_helper(name: str) -> str:"},"line_number":5,"absolute_offset":50,"submatches":[{"match":{"text":"def"},"start":0,"end":3}]}}

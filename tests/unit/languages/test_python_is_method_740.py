@@ -16,7 +16,7 @@ try:
 except ImportError:
     _TREE_SITTER_AVAILABLE = False
 
-from tree_sitter_analyzer.languages.python_plugin.extractor import (
+from codexray.languages.python_plugin.extractor import (
     PythonElementExtractor,
 )
 

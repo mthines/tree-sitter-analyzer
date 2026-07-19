@@ -5,7 +5,7 @@ Tests for Rust-specific table formatter.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.rust_formatter import RustTableFormatter
+from codexray.formatters.rust_formatter import RustTableFormatter
 
 
 class TestRustFormatterSignaturesUnsupported:

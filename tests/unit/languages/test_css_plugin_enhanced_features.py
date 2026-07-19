@@ -1,6 +1,6 @@
 """Enhanced tests for CSS plugin — animations, variables, complex structures, and query accuracy."""
 
-from tree_sitter_analyzer.languages.css_plugin import CssPlugin
+from codexray.languages.css_plugin import CssPlugin
 
 SELECTOR_CODE = """
 /* Simple selectors */

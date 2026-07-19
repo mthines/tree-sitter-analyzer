@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.core.query_service import QueryService
+from codexray.core.query_service import QueryService
 
 
 class TestAsyncQueryService:

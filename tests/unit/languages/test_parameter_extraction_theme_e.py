@@ -57,7 +57,7 @@ class TestKotlinParameterExtraction:
 
     def test_three_params_including_vararg_count(self):
         """greet(name, age, vararg tags) must yield exactly 3 parameters."""
-        from tree_sitter_analyzer.languages.kotlin_helpers import (
+        from codexray.languages.kotlin_helpers import (
             extract_kotlin_parameters,
         )
 
@@ -74,7 +74,7 @@ class TestKotlinParameterExtraction:
 
     def test_three_params_names_and_types(self):
         """Each parameter must carry its name and type."""
-        from tree_sitter_analyzer.languages.kotlin_helpers import (
+        from codexray.languages.kotlin_helpers import (
             extract_kotlin_parameters,
         )
 
@@ -91,7 +91,7 @@ class TestKotlinParameterExtraction:
 
     def test_two_regular_params_count(self):
         """Functions without vararg still work after the fix."""
-        from tree_sitter_analyzer.languages.kotlin_helpers import (
+        from codexray.languages.kotlin_helpers import (
             extract_kotlin_parameters,
         )
 
@@ -108,7 +108,7 @@ class TestKotlinParameterExtraction:
 
     def test_zero_params(self):
         """Functions with no parameters yield an empty list."""
-        from tree_sitter_analyzer.languages.kotlin_helpers import (
+        from codexray.languages.kotlin_helpers import (
             extract_kotlin_parameters,
         )
 
@@ -135,7 +135,7 @@ class TestGoVariadicParameterExtraction:
 
     def test_variadic_sum_count(self):
         """func sum(a int, numbers ...int) must yield exactly 2 parameters."""
-        from tree_sitter_analyzer.languages._go_common import (
+        from codexray.languages._go_common import (
             extract_parameters,
         )
 
@@ -152,7 +152,7 @@ class TestGoVariadicParameterExtraction:
 
     def test_variadic_sum_contains_variadic_param(self):
         """The variadic parameter text must contain 'numbers' and '...'."""
-        from tree_sitter_analyzer.languages._go_common import (
+        from codexray.languages._go_common import (
             extract_parameters,
         )
 
@@ -169,7 +169,7 @@ class TestGoVariadicParameterExtraction:
 
     def test_regular_params_unchanged(self):
         """Regular (non-variadic) parameters still work."""
-        from tree_sitter_analyzer.languages._go_common import (
+        from codexray.languages._go_common import (
             extract_parameters,
         )
 
@@ -186,7 +186,7 @@ class TestGoVariadicParameterExtraction:
 
     def test_only_variadic_param(self):
         """func with only a variadic param must yield exactly 1 parameter."""
-        from tree_sitter_analyzer.languages._go_common import (
+        from codexray.languages._go_common import (
             extract_parameters,
         )
 
@@ -214,7 +214,7 @@ class TestPHPVariadicParameterExtraction:
 
     def test_method_variadic_count(self):
         """Method format(string $sep, ...$parts) must yield exactly 2 params."""
-        from tree_sitter_analyzer.languages.php_helpers import (
+        from codexray.languages.php_helpers import (
             extract_modifiers,
             extract_php_method_element,
         )
@@ -249,7 +249,7 @@ class TestPHPVariadicParameterExtraction:
 
     def test_method_variadic_text_contains_parts(self):
         """The variadic param entry must mention '$parts' or 'parts'."""
-        from tree_sitter_analyzer.languages.php_helpers import (
+        from codexray.languages.php_helpers import (
             extract_modifiers,
             extract_php_method_element,
         )
@@ -284,7 +284,7 @@ class TestPHPVariadicParameterExtraction:
 
     def test_function_variadic_count(self):
         """Free function implode(string $sep, ...$parts) must yield 2 params."""
-        from tree_sitter_analyzer.languages.php_helpers import (
+        from codexray.languages.php_helpers import (
             extract_php_function_element,
         )
 
@@ -303,7 +303,7 @@ class TestPHPVariadicParameterExtraction:
 
     def test_function_variadic_text_contains_parts(self):
         """The variadic param entry must include '...$parts' or 'parts'."""
-        from tree_sitter_analyzer.languages.php_helpers import (
+        from codexray.languages.php_helpers import (
             extract_php_function_element,
         )
 
@@ -338,7 +338,7 @@ class TestCppVariadicParameterExtraction:
     def test_template_variadic_full_text(self):
         """template variadic param 'Args... args' must appear as full text,
         not a bare '...'."""
-        from tree_sitter_analyzer.languages._cpp_signature import (
+        from codexray.languages._cpp_signature import (
             extract_parameters,
         )
 
@@ -376,7 +376,7 @@ class TestCppVariadicParameterExtraction:
     def test_c_style_variadic_printf(self):
         """C-style printf(const char* fmt, ...) variadic: '...' node type is
         different (just '...') — verify it is preserved or captured."""
-        from tree_sitter_analyzer.languages._cpp_signature import (
+        from codexray.languages._cpp_signature import (
             extract_parameters,
         )
 
@@ -422,7 +422,7 @@ class TestPHPByReferenceVariadic:
     def test_by_reference_variadic_text(self):
         """function join(string &...$parts) → parameter text is '&...$parts'
         (full variadic_parameter node text captured)."""
-        from tree_sitter_analyzer.languages.php_helpers import (
+        from codexray.languages.php_helpers import (
             extract_php_function_element,
         )
 
@@ -448,7 +448,7 @@ class TestKotlinDefaultValue:
         """fun f(x: Int = 5) → ['x: Int']
         Pins existing behavior: the '= 5' default initializer is dropped.
         This is intentional — parameters carry name+type, not initializers."""
-        from tree_sitter_analyzer.languages.kotlin_helpers import (
+        from codexray.languages.kotlin_helpers import (
             extract_kotlin_parameters,
         )
 
@@ -470,7 +470,7 @@ class TestCppCStyleVariadicExact:
 
     def test_c_style_variadic_exact_string(self):
         """int printf(const char* fmt, ...) → params[1] == '...' (exact)."""
-        from tree_sitter_analyzer.languages._cpp_signature import (
+        from codexray.languages._cpp_signature import (
             extract_parameters,
         )
 

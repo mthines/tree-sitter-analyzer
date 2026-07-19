@@ -5,7 +5,7 @@ Tests for C++ queries module
 
 import pytest
 
-from tree_sitter_analyzer.queries.cpp import (
+from codexray.queries.cpp import (
     ALL_QUERIES,
     CPP_QUERIES,
     CPP_QUERY_DESCRIPTIONS,

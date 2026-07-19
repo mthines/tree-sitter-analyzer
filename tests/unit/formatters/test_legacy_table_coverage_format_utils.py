@@ -18,7 +18,7 @@ Targets uncovered branches in:
 - _format_compact_table classes=None, package branch
 """
 
-from tree_sitter_analyzer.legacy_table_formatter import LegacyTableFormatter
+from codexray.legacy_table_formatter import LegacyTableFormatter
 
 
 class TestFormatMethodRowDetailed:

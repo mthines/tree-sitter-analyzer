@@ -7,11 +7,11 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.change_impact_tool import (
+from codexray.mcp.tools.change_impact_tool import (
     TOOL_SCHEMA,
     ChangeImpactTool,
 )
-from tree_sitter_analyzer.pr_url import (
+from codexray.pr_url import (
     ParsedPRUrl,
     check_gh_available,
     fetch_pr_changed_files,
@@ -83,7 +83,7 @@ class TestParsedPRUrl:
 
 
 class TestFetchPRChangedFiles:
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_success(self, mock_gh):
         mock_gh.return_value = (0, "src/a.py\nsrc/b.py\n")
         pr = ParsedPRUrl("owner", "repo", 1)
@@ -93,13 +93,13 @@ class TestFetchPRChangedFiles:
             ["pr", "diff", "1", "--repo", "owner/repo", "--name-only"]
         )
 
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_failure_returns_empty(self, mock_gh):
         mock_gh.return_value = (1, "")
         pr = ParsedPRUrl("owner", "repo", 1)
         assert fetch_pr_changed_files(pr) == []
 
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_empty_output(self, mock_gh):
         mock_gh.return_value = (0, "")
         pr = ParsedPRUrl("owner", "repo", 1)
@@ -107,38 +107,38 @@ class TestFetchPRChangedFiles:
 
 
 class TestFetchPRDiffStat:
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_success(self, mock_gh):
         mock_gh.return_value = (0, "src/a.py | 10 +++---\n2 files changed")
         pr = ParsedPRUrl("owner", "repo", 1)
         assert "src/a.py" in fetch_pr_diff_stat(pr)
 
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_failure_returns_empty(self, mock_gh):
         mock_gh.return_value = (1, "")
         assert fetch_pr_diff_stat(ParsedPRUrl("o", "r", 1)) == ""
 
 
 class TestFetchPRDiff:
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_success(self, mock_gh):
         mock_gh.return_value = (0, "diff --git a/foo b/foo\n--- a/foo\n+++ b/foo")
         pr = ParsedPRUrl("owner", "repo", 1)
         assert "diff --git" in fetch_pr_diff(pr)
 
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_failure_returns_empty(self, mock_gh):
         mock_gh.return_value = (1, "")
         assert fetch_pr_diff(ParsedPRUrl("o", "r", 1)) == ""
 
 
 class TestCheckGhAvailable:
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_available(self, mock_gh):
         mock_gh.return_value = (0, "")
         assert check_gh_available() is True
 
-    @patch("tree_sitter_analyzer.pr_url._run_gh")
+    @patch("codexray.pr_url._run_gh")
     def test_not_available(self, mock_gh):
         mock_gh.return_value = (1, "error")
         assert check_gh_available() is False
@@ -177,15 +177,15 @@ class TestChangeImpactToolPRUrlValidation:
 
 class TestChangeImpactToolPRUrlExecute:
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.check_gh_available",
+        "codexray.mcp.tools.change_impact_tool.check_gh_available",
         return_value=True,
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.fetch_pr_diff_stat",
+        "codexray.mcp.tools.change_impact_tool.fetch_pr_diff_stat",
         return_value="src/a.py | 5 ++",
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.fetch_pr_changed_files",
+        "codexray.mcp.tools.change_impact_tool.fetch_pr_changed_files",
         return_value=["src/a.py", "src/b.py"],
     )
     def test_pr_url_analysis_returns_pr_metadata(
@@ -212,15 +212,15 @@ class TestChangeImpactToolPRUrlExecute:
         assert result["repo"] == "owner/repo"
 
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.check_gh_available",
+        "codexray.mcp.tools.change_impact_tool.check_gh_available",
         return_value=True,
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.fetch_pr_diff_stat",
+        "codexray.mcp.tools.change_impact_tool.fetch_pr_diff_stat",
         return_value="src/a.py | 5 ++",
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.fetch_pr_changed_files",
+        "codexray.mcp.tools.change_impact_tool.fetch_pr_changed_files",
         return_value=["src/a.py"],
     )
     def test_pr_url_with_scope_filters_files(
@@ -263,7 +263,7 @@ class TestChangeImpactToolPRUrlExecute:
         assert "Invalid GitHub PR URL" in result["error"]
 
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.check_gh_available",
+        "codexray.mcp.tools.change_impact_tool.check_gh_available",
         return_value=False,
     )
     def test_pr_url_gh_not_available(self, mock_gh, tmp_path):
@@ -285,11 +285,11 @@ class TestChangeImpactToolPRUrlExecute:
         assert "gh CLI" in result["error"]
 
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.check_gh_available",
+        "codexray.mcp.tools.change_impact_tool.check_gh_available",
         return_value=True,
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.fetch_pr_changed_files",
+        "codexray.mcp.tools.change_impact_tool.fetch_pr_changed_files",
         return_value=[],
     )
     def test_pr_url_no_changes(self, mock_files, mock_gh, tmp_path):
@@ -311,15 +311,15 @@ class TestChangeImpactToolPRUrlExecute:
         assert result["pr_number"] == 42
 
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.check_gh_available",
+        "codexray.mcp.tools.change_impact_tool.check_gh_available",
         return_value=True,
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.fetch_pr_diff_stat",
+        "codexray.mcp.tools.change_impact_tool.fetch_pr_diff_stat",
         return_value="a.py | 1 +",
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.change_impact_tool.fetch_pr_changed_files",
+        "codexray.mcp.tools.change_impact_tool.fetch_pr_changed_files",
         return_value=["a.py"],
     )
     def test_pr_url_agent_summary_only(self, mock_files, mock_stat, mock_gh, tmp_path):

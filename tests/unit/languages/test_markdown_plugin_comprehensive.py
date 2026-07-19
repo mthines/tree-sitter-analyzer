@@ -10,17 +10,17 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
-from tree_sitter_analyzer.languages.markdown_plugin import (
+from codexray.core.analysis_engine import AnalysisRequest
+from codexray.languages.markdown_plugin import (
     MarkdownElement,
     MarkdownElementExtractor,
     MarkdownPlugin,
 )
-from tree_sitter_analyzer.languages.markdown_plugin.link_image_extractor import (
+from codexray.languages.markdown_plugin.link_image_extractor import (
     parse_image_components,
     parse_link_components,
 )
-from tree_sitter_analyzer.models import AnalysisResult
+from codexray.models import AnalysisResult
 
 
 class TestMarkdownElement:
@@ -120,7 +120,7 @@ class TestMarkdownElementExtractor:
         assert result == []
 
     @patch(
-        "tree_sitter_analyzer.languages.markdown_plugin.private_extraction.log_debug"
+        "codexray.languages.markdown_plugin.private_extraction.log_debug"
     )
     def test_extract_headers_with_exception(self, mock_log):
         """Test header extraction with exception handling"""
@@ -166,7 +166,7 @@ class TestMarkdownElementExtractor:
 
         # Mock byte extraction to fail
         with patch(
-            "tree_sitter_analyzer.languages.markdown_plugin.node_text.extract_text_slice",
+            "codexray.languages.markdown_plugin.node_text.extract_text_slice",
             side_effect=Exception("Byte error"),
         ):
             result = self.extractor._get_node_text_optimized(mock_node)
@@ -183,7 +183,7 @@ class TestMarkdownElementExtractor:
         self.extractor.content_lines = ["Line 1", "Line 2", "Line 3"]
 
         with patch(
-            "tree_sitter_analyzer.languages.markdown_plugin.node_text.extract_text_slice",
+            "codexray.languages.markdown_plugin.node_text.extract_text_slice",
             side_effect=Exception("Byte error"),
         ):
             result = self.extractor._get_node_text_optimized(mock_node)
@@ -203,7 +203,7 @@ class TestMarkdownElementExtractor:
         self.extractor.content_lines = ["Hello"]
 
         with patch(
-            "tree_sitter_analyzer.languages.markdown_plugin.node_text.extract_text_slice",
+            "codexray.languages.markdown_plugin.node_text.extract_text_slice",
             side_effect=Exception("Byte error"),
         ):
             result = self.extractor._get_node_text_optimized(mock_node)
@@ -318,7 +318,7 @@ class TestMarkdownPlugin:
             assert query in queries
 
     @patch(
-        "tree_sitter_analyzer.languages.markdown_plugin.plugin.TREE_SITTER_AVAILABLE",
+        "codexray.languages.markdown_plugin.plugin.TREE_SITTER_AVAILABLE",
         False,
     )
     @pytest.mark.asyncio
@@ -332,7 +332,7 @@ class TestMarkdownPlugin:
         assert "Tree-sitter library not available" in result.error_message
 
     @patch(
-        "tree_sitter_analyzer.languages.markdown_plugin.plugin.TREE_SITTER_AVAILABLE",
+        "codexray.languages.markdown_plugin.plugin.TREE_SITTER_AVAILABLE",
         True,
     )
     def test_get_tree_sitter_language_import_error(self):
@@ -348,7 +348,7 @@ class TestMarkdownPlugin:
             assert language is None
 
     @patch(
-        "tree_sitter_analyzer.languages.markdown_plugin.plugin.TREE_SITTER_AVAILABLE",
+        "codexray.languages.markdown_plugin.plugin.TREE_SITTER_AVAILABLE",
         True,
     )
     def test_get_tree_sitter_language_general_error(self):
@@ -370,7 +370,7 @@ class TestMarkdownPlugin:
             assert language is None
 
     @patch(
-        "tree_sitter_analyzer.languages.markdown_plugin.plugin.TREE_SITTER_AVAILABLE",
+        "codexray.languages.markdown_plugin.plugin.TREE_SITTER_AVAILABLE",
         True,
     )
     def test_get_tree_sitter_language_success(self):
@@ -494,9 +494,9 @@ class TestMarkdownPluginIntegration:
             assert "Could not load Markdown language" in result.error_message
 
     @pytest.mark.asyncio
-    @patch("tree_sitter_analyzer.encoding_utils.read_file_safe")
-    @patch("tree_sitter_analyzer.languages.markdown_plugin.plugin.tree_sitter")
-    @patch("tree_sitter_analyzer.languages.markdown_plugin.extractor.tree_sitter")
+    @patch("codexray.encoding_utils.read_file_safe")
+    @patch("codexray.languages.markdown_plugin.plugin.tree_sitter")
+    @patch("codexray.languages.markdown_plugin.extractor.tree_sitter")
     async def test_analyze_file_success(
         self, mock_ts, mock_ts_plugin, mock_read_file_safe
     ):
@@ -599,7 +599,7 @@ class TestMarkdownPluginEdgeCases:
         mock_node.end_byte = 50000
 
         with patch(
-            "tree_sitter_analyzer.languages.markdown_plugin.node_text.extract_text_slice",
+            "codexray.languages.markdown_plugin.node_text.extract_text_slice",
             side_effect=Exception("Too long"),
         ):
             result = self.extractor._get_node_text_optimized(mock_node)
@@ -617,7 +617,7 @@ class TestMarkdownPluginEdgeCases:
         mock_node.end_point = (0, 6)
 
         with patch(
-            "tree_sitter_analyzer.languages.markdown_plugin.node_text.extract_text_slice",
+            "codexray.languages.markdown_plugin.node_text.extract_text_slice",
             side_effect=Exception("Unicode error"),
         ):
             result = self.extractor._get_node_text_optimized(mock_node)
@@ -631,7 +631,7 @@ if __name__ == "__main__":
         [
             __file__,
             "-v",
-            "--cov=tree_sitter_analyzer.languages.markdown_plugin",
+            "--cov=codexray.languages.markdown_plugin",
             "--cov-report=term-missing",
         ]
     )

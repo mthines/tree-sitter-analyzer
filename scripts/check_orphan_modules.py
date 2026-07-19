@@ -27,15 +27,15 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE_DIR = ROOT / "tree_sitter_analyzer"
+SOURCE_DIR = ROOT / "codexray"
 TESTS_DIR = ROOT / "tests"
 BASELINE = Path(__file__).parent / "orphan_baseline.txt"
 
 
 def _tracked_source_files() -> list[Path]:
-    """Tracked .py files under tree_sitter_analyzer/. Excludes __init__.py."""
+    """Tracked .py files under codexray/. Excludes __init__.py."""
     out = subprocess.run(
-        ["git", "ls-files", "tree_sitter_analyzer/*.py"],
+        ["git", "ls-files", "codexray/*.py"],
         cwd=str(ROOT),
         check=True,
         capture_output=True,
@@ -60,7 +60,7 @@ def _test_stems() -> set[str]:
 
 
 def _expected_test_basename(source: Path) -> str:
-    """E.g. ``tree_sitter_analyzer/_api_helpers.py`` -> ``test_api_helpers``."""
+    """E.g. ``codexray/_api_helpers.py`` -> ``test_api_helpers``."""
     stem = source.stem.lstrip("_")
     return f"test_{stem.lower()}"
 

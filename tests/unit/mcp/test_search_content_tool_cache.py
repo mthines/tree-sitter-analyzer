@@ -12,7 +12,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import (
+from codexray.mcp.tools.search_content_tool import (
     SearchContentTool,
 )
 
@@ -125,11 +125,11 @@ class TestSummaryOutputPaths:
         tool.cache.get.return_value = None
         tool.cache.create_cache_key.return_value = None
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -155,11 +155,11 @@ class TestSummaryOutputPaths:
         tool.cache.get.return_value = None
         tool.cache.create_cache_key.return_value = None
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -168,7 +168,7 @@ class TestSummaryOutputPaths:
                     b"",
                 )
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_helpers.format_for_file_output",
+                    "codexray.mcp.tools.search_content_helpers.format_for_file_output",
                     side_effect=Exception("disk full"),
                 ):
                     arguments = {
@@ -188,11 +188,11 @@ class TestSummaryOutputPaths:
         tool.cache.get.return_value = None
         tool.cache.create_cache_key.return_value = None
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -221,11 +221,11 @@ class TestSuppressOutputEndPath:
         tool.cache.get.return_value = None
         tool.cache.create_cache_key.return_value = None
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (

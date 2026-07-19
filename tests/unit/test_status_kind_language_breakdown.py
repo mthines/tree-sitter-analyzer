@@ -25,7 +25,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cache.query import get_stats
+from codexray.cache.query import get_stats
 
 # ---------------------------------------------------------------------------
 # Helpers: minimal in-memory SQLite fixtures
@@ -283,7 +283,7 @@ class TestASTCacheToolStatsBreakdowns:
     @pytest.mark.asyncio
     async def test_handle_stats_surfaces_symbols_by_kind(self, tmp_path: Any) -> None:
         """_handle_stats must pass symbols_by_kind through to the envelope."""
-        from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
+        from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
 
         tool = ASTCacheTool(project_root=str(tmp_path))
         mock_cache = MagicMock()
@@ -309,7 +309,7 @@ class TestASTCacheToolStatsBreakdowns:
     async def test_handle_stats_surfaces_symbols_by_language(
         self, tmp_path: Any
     ) -> None:
-        from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
+        from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
 
         tool = ASTCacheTool(project_root=str(tmp_path))
         mock_cache = MagicMock()
@@ -332,7 +332,7 @@ class TestASTCacheToolStatsBreakdowns:
 
     @pytest.mark.asyncio
     async def test_handle_stats_surfaces_edges_by_kind(self, tmp_path: Any) -> None:
-        from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
+        from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
 
         tool = ASTCacheTool(project_root=str(tmp_path))
         mock_cache = MagicMock()
@@ -366,7 +366,7 @@ class TestCodeGraphStatusBreakdowns:
     async def test_codegraph_status_surfaces_symbols_by_kind(
         self, tmp_path: Any
     ) -> None:
-        from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import (
+        from codexray.mcp.tools.codegraph_status_tool import (
             CodeGraphStatusTool,
         )
 
@@ -388,7 +388,7 @@ class TestCodeGraphStatusBreakdowns:
         mock_cache.get_cross_file_stats.return_value = {"total": 20}
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool.execute({"output_format": "json", "include_lag": False})
@@ -403,7 +403,7 @@ class TestCodeGraphStatusBreakdowns:
     async def test_codegraph_status_surfaces_symbols_by_language(
         self, tmp_path: Any
     ) -> None:
-        from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import (
+        from codexray.mcp.tools.codegraph_status_tool import (
             CodeGraphStatusTool,
         )
 
@@ -425,7 +425,7 @@ class TestCodeGraphStatusBreakdowns:
         mock_cache.get_cross_file_stats.return_value = {"total": 0}
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool.execute({"output_format": "json", "include_lag": False})
@@ -437,7 +437,7 @@ class TestCodeGraphStatusBreakdowns:
 
     @pytest.mark.asyncio
     async def test_codegraph_status_surfaces_edges_by_kind(self, tmp_path: Any) -> None:
-        from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import (
+        from codexray.mcp.tools.codegraph_status_tool import (
             CodeGraphStatusTool,
         )
 
@@ -459,7 +459,7 @@ class TestCodeGraphStatusBreakdowns:
         mock_cache.get_cross_file_stats.return_value = {"total": 20}
 
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             return_value=mock_cache,
         ):
             result = await tool.execute({"output_format": "json", "include_lag": False})
@@ -479,7 +479,7 @@ class TestCLIMCPParity:
     def test_codegraph_status_flag_registered_in_extended_specs(self) -> None:
         # The tuple is private (_EXTENDED_SPECS) but is the canonical source
         # for codegraph_status routing.  We verify the flag is still present.
-        from tree_sitter_analyzer.cli.commands.mcp_commands._specs_extended import (
+        from codexray.cli.commands.mcp_commands._specs_extended import (
             _EXTENDED_SPECS,
         )
 

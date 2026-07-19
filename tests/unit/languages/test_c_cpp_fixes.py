@@ -10,8 +10,8 @@ import tree_sitter
 import tree_sitter_c
 import tree_sitter_cpp
 
-from tree_sitter_analyzer.languages.c_plugin import CElementExtractor
-from tree_sitter_analyzer.languages.cpp_plugin import CppElementExtractor
+from codexray.languages.c_plugin import CElementExtractor
+from codexray.languages.cpp_plugin import CppElementExtractor
 
 # ---------------------------------------------------------------------------
 # Helpers

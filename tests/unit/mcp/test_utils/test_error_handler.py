@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.error_handler import (
+from codexray.mcp.utils.error_handler import (
     AnalysisError,
     ErrorCategory,
     ErrorHandler,
@@ -565,7 +565,7 @@ class TestGetErrorHandler:
 class TestErrorHandlerLogging:
     """Test error handler logging behavior"""
 
-    @patch("tree_sitter_analyzer.mcp.utils.error_handler.logger")
+    @patch("codexray.mcp.utils.error_handler.logger")
     def test_critical_error_logging(self, mock_logger):
         """Test critical errors are logged at critical level"""
         handler = ErrorHandler()
@@ -575,7 +575,7 @@ class TestErrorHandlerLogging:
 
         mock_logger.critical.assert_called_once()
 
-    @patch("tree_sitter_analyzer.mcp.utils.error_handler.logger")
+    @patch("codexray.mcp.utils.error_handler.logger")
     def test_high_severity_error_logging(self, mock_logger):
         """Test high severity errors are logged at error level"""
         handler = ErrorHandler()
@@ -585,7 +585,7 @@ class TestErrorHandlerLogging:
 
         mock_logger.error.assert_called_once()
 
-    @patch("tree_sitter_analyzer.mcp.utils.error_handler.logger")
+    @patch("codexray.mcp.utils.error_handler.logger")
     def test_medium_severity_error_logging(self, mock_logger):
         """Test medium severity errors are logged at warning level"""
         handler = ErrorHandler()
@@ -595,7 +595,7 @@ class TestErrorHandlerLogging:
 
         mock_logger.warning.assert_called_once()
 
-    @patch("tree_sitter_analyzer.mcp.utils.error_handler.logger")
+    @patch("codexray.mcp.utils.error_handler.logger")
     def test_low_severity_error_logging(self, mock_logger):
         """Test low severity errors are logged at info level"""
         handler = ErrorHandler()

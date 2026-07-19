@@ -17,7 +17,7 @@ import sqlite3
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.mcp.tools import symbol_body_inline as sbi
+from codexray.mcp.tools import symbol_body_inline as sbi
 
 _SRC_BIG = "def big():\n" + "".join(f"    x{i} = {i}\n" for i in range(120))
 _SRC_SMALL = 'def small():\n    return "SMALL_MARKER"\n'

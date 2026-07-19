@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.base_command import BaseCommand
+from codexray.cli.commands.base_command import BaseCommand
 
 
 class _ConcreteCommand(BaseCommand):
@@ -32,7 +32,7 @@ class TestBaseCommandInit:
     def test_init_sets_project_root(self, args):
         """__init__ should detect and set project_root (lines 46-47)"""
         with patch(
-            "tree_sitter_analyzer.cli.commands.base_command.detect_project_root",
+            "codexray.cli.commands.base_command.detect_project_root",
             return_value="/detected/root",
         ):
             cmd = _ConcreteCommand(args)
@@ -67,7 +67,7 @@ class TestDetectLanguage:
         cmd.args.quiet = False
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.base_command.detect_language_from_file",
+            "codexray.cli.commands.base_command.detect_language_from_file",
             return_value="unknown",
         ):
             result = cmd.detect_language()

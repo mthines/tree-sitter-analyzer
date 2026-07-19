@@ -5,8 +5,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.cli.argument_validator import CLIArgumentValidator
-from tree_sitter_analyzer.constants import (
+from codexray.cli.argument_validator import CLIArgumentValidator
+from codexray.constants import (
     ELEMENT_TYPE_CLASS,
     ELEMENT_TYPE_FUNCTION,
     ELEMENT_TYPE_IMPORT,
@@ -15,8 +15,8 @@ from tree_sitter_analyzer.constants import (
     ELEMENT_TYPE_VARIABLE,
     is_element_of_type,
 )
-from tree_sitter_analyzer.core.engine_manager import EngineManager
-from tree_sitter_analyzer.mcp.tools.output_format_validator import OutputFormatValidator
+from codexray.core.engine_manager import EngineManager
+from codexray.mcp.tools.output_format_validator import OutputFormatValidator
 
 
 class TestCLIArgumentValidator:

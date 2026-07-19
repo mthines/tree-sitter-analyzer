@@ -1,7 +1,7 @@
 """
 Real Integration Test
 
-Test the format testing framework with actual tree-sitter-analyzer functionality.
+Test the format testing framework with actual codexray functionality.
 """
 
 import asyncio
@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
 
@@ -18,7 +18,7 @@ from .comprehensive_test_suite import run_quick_format_validation
 
 
 class TestRealIntegration:
-    """Test with real tree-sitter-analyzer functionality"""
+    """Test with real codexray functionality"""
 
     @pytest.fixture
     def temp_python_file(self):

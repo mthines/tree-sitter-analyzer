@@ -1,10 +1,10 @@
-"""Tests for tree_sitter_analyzer.languages.shared.traversal."""
+"""Tests for codexray.languages.shared.traversal."""
 
 from __future__ import annotations
 
 from types import SimpleNamespace
 
-from tree_sitter_analyzer.languages.shared.traversal import (
+from codexray.languages.shared.traversal import (
     collect_named_nodes,
     find_first_child,
     iter_children_of_type,

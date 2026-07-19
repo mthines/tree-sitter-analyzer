@@ -19,7 +19,7 @@ def _run(args: list[str]) -> str:
         [
             sys.executable,
             "-m",
-            "tree_sitter_analyzer",
+            "codexray",
             str(FIXTURE),
             *args,
         ],

@@ -69,7 +69,7 @@ Then:
 
 ```bash
 # 1. Unit tests for affected modules (use --change-impact output).
-uv run python -m tree_sitter_analyzer --change-impact --format json | jq .
+uv run python -m codexray --change-impact --format json | jq .
 
 # 2. Golden master regression (catches plugin-unification breakage).
 uv run pytest -q tests/regression/test_plugin_golden_masters.py

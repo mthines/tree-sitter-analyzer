@@ -3,8 +3,8 @@ import time
 
 import pytest
 
-from tree_sitter_analyzer.api import get_engine
-from tree_sitter_analyzer.core.analysis_engine import (
+from codexray.api import get_engine
+from codexray.core.analysis_engine import (
     AnalysisRequest,
 )
 

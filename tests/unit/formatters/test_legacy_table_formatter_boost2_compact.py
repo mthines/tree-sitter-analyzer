@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Legacy table formatter boost2 — compact signatures, abbreviate, visibility, compact table."""
 
-from tree_sitter_analyzer.legacy_table_formatter import LegacyTableFormatter
+from codexray.legacy_table_formatter import LegacyTableFormatter
 
 
 class TestFormatMethodRowDetailed:

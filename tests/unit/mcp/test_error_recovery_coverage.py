@@ -11,7 +11,7 @@ class name. Tests below pin both the new contract and the preserved legacy
 aliases.
 """
 
-from tree_sitter_analyzer.mcp.server_utils.error_recovery import (
+from codexray.mcp.server_utils.error_recovery import (
     build_agent_friendly_error,
     ensure_canonical_error_envelope,
     ensure_canonical_success_envelope,

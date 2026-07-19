@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_visualize_tool import (
+from codexray.mcp.tools.codegraph_visualize_tool import (
     CodeGraphVisualizeTool,
     _render_mermaid,
     _safe_node_id,
@@ -33,7 +33,7 @@ def tiny_call_project(tmp_path: Path) -> str:
         "    return build()\n",
         encoding="utf-8",
     )
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     cache = ASTCache(str(tmp_path))
     try:
@@ -181,7 +181,7 @@ class TestVisualizeToolNoProject:
     @pytest.mark.asyncio
     async def test_mocked_function_mode(self) -> None:
         tool = CodeGraphVisualizeTool(_PROJECT_ROOT)
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         fn_a = FunctionRef("a.py", "alpha", 1, "python")
         fn_b = FunctionRef("b.py", "beta", 5, "python")
@@ -208,7 +208,7 @@ class TestVisualizeToolNoProject:
     @pytest.mark.asyncio
     async def test_mocked_function_mode_sigma_payload(self) -> None:
         tool = CodeGraphVisualizeTool(_PROJECT_ROOT)
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         fn_a = FunctionRef(
             "src/main/java/com/example/UserService.java",
@@ -272,7 +272,7 @@ class TestVisualizeToolNoProject:
     @pytest.mark.asyncio
     async def test_mocked_file_mode(self) -> None:
         tool = CodeGraphVisualizeTool(_PROJECT_ROOT)
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         fn_a = FunctionRef("a.py", "alpha", 1, "python")
         fn_b = FunctionRef("b.py", "beta", 5, "python")
@@ -393,7 +393,7 @@ class TestBug786TruncatedFlag:
         """Mock-based test so we can force exactly max_edges edges out of a
         larger virtual graph and verify truncated is reported correctly."""
         tool = CodeGraphVisualizeTool(_PROJECT_ROOT)
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         # Build enough callee-caller pairs to exceed max_edges=2
         fn_refs = [FunctionRef(f"f{i}.py", f"fn{i}", i, "python") for i in range(5)]
@@ -418,7 +418,7 @@ class TestBug786TruncatedFlag:
         """mode=function on a small graph (fewer edges than max_edges) must
         not emit a truncated flag."""
         tool = CodeGraphVisualizeTool(_PROJECT_ROOT)
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         fn_a = FunctionRef("a.py", "alpha", 1, "python")
         fn_b = FunctionRef("b.py", "beta", 5, "python")

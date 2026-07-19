@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.query_tool import QueryTool
 
 
 class TestMCPAsyncIntegration:
@@ -559,7 +559,7 @@ class Class_{i}:
     @pytest.mark.asyncio
     async def test_mcp_tool_argument_validation(self):
         """MCP引数バリデーションテスト"""
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         tool = QueryTool(project_root=os.getcwd())
 

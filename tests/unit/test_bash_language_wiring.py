@@ -24,13 +24,13 @@ CORPUS = "tests/golden/corpus_bash.sh"
 
 @pytest.mark.parametrize("ext", [".sh", ".bash", ".zsh"])
 def test_extension_detects_bash(ext: str) -> None:
-    from tree_sitter_analyzer.language_detector import detect_language_from_file
+    from codexray.language_detector import detect_language_from_file
 
     assert detect_language_from_file(f"script{ext}") == "bash"
 
 
 def test_lang_extension_map_has_bash() -> None:
-    from tree_sitter_analyzer.languages.lang_extension_map import EXT_TO_LANG
+    from codexray.languages.lang_extension_map import EXT_TO_LANG
 
     assert EXT_TO_LANG.get(".sh") == "bash"
     assert EXT_TO_LANG.get(".bash") == "bash"
@@ -38,7 +38,7 @@ def test_lang_extension_map_has_bash() -> None:
 
 
 def test_loader_provides_bash_language() -> None:
-    from tree_sitter_analyzer.language_loader import loader
+    from codexray.language_loader import loader
 
     assert loader.is_language_available("bash"), (
         "tree-sitter-bash must be importable (declared dependency)"
@@ -50,7 +50,7 @@ def test_bash_corpus_extracts_functions() -> None:
     """The golden bash corpus must yield its function definitions."""
     import tree_sitter
 
-    from tree_sitter_analyzer.languages.bash_plugin import BashPlugin
+    from codexray.languages.bash_plugin import BashPlugin
 
     plugin = BashPlugin()
     lang = plugin.get_tree_sitter_language()
@@ -73,7 +73,7 @@ def test_subscript_read_not_relabeled_to_base_variable() -> None:
     ``arr``. The base-name unwrap is reserved for assignment targets only."""
     import tree_sitter
 
-    from tree_sitter_analyzer.languages.bash_plugin import (
+    from codexray.languages.bash_plugin import (
         BashElementExtractor,
         BashPlugin,
     )
@@ -95,7 +95,7 @@ def test_subscript_assignment_target_unwrapped_to_base_variable() -> None:
     variable ``arr`` in the subscript expression."""
     import tree_sitter
 
-    from tree_sitter_analyzer.languages.bash_plugin import (
+    from codexray.languages.bash_plugin import (
         BashElementExtractor,
         BashPlugin,
     )
@@ -139,7 +139,7 @@ class _FakeBashNode:
 
 
 def _make_subscript_extractor(monkeypatch):
-    from tree_sitter_analyzer.languages.bash_plugin import BashElementExtractor
+    from codexray.languages.bash_plugin import BashElementExtractor
 
     extractor = BashElementExtractor()
     # Map a node to its declared ``text`` so the byte-offset machinery is
@@ -210,7 +210,7 @@ def test_subscript_assignment_target_no_base_keeps_subscript_label(
 
 def test_ast_cache_indexes_sh_file() -> None:
     """The project indexer must index .sh files without errors."""
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     d = tempfile.mkdtemp()
     try:

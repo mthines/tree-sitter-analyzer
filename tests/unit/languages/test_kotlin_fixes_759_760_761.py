@@ -13,7 +13,7 @@ pytest.importorskip("tree_sitter_kotlin")
 import tree_sitter  # noqa: E402
 import tree_sitter_kotlin  # noqa: E402
 
-from tree_sitter_analyzer.languages.kotlin_plugin import (
+from codexray.languages.kotlin_plugin import (
     KotlinElementExtractor,  # noqa: E402
 )
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 from argparse import Namespace
 from typing import Any
 
-from tree_sitter_analyzer.cli.commands import mcp_commands
+from codexray.cli.commands import mcp_commands
 
 
 def _args(**overrides: Any) -> Namespace:
@@ -101,7 +101,7 @@ def test_uml_sequence_cli_forwards_source_target(monkeypatch) -> None:
 
 def test_phase1_cli_flags_registered() -> None:
     """Phase-1 flags must be registered in the argument parser."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     long_flags = {

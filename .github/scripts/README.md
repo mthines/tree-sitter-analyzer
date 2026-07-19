@@ -64,7 +64,7 @@ uv run mypy path/to/file.py --strict
 | 检查 | 工具 | 说明 |
 |------|------|------|
 | Linting | Ruff | 代码风格、import 排序、未使用变量等 |
-| Type Check | MyPy | 类型注解检查（仅 tree_sitter_analyzer/） |
+| Type Check | MyPy | 类型注解检查（仅 codexray/） |
 | Security | Bandit | 安全漏洞扫描 |
 | Tests | pytest | 单元测试（可选） |
 
@@ -81,10 +81,10 @@ uv run mypy path/to/file.py --strict
 
 ```bash
 # 快速 CI 检查
-alias ci="cd /path/to/tree-sitter-analyzer && .github/scripts/local-ci-check.sh"
+alias ci="cd /path/to/codexray && .github/scripts/local-ci-check.sh"
 
 # 快速检查（跳过测试）
-alias ci-fast="cd /path/to/tree-sitter-analyzer && SKIP_TESTS=1 .github/scripts/local-ci-check.sh"
+alias ci-fast="cd /path/to/codexray && SKIP_TESTS=1 .github/scripts/local-ci-check.sh"
 
 # 检查单个文件
 ci-file() {

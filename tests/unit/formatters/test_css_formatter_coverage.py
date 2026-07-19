@@ -4,8 +4,8 @@ Comprehensive tests for CSS Formatter to achieve 90%+ coverage.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.css_formatter import CSSFormatter
-from tree_sitter_analyzer.models import AnalysisResult, StyleElement
+from codexray.formatters.css_formatter import CSSFormatter
+from codexray.models import AnalysisResult, StyleElement
 
 
 @pytest.fixture

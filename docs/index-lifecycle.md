@@ -37,7 +37,7 @@ MCP:
 
 CLI equivalent:
 ```bash
-uv run python -m tree_sitter_analyzer --build-project-index
+uv run python -m codexray --build-project-index
 ```
 
 ---
@@ -64,9 +64,9 @@ MCP:
 CLI equivalent:
 ```bash
 # Guaranteed full rebuild (recommended after pull/rebase):
-uv run python -m tree_sitter_analyzer --full-index --full-index-mode full
+uv run python -m codexray --full-index --full-index-mode full
 # Bare --full-index defaults to --full-index-mode incremental:
-uv run python -m tree_sitter_analyzer --full-index
+uv run python -m codexray --full-index
 ```
 
 ---
@@ -85,12 +85,12 @@ MCP:
 
 CLI equivalent:
 ```bash
-uv run python -m tree_sitter_analyzer --incremental-sync
+uv run python -m codexray --incremental-sync
 ```
 
 To preview what would be re-indexed without writing:
 ```bash
-uv run python -m tree_sitter_analyzer --incremental-sync --incremental-sync-mode changes
+uv run python -m codexray --incremental-sync --incremental-sync-mode changes
 ```
 
 ---
@@ -112,7 +112,7 @@ MCP:
 
 CLI equivalent:
 ```bash
-uv run python -m tree_sitter_analyzer --autoindex --autoindex-mode warm
+uv run python -m codexray --autoindex --autoindex-mode warm
 ```
 
 ---
@@ -130,9 +130,9 @@ MCP:
 
 CLI equivalent:
 ```bash
-uv run python -m tree_sitter_analyzer --codegraph-status   # indexed? schema version, FTS5, cache lag
+uv run python -m codexray --codegraph-status   # indexed? schema version, FTS5, cache lag
 # Raw AST-cache stats (lower level, no health verdict):
-uv run python -m tree_sitter_analyzer --ast-cache --ast-cache-mode stats
+uv run python -m codexray --ast-cache --ast-cache-mode stats
 ```
 
 ---

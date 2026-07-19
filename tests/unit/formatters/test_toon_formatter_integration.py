@@ -8,9 +8,9 @@ between format_analysis_result and format_mcp_response methods.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.toon_encoder import ToonEncoder
-from tree_sitter_analyzer.formatters.toon_formatter import ToonFormatter
-from tree_sitter_analyzer.output_manager import OutputManager
+from codexray.formatters.toon_encoder import ToonEncoder
+from codexray.formatters.toon_formatter import ToonFormatter
+from codexray.output_manager import OutputManager
 
 
 class TestToonEncoder:
@@ -361,7 +361,7 @@ class TestToonFormatterFormatAnalysisResult:
 
     def test_format_analysis_result_with_elements(self):
         formatter = ToonFormatter()
-        from tree_sitter_analyzer.models import AnalysisResult, CodeElement
+        from codexray.models import AnalysisResult, CodeElement
 
         elements = [
             CodeElement(
@@ -386,7 +386,7 @@ class TestToonFormatterFormatAnalysisResult:
 
     def test_format_analysis_result_no_metadata(self):
         formatter = ToonFormatter(include_metadata=False)
-        from tree_sitter_analyzer.models import AnalysisResult
+        from codexray.models import AnalysisResult
 
         result = AnalysisResult(file_path="x.py", language="python", elements=[])
         output = formatter.format_analysis_result(result)
@@ -394,7 +394,7 @@ class TestToonFormatterFormatAnalysisResult:
 
     def test_format_analysis_result_with_package(self):
         formatter = ToonFormatter()
-        from tree_sitter_analyzer.models import AnalysisResult
+        from codexray.models import AnalysisResult
 
         result = AnalysisResult(file_path="a.py", language="python", elements=[])
         result.package = type("Pkg", (), {"name": "mypkg"})()
@@ -413,7 +413,7 @@ class TestToonFormatterFormatAnalysisResult:
 
     def test_format_analysis_result_compact_off(self):
         formatter = ToonFormatter(compact_arrays=False)
-        from tree_sitter_analyzer.models import AnalysisResult, CodeElement
+        from codexray.models import AnalysisResult, CodeElement
 
         elements = [
             CodeElement(element_type="method", name="foo", start_line=1, end_line=2)
@@ -447,7 +447,7 @@ class TestToonFormatterFormatErrorHandling:
 
     def test_format_toon_encode_error_with_fallback(self):
         formatter = ToonFormatter(fallback_to_json=True)
-        from tree_sitter_analyzer.formatters.toon_encoder import ToonEncodeError
+        from codexray.formatters.toon_encoder import ToonEncodeError
 
         original = formatter._format_internal
 
@@ -473,7 +473,7 @@ class TestToonFormatterFormatErrorHandling:
         formatter._format_internal = original
 
     def test_format_toon_encode_error_without_fallback(self):
-        from tree_sitter_analyzer.formatters.toon_encoder import ToonEncodeError
+        from codexray.formatters.toon_encoder import ToonEncodeError
 
         formatter = ToonFormatter(fallback_to_json=False)
         original = formatter._format_internal
@@ -487,7 +487,7 @@ class TestToonFormatterFormatErrorHandling:
         formatter._format_internal = original
 
     def test_format_unexpected_error_without_fallback(self):
-        from tree_sitter_analyzer.formatters.toon_encoder import ToonEncodeError
+        from codexray.formatters.toon_encoder import ToonEncodeError
 
         formatter = ToonFormatter(fallback_to_json=False)
         original = formatter._format_internal

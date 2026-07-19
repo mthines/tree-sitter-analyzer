@@ -1,11 +1,11 @@
-# Correctness Report — tree-sitter-analyzer vs CodeGraph (v1.21.0)
+# Correctness Report — codexray vs CodeGraph (v1.21.0)
 
 **The correctness layer that won't let your agent make a wrong edit.**
 
 When an AI agent asks "who calls `sorted()`?" before refactoring it, the answer
 has to be *correct* — a wrong caller list is worse than no list, because the
 agent acts on it. This report documents a reproducible, AST-grounded difference
-in **edge correctness** between tree-sitter-analyzer (TSA) and CodeGraph on the
+in **edge correctness** between codexray (TSA) and CodeGraph on the
 same multi-language corpus, in two distinct failure modes: (1) **cross-language
 edge mis-binding** — CodeGraph wires hundreds of Python callers to a *Swift*
 function node that merely shares the name (`sorted`, `reversed`); and (2)
@@ -80,7 +80,7 @@ sqlite3 .codegraph/codegraph.db "
 # → 299      (299 Python callers attached to a Swift func)
 
 # 3. TSA: confirm ZERO Python callers are bound to Swift:
-uv run python -m tree_sitter_analyzer --callers sorted --format json | \
+uv run python -m codexray --callers sorted --format json | \
   python3 -c "import json,sys; d=json.load(sys.stdin); \
 print('swift refs:', sum('swift' in str(c).lower() for c in d['callers']), '/', d['caller_count'])"
 # → swift refs: 0 / 298
@@ -191,11 +191,11 @@ sqlite3 .codegraph/codegraph.db "SELECT COUNT(*) FROM edges e \
 # --- TSA correctness ---
 sqlite3 .ast-cache/index.db "SELECT ROUND(100.0*SUM(callee_resolution!='unknown')\
 /COUNT(*),1) FROM edges WHERE kind='calls';"             # → 96.3
-uv run python -m tree_sitter_analyzer --callers sorted --format json | \
+uv run python -m codexray --callers sorted --format json | \
   python3 -c "import json,sys; d=json.load(sys.stdin); \
 print('swift refs:', sum('swift' in str(c).lower() for c in d['callers']),'/',d['caller_count'])"
 # → swift refs: 0 / 298
-uv run python -m tree_sitter_analyzer --callers fts_search --format json | \
+uv run python -m codexray --callers fts_search --format json | \
   python3 -c "import json,sys; d=json.load(sys.stdin); print('count:', d['caller_count'])"
 # → count: 12
 ```
@@ -270,7 +270,7 @@ method).
 | tool | cross-language call edges | total call edges | mis-wire rate |
 |---|---|---|---|
 | **CodeGraph** | **745** | 38,103 | **1.96 %** |
-| **Tree-sitter Analyzer** | **6** | 114,160 | **0.005 %** |
+| **CodeXray** | **6** | 114,160 | **0.005 %** |
 
 **TSA is ~390× cleaner on cross-language correctness — while resolving 3× more
 call edges total** (114k vs 38k; more complete, not just more conservative).

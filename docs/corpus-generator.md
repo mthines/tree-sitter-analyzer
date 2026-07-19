@@ -23,7 +23,7 @@ Generates minimal valid code for a specific node type.
 
 **Examples:**
 ```python
-from tree_sitter_analyzer.grammar_coverage import generate_minimal_code_for_node_type
+from codexray.grammar_coverage import generate_minimal_code_for_node_type
 
 # Python function
 code = generate_minimal_code_for_node_type("python", "function_definition")
@@ -46,7 +46,7 @@ Generates a complete corpus organized by category (functions, classes, statement
 
 **Examples:**
 ```python
-from tree_sitter_analyzer.grammar_coverage import generate_corpus_by_category
+from codexray.grammar_coverage import generate_corpus_by_category
 
 corpus = generate_corpus_by_category("python")
 # Returns:
@@ -64,7 +64,7 @@ Validates that generated code can be parsed by tree-sitter without syntax errors
 
 **Examples:**
 ```python
-from tree_sitter_analyzer.grammar_coverage import validate_generated_code
+from codexray.grammar_coverage import validate_generated_code
 
 # Valid code
 is_valid = validate_generated_code("python", "def foo():\n    pass\n")
@@ -81,7 +81,7 @@ Saves corpus files to disk with proper directory structure.
 
 **Examples:**
 ```python
-from tree_sitter_analyzer.grammar_coverage import generate_corpus_by_category, save_corpus_files
+from codexray.grammar_coverage import generate_corpus_by_category, save_corpus_files
 
 corpus = generate_corpus_by_category("python")
 paths = save_corpus_files("python", corpus, "corpus/")
@@ -100,7 +100,7 @@ Convenience function that generates, validates, and saves corpus in one call.
 
 **Examples:**
 ```python
-from tree_sitter_analyzer.grammar_coverage import generate_and_save_corpus
+from codexray.grammar_coverage import generate_and_save_corpus
 
 paths, success, failed = generate_and_save_corpus(
     language="python",
@@ -215,7 +215,7 @@ All generated code is validated using tree-sitter before being saved:
 ### Example 1: Generate Single Code Snippet
 
 ```python
-from tree_sitter_analyzer.grammar_coverage import generate_minimal_code_for_node_type
+from codexray.grammar_coverage import generate_minimal_code_for_node_type
 
 # Generate Python function
 code = generate_minimal_code_for_node_type("python", "function_definition")
@@ -228,7 +228,7 @@ print(code)
 ### Example 2: Generate Complete Corpus
 
 ```python
-from tree_sitter_analyzer.grammar_coverage import generate_corpus_by_category
+from codexray.grammar_coverage import generate_corpus_by_category
 
 # Generate Python corpus
 corpus = generate_corpus_by_category("python")
@@ -249,7 +249,7 @@ for path in sorted(corpus.keys()):
 ### Example 3: Generate and Save for All Languages
 
 ```python
-from tree_sitter_analyzer.grammar_coverage import generate_and_save_corpus
+from codexray.grammar_coverage import generate_and_save_corpus
 from pathlib import Path
 
 languages = ["python", "javascript", "java"]
@@ -268,7 +268,7 @@ for language in languages:
 ### Example 4: Run the Demo Script
 
 ```bash
-cd tree_sitter_analyzer/grammar_coverage
+cd codexray/grammar_coverage
 python corpus_example.py
 ```
 
@@ -403,6 +403,6 @@ Potential improvements for future phases:
 
 ## References
 
-- [Grammar Coverage Phase 1: Introspection](../tree_sitter_analyzer/grammar_coverage/introspector.py)
-- [Grammar Coverage Validator](../tree_sitter_analyzer/grammar_coverage/validator.py)
+- [Grammar Coverage Phase 1: Introspection](../codexray/grammar_coverage/introspector.py)
+- [Grammar Coverage Validator](../codexray/grammar_coverage/validator.py)
 - [Tree-sitter Documentation](https://tree-sitter.github.io/tree-sitter/)

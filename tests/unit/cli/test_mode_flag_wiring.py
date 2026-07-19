@@ -19,7 +19,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.cli_main import (
+from codexray.cli_main import (
     _MODE_FLAG_WIRING,
     create_argument_parser,
     main,
@@ -28,7 +28,7 @@ from tree_sitter_analyzer.cli_main import (
 
 def _run_main(argv: list[str]) -> pytest.ExceptionInfo[SystemExit]:
     """Run ``main()`` with the given argv, returning the SystemExit info."""
-    with patch.object(sys, "argv", ["tree_sitter_analyzer", *argv]):
+    with patch.object(sys, "argv", ["codexray", *argv]):
         with pytest.raises(SystemExit) as exc_info:
             main()
     return exc_info

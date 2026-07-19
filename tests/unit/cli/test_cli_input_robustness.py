@@ -35,7 +35,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 def _run_cli(*cli_args: str) -> subprocess.CompletedProcess[str]:
     """Invoke the TSA CLI in a subprocess from the project root."""
     return subprocess.run(
-        [sys.executable, "-m", "tree_sitter_analyzer", *cli_args],
+        [sys.executable, "-m", "codexray", *cli_args],
         cwd=str(PROJECT_ROOT),
         capture_output=True,
         text=True,
@@ -94,7 +94,7 @@ class TestSafeToEditDirectoryRejection:
     def test_safe_to_edit_directory_returns_structured_error(self) -> None:
         proc = _run_cli(
             "--safe-to-edit",
-            "tree_sitter_analyzer/cli",
+            "codexray/cli",
             "--format",
             "json",
         )
@@ -112,7 +112,7 @@ class TestAgentWorkflowDirectoryRejection:
     def test_agent_workflow_directory_returns_nonzero_exit(self) -> None:
         proc = _run_cli(
             "--agent-workflow",
-            "tree_sitter_analyzer/cli",
+            "codexray/cli",
             "--format",
             "json",
         )

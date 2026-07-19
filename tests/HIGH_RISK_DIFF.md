@@ -32,7 +32,7 @@ Measured on 2026-06-20 from the current working branch.
    - This is a ratchet baseline, not permission to add new weak assertions.
 
 5. One production file changed only for punctuation style.
-   - File: `tree_sitter_analyzer/cli/argument_groups/_analysis_graph_nav.py`
+   - File: `codexray/cli/argument_groups/_analysis_graph_nav.py`
    - Risk: low functional risk, but it is still production code and should be
      explicitly reviewed because the task is otherwise test-architecture work.
 

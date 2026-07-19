@@ -8,7 +8,7 @@ keeping ``rc=0`` for genuine successes (including int-valued count-only
 returns).
 
 Reproduce (pre-fix):
-    uv run list-files tree_sitter_analyzer \
+    uv run list-files codexray \
         --pattern "[" --output-format json
     # stdout: {"success": false, "error": "..."}
     # rc=0  (BUG)
@@ -22,7 +22,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.list_files_cli import _run
+from codexray.cli.commands.list_files_cli import _run
 
 
 def _base_args() -> argparse.Namespace:
@@ -55,14 +55,14 @@ async def _run_with_mock_result(result: Any) -> int:
     args = _base_args()
     with (
         patch(
-            "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root",
+            "codexray.cli.commands.list_files_cli.detect_project_root",
             return_value="/project/root",
         ),
         patch(
-            "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+            "codexray.cli.commands.list_files_cli.ListFilesTool"
         ) as mock_tool_class,
-        patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-        patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_data"),
+        patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+        patch("codexray.cli.commands.list_files_cli.output_data"),
     ):
         mock_tool = AsyncMock()
         mock_tool.execute = AsyncMock(return_value=result)
@@ -121,14 +121,14 @@ class TestH1ListFilesExitCode:
         args = _base_args()
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root",
+                "codexray.cli.commands.list_files_cli.detect_project_root",
                 return_value="/project/root",
             ),
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_error"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.output_error"),
         ):
             mock_tool = AsyncMock()
             mock_tool.execute = AsyncMock(side_effect=RuntimeError("boom"))

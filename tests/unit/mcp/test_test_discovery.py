@@ -4,7 +4,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.utils.test_discovery import (
+from codexray.mcp.tools.utils.test_discovery import (
     detect_language_from_ext,
     find_test_files,
 )
@@ -83,7 +83,7 @@ class TestFindTestFilesPython:
         """Finds test_cli_main_module.py for cli_main.py."""
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            source = root / "tree_sitter_analyzer" / "cli_main.py"
+            source = root / "codexray" / "cli_main.py"
             source.parent.mkdir(parents=True)
             source.write_text("def main(): pass")
 
@@ -100,7 +100,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "languages"
                 / "sql_plugin"
                 / "extractor.py"
@@ -121,7 +121,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "utils"
@@ -143,7 +143,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "utils"
@@ -165,7 +165,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "utils"
@@ -187,7 +187,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "utils"
@@ -209,7 +209,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "utils"
@@ -231,7 +231,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "utils"
@@ -253,7 +253,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "utils"
@@ -285,7 +285,7 @@ class TestFindTestFilesPython:
             for helper_name in helper_names:
                 source = (
                     root
-                    / "tree_sitter_analyzer"
+                    / "codexray"
                     / "mcp"
                     / "tools"
                     / "utils"
@@ -303,7 +303,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "utils"
@@ -337,7 +337,7 @@ class TestFindTestFilesPython:
             ):
                 source = (
                     root
-                    / "tree_sitter_analyzer"
+                    / "codexray"
                     / "mcp"
                     / "tools"
                     / "utils"
@@ -355,7 +355,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "_refactoring_plan_builder.py"
@@ -386,7 +386,7 @@ class TestFindTestFilesPython:
             test.write_text("def test_search_content(): pass")
 
             for helper_name in helper_names:
-                source = root / "tree_sitter_analyzer" / "mcp" / "tools" / helper_name
+                source = root / "codexray" / "mcp" / "tools" / helper_name
                 source.parent.mkdir(parents=True, exist_ok=True)
                 source.write_text("def helper(): pass")
 
@@ -399,7 +399,7 @@ class TestFindTestFilesPython:
             root = Path(tmp)
             source = (
                 root
-                / "tree_sitter_analyzer"
+                / "codexray"
                 / "mcp"
                 / "tools"
                 / "find_and_grep_execution.py"
@@ -426,7 +426,7 @@ class TestFindTestFilesPython:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             source = (
-                root / "tree_sitter_analyzer" / "cli" / "parser_readiness_sources.py"
+                root / "codexray" / "cli" / "parser_readiness_sources.py"
             )
             source.parent.mkdir(parents=True)
             source.write_text("def collect(): pass")
@@ -446,7 +446,7 @@ class TestFindTestFilesPython:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             source = (
-                root / "tree_sitter_analyzer" / "cli" / "parser_readiness_records.py"
+                root / "codexray" / "cli" / "parser_readiness_records.py"
             )
             source.parent.mkdir(parents=True)
             source.write_text("def build(): pass")
@@ -484,12 +484,12 @@ class TestFindTestFilesPython:
         """Source modules named test_* outside test dirs are not auto-verified."""
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            source = root / "tree_sitter_analyzer" / "test_support.py"
+            source = root / "codexray" / "test_support.py"
             source.parent.mkdir(parents=True)
             source.write_text("def helper(): pass")
 
             results = find_test_files(str(source), tmp)
-            assert "tree_sitter_analyzer/test_support.py" not in results
+            assert "codexray/test_support.py" not in results
 
     def test_finds_tests_for_python_fixture_project_files(self):
         """Fixture edits map to tests that name the fixture domain."""

@@ -1,6 +1,6 @@
 """Enhanced HTML plugin tests — link/image, script/style, complex structures, and query accuracy."""
 
-from tree_sitter_analyzer.languages.html_plugin import HtmlPlugin
+from codexray.languages.html_plugin import HtmlPlugin
 
 TAG_CODE = """
 <!-- Structure tags -->

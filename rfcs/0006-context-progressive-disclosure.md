@@ -6,9 +6,9 @@
 - **Last updated**: 2026-06-05
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/mcp/tools/codegraph_context_tool.py`
-  - `tree_sitter_analyzer/cli/argument_groups/_analysis_graph_nav.py`
-  - `tree_sitter_analyzer/cli/commands/mcp_commands/_specs_extended.py`
+  - `codexray/mcp/tools/codegraph_context_tool.py`
+  - `codexray/cli/argument_groups/_analysis_graph_nav.py`
+  - `codexray/cli/commands/mcp_commands/_specs_extended.py`
   - `tests/unit/test_codegraph_context_tool.py`
   - `tests/unit/cli/test_mcp_commands.py`
 
@@ -235,7 +235,7 @@ Tests written BEFORE implementation, verified RED against current code:
 - [x] `--codegraph-context-include-graph` CLI flag added and wired
 - [x] CLI↔MCP parity test green
 - [x] `uv run ruff check` clean
-- [x] `uv run mypy tree_sitter_analyzer/mcp/tools/codegraph_context_tool.py` clean
+- [x] `uv run mypy codexray/mcp/tools/codegraph_context_tool.py` clean
 - [x] `uv run pytest tests/unit/test_codegraph_context_tool.py tests/unit/test_agent_contracts.py tests/unit/cli/ -q` green
 - [x] `uv run pytest tests/unit/ -q -n auto` full suite green
 

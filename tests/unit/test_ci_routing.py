@@ -38,7 +38,7 @@ def test_docs_plus_code_change_runs_full_matrix() -> None:
     """A change that touches BOTH docs and code is NOT docs-only — the full
     matrix runs (docs-only skip must be conservative)."""
     result = route_changed_files(
-        ["README.md", "tree_sitter_analyzer/ast_cache.py"], CONFIG
+        ["README.md", "codexray/ast_cache.py"], CONFIG
     )
     assert result["run_test_matrix"] is True
     assert result["run_build"] is True
@@ -62,7 +62,7 @@ def test_ci_workflow_md_change_is_not_docs_only() -> None:
 
 def test_sql_plugin_change_routes_sql_and_grammar() -> None:
     result = route_changed_files(
-        ["tree_sitter_analyzer/languages/sql_plugin/extractor.py"], CONFIG
+        ["codexray/languages/sql_plugin/extractor.py"], CONFIG
     )
 
     assert result["run_sql_platform_compat"] is True
@@ -79,7 +79,7 @@ def test_workflow_change_forces_full_suite() -> None:
 
 
 def test_regression_scope_is_narrow_when_only_api_changes() -> None:
-    result = route_changed_files(["tree_sitter_analyzer/api.py"], CONFIG)
+    result = route_changed_files(["codexray/api.py"], CONFIG)
 
     assert result["run_regression"] is True
     assert result["regression_scope"] == "api"
@@ -87,7 +87,7 @@ def test_regression_scope_is_narrow_when_only_api_changes() -> None:
 
 def test_multiple_regression_scopes_upgrade_to_all() -> None:
     result = route_changed_files(
-        ["tree_sitter_analyzer/api.py", "tree_sitter_analyzer/formatters/json.py"],
+        ["codexray/api.py", "codexray/formatters/json.py"],
         CONFIG,
     )
 

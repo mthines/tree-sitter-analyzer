@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 
 # Import the module under test
-from tree_sitter_analyzer.encoding_utils import (
+from codexray.encoding_utils import (
     EncodingManager,
     detect_encoding,
     extract_text_slice,

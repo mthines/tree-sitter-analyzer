@@ -37,9 +37,9 @@ function Check-Item {
 }
 
 Write-Host "=== Core Components ===" -ForegroundColor Yellow
-Check-Item "Plugin file exists" { Test-Path "tree_sitter_analyzer/languages/${Language}_plugin.py" }
-Check-Item "Query file exists" { Test-Path "tree_sitter_analyzer/queries/${Language}.py" }
-Check-Item "Formatter file exists" { Test-Path "tree_sitter_analyzer/formatters/${Language}_formatter.py" }
+Check-Item "Plugin file exists" { Test-Path "codexray/languages/${Language}_plugin.py" }
+Check-Item "Query file exists" { Test-Path "codexray/queries/${Language}.py" }
+Check-Item "Formatter file exists" { Test-Path "codexray/formatters/${Language}_formatter.py" }
 Write-Host ""
 
 Write-Host "=== Configuration ===" -ForegroundColor Yellow
@@ -47,19 +47,19 @@ Check-Item "Entry point registered in pyproject.toml" {
     (Get-Content "pyproject.toml" -Raw) -match "${Language} = "
 }
 Check-Item "Formatter config in formatter_config.py" {
-    (Get-Content "tree_sitter_analyzer/formatters/formatter_config.py" -Raw) -match "`"${Language}`":"
+    (Get-Content "codexray/formatters/formatter_config.py" -Raw) -match "`"${Language}`":"
 }
 Check-Item "Formatter registered in factory" {
-    (Get-Content "tree_sitter_analyzer/formatters/language_formatter_factory.py" -Raw) -match $Language
+    (Get-Content "codexray/formatters/language_formatter_factory.py" -Raw) -match $Language
 }
 Check-Item "Language detector configured" {
-    (Get-Content "tree_sitter_analyzer/language_detector.py" -Raw) -match "`"\.${Extension}`""
+    (Get-Content "codexray/language_detector.py" -Raw) -match "`"\.${Extension}`""
 }
 Write-Host ""
 
 Write-Host "=== Plugin Methods ===" -ForegroundColor Yellow
-if (Test-Path "tree_sitter_analyzer/languages/${Language}_plugin.py") {
-    $pluginContent = Get-Content "tree_sitter_analyzer/languages/${Language}_plugin.py" -Raw
+if (Test-Path "codexray/languages/${Language}_plugin.py") {
+    $pluginContent = Get-Content "codexray/languages/${Language}_plugin.py" -Raw
     Check-Item "get_queries() method exists" { $pluginContent -match "def get_queries" }
     Check-Item "execute_query_strategy() method exists" { $pluginContent -match "def execute_query_strategy" }
     Check-Item "get_element_categories() method exists" { $pluginContent -match "def get_element_categories" }
@@ -70,8 +70,8 @@ if (Test-Path "tree_sitter_analyzer/languages/${Language}_plugin.py") {
 Write-Host ""
 
 Write-Host "=== Formatter Methods ===" -ForegroundColor Yellow
-if (Test-Path "tree_sitter_analyzer/formatters/${Language}_formatter.py") {
-    $formatterContent = Get-Content "tree_sitter_analyzer/formatters/${Language}_formatter.py" -Raw
+if (Test-Path "codexray/formatters/${Language}_formatter.py") {
+    $formatterContent = Get-Content "codexray/formatters/${Language}_formatter.py" -Raw
     Check-Item "_format_full_table() method exists" { $formatterContent -match "def _format_full_table" }
     Check-Item "_format_compact_table() method exists" { $formatterContent -match "def _format_compact_table" }
     Check-Item "_format_csv() method exists" { $formatterContent -match "def _format_csv" }

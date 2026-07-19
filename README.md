@@ -1,10 +1,10 @@
-# 🌳 Tree-sitter Analyzer
+# 🌳 CodeXray
 
 **English** | **[日本語](README_ja.md)** | **[简体中文](README_zh.md)**
 
-[![PyPI (upstream)](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/tree-sitter-analyzer.svg?style=social)](https://github.com/mthines/tree-sitter-analyzer) [![Works with Claude Code · Cursor · MCP](https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
+[![PyPI (upstream)](https://img.shields.io/pypi/v/codexray.svg)](https://pypi.org/project/codexray/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/codexray.svg?style=social)](https://github.com/mthines/codexray) [![Works with Claude Code · Cursor · MCP](https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
 
-> **Fork.** [`mthines/tree-sitter-analyzer`](https://github.com/mthines/tree-sitter-analyzer) extends [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) (© its authors, MIT) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache — see [What this fork adds](#what-this-fork-adds). These changes are **not on PyPI**; [install from git](#install-this-fork-from-git) to get them.
+> **Fork.** [`mthines/codexray`](https://github.com/mthines/codexray) extends [`aimasteracc/codexray`](https://github.com/aimasteracc/codexray) (© its authors, MIT) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache — see [What this fork adds](#what-this-fork-adds). These changes are **not on PyPI**; [install from git](#install-this-fork-from-git) to get them.
 
 **Code intelligence AI agents can trust** — correct cross-language structure across 20+ languages, agent-native (MCP + CLI).
 
@@ -15,7 +15,7 @@ TSA indexes your codebase with tree-sitter and serves correct call graphs, symbo
 * **Built agent-native.** 8 MCP tools, TOON output (~half the size of JSON on bulk/tabular responses), verdict envelopes, and 13 curated Skills — designed for Claude Code, Cursor, and any MCP client.
 * **Broad and correctly classified.** 13 languages with full call-graph indexing (Python · Go · Rust · Java · JS · TS · C · C++ · C# · Swift · Kotlin · Ruby · PHP), 8 more symbol-indexed or CLI-reachable.
 
-> **Proof:** on HuggingFace `tokenizers` (Rust+Python+JS+TS), a name-only resolver mis-wires **1,259** call edges — TSA: **0**. Run it on your repo in seconds: `uvx --from tree-sitter-analyzer miswire-audit .`
+> **Proof:** on HuggingFace `tokenizers` (Rust+Python+JS+TS), a name-only resolver mis-wires **1,259** call edges — TSA: **0**. Run it on your repo in seconds: `uvx --from codexray miswire-audit .`
 
 > Upgrading from v1.x? See [docs/MIGRATION.md](docs/MIGRATION.md).
 
@@ -41,36 +41,36 @@ This fork's changes are **not published to PyPI** — install from git to get th
 
 ```bash
 # run on demand with uvx
-uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" tree-sitter-analyzer --help
+uvx --from "git+https://github.com/mthines/codexray" codexray --help
 
 # or install into an environment (all languages + MCP)
-pip install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
+pip install "codexray[all,mcp] @ git+https://github.com/mthines/codexray.git"
 ```
 
-> The automated installer and the `uvx --from tree-sitter-analyzer` / `pip install tree-sitter-analyzer` commands below install the **upstream published package**, which does *not* include this fork's changes. Use the git commands above for the fork.
+> The automated installer and the `uvx --from codexray` / `pip install codexray` commands below install the **upstream published package**, which does *not* include this fork's changes. Use the git commands above for the fork.
 
 ### Automated install (upstream package)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aimasteracc/tree-sitter-analyzer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/aimasteracc/codexray/main/install.sh | bash
 ```
 
-Auto-installs `uv` if missing, detects Claude Desktop / Claude Code / Cursor / VS Code, and writes the MCP entry. Run `tree-sitter-analyzer --doctor` to verify.
+Auto-installs `uv` if missing, detects Claude Desktop / Claude Code / Cursor / VS Code, and writes the MCP entry. Run `codexray --doctor` to verify.
 One-line install for **Claude Code**:
 
 ```bash
-claude mcp add tree-sitter-analyzer \
+claude mcp add codexray \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
+  -- uvx --from "codexray[mcp]" codexray-mcp
 ```
 
 Restart your agent, then say: *"Run the `index` tool with action=status."*
-CLI equivalent (no agent needed): `tree-sitter-analyzer --codegraph-status`
+CLI equivalent (no agent needed): `codexray --codegraph-status`
 
 > **PyPI / uvx users — install skills:** the 13 `tsa-*` skills are bundled in the wheel. Copy them once with:
 > ```bash
-> tree-sitter-analyzer --install-skills              # into ./.claude/skills/ (this project)
-> tree-sitter-analyzer --install-skills-global       # into ~/.claude/skills/ (all projects)
+> codexray --install-skills              # into ./.claude/skills/ (this project)
+> codexray --install-skills-global       # into ~/.claude/skills/ (all projects)
 > ```
 > Git-clone users already have them under `.claude/skills/` — no action needed.
 
@@ -90,13 +90,13 @@ brew install fd ripgrep                                # macOS
 winget install sharkdp.fd BurntSushi.ripgrep.MSVC      # Windows
 ```
 
-#### 2. Install Tree-sitter Analyzer
+#### 2. Install CodeXray
 
 ```bash
 # Standalone install (persistent CLI command):
-uv tool install "tree-sitter-analyzer[all,mcp]"
+uv tool install "codexray[all,mcp]"
 # — or skip installing entirely: the MCP entry below runs via uvx on demand.
-# Inside a uv-managed Python project, use: uv add "tree-sitter-analyzer[all,mcp]"
+# Inside a uv-managed Python project, use: uv add "codexray[all,mcp]"
 ```
 
 #### 3. Hook it into your agent
@@ -106,9 +106,9 @@ See **[Supported Agents](#supported-agents)**. Most clients want this MCP server
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/absolute/path/to/your/project" }
     }
   }
@@ -116,19 +116,19 @@ See **[Supported Agents](#supported-agents)**. Most clients want this MCP server
 ```
 
 After restart: *"Run the `index` tool with action=status."*
-CLI equivalent (no agent needed): `tree-sitter-analyzer --codegraph-status`
+CLI equivalent (no agent needed): `codexray --codegraph-status`
 
 **See the correctness edge on your own repo** — no install, no CodeGraph (it re-indexes first; seconds on a small repo, a minute or two on a large one):
 
 ```bash
-uvx --from tree-sitter-analyzer miswire-audit .
+uvx --from codexray miswire-audit .
 ```
 
 It prints how many call edges a name-only code index (the design most tools use) *would* mis-wire across a language boundary — e.g. a Python `sorted()` wired to a Swift `func sorted` — versus how many TSA does (≈0). On [HuggingFace `tokenizers`](benchmarks/codegraph_compare/MISWIRE-AUDIT-EXAMPLES.md): **1,259 → 0**.
 
 ---
 
-## Why Tree-sitter Analyzer
+## Why CodeXray
 
 * **Token-efficient on bulk output.** Every MCP response uses **TOON**, a tabular JSON variant that cuts **bulk/tabular** payloads by roughly half vs raw JSON ([measured invariant](tests/unit/mcp/test_output_cost_invariants.py)). Note: small metadata-heavy *decision-tool* responses are currently ~equal-to-larger than JSON under the present envelope wiring — tracked by a strict-xfail invariant and being corrected in [RFC-0018](rfcs/0018-response-envelope-normalization-and-adaptive-toon.md).
 * **Verdict envelopes.** Every response carries `verdict: SAFE | CAUTION | UNSAFE | INFO | REVIEW | WARN | ERROR | NOT_FOUND`, so orchestrators branch on outcomes without re-prompting.
@@ -154,7 +154,7 @@ It prints how many call edges a name-only code index (the design most tools use)
 | Pre-built call graph cache | `index` action=auto / action=full / action=sync | parity |
 | Tests affected by a change (CLI) | `--affected FILE...` | parity |
 
-### Tree-sitter Analyzer exclusive
+### CodeXray exclusive
 
 | Capability | TSA tool | Note |
 |---|---|---|
@@ -193,18 +193,18 @@ Each skill ships an `allowed-tools` subset + procedure recipe + decision-surface
 Superset of CodeGraph's CLI surface. Highlights:
 
 ```bash
-tree-sitter-analyzer --table full <file>          # method/signature/complexity table
-tree-sitter-analyzer --partial-read --start-line N --end-line M <file>
-tree-sitter-analyzer --project-health             # A-F grade across the project
+codexray --table full <file>          # method/signature/complexity table
+codexray --partial-read --start-line N --end-line M <file>
+codexray --project-health             # A-F grade across the project
 # Note: --callers / --callees require the call-graph index — run --full-index first
-tree-sitter-analyzer --full-index                 # build call-graph index (run once)
-tree-sitter-analyzer --callers <symbol>           # who-calls
-tree-sitter-analyzer --codegraph-impact <fn>      # blast radius + risk
-tree-sitter-analyzer --affected <file...>         # tests transitively affected
-tree-sitter-analyzer --dead-code                  # transitive unreachable
-tree-sitter-analyzer --check-constraints          # architectural rules
-tree-sitter-analyzer --safe-to-edit <file>        # refuse if risky
-tree-sitter-analyzer --uml class                  # Mermaid UML class diagram
+codexray --full-index                 # build call-graph index (run once)
+codexray --callers <symbol>           # who-calls
+codexray --codegraph-impact <fn>      # blast radius + risk
+codexray --affected <file...>         # tests transitively affected
+codexray --dead-code                  # transitive unreachable
+codexray --check-constraints          # architectural rules
+codexray --safe-to-edit <file>        # refuse if risky
+codexray --uml class                  # Mermaid UML class diagram
 ```
 
 Installing the package also registers three standalone search utilities (thin
@@ -231,13 +231,13 @@ Token cost is one axis; a code-intelligence tool's *first* job is a **correct gr
 | tool | cross-language mis-wires | total call edges | rate |
 |---|---|---|---|
 | CodeGraph | **745** | 38,103 | 1.96 % |
-| **Tree-sitter Analyzer** | **6** | 114,160 | **0.005 %** |
+| **CodeXray** | **6** | 114,160 | **0.005 %** |
 
 **~390× cleaner on cross-language correctness, while resolving 3× more call edges.** CodeGraph's mis-wires span 19+ language pairs (python→swift **408**, python→typescript 195, python→ruby 81, …); TSA's 6 are all `java→python/php` from single-word Java method names.
 
 > **Don't trust this table — run it on your own repo (no CodeGraph install needed):**
 > ```bash
-> uvx --from tree-sitter-analyzer miswire-audit .
+> uvx --from codexray miswire-audit .
 > ```
 > It indexes your code and prints how many call edges a name-only resolver (the design most indexes use) *would* mis-wire across a language boundary vs how many TSA does — with the offending edges listed (`Python sorted() → Swift func at file:line`). Add `--card` for a shareable scorecard.
 >
@@ -278,7 +278,7 @@ The remaining ~4% `unknown` is dominated by genuinely-unresolvable dynamic dispa
 
 ### On token cost — and a benchmark we corrected
 
-> **Correction (2026-06).** An earlier version of this section claimed TSA beat CodeGraph on agent token cost (a "−11 % median" table). That benchmark had a harness bug: the TSA arm's MCP server was started without an explicit project root and analysed *tree-sitter-analyzer's own source* instead of the target repo, so its numbers were meaningless. The bug is fixed (the harness now passes `--project-root`), the inflated claim is withdrawn, and the honest picture is below.
+> **Correction (2026-06).** An earlier version of this section claimed TSA beat CodeGraph on agent token cost (a "−11 % median" table). That benchmark had a harness bug: the TSA arm's MCP server was started without an explicit project root and analysed *codexray's own source* instead of the target repo, so its numbers were meaningless. The bug is fixed (the harness now passes `--project-root`), the inflated claim is withdrawn, and the honest picture is below.
 
 Token cost was the one axis where CodeGraph led. [RFC-0006](rfcs/0006-context-progressive-disclosure.md) progressive disclosure closes most of the gap at the source: `nav context` now returns a **lean default** — entry points + a compact `related_symbols` list + code blocks — and moves the flat node/edge graph behind an opt-in `include_graph=true`. Measured on this repo (4 representative queries, TOON):
 
@@ -296,7 +296,7 @@ For context, the per-task `$` cost measured **before** RFC-0006 (corrected harne
 | arm | median cost (pre-RFC-0006) | tool calls | file reads |
 |---|---|---|---|
 | CodeGraph MCP | **~$0.27** | 7 | 2 |
-| Tree-sitter Analyzer MCP | ~$0.44 | 7 | 1 |
+| CodeXray MCP | ~$0.44 | 7 | 1 |
 | no-MCP (grep/read) | ~$0.34 | 14 | 7 |
 
 A full per-task `$` re-benchmark is the next measurement (harness command below). We report the payload proxy straight rather than restate the old table as if RFC-0006 hadn't shipped.
@@ -314,7 +314,7 @@ Reproduce the correctness fixes on any repo both tools have indexed:
 # CodeGraph: emits the cross-language / test-shadow callee
 #   (e.g. `sorted` → corpus_swift.swift, `fts_search` → test mock)
 # TSA after the resolver fix: language-correct, source-preferring
-tree-sitter-analyzer --callees _resolve_entry_points --format json
+codexray --callees _resolve_entry_points --format json
 ```
 
 > Reproduce the cost numbers: `uv run python benchmarks/codegraph_compare/run.py phase full-warm --repos gin,django`. Raw envelopes + the harness fix live in that directory.
@@ -345,17 +345,17 @@ The index is built lazily on first query, refreshed on file change via a content
 <summary><b>📘 Claude Code</b> (recommended)</summary>
 
 ```bash
-claude mcp add tree-sitter-analyzer \
+claude mcp add codexray \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
+  -- uvx --from "codexray[mcp]" codexray-mcp
 ```
 
 Verify: `claude mcp list`. The 13 `tsa-*` skills auto-discover from `.claude/skills/`.
 
 **PyPI / uvx users** — install the bundled skills once with:
 ```bash
-tree-sitter-analyzer --install-skills              # into ./.claude/skills/ (this project)
-tree-sitter-analyzer --install-skills-global       # into ~/.claude/skills/ (all projects)
+codexray --install-skills              # into ./.claude/skills/ (this project)
+codexray --install-skills-global       # into ~/.claude/skills/ (all projects)
 ```
 Git-clone users already have them — no action needed.
 </details>
@@ -368,9 +368,9 @@ Edit `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/absolute/path/to/your/project" }
     }
   }
@@ -386,10 +386,10 @@ Create `.vscode/mcp.json` (note: `servers`, not `mcpServers`):
 ```json
 {
   "servers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "${workspaceFolder}" }
     }
   }
@@ -410,11 +410,11 @@ The repo ships a [`Dockerfile`](Dockerfile) that builds the MCP server (stdio tr
 
 ```bash
 # Build once
-docker build -t tree-sitter-analyzer-mcp .
+docker build -t codexray-mcp .
 
 # Run against the current repo (server speaks MCP over stdio; -i keeps stdin open)
 docker run --rm -i --user "$(id -u):$(id -g)" \
-  -v "$PWD:/work" -w /work tree-sitter-analyzer-mcp
+  -v "$PWD:/work" -w /work codexray-mcp
 ```
 
 `--user "$(id -u):$(id -g)"` runs as your host UID/GID, so the `.ast-cache/`, decision journal, and any `edit` writes under the bind-mounted repo are owned by you, not root.
@@ -424,7 +424,7 @@ MCP client config (the project root inside the container is the mount point `/wo
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "command": "docker",
       "args": [
         "run", "--rm", "-i",
@@ -432,7 +432,7 @@ MCP client config (the project root inside the container is the mount point `/wo
         "-v", "/absolute/path/to/your/project:/work",
         "-w", "/work",
         "-e", "TREE_SITTER_PROJECT_ROOT=/work",
-        "tree-sitter-analyzer-mcp"
+        "codexray-mcp"
       ]
     }
   }
@@ -494,9 +494,9 @@ uv run python check_quality.py --new-code-only  # quality gate
 
 | Symptom | Fix |
 |---|---|
-| `unsupported language` on `.swift / .kt / .rb / .php / .cs` | Update to ≥ 1.12.x — the 5-language gap was patched in commit `50e99a8f`. Grammar modules for extras-gated languages are not bundled in the base install; run `pip install "tree-sitter-analyzer[swift]"` (or `kotlin`, `ruby`, `php`, `csharp`) to add them. |
-| MCP server doesn't appear in client | `TREE_SITTER_PROJECT_ROOT` must be an **absolute path** (e.g. `$(pwd)` or `/home/user/project`); a relative path causes the server to resolve against the wrong directory. Restart the client after editing. Run `tree-sitter-analyzer --doctor` to verify. |
-| `database is locked` | Stop any other process holding `.ast-cache/index.db`; if persistent, `rm -rf .ast-cache && tree-sitter-analyzer --full-index`. |
+| `unsupported language` on `.swift / .kt / .rb / .php / .cs` | Update to ≥ 1.12.x — the 5-language gap was patched in commit `50e99a8f`. Grammar modules for extras-gated languages are not bundled in the base install; run `pip install "codexray[swift]"` (or `kotlin`, `ruby`, `php`, `csharp`) to add them. |
+| MCP server doesn't appear in client | `TREE_SITTER_PROJECT_ROOT` must be an **absolute path** (e.g. `$(pwd)` or `/home/user/project`); a relative path causes the server to resolve against the wrong directory. Restart the client after editing. Run `codexray --doctor` to verify. |
+| `database is locked` | Stop any other process holding `.ast-cache/index.db`; if persistent, `rm -rf .ast-cache && codexray --full-index`. |
 | Slow first call | First call builds the index. Subsequent calls are sub-second. Run `--full-index` upfront to amortise. |
 | Agent picks the wrong tool | Use a `tsa-*` skill (`/tsa-graph`, `/tsa-find`, ...) — each skill restricts the visible tool set to one workflow. |
 
@@ -505,8 +505,8 @@ uv run python check_quality.py --new-code-only  # quality gate
 ## Development
 
 ```bash
-git clone https://github.com/mthines/tree-sitter-analyzer.git
-cd tree-sitter-analyzer
+git clone https://github.com/mthines/codexray.git
+cd codexray
 uv sync --extra all --extra mcp
 uv run pytest -q
 ```

@@ -2,8 +2,8 @@
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
 
 
 @pytest.fixture

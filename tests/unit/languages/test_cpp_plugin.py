@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.languages.cpp_plugin module.
+Tests for codexray.languages.cpp_plugin module.
 
 This module tests the CppPlugin class which provides C++ language
 support in the new plugin architecture.
@@ -12,9 +12,9 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.cpp_plugin import CppElementExtractor, CppPlugin
-from tree_sitter_analyzer.models import Class, Function
-from tree_sitter_analyzer.plugins.base import ElementExtractor, LanguagePlugin
+from codexray.languages.cpp_plugin import CppElementExtractor, CppPlugin
+from codexray.models import Class, Function
+from codexray.plugins.base import ElementExtractor, LanguagePlugin
 
 
 class TestCppElementExtractor:
@@ -609,7 +609,7 @@ class TestCppPluginLegacyTests:
 
         p = CppPlugin()
         path = os.path.join("examples", "sample.cpp")
-        from tree_sitter_analyzer.models.result import AnalysisResult
+        from codexray.models.result import AnalysisResult
 
         out = await p.analyze_file(path, SimpleNamespace())
         assert isinstance(out, AnalysisResult)

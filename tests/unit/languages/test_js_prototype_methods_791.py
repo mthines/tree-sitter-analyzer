@@ -13,7 +13,7 @@ import pytest
 import tree_sitter_javascript as tsjs
 from tree_sitter import Language, Parser
 
-from tree_sitter_analyzer.languages.javascript_plugin.extractor import (
+from codexray.languages.javascript_plugin.extractor import (
     JavaScriptElementExtractor,
 )
 

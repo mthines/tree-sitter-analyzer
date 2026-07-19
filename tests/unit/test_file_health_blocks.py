@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.mcp.tools.utils.file_health_blocks import (
+from codexray.mcp.tools.utils.file_health_blocks import (
     _BlockTracker,
     find_long_blocks_heuristic,
 )

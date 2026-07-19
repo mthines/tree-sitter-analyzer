@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.base_tool import (
+from codexray.mcp.tools.base_tool import (
     _LEGAL_VERDICTS,
     BaseMCPTool,
 )

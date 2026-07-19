@@ -10,8 +10,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.code_similarity import (
+from codexray.ast_cache import ASTCache
+from codexray.code_similarity import (
     SimilarityResult,
     _body_snippet,
     _extract_cached_functions,

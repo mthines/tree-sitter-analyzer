@@ -13,7 +13,7 @@ import json
 import sqlite3
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.mcp.tools.call_path_enrich import _build_def_index
+from codexray.mcp.tools.call_path_enrich import _build_def_index
 
 
 def _cache(db: sqlite3.Connection) -> MagicMock:

@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.exceptions import (
+from codexray.exceptions import (
     AnalysisError,
     ConfigurationError,
     FileHandlingError,
@@ -25,7 +25,7 @@ from tree_sitter_analyzer.exceptions import (
     QueryError,
     RegexSecurityError,
     SecurityError,
-    TreeSitterAnalyzerError,
+    CodeXrayError,
     ValidationError,
     _sanitize_error_context,
     create_error_response,
@@ -38,41 +38,41 @@ from tree_sitter_analyzer.exceptions import (
 
 
 class TestBaseException:
-    """Test TreeSitterAnalyzerError base exception."""
+    """Test CodeXrayError base exception."""
 
     def test_base_exception_initialization(self) -> None:
         """Test base exception can be initialized with message only."""
-        exc = TreeSitterAnalyzerError("Test error")
+        exc = CodeXrayError("Test error")
         assert exc.message == "Test error"
-        assert exc.error_code == "TreeSitterAnalyzerError"
+        assert exc.error_code == "CodeXrayError"
         assert exc.context == {}
 
     def test_base_exception_with_error_code(self) -> None:
         """Test base exception with custom error code."""
-        exc = TreeSitterAnalyzerError("Test error", error_code="CUSTOM_001")
+        exc = CodeXrayError("Test error", error_code="CUSTOM_001")
         assert exc.error_code == "CUSTOM_001"
 
     def test_base_exception_with_context(self) -> None:
         """Test base exception with context dictionary."""
         context = {"file": "test.py", "line": 42}
-        exc = TreeSitterAnalyzerError("Test error", context=context)
+        exc = CodeXrayError("Test error", context=context)
         assert exc.context == context
 
     def test_base_exception_to_dict(self) -> None:
         """Test exception conversion to dictionary."""
-        exc = TreeSitterAnalyzerError(
+        exc = CodeXrayError(
             "Test error", error_code="TEST_001", context={"key": "value"}
         )
         result = exc.to_dict()
 
-        assert result["error_type"] == "TreeSitterAnalyzerError"
+        assert result["error_type"] == "CodeXrayError"
         assert result["error_code"] == "TEST_001"
         assert result["message"] == "Test error"
         assert result["context"] == {"key": "value"}
 
     def test_base_exception_str_representation(self) -> None:
         """Test exception string representation."""
-        exc = TreeSitterAnalyzerError("Test error")
+        exc = CodeXrayError("Test error")
         assert str(exc) == "Test error"
 
 
@@ -385,23 +385,23 @@ class TestExceptionHandlingUtilities:
 
     def test_create_error_response_basic(self) -> None:
         """Test create_error_response with basic exception."""
-        exc = TreeSitterAnalyzerError("Test error")
+        exc = CodeXrayError("Test error")
         response = create_error_response(exc)
 
         assert response["success"] is False
-        assert response["error"]["type"] == "TreeSitterAnalyzerError"
+        assert response["error"]["type"] == "CodeXrayError"
         assert response["error"]["message"] == "Test error"
 
     def test_create_error_response_with_context(self) -> None:
         """Test create_error_response includes context."""
-        exc = TreeSitterAnalyzerError("Test error", context={"key": "value"})
+        exc = CodeXrayError("Test error", context={"key": "value"})
         response = create_error_response(exc)
 
         assert response["error"]["context"] == {"key": "value"}
 
     def test_create_error_response_with_traceback(self) -> None:
         """Test create_error_response with traceback."""
-        exc = TreeSitterAnalyzerError("Test error")
+        exc = CodeXrayError("Test error")
         response = create_error_response(exc, include_traceback=True)
 
         assert "traceback" in response["error"]
@@ -582,7 +582,7 @@ class TestExceptionInheritance:
     """Test exception inheritance chain."""
 
     def test_all_exceptions_inherit_from_base(self) -> None:
-        """Test that all custom exceptions inherit from TreeSitterAnalyzerError."""
+        """Test that all custom exceptions inherit from CodeXrayError."""
         exception_classes = [
             AnalysisError,
             ParseError,
@@ -604,7 +604,7 @@ class TestExceptionInheritance:
         ]
 
         for exc_class in exception_classes:
-            assert issubclass(exc_class, TreeSitterAnalyzerError)
+            assert issubclass(exc_class, CodeXrayError)
 
     def test_security_exceptions_inheritance(self) -> None:
         """Test security exception inheritance chain."""
@@ -726,32 +726,32 @@ class TestHandleException:
 
     def test_handle_exception_logs_and_reraises(self) -> None:
         """Test that handle_exception logs and re-raises the original exception."""
-        from tree_sitter_analyzer.exceptions import handle_exception
+        from codexray.exceptions import handle_exception
 
-        exception = TreeSitterAnalyzerError("Test error")
-        with pytest.raises(TreeSitterAnalyzerError):
+        exception = CodeXrayError("Test error")
+        with pytest.raises(CodeXrayError):
             handle_exception(exception)
 
     def test_handle_exception_with_context(self) -> None:
         """Test handle_exception with additional context."""
-        from tree_sitter_analyzer.exceptions import handle_exception
+        from codexray.exceptions import handle_exception
 
-        exception = TreeSitterAnalyzerError("Test error")
+        exception = CodeXrayError("Test error")
         context = {"key": "value"}
-        with pytest.raises(TreeSitterAnalyzerError):
+        with pytest.raises(CodeXrayError):
             handle_exception(exception, context=context)
 
     def test_handle_exception_reraise_as_different_type(self) -> None:
         """Test re-raising as different exception type."""
-        from tree_sitter_analyzer.exceptions import handle_exception
+        from codexray.exceptions import handle_exception
 
         original = ValueError("Original error")
-        with pytest.raises(TreeSitterAnalyzerError):
-            handle_exception(original, reraise_as=TreeSitterAnalyzerError)
+        with pytest.raises(CodeXrayError):
+            handle_exception(original, reraise_as=CodeXrayError)
 
     def test_handle_exception_reraise_non_tree_sitter_error(self) -> None:
-        """Test re-raising as non-TreeSitterAnalyzerError type."""
-        from tree_sitter_analyzer.exceptions import handle_exception
+        """Test re-raising as non-CodeXrayError type."""
+        from codexray.exceptions import handle_exception
 
         original = ValueError("Original error")
         with pytest.raises(RuntimeError):
@@ -759,7 +759,7 @@ class TestHandleException:
 
     def test_handle_exception_with_exception_context(self) -> None:
         """Test handle_exception when exception has context attribute."""
-        from tree_sitter_analyzer.exceptions import handle_exception
+        from codexray.exceptions import handle_exception
 
         exception = AnalysisError("Test", file_path="test.py")
         with pytest.raises(AnalysisError):

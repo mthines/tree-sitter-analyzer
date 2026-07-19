@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands import mcp_commands
+from codexray.cli.commands import mcp_commands
 
 MCP_COMMAND_FLAGS = (
     "file_health",
@@ -503,7 +503,7 @@ def test_change_impact_cli_forwards_scope_paths(monkeypatch) -> None:
         _args(
             change_impact=True,
             change_impact_scope=[
-                "tree_sitter_analyzer/mcp/tools",
+                "codexray/mcp/tools",
                 "tests/unit/mcp",
             ],
         ),
@@ -521,7 +521,7 @@ def test_change_impact_cli_forwards_scope_paths(monkeypatch) -> None:
             "include_tests": True,
             "output_format": "json",
             "scope_paths": [
-                "tree_sitter_analyzer/mcp/tools",
+                "codexray/mcp/tools",
                 "tests/unit/mcp",
             ],
             # v1.12 default flip: trimmed surface unless --change-impact-full.
@@ -550,7 +550,7 @@ def test_change_impact_cli_forwards_scope_mode_strict(monkeypatch) -> None:
     result = mcp_commands.handle_mcp_commands(
         _args(
             change_impact=True,
-            change_impact_scope=["tree_sitter_analyzer/mcp/tools"],
+            change_impact_scope=["codexray/mcp/tools"],
             change_impact_scope_mode="strict",
         ),
         lambda payload: None,
@@ -560,7 +560,7 @@ def test_change_impact_cli_forwards_scope_mode_strict(monkeypatch) -> None:
 
     assert result == 0
     assert seen["arguments"]["scope_mode"] == "strict"
-    assert seen["arguments"]["scope_paths"] == ["tree_sitter_analyzer/mcp/tools"]
+    assert seen["arguments"]["scope_paths"] == ["codexray/mcp/tools"]
 
 
 def test_change_impact_cli_forwards_resource_profile(monkeypatch) -> None:

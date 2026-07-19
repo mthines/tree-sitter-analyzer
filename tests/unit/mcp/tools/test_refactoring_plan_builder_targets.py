@@ -3,7 +3,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._refactoring_plan_builder import (
+from codexray.mcp.tools._refactoring_plan_builder import (
     ExtractionTargetContext,
     _body_indent,
     _build_extraction_target,

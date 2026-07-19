@@ -1,6 +1,6 @@
 # GitFlow 分支策略 (中文说明)
 
-本文档使用 Mermaid 图表和中文解释了 `tree-sitter-analyzer` 项目中实施的 GitFlow 分支策略。
+本文档使用 Mermaid 图表和中文解释了 `codexray` 项目中实施的 GitFlow 分支策略。
 
 ## GitFlow 流程图
 
@@ -112,7 +112,7 @@ gitGraph
     # 等待自动化工作流完成PyPI发布
     # 可以通过GitHub Actions页面监控发布状态
     # 验证PyPI包是否成功发布：
-    # pip install tree-sitter-analyzer==1.0.0 --dry-run
+    # pip install codexray==1.0.0 --dry-run
     ```
 5.  **PyPI 发布成功后，合并到 `main` 和 `develop`**:
     ```bash
@@ -203,7 +203,7 @@ gitGraph
     # 等待自动化工作流完成PyPI发布
     # 可以通过GitHub Actions页面监控发布状态
     # 验证PyPI包是否成功发布：
-    # pip install tree-sitter-analyzer==1.0.1 --dry-run
+    # pip install codexray==1.0.1 --dry-run
     ```
 6.  **PyPI 发布成功后，合并到 `main` 和 `develop`**:
     ```bash
@@ -260,7 +260,7 @@ gitGraph
 
 ## 自动化流程 (Authority CI/CD Pipeline)
 
-`tree-sitter-analyzer` 项目实施了企业级的 CI/CD 流水线。我们的 "Authority Pipeline" 建立在模块化、可重用的组件之上，确保每个版本都符合质量、安全和性能的最高标准。
+`codexray` 项目实施了企业级的 CI/CD 流水线。我们的 "Authority Pipeline" 建立在模块化、可重用的组件之上，确保每个版本都符合质量、安全和性能的最高标准。
 
 ### 🏗️ 流水线架构
 - **模块化设计**: 所有核心逻辑都封装在 `reusable-*.yml` 工作流中，以确保一致性。

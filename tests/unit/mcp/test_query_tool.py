@@ -34,7 +34,7 @@ from tests.unit.mcp._test_query_tool_test_mixin import (
 from tests.unit.mcp._test_query_tool_test_mixin_coverage import (
     TestCategorizeQueriesCoverageTestMixin,
 )
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.query_tool import QueryTool
 
 
 @pytest.fixture

@@ -10,11 +10,11 @@ from io import StringIO
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.output_format_validator import (
+from codexray.mcp.tools.output_format_validator import (
     OutputFormatValidator,
     get_default_validator,
 )
-from tree_sitter_analyzer.output_manager import (
+from codexray.output_manager import (
     OutputManager,
     output_data,
     output_error,
@@ -680,13 +680,13 @@ class TestGetOutputManager:
     """Test module-level get_output_manager"""
 
     def test_get_output_manager_returns_instance(self):
-        from tree_sitter_analyzer.output_manager import get_output_manager
+        from codexray.output_manager import get_output_manager
 
         manager = get_output_manager()
         assert isinstance(manager, OutputManager)
 
     def test_output_query_results_module_function(self, monkeypatch):
-        from tree_sitter_analyzer.output_manager import output_query_results as oqr
+        from codexray.output_manager import output_query_results as oqr
 
         mock_stdout = StringIO()
         monkeypatch.setattr("sys.stdout", mock_stdout)

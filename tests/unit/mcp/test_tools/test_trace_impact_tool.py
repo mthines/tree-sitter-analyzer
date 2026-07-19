@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.trace_impact_tool import TraceImpactTool
+from codexray.mcp.tools.trace_impact_tool import TraceImpactTool
 
 
 class TestTraceImpactToolBasic:
@@ -96,7 +96,7 @@ class TestTraceImpactToolExecution:
         """Test execution when no matches are found"""
         # Mock ripgrep returning no matches (rc=1)
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture"
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture"
         ) as mock_run:
             mock_run.return_value = (1, b"", b"")
 
@@ -116,7 +116,7 @@ class TestTraceImpactToolExecution:
 {"type":"match","data":{"path":{"text":"src/Controller.java"},"line_number":45,"lines":{"text":"    result = processPayment(req);"},"submatches":[{"start":13,"end":27}]}}
 """
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture"
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture"
         ) as mock_run:
             mock_run.return_value = (0, json_output, b"")
 
@@ -137,12 +137,12 @@ class TestTraceImpactToolExecution:
         """Test execution with language filtering"""
         # Mock language detection
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.detect_language_from_file"
+            "codexray.mcp.tools.trace_impact_tool.detect_language_from_file"
         ) as mock_detect:
             mock_detect.return_value = "java"
 
             with patch(
-                "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture"
+                "codexray.mcp.tools.trace_impact_tool.run_command_capture"
             ) as mock_run:
                 json_output = b"""{"type":"match","data":{"path":{"text":"Service.java"},"line_number":10,"lines":{"text":"test"},"submatches":[]}}"""
                 mock_run.return_value = (0, json_output, b"")
@@ -168,7 +168,7 @@ class TestTraceImpactToolExecution:
         json_output = "\n".join(json_lines).encode()
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture"
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture"
         ) as mock_run:
             mock_run.return_value = (0, json_output, b"")
 
@@ -185,7 +185,7 @@ class TestTraceImpactToolExecution:
     async def test_execute_ripgrep_not_installed(self):
         """Test execution when ripgrep is not installed"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture"
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture"
         ) as mock_run:
             mock_run.return_value = (127, b"", b"Command not found")
 
@@ -199,7 +199,7 @@ class TestTraceImpactToolExecution:
     async def test_execute_timeout(self):
         """Test execution timeout"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture"
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture"
         ) as mock_run:
             mock_run.return_value = (124, b"", b"Timeout")
 
@@ -213,7 +213,7 @@ class TestTraceImpactToolExecution:
     async def test_execute_with_multiple_roots(self):
         """Test execution with multiple project roots"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture"
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture"
         ) as mock_run:
             mock_run.return_value = (1, b"", b"")
 
@@ -266,7 +266,7 @@ class TestR37sImpactGuidanceGrammar:
     """
 
     def test_low_impact_single_caller_uses_singular(self):
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+        from codexray.mcp.tools.trace_impact_tool import (
             _get_impact_level,
         )
 
@@ -276,7 +276,7 @@ class TestR37sImpactGuidanceGrammar:
         assert "caller(s)" not in info["guidance"]
 
     def test_low_impact_multiple_callers_uses_plural(self):
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+        from codexray.mcp.tools.trace_impact_tool import (
             _get_impact_level,
         )
 
@@ -287,7 +287,7 @@ class TestR37sImpactGuidanceGrammar:
 
     def test_low_impact_five_callers_uses_plural(self):
         """5 is still ``low`` per the existing bucket (count <= 5)."""
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import (
+        from codexray.mcp.tools.trace_impact_tool import (
             _get_impact_level,
         )
 

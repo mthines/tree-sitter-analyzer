@@ -10,8 +10,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.advanced_command import AdvancedCommand
-from tree_sitter_analyzer.models import AnalysisResult
+from codexray.cli.commands.advanced_command import AdvancedCommand
+from codexray.models import AnalysisResult
 
 
 @pytest.fixture
@@ -221,10 +221,10 @@ class TestAdvancedCommandOutputStatistics:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.output_section"
+                "codexray.cli.commands.advanced_command.output_section"
             ) as mock_section,
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.output_data"
+                "codexray.cli.commands.advanced_command.output_data"
             ) as mock_data,
         ):
             command._output_statistics(mock_analysis_result)
@@ -240,9 +240,9 @@ class TestAdvancedCommandOutputStatistics:
         command.args.output_format = "json"
 
         with (
-            patch("tree_sitter_analyzer.cli.commands.advanced_command.output_section"),
+            patch("codexray.cli.commands.advanced_command.output_section"),
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.output_json"
+                "codexray.cli.commands.advanced_command.output_json"
             ) as mock_json,
         ):
             command._output_statistics(mock_analysis_result)
@@ -261,9 +261,9 @@ class TestAdvancedCommandOutputStatistics:
         command.args.toon_use_tabs = False
 
         with (
-            patch("tree_sitter_analyzer.cli.commands.advanced_command.output_section"),
+            patch("codexray.cli.commands.advanced_command.output_section"),
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.ToonFormatter"
+                "codexray.cli.commands.advanced_command.ToonFormatter"
             ) as mock_formatter,
         ):
             mock_formatter_instance = MagicMock()
@@ -286,9 +286,9 @@ class TestAdvancedCommandOutputFullAnalysis:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.output_section"
+                "codexray.cli.commands.advanced_command.output_section"
             ) as mock_section,
-            patch("tree_sitter_analyzer.cli.commands.advanced_command.output_data"),
+            patch("codexray.cli.commands.advanced_command.output_data"),
             patch.object(command, "_output_text_analysis") as mock_text,
         ):
             command._output_full_analysis(mock_analysis_result)
@@ -302,9 +302,9 @@ class TestAdvancedCommandOutputFullAnalysis:
         command.args.output_format = "json"
 
         with (
-            patch("tree_sitter_analyzer.cli.commands.advanced_command.output_section"),
+            patch("codexray.cli.commands.advanced_command.output_section"),
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.output_json"
+                "codexray.cli.commands.advanced_command.output_json"
             ) as mock_json,
         ):
             command._output_full_analysis(mock_analysis_result)
@@ -324,9 +324,9 @@ class TestAdvancedCommandOutputFullAnalysis:
         command.args.toon_use_tabs = False
 
         with (
-            patch("tree_sitter_analyzer.cli.commands.advanced_command.output_section"),
+            patch("codexray.cli.commands.advanced_command.output_section"),
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.ToonFormatter"
+                "codexray.cli.commands.advanced_command.ToonFormatter"
             ) as mock_formatter,
         ):
             mock_formatter_instance = MagicMock()
@@ -346,7 +346,7 @@ class TestAdvancedCommandOutputTextAnalysis:
         """Test basic text analysis output."""
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.output_data"
+                "codexray.cli.commands.advanced_command.output_data"
             ) as mock_data,
             patch.object(
                 command,
@@ -370,7 +370,7 @@ class TestAdvancedCommandOutputTextAnalysis:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.advanced_command.output_data"
+                "codexray.cli.commands.advanced_command.output_data"
             ) as mock_data,
             patch.object(
                 command,
@@ -408,7 +408,7 @@ class TestR37yCanonicalEnvelope:
 
         captured: dict[str, object] = {}
         with patch(
-            "tree_sitter_analyzer.cli.commands.advanced_command.output_json",
+            "codexray.cli.commands.advanced_command.output_json",
             side_effect=lambda d: captured.update(d),
         ):
             command._output_full_analysis(mock_analysis_result)
@@ -431,7 +431,7 @@ class TestR37yCanonicalEnvelope:
 
         captured: dict[str, object] = {}
         with patch(
-            "tree_sitter_analyzer.cli.commands.advanced_command.output_json",
+            "codexray.cli.commands.advanced_command.output_json",
             side_effect=lambda d: captured.update(d),
         ):
             command._output_statistics(mock_analysis_result)
@@ -451,7 +451,7 @@ class TestR37yCanonicalEnvelope:
 
         full_captured: dict[str, object] = {}
         with patch(
-            "tree_sitter_analyzer.cli.commands.advanced_command.output_json",
+            "codexray.cli.commands.advanced_command.output_json",
             side_effect=lambda d: full_captured.update(d),
         ):
             command._output_full_analysis(mock_analysis_result)
@@ -459,7 +459,7 @@ class TestR37yCanonicalEnvelope:
         command.args.statistics = True
         stats_captured: dict[str, object] = {}
         with patch(
-            "tree_sitter_analyzer.cli.commands.advanced_command.output_json",
+            "codexray.cli.commands.advanced_command.output_json",
             side_effect=lambda d: stats_captured.update(d),
         ):
             command._output_statistics(mock_analysis_result)
@@ -483,7 +483,7 @@ class TestBuildElementsPayloadClassType:
     """
 
     def _make_class(self, class_type: str = "class") -> object:
-        from tree_sitter_analyzer.models import Class
+        from codexray.models import Class
 
         return Class(
             name="Test",
@@ -495,7 +495,7 @@ class TestBuildElementsPayloadClassType:
         )
 
     def _build(self, elements: list) -> list:
-        from tree_sitter_analyzer.cli.commands.advanced_command import (
+        from codexray.cli.commands.advanced_command import (
             _build_elements_payload,
         )
 
@@ -522,7 +522,7 @@ class TestBuildElementsPayloadClassType:
         assert payload[0]["type"] == "class"
 
     def test_function_unaffected(self):
-        from tree_sitter_analyzer.models import Function
+        from codexray.models import Function
 
         fn = Function(
             name="do_thing",

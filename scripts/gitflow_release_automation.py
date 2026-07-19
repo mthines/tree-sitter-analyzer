@@ -226,7 +226,7 @@ class GitFlowReleaseAutomation:
             # Commit changes
             self.run_command(["git", "add", "pyproject.toml", "CHANGELOG.md"])
             self.run_command(
-                ["git", "add", "tree_sitter_analyzer/"]
+                ["git", "add", "codexray/"]
             )  # Add all updated __init__.py files
             self.run_command(
                 ["git", "commit", "-m", f"chore: Prepare release {self.version}"]
@@ -256,7 +256,7 @@ class GitFlowReleaseAutomation:
         """Wait for CI/CD completion and provide status"""
         print("Waiting for CI/CD completion...")
         print("Check GitHub Actions status:")
-        print("   https://github.com/aimasteracc/tree-sitter-analyzer/actions")
+        print("   https://github.com/aimasteracc/codexray/actions")
         print("\nCI/CD Jobs to monitor:")
         print("   1. test - Should complete successfully")
         print("   2. build-and-deploy - Should complete successfully")

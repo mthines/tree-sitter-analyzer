@@ -5,7 +5,7 @@ from tests.unit.languages._html_test_data import (
     TAG_CODE,
     get_tree_for_code,
 )
-from tree_sitter_analyzer.languages.html_plugin import HtmlPlugin
+from codexray.languages.html_plugin import HtmlPlugin
 
 
 class TestHtmlTagRecognition:

@@ -151,19 +151,19 @@ class TestStartupScriptFunctions:
 class TestStartupScriptIntegration:
     """Integration tests for startup script functionality."""
 
-    @patch("tree_sitter_analyzer.project_detector.detect_project_root")
+    @patch("codexray.project_detector.detect_project_root")
     def test_project_root_detection(self, mock_detect):
         """Test project root detection in startup."""
         mock_detect.return_value = "/test/project/root"
 
-        from tree_sitter_analyzer.project_detector import detect_project_root
+        from codexray.project_detector import detect_project_root
 
         detect_project_root()
 
         # Should call the detection function
         assert mock_detect.called
 
-    @patch("tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer")
+    @patch("codexray.mcp.server.CodeXrayMCPServer")
     def test_server_creation_in_startup(self, mock_server_class):
         """Test server creation during startup."""
         mock_server = Mock()
@@ -198,7 +198,7 @@ class TestStartupScriptIntegration:
         """Test that startup script configures logging properly."""
         import os
 
-        from tree_sitter_analyzer.utils import setup_logger
+        from codexray.utils import setup_logger
 
         # Save original LOG_LEVEL if it exists
         original_log_level = os.environ.get("LOG_LEVEL")

@@ -7,7 +7,7 @@
 #
 # Runs on:
 #   - push to main / develop (post-merge verification)
-#   - pull requests that touch tree_sitter_analyzer/** or tests/e2e/**
+#   - pull requests that touch codexray/** or tests/e2e/**
 #   - weekly schedule (catches regressions from indirect dependency changes)
 #   - manual trigger
 
@@ -17,13 +17,13 @@ on:
   push:
     branches: [main, develop]
     paths:
-      - "tree_sitter_analyzer/**"
+      - "codexray/**"
       - "tests/e2e/**"
       - ".github/workflows/e2e-locale.yml"
   pull_request:
     branches: [main, develop]
     paths:
-      - "tree_sitter_analyzer/**"
+      - "codexray/**"
       - "tests/e2e/**"
   schedule:
     # Weekly on Monday 02:00 UTC

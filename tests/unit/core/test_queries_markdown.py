@@ -7,7 +7,7 @@ Tests for Markdown query definitions and functionality.
 
 import pytest
 
-from tree_sitter_analyzer.queries.markdown import (
+from codexray.queries.markdown import (
     MARKDOWN_QUERIES,
     QUERY_ALIASES,
     _get_query_description,
@@ -369,7 +369,7 @@ if __name__ == "__main__":
         [
             __file__,
             "-v",
-            "--cov=tree_sitter_analyzer.queries.markdown",
+            "--cov=codexray.queries.markdown",
             "--cov-report=term-missing",
         ]
     )

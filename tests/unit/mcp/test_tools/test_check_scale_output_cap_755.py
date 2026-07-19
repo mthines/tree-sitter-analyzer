@@ -20,7 +20,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_helpers import (
+from codexray.mcp.tools.analyze_scale_helpers import (
     METHODS_OUTPUT_CAP,
     extract_structural_overview,
     extract_structural_overview_universal,
@@ -57,7 +57,7 @@ def _make_java_fn_element(
     annotations: list | None = None,
 ):
     """Minimal mock for the Java/Python extract_structural_overview path."""
-    from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+    from codexray.constants import ELEMENT_TYPE_FUNCTION
 
     e = MagicMock()
     e.element_type = ELEMENT_TYPE_FUNCTION

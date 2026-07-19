@@ -17,8 +17,8 @@ import pytest
 
 from tests.unit.grammar_coverage.conftest import _make_parser_mock
 
-_PM_PATCH = "tree_sitter_analyzer.plugins.manager.PluginManager"
-_PARSER_PATCH = "tree_sitter_analyzer.language_loader.loader.create_parser_safely"
+_PM_PATCH = "codexray.plugins.manager.PluginManager"
+_PARSER_PATCH = "codexray.language_loader.loader.create_parser_safely"
 
 
 def _make_deep_nodes(n: int, *, name_prefix: str = "node_level") -> tuple:
@@ -77,7 +77,7 @@ class TestDepthLimitFalsePositives:
     @pytest.mark.asyncio
     async def test_nesting_99_layers_should_pass(self):
         """测试 99 层嵌套应该通过"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -99,7 +99,7 @@ class TestDepthLimitFalsePositives:
     @pytest.mark.asyncio
     async def test_nesting_100_layers_should_trigger_limit(self):
         """测试 100 层嵌套应该触发限制（如果实现了限制）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -121,7 +121,7 @@ class TestDepthLimitFalsePositives:
     @pytest.mark.asyncio
     async def test_nesting_101_layers_extreme(self):
         """测试 101 层极端嵌套"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -143,7 +143,7 @@ class TestDepthLimitFalsePositives:
     @pytest.mark.asyncio
     async def test_circular_reference_detection(self):
         """测试循环引用检测（病态 AST）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -189,7 +189,7 @@ class TestDepthLimitFalsePositives:
     @pytest.mark.asyncio
     async def test_extreme_nesting_1000_layers(self):
         """测试极端 1000 层嵌套（断路器测试）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 

@@ -21,7 +21,7 @@ from unittest.mock import MagicMock, mock_open, patch
 
 import pytest
 
-from tree_sitter_analyzer.core.analysis_session import AnalysisSession
+from codexray.core.analysis_session import AnalysisSession
 
 
 class TestAnalysisSessionCreation:
@@ -111,7 +111,7 @@ class TestFileHashCalculation:
 
     def setup_method(self) -> None:
         """每个测试前清除文件哈希缓存，避免测试间干扰"""
-        import tree_sitter_analyzer.core.analysis_session as mod
+        import codexray.core.analysis_session as mod
 
         mod._file_hash_cache.clear()
 
@@ -310,7 +310,7 @@ class TestGitIntegration:
 
     def setup_method(self) -> None:
         """每个测试前清除 git commit 缓存，避免测试间干扰"""
-        import tree_sitter_analyzer.core.analysis_session as mod
+        import codexray.core.analysis_session as mod
 
         mod._git_commit_cache = None
 

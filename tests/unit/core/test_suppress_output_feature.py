@@ -12,7 +12,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
 
@@ -89,7 +89,7 @@ public class TestClass {
     def table_format_tool(self):
         """Create a TableFormatTool instance for testing."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
+            "codexray.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
         ):
             tool = TableFormatTool()
             return tool
@@ -125,10 +125,10 @@ public class TestClass {
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
+        "codexray.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.detect_language_from_file"
+        "codexray.mcp.tools.analyze_code_structure_tool.detect_language_from_file"
     )
     async def test_suppress_output_false_includes_table_output(
         self, mock_detect_lang, mock_engine, temp_java_file
@@ -152,10 +152,10 @@ public class TestClass {
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
+        "codexray.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.detect_language_from_file"
+        "codexray.mcp.tools.analyze_code_structure_tool.detect_language_from_file"
     )
     async def test_suppress_output_true_without_output_file_includes_table_output(
         self, mock_detect_lang, mock_engine, temp_java_file
@@ -180,13 +180,13 @@ public class TestClass {
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
+        "codexray.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.detect_language_from_file"
+        "codexray.mcp.tools.analyze_code_structure_tool.detect_language_from_file"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FileOutputManager.get_managed_instance"
+        "codexray.mcp.tools.analyze_code_structure_tool.FileOutputManager.get_managed_instance"
     )
     async def test_suppress_output_true_with_output_file_excludes_table_output(
         self,
@@ -218,13 +218,13 @@ public class TestClass {
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
+        "codexray.mcp.tools.analyze_code_structure_tool.get_analysis_engine"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.detect_language_from_file"
+        "codexray.mcp.tools.analyze_code_structure_tool.detect_language_from_file"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FileOutputManager.get_managed_instance"
+        "codexray.mcp.tools.analyze_code_structure_tool.FileOutputManager.get_managed_instance"
     )
     async def test_suppress_output_false_with_output_file_includes_table_output(
         self,
@@ -270,17 +270,17 @@ public class TestClass {
 class TestMCPServerSuppressOutputIntegration:
     """Test suppress_output integration with MCP server."""
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
-    @patch("tree_sitter_analyzer.mcp.server.get_analysis_engine")
-    @patch("tree_sitter_analyzer.mcp.server.setup_logger")
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.get_analysis_engine")
+    @patch("codexray.mcp.server.setup_logger")
     def test_mcp_server_schema_includes_suppress_output(self, mock_logger, mock_engine):
         """Test that MCP server schema includes suppress_output parameter."""
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
         mock_engine.return_value = Mock()
         mock_logger.return_value = Mock()
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.create_server()
 
         # The schema should be updated in the server's tool definitions
@@ -291,19 +291,19 @@ class TestMCPServerSuppressOutputIntegration:
         assert "suppress_output" in schema["properties"]
 
     @pytest.mark.asyncio
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
-    @patch("tree_sitter_analyzer.mcp.server.get_analysis_engine")
-    @patch("tree_sitter_analyzer.mcp.server.setup_logger")
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.get_analysis_engine")
+    @patch("codexray.mcp.server.setup_logger")
     async def test_mcp_server_passes_suppress_output_parameter(
         self, mock_logger, mock_engine
     ):
         """Test that MCP server correctly passes suppress_output parameter to tool."""
-        from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+        from codexray.mcp.server import CodeXrayMCPServer
 
         mock_engine.return_value = Mock()
         mock_logger.return_value = Mock()
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
 
         # Mock the table format tool execute method
         server.table_format_tool.execute = AsyncMock(return_value={"test": "result"})

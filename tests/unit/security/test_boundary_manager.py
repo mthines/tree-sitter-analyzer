@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.security.boundary_manager import (
+from codexray.security.boundary_manager import (
     ProjectBoundaryManager,
     SecurityError,
 )

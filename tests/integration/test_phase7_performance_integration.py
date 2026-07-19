@@ -23,13 +23,13 @@ from tests.integration._test_phase7_performance_integration_helpers import (
     nonnegative_float_from_env,
     positive_int_from_env,
 )
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 DEFAULT_SUSTAINED_LOAD_ITERATIONS = 12
 DEFAULT_SUSTAINED_LOAD_INTERVAL_SECONDS = 0.05
@@ -120,7 +120,7 @@ class TestPhase7PerformanceIntegration:
     async def test_large_scale_file_analysis_performance(self, large_scale_project):
         """大規模ファイル分析のパフォーマンステスト"""
         profiler = PerformanceProfiler()
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(large_scale_project)
 
         profiler.start_profiling()
@@ -193,7 +193,7 @@ class TestPhase7PerformanceIntegration:
     async def test_concurrent_search_performance(self, large_scale_project):
         """同時検索のパフォーマンステスト"""
         profiler = PerformanceProfiler()
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(large_scale_project)
 
         profiler.start_profiling()
@@ -259,7 +259,7 @@ class TestPhase7PerformanceIntegration:
     async def test_memory_efficiency_under_load(self, large_scale_project):
         """負荷下でのメモリ効率性テスト"""
         profiler = PerformanceProfiler()
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(large_scale_project)
 
         # 初期メモリ使用量
@@ -336,7 +336,7 @@ class TestPhase7PerformanceIntegration:
     async def test_scalability_limits(self, large_scale_project):
         """スケーラビリティ限界テスト"""
         profiler = PerformanceProfiler()
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(large_scale_project)
 
         # 段階的に負荷を増加
@@ -419,7 +419,7 @@ class TestPhase7PerformanceIntegration:
     @pytest.mark.asyncio
     async def test_sustained_load_performance(self, large_scale_project):
         """持続負荷パフォーマンステスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(large_scale_project)
 
         sample_count = positive_int_from_env(
@@ -505,7 +505,7 @@ class TestPhase7PerformanceIntegration:
     @pytest.mark.asyncio
     async def test_resource_cleanup_efficiency(self, large_scale_project):
         """リソースクリーンアップ効率性テスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(large_scale_project)
 
         initial_memory = psutil.Process().memory_info().rss / 1024 / 1024
@@ -585,7 +585,7 @@ class TestPhase7PerformanceIntegration:
     @pytest.mark.asyncio
     async def test_error_recovery_performance(self, large_scale_project):
         """エラー回復パフォーマンステスト"""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         server.set_project_path(large_scale_project)
 
         profiler = PerformanceProfiler()

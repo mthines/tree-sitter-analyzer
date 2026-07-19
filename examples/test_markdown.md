@@ -1,6 +1,6 @@
 # Comprehensive Markdown Test Document
 
-This document contains various Markdown elements for testing the tree-sitter-analyzer.
+This document contains various Markdown elements for testing the codexray.
 
 ## Headers
 

@@ -20,11 +20,11 @@
   inside `json.dumps(indent=2)`), and our **TOON encoder is not round-trippable**
   so we cannot safely send it raw yet.
 - **Affected source paths**:
-  - `tree_sitter_analyzer/formatters/_toon_encoder_string_helpers.py` (quoting gap)
-  - `tree_sitter_analyzer/formatters/` (NEW: a TOON decoder + round-trip test)
-  - `tree_sitter_analyzer/mcp/server_utils/tool_registration.py` (the wire: `_json_dumps`)
-  - `tree_sitter_analyzer/mcp/utils/format_helper.py` (TOON wrap)
-  - `tree_sitter_analyzer/mcp/tools/utils/file_health_response.py` + sibling decision tools (payload shape)
+  - `codexray/formatters/_toon_encoder_string_helpers.py` (quoting gap)
+  - `codexray/formatters/` (NEW: a TOON decoder + round-trip test)
+  - `codexray/mcp/server_utils/tool_registration.py` (the wire: `_json_dumps`)
+  - `codexray/mcp/utils/format_helper.py` (TOON wrap)
+  - `codexray/mcp/tools/utils/file_health_response.py` + sibling decision tools (payload shape)
   - `tests/unit/mcp/test_output_cost_invariants.py` (token + round-trip oracles)
 
 ## Summary

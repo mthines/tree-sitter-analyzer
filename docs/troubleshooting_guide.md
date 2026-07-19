@@ -1,8 +1,8 @@
-# Tree-sitter Analyzer トラブルシューティングガイド
+# CodeXray トラブルシューティングガイド
 
 ## 概要
 
-このガイドでは、Tree-sitter Analyzerの使用中に発生する可能性のある一般的な問題と、その解決方法について説明します。特に、新しく実装されたログ設定改善機能に関連する問題に焦点を当てています。
+このガイドでは、CodeXrayの使用中に発生する可能性のある一般的な問題と、その解決方法について説明します。特に、新しく実装されたログ設定改善機能に関連する問題に焦点を当てています。
 
 ## 🚨 一般的な問題と解決方法
 
@@ -20,11 +20,11 @@
    ```json
    {
      "mcpServers": {
-       "tree-sitter-analyzer": {
+       "codexray": {
          "command": "uvx",
          "args": [
-           "--from", "tree-sitter-analyzer[mcp]",
-           "tree-sitter-analyzer-mcp"
+           "--from", "codexray[mcp]",
+           "codexray-mcp"
          ],
          "env": {
            "TREE_SITTER_ANALYZER_ENABLE_FILE_LOG": "true",
@@ -39,15 +39,15 @@
 2. **ログファイルを確認**:
    ```bash
    # Windows
-   type %TEMP%\tree_sitter_analyzer.log
+   type %TEMP%\codexray.log
    
    # macOS/Linux
-   cat /tmp/tree_sitter_analyzer.log
+   cat /tmp/codexray.log
    ```
 
 3. **依存関係を確認**:
    ```bash
-   uv run python -c "import tree_sitter_analyzer; print('OK')"
+   uv run python -c "import codexray; print('OK')"
    ```
 
 #### 問題: MCPサーバーが頻繁にクラッシュする
@@ -94,7 +94,7 @@
    export LOG_LEVEL=DEBUG
    export TREE_SITTER_ANALYZER_ENABLE_FILE_LOG=true
    
-   uv run tree-sitter-analyzer problematic_file.java --advanced
+   uv run codexray problematic_file.java --advanced
    ```
 
 3. **ファイルサイズを確認**:
@@ -113,12 +113,12 @@
 
 1. **言語を明示的に指定**:
    ```bash
-   uv run tree-sitter-analyzer file.ext --language java
+   uv run codexray file.ext --language java
    ```
 
 2. **サポートされている言語を確認**:
    ```bash
-   uv run tree-sitter-analyzer --show-supported-languages
+   uv run codexray --show-supported-languages
    ```
 
 ### 3. ログ設定の問題
@@ -145,8 +145,8 @@
 3. **システム一時ディレクトリを確認**:
    ```bash
    # デフォルトの場所
-   ls -la /tmp/tree_sitter_analyzer.log  # Linux/macOS
-   dir %TEMP%\tree_sitter_analyzer.log   # Windows
+   ls -la /tmp/codexray.log  # Linux/macOS
+   dir %TEMP%\codexray.log   # Windows
    ```
 
 #### 問題: ログファイルが大きくなりすぎる
@@ -165,7 +165,7 @@
 2. **定期的なクリーンアップ**:
    ```bash
    # 古いログファイルを削除
-   find /tmp -name "tree_sitter_analyzer.log*" -mtime +7 -delete
+   find /tmp -name "codexray.log*" -mtime +7 -delete
    ```
 
 ### 4. パフォーマンスの問題
@@ -185,13 +185,13 @@
 
 2. **処理時間を測定**:
    ```bash
-   time uv run tree-sitter-analyzer large_file.java --advanced
+   time uv run codexray large_file.java --advanced
    ```
 
 3. **メモリ使用量を監視**:
    ```bash
    # Linuxの場合
-   /usr/bin/time -v uv run tree-sitter-analyzer large_file.java --advanced
+   /usr/bin/time -v uv run codexray large_file.java --advanced
    ```
 
 #### 問題: メモリ不足エラー
@@ -209,7 +209,7 @@
 
 2. **部分読み取り機能を使用**:
    ```bash
-   uv run tree-sitter-analyzer large_file.java --partial-read --start-line 1 --end-line 500
+   uv run codexray large_file.java --partial-read --start-line 1 --end-line 500
    ```
 
 ### 5. 環境固有の問題
@@ -224,7 +224,7 @@
 
 1. **絶対パスを使用**:
    ```bash
-   uv run tree-sitter-analyzer C:\full\path\to\file.java
+   uv run codexray C:\full\path\to\file.java
    ```
 
 2. **パスをエスケープ**:
@@ -262,7 +262,7 @@
 
 ```bash
 #!/bin/bash
-echo "=== Tree-sitter Analyzer 環境診断 ==="
+echo "=== CodeXray 環境診断 ==="
 echo "Python version: $(python --version)"
 echo "uv version: $(uv --version)"
 echo ""
@@ -273,11 +273,11 @@ echo "TREE_SITTER_ANALYZER_LOG_DIR: $TREE_SITTER_ANALYZER_LOG_DIR"
 echo "TREE_SITTER_ANALYZER_FILE_LOG_LEVEL: $TREE_SITTER_ANALYZER_FILE_LOG_LEVEL"
 echo ""
 echo "=== パッケージ確認 ==="
-uv run python -c "import tree_sitter_analyzer; print(f'tree-sitter-analyzer: OK')" 2>/dev/null || echo "tree-sitter-analyzer: ERROR"
+uv run python -c "import codexray; print(f'codexray: OK')" 2>/dev/null || echo "codexray: ERROR"
 echo ""
 echo "=== ログファイル確認 ==="
-if [ -f "/tmp/tree_sitter_analyzer.log" ]; then
-    echo "ログファイル: 存在 ($(wc -l < /tmp/tree_sitter_analyzer.log) lines)"
+if [ -f "/tmp/codexray.log" ]; then
+    echo "ログファイル: 存在 ($(wc -l < /tmp/codexray.log) lines)"
 else
     echo "ログファイル: 存在しない"
 fi
@@ -287,7 +287,7 @@ fi
 
 ```bash
 #!/bin/bash
-LOG_FILE="${1:-/tmp/tree_sitter_analyzer.log}"
+LOG_FILE="${1:-/tmp/codexray.log}"
 
 if [ ! -f "$LOG_FILE" ]; then
     echo "ログファイルが見つかりません: $LOG_FILE"
@@ -335,7 +335,7 @@ Issue を作成する際は、以下の情報を含めてください：
 ### よくある質問 (FAQ)
 
 **Q: ログファイルはどこに保存されますか？**
-A: デフォルトではシステムの一時ディレクトリに `tree_sitter_analyzer.log` として保存されます。`TREE_SITTER_ANALYZER_LOG_DIR` 環境変数でカスタマイズできます。
+A: デフォルトではシステムの一時ディレクトリに `codexray.log` として保存されます。`TREE_SITTER_ANALYZER_LOG_DIR` 環境変数でカスタマイズできます。
 
 **Q: ログレベルを変更するにはどうすればよいですか？**
 A: `LOG_LEVEL` 環境変数（メインロガー）と `TREE_SITTER_ANALYZER_FILE_LOG_LEVEL` 環境変数（ファイルログ）で制御できます。
@@ -351,4 +351,4 @@ A: 部分読み取り機能を使用するか、ファイルを分割して処�
 - [デバッグガイド](debugging_guide.md) - 詳細なデバッグ手順
 - [README.md](../README.md) - 基本的な使用方法
 - [CONTRIBUTING.md](CONTRIBUTING.md) - 開発者向けガイド
-- [GitHub Issues](https://github.com/aimasteracc/tree-sitter-analyzer/issues) - 問題報告とサポート
+- [GitHub Issues](https://github.com/aimasteracc/codexray/issues) - 問題報告とサポート

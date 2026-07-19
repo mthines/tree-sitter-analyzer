@@ -5,7 +5,7 @@ Tests for Kotlin-specific table formatter.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.kotlin_formatter import KotlinTableFormatter
+from codexray.formatters.kotlin_formatter import KotlinTableFormatter
 
 
 class TestKotlinFormatterSignaturesUnsupported:

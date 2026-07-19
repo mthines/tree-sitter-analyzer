@@ -41,7 +41,7 @@ class TestExecuteTestMixin:
     @pytest.mark.asyncio
     async def test_execute_language_detection_fails(self, tool, sample_python_file):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.query_tool.detect_language_from_file",
+            "codexray.mcp.tools.query_tool.detect_language_from_file",
             return_value=None,
         ):
             arguments = {
@@ -201,7 +201,7 @@ class TestExecuteTestMixin:
             mock_query.return_value = mock_query_results
 
             with patch(
-                "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response"
+                "codexray.mcp.utils.format_helper.apply_toon_format_to_response"
             ) as mock_toon:
                 mock_toon.return_value = {"toon": "formatted"}
 
@@ -265,7 +265,7 @@ class TestExecuteTestMixin:
         self, tool, sample_python_file, mock_query_results
     ):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.query_tool.detect_language_from_file",
+            "codexray.mcp.tools.query_tool.detect_language_from_file",
             return_value="python",
         ):
             with patch.object(
@@ -475,7 +475,7 @@ class TestExecuteAdditionalCoverageTestMixin:
 
     @pytest.mark.asyncio
     async def test_execute_analysis_error_reraise(self, tool, sample_python_file):
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         with patch.object(
             tool,
@@ -516,7 +516,7 @@ class TestExecuteAdditionalCoverageTestMixin:
         self, tool, sample_python_file, mock_query_results
     ):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.query_tool.detect_language_from_file",
+            "codexray.mcp.tools.query_tool.detect_language_from_file",
             return_value="python",
         ):
             with patch.object(

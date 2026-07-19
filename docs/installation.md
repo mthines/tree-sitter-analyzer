@@ -1,6 +1,6 @@
 # Installation Guide
 
-This document provides comprehensive installation instructions for Tree-sitter Analyzer across all platforms and use cases.
+This document provides comprehensive installation instructions for CodeXray across all platforms and use cases.
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ This document provides comprehensive installation instructions for Tree-sitter A
 
 ### 1. Install uv (Required)
 
-**uv** is a fast Python package manager required to run tree-sitter-analyzer.
+**uv** is a fast Python package manager required to run codexray.
 
 #### macOS/Linux
 
@@ -86,11 +86,11 @@ For users integrating with AI assistants (Claude Desktop, Cursor, etc.):
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "command": "uvx",
       "args": [
-        "--from", "tree-sitter-analyzer[mcp]",
-        "tree-sitter-analyzer-mcp"
+        "--from", "codexray[mcp]",
+        "codexray-mcp"
       ],
       "env": {
         "TREE_SITTER_PROJECT_ROOT": "/absolute/path/to/your/project",
@@ -104,7 +104,7 @@ For users integrating with AI assistants (Claude Desktop, Cursor, etc.):
 > **Note**: `TREE_SITTER_PROJECT_ROOT` must be an **absolute** path. The server enforces a security boundary (`SecurityValidator`) that rejects relative paths. You can also set it dynamically per-call via the AI assistant, but the value must still be absolute.
 
 3. Restart your AI client
-4. Verify by asking the AI to use the tree-sitter-analyzer tools
+4. Verify by asking the AI to use the codexray tools
 
 #### Cursor Configuration
 
@@ -120,24 +120,24 @@ For developers who prefer command-line tools:
 
 ```bash
 # Basic installation
-uv add tree-sitter-analyzer
+uv add codexray
 
 # Popular language packages (recommended)
-uv add "tree-sitter-analyzer[popular]"
+uv add "codexray[popular]"
 
 # Complete installation (including MCP support)
-uv add "tree-sitter-analyzer[all,mcp]"
+uv add "codexray[all,mcp]"
 ```
 
 #### Installation Options
 
 | Option | Description |
 |--------|-------------|
-| `tree-sitter-analyzer` | Core package only |
-| `tree-sitter-analyzer[popular]` | Core + popular language support |
-| `tree-sitter-analyzer[all]` | All language support |
-| `tree-sitter-analyzer[mcp]` | MCP server support |
-| `tree-sitter-analyzer[all,mcp]` | Everything |
+| `codexray` | Core package only |
+| `codexray[popular]` | Core + popular language support |
+| `codexray[all]` | All language support |
+| `codexray[mcp]` | MCP server support |
+| `codexray[all,mcp]` | Everything |
 
 ### Developers
 
@@ -145,8 +145,8 @@ For contributors who need to modify source code:
 
 ```bash
 # Clone repository
-git clone https://github.com/mthines/tree-sitter-analyzer.git
-cd tree-sitter-analyzer
+git clone https://github.com/mthines/codexray.git
+cd codexray
 
 # Install dependencies
 uv sync --extra all --extra mcp
@@ -194,13 +194,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ```bash
 # Check version
-uv run tree-sitter-analyzer --show-supported-languages
+uv run codexray --show-supported-languages
 
 # View help
-uv run tree-sitter-analyzer --help
+uv run codexray --help
 
 # Test basic analysis
-uv run tree-sitter-analyzer examples/sample.py --summary
+uv run codexray examples/sample.py --summary
 ```
 
 ### MCP Server Verification
@@ -208,7 +208,7 @@ uv run tree-sitter-analyzer examples/sample.py --summary
 After configuring your AI client:
 
 1. Start your AI client (Claude Desktop, Cursor, etc.)
-2. Ask the AI: "Please use the tree-sitter-analyzer to check its version"
+2. Ask the AI: "Please use the codexray to check its version"
 3. The AI should respond with version information
 
 ### Full Functionality Test
@@ -221,7 +221,7 @@ uv run list-files . --extensions py
 uv run search-content --roots . --query "def " --include-globs "*.py"
 
 # Test code analysis
-uv run tree-sitter-analyzer examples/BigService.java --table full
+uv run codexray examples/BigService.java --table full
 ```
 
 ## Troubleshooting
@@ -258,7 +258,7 @@ Install ripgrep using your package manager (see Prerequisites).
 1. Verify the configuration path is correct
 2. Check that the command works manually:
    ```bash
-   uvx --from tree-sitter-analyzer[mcp] tree-sitter-analyzer-mcp
+   uvx --from codexray[mcp] codexray-mcp
    ```
 3. Restart your AI client completely
 
@@ -275,7 +275,7 @@ chmod -R u+r /path/to/project
 
 ### Getting Help
 
-- **GitHub Issues**: [Report bugs and request features](https://github.com/mthines/tree-sitter-analyzer/issues)
+- **GitHub Issues**: [Report bugs and request features](https://github.com/mthines/codexray/issues)
 - **Documentation**: See other guides in the `docs/` directory
 - **Contributing Guide**: See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidance
 

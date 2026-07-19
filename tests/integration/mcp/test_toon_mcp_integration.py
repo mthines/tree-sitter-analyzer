@@ -8,8 +8,8 @@ and produce valid TOON output when requested.
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.file_output_manager import FileOutputManager
-from tree_sitter_analyzer.mcp.utils.format_helper import (
+from codexray.mcp.utils.file_output_manager import FileOutputManager
+from codexray.mcp.utils.format_helper import (
     apply_toon_format_to_response,
     format_as_json,
     format_as_toon,
@@ -161,7 +161,7 @@ class TestMCPToolSchemaValidation:
 
     def test_list_files_tool_schema(self):
         """Test list_files tool has output_format parameter."""
-        from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+        from codexray.mcp.tools.list_files_tool import ListFilesTool
 
         tool = ListFilesTool()
         definition = tool.get_tool_definition()
@@ -173,7 +173,7 @@ class TestMCPToolSchemaValidation:
 
     def test_search_content_tool_schema(self):
         """Test search_content tool has output_format parameter."""
-        from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+        from codexray.mcp.tools.search_content_tool import SearchContentTool
 
         tool = SearchContentTool()
         definition = tool.get_tool_definition()
@@ -185,7 +185,7 @@ class TestMCPToolSchemaValidation:
 
     def test_find_and_grep_tool_schema(self):
         """Test find_and_grep tool has output_format parameter."""
-        from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
+        from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
 
         tool = FindAndGrepTool()
         definition = tool.get_tool_definition()
@@ -197,7 +197,7 @@ class TestMCPToolSchemaValidation:
 
     def test_query_tool_schema(self):
         """Test query_code tool has output_format parameter."""
-        from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+        from codexray.mcp.tools.query_tool import QueryTool
 
         tool = QueryTool()
         definition = tool.get_tool_definition()
@@ -209,7 +209,7 @@ class TestMCPToolSchemaValidation:
 
     def test_read_partial_tool_schema(self):
         """Test extract_code_section tool has output_format parameter."""
-        from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+        from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
         tool = ReadPartialTool()
         definition = tool.get_tool_definition()
@@ -221,7 +221,7 @@ class TestMCPToolSchemaValidation:
 
     def test_table_format_tool_schema(self):
         """Test analyze_code_structure tool has output_format parameter."""
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+        from codexray.mcp.tools.analyze_code_structure_tool import (
             AnalyzeCodeStructureTool as TableFormatTool,
         )
 
@@ -235,7 +235,7 @@ class TestMCPToolSchemaValidation:
 
     def test_analyze_scale_tool_schema(self):
         """Test check_code_scale tool has output_format parameter."""
-        from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+        from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
         tool = AnalyzeScaleTool()
         schema = tool.get_tool_schema()
@@ -246,7 +246,7 @@ class TestMCPToolSchemaValidation:
 
     def test_universal_analyze_tool_schema(self):
         """Test analyze_code_universal tool has output_format parameter."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Unit tests for tree_sitter_analyzer.core.query_filter module.
+Unit tests for codexray.core.query_filter module.
 
 This module tests the QueryFilter class.
 """
 
 import pytest
 
-from tree_sitter_analyzer.core.query_filter import QueryFilter
+from codexray.core.query_filter import QueryFilter
 
 
 class TestQueryFilterInit:

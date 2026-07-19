@@ -11,7 +11,7 @@ import logging
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.error_handler import (
+from codexray.mcp.utils.error_handler import (
     ErrorCategory,
     ErrorHandler,
     ErrorSeverity,

@@ -22,8 +22,8 @@ Target surface (does NOT exist yet):
 
 Wrapper module candidate paths the test will probe (importing whichever
 the implementation chose — both are reasonable per the spec):
-    tree_sitter_analyzer.health_homeostasis.WatchHealthRunner
-    tree_sitter_analyzer.health_homeostasis.run_watch_health
+    codexray.health_homeostasis.WatchHealthRunner
+    codexray.health_homeostasis.run_watch_health
 """
 
 from __future__ import annotations
@@ -42,7 +42,7 @@ pytestmark = pytest.mark.filterwarnings("ignore::DeprecationWarning")
 
 
 def _create_parser():
-    from tree_sitter_analyzer.cli.argument_parser_builder import (  # noqa: WPS433
+    from codexray.cli.argument_parser_builder import (  # noqa: WPS433
         create_argument_parser,
     )
 
@@ -54,14 +54,14 @@ def _import_runner():
 
     Per spec ambiguity, accept either a callable factory or a class.
     """
-    from tree_sitter_analyzer import health_homeostasis  # noqa: WPS433
+    from codexray import health_homeostasis  # noqa: WPS433
 
     runner_cls = getattr(health_homeostasis, "WatchHealthRunner", None)
     runner_fn = getattr(health_homeostasis, "run_watch_health", None)
     if runner_cls is None and runner_fn is None:
         pytest.fail(
             "neither WatchHealthRunner nor run_watch_health exposed in "
-            "tree_sitter_analyzer.health_homeostasis"
+            "codexray.health_homeostasis"
         )
     return runner_cls or runner_fn
 
@@ -234,7 +234,7 @@ def test_file_modify_triggers_reevaluation(tmp_path: Path) -> None:
     Uses short interval (1s) + debounce (0.2s) for test speed.
     """
     runner_target = _import_runner()
-    from tree_sitter_analyzer.registry.health_history import (
+    from codexray.registry.health_history import (
         HealthHistory,  # noqa: WPS433
     )
 

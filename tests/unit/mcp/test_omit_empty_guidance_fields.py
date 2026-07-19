@@ -27,15 +27,15 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+from codexray.mcp.server import CodeXrayMCPServer
 
 _EMPTY_GUIDANCE_KEYS = ("mcp_command", "cli_command", "post_edit_commands")
 
 
-def _capture_call_tool_handler(server: TreeSitterAnalyzerMCPServer):
+def _capture_call_tool_handler(server: CodeXrayMCPServer):
     """Capture the ``handle_call_tool`` closure (mirrors test_toon_losslessness_637)."""
-    with patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True):
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+    with patch("codexray.mcp.server.MCP_AVAILABLE", True):
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured: dict = {}
 
@@ -64,7 +64,7 @@ async def _call(handler, file_path: str, output_format: str) -> tuple[dict, str]
 
 @pytest.fixture()
 def handler(tmp_path):
-    server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+    server = CodeXrayMCPServer(project_root=str(tmp_path))
     return _capture_call_tool_handler(server)
 
 
