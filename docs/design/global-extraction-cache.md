@@ -58,7 +58,7 @@ result. Content hashing is the source of truth. (Size + mtime is fine only as a
 ### Store layout (global)
 
 ```
-$TSA_CACHE_DIR                 # explicit override (tests, CI)
+$CODEXRAY_CACHE_DIR                 # explicit override (tests, CI)
   else $XDG_CACHE_HOME/codexray/graph-extract
   else ~/.cache/codexray/graph-extract
     objects/<aa>/<full-hash>.json     # sharded by first 2 hex chars
@@ -88,7 +88,7 @@ or return a wrong answer (the version-in-key guards correctness).
 
 ### Opt-out
 
-`TSA_DISABLE_GRAPH_CACHE=1` disables read+write (live parse always). Correctness
+`CODEXRAY_DISABLE_GRAPH_CACHE=1` disables read+write (live parse always). Correctness
 is identical with or without the cache; only speed differs.
 
 ## Split into PRs

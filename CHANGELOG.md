@@ -6,7 +6,7 @@ Fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree
 
 ### Added
 
-- **Global content-addressed extraction cache.** Per-file parse + extraction is memoised in a global store keyed by `content + language + extractor version + installed tree-sitter grammar versions`. Repeat runs and monorepo / nested invocations reuse work instead of re-parsing (~5.5× faster warm runs on a 350-file project). Location via `TSA_CACHE_DIR` (default: `$XDG_CACHE_HOME/tree-sitter-analyzer/graph-extract`); disable with `TSA_DISABLE_GRAPH_CACHE=1`. Best-effort: any cache error falls back to a live parse. Design: [`docs/design/global-extraction-cache.md`](docs/design/global-extraction-cache.md).
+- **Global content-addressed extraction cache.** Per-file parse + extraction is memoised in a global store keyed by `content + language + extractor version + installed tree-sitter grammar versions`. Repeat runs and monorepo / nested invocations reuse work instead of re-parsing (~5.5× faster warm runs on a 350-file project). Location via `CODEXRAY_CACHE_DIR` (default: `$XDG_CACHE_HOME/codexray/graph-extract`, legacy `TSA_CACHE_DIR`); disable with `CODEXRAY_DISABLE_GRAPH_CACHE=1`. Best-effort: any cache error falls back to a live parse. Design: [`docs/design/global-extraction-cache.md`](docs/design/global-extraction-cache.md).
 
 ### Fixed
 

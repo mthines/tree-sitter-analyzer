@@ -4,7 +4,7 @@
 
 > **Fork.** This is [`mthines/codexray`](https://github.com/mthines/codexray), a fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) — a shorter, more memorable name and a CLI-first (JSON + `jq`) workflow, plus stronger TypeScript/JavaScript call-graph resolution and a global extraction cache. See the English [What this fork adds](README.md#what-this-fork-adds) and [Install](README.md#install). *(This translated README documents the upstream package; fork-specific notes are English-only for now.)*
 
-[![PyPI](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/codexray.svg?style=social)](https://github.com/mthines/codexray) [![対応: Claude Code · Cursor · MCP](https://img.shields.io/badge/対応-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
+[![PyPI](https://img.shields.io/pypi/v/codexray-cli.svg)](https://pypi.org/project/codexray-cli/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/codexray.svg?style=social)](https://github.com/mthines/codexray) [![対応: Claude Code · Cursor · MCP](https://img.shields.io/badge/対応-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
 
 **AI エージェントが信頼できるコード インテリジェンス** — 20+ 言語にわたる正確なクロスランゲージ構造解析、エージェントネイティブ設計（MCP + CLI）。
 
@@ -15,7 +15,7 @@ TSA は tree-sitter でコードベースをインデックスし、正確なコ
 * **エージェントネイティブ。** **8 MCP ツール**、TOON 出力（bulk レスポンスが JSON より ~50-70% 小さい）、verdict エンベロープ、13 のキュレーテッド Skills — Claude Code・Cursor・任意の MCP クライアント向け設計。
 * **広くかつ正確に分類。** 13 言語のフルコールグラフ インデックス（Python · Go · Rust · Java · JS · TS · C · C++ · C# · Swift · Kotlin · Ruby · PHP）、他 8 言語はシンボル インデックスまたは CLI 経由でアクセス可。
 
-> **実測値：** HuggingFace `tokenizers`（Rust+Python+JS+TS）において名前照合リゾルバは **1,259** コール エッジを誤結線 — TSA は **0**。自分のリポジトリで確認: `uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .`
+> **実測値：** HuggingFace `tokenizers`（Rust+Python+JS+TS）において名前照合リゾルバは **1,259** コール エッジを誤結線 — TSA は **0**。自分のリポジトリで確認: `uvx --from "git+https://github.com/mthines/codexray" miswire-audit .`
 
 > v1.x からの移行は [docs/MIGRATION.md](docs/MIGRATION.md) を参照。
 
@@ -28,24 +28,24 @@ TSA は tree-sitter でコードベースをインデックスし、正確なコ
 ### 自動インストール（推奨）
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mthines/tree-sitter-analyzer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mthines/codexray/main/install.sh | bash
 ```
 
-`install.sh` は `uv` の有無を確認して未インストールなら自動導入し、Claude Desktop / Claude Code / Cursor / VS Code の設定ファイルを検出して MCP エントリを自動書き込みします。セットアップ後は `tree-sitter-analyzer --doctor` で設定を確認できます。
+`install.sh` は `uv` の有無を確認して未インストールなら自動導入し、Claude Desktop / Claude Code / Cursor / VS Code の設定ファイルを検出して MCP エントリを自動書き込みします。セットアップ後は `codexray --doctor` で設定を確認できます。
 
 **Claude Code** へワンライナーでインストール:
 
 ```bash
-claude mcp add tree-sitter-analyzer \
+claude mcp add codexray \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git" tree-sitter-analyzer-mcp
+  -- uvx --from "codexray-cli[mcp] @ git+https://github.com/mthines/codexray.git" codexray-mcp
 ```
 
 エージェントを再起動し、こう伝える: 「`index` ツールを action=status で呼んでください。」
 
 > **PyPI / uvx ユーザーへ — スキルのインストール:** 13 個の `tsa-*` スキルはホイールに同梱されています。一度だけ次のコマンドでインストールしてください:
 > ```bash
-> tree-sitter-analyzer --install-skills
+> codexray --install-skills
 > ```
 > git clone ユーザーはすでに `.claude/skills/` に含まれているため、操作不要です。
 
@@ -69,9 +69,9 @@ winget install sharkdp.fd BurntSushi.ripgrep.MSVC      # Windows
 
 ```bash
 # スタンドアロンインストール(永続 CLI コマンド):
-uv tool install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
+uv tool install "codexray-cli[all,mcp] @ git+https://github.com/mthines/codexray.git"
 # — インストール不要でも可:下の MCP エントリは uvx でオンデマンド実行されます。
-# uv 管理の Python プロジェクト内では: uv add "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
+# uv 管理の Python プロジェクト内では: uv add "codexray-cli[all,mcp] @ git+https://github.com/mthines/codexray.git"
 ```
 
 #### 3. エージェントへ接続
@@ -81,9 +81,9 @@ uv tool install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "codexray-cli[mcp] @ git+https://github.com/mthines/codexray.git", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/絶対パス/プロジェクト" }
     }
   }
@@ -95,7 +95,7 @@ uv tool install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/
 **自分のリポジトリで correctness の差を 1 コマンドで確認**(インストール不要・CodeGraph 不要、最初に再インデックスします):
 
 ```bash
-uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .
+uvx --from "git+https://github.com/mthines/codexray" miswire-audit .
 ```
 
 name-only な code index(多くのツールが採る設計)なら、何件の呼び出しを言語をまたいで誤結線するか(例: Python の `sorted()` → Swift の func)vs TSA が何件かを表示します。実証: [HuggingFace `tokenizers`](benchmarks/codegraph_compare/MISWIRE-AUDIT-EXAMPLES.md) で name-only は **1,259 件**(JS `tokenize()` → Rust 等)、TSA は **0**。ruff **7557×**、polars **9016×**。単一言語リポ(gin/Go)は両方 **0** で誤検知なし。
@@ -167,17 +167,17 @@ CodeGraph には skill システムが存在しない。本ツールは `.claude
 CodeGraph の CLI の厳密な上位互換。主なもの:
 
 ```bash
-tree-sitter-analyzer --table full <file>          # メソッド/シグネチャ/複雑度テーブル
-tree-sitter-analyzer --partial-read --start-line N --end-line M <file>
-tree-sitter-analyzer --project-health             # プロジェクト A-F グレーディング
+codexray --table full <file>          # メソッド/シグネチャ/複雑度テーブル
+codexray --partial-read --start-line N --end-line M <file>
+codexray --project-health             # プロジェクト A-F グレーディング
 # 注意: --callers / --callees はコールグラフインデックスが必要 — 先に --full-index を実行
-tree-sitter-analyzer --full-index                 # コールグラフインデックスを構築（一度だけ）
-tree-sitter-analyzer --callers <symbol>           # 呼び出し元
-tree-sitter-analyzer --codegraph-impact <fn>      # blast radius + リスク
-tree-sitter-analyzer --affected <file...>         # 影響を受けるテスト
-tree-sitter-analyzer --dead-code                  # 推移的到達不能
-tree-sitter-analyzer --check-constraints          # アーキテクチャ規則
-tree-sitter-analyzer --safe-to-edit <file>        # リスク時に拒否
+codexray --full-index                 # コールグラフインデックスを構築（一度だけ）
+codexray --callers <symbol>           # 呼び出し元
+codexray --codegraph-impact <fn>      # blast radius + リスク
+codexray --affected <file...>         # 影響を受けるテスト
+codexray --dead-code                  # 推移的到達不能
+codexray --check-constraints          # アーキテクチャ規則
+codexray --safe-to-edit <file>        # リスク時に拒否
 ```
 
 完全なインターフェースは [`docs/CODEMAPS/cli.md`](docs/CODEMAPS/cli.md) を参照。
@@ -201,7 +201,7 @@ tree-sitter-analyzer --safe-to-edit <file>        # リスク時に拒否
 
 > **この表を信じないで — 自分のリポジトリで実行してください (CodeGraph インストール不要):**
 > ```bash
-> uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .
+> uvx --from "git+https://github.com/mthines/codexray" miswire-audit .
 > ```
 > コードをインデックスし、name-only リゾルバ(多くのインデックスが採用する設計)なら何件のコール エッジを言語をまたいで誤結線するか vs TSA が何件かを表示します — 問題のあるエッジ一覧付き(`Python sorted() → Swift func at file:line`)。`--card` でシェア可能なスコアカードを出力。
 >
@@ -240,7 +240,7 @@ TSA の per-language リゾルバは **13 言語** (Python · Java · Go · JS �
 
 ### トークン コストについて — 修正したベンチマーク
 
-> **訂正 (2026-06)。** 以前のこの節は「コスト中央値 −11% で CodeGraph に勝つ」と主張していました。そのベンチマークにはハーネスのバグがあり、TSA アームの MCP サーバが明示的なプロジェクトルート無しで起動され、対象リポジトリではなく **tree-sitter-analyzer 自身のソース**を解析していたため、数値は無意味でした。バグは修正済み(ハーネスは `--project-root` を渡す)。誇張した主張は撤回し、正直な比較を以下に示します。
+> **訂正 (2026-06)。** 以前のこの節は「コスト中央値 −11% で CodeGraph に勝つ」と主張していました。そのベンチマークにはハーネスのバグがあり、TSA アームの MCP サーバが明示的なプロジェクトルート無しで起動され、対象リポジトリではなく **codexray 自身のソース**を解析していたため、数値は無意味でした。バグは修正済み(ハーネスは `--project-root` を渡す)。誇張した主張は撤回し、正直な比較を以下に示します。
 
 トークン コストは CodeGraph が優位だった唯一の軸でした。[RFC-0006](rfcs/0006-context-progressive-disclosure.md) プログレッシブ ディスクロージャにより、このギャップの大半が解消されました: `nav context` が **リーン デフォルト**を返すようになり、フラットなノード/エッジ グラフはオプトイン `include_graph=true` の後ろへ移動。このリポジトリでの計測 (4 代表的クエリ、TOON):
 
@@ -272,7 +272,7 @@ TSA の per-language リゾルバは **13 言語** (Python · Java · Go · JS �
 # CodeGraph: 言語またぎ / test-shadow の callee を返す
 #   (例: `sorted` → corpus_swift.swift, `fts_search` → テストモック)
 # リゾルバ修正後の TSA: 言語的に正しく、source を優先
-tree-sitter-analyzer --callees _resolve_entry_points --format json
+codexray --callees _resolve_entry_points --format json
 ```
 
 > コスト数値の再現: `uv run python benchmarks/codegraph_compare/run.py phase full-warm --repos gin,django`。原始エンベロープとハーネス修正は同ディレクトリ。
@@ -302,16 +302,16 @@ tree-sitter-analyzer --callees _resolve_entry_points --format json
 <summary><b>📘 Claude Code</b> (推奨)</summary>
 
 ```bash
-claude mcp add tree-sitter-analyzer \
+claude mcp add codexray \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git" tree-sitter-analyzer-mcp
+  -- uvx --from "codexray-cli[mcp] @ git+https://github.com/mthines/codexray.git" codexray-mcp
 ```
 
 検証: `claude mcp list`。13 の `tsa-*` skills は `.claude/skills/` から自動検出される。
 
 **PyPI / uvx ユーザー** — 同梱スキルを一度インストール:
 ```bash
-tree-sitter-analyzer --install-skills
+codexray --install-skills
 ```
 git clone ユーザーはすでに含まれているため不要です。
 </details>
@@ -324,9 +324,9 @@ git clone ユーザーはすでに含まれているため不要です。
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "codexray-cli[mcp] @ git+https://github.com/mthines/codexray.git", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/絶対パス/プロジェクト" }
     }
   }
@@ -342,10 +342,10 @@ git clone ユーザーはすでに含まれているため不要です。
 ```json
 {
   "servers": {
-    "tree-sitter-analyzer": {
+    "codexray": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "codexray-cli[mcp] @ git+https://github.com/mthines/codexray.git", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "${workspaceFolder}" }
     }
   }
@@ -414,9 +414,9 @@ uv run python check_quality.py --new-code-only  # 品質ゲート
 
 | 症状 | 修正 |
 |---|---|
-| `.swift / .kt / .rb / .php / .cs` で `unsupported language` | ≥ 1.12.x へ更新 — 5 言語 gap は commit `50e99a8f` で修正済み。extras 区分の文法モジュールはベースインストールに同梱されません。`pip install "tree-sitter-analyzer[swift] @ git+https://github.com/mthines/tree-sitter-analyzer.git"`(または `kotlin`、`ruby`、`php`、`csharp`)で追加してください |
+| `.swift / .kt / .rb / .php / .cs` で `unsupported language` | ≥ 1.12.x へ更新 — 5 言語 gap は commit `50e99a8f` で修正済み。extras 区分の文法モジュールはベースインストールに同梱されません。`pip install "codexray-cli[swift] @ git+https://github.com/mthines/codexray.git"`(または `kotlin`、`ruby`、`php`、`csharp`)で追加してください |
 | MCP サーバーがクライアントに表示されない | `TREE_SITTER_PROJECT_ROOT` は**絶対パス**必須; 設定編集後にクライアント再起動。[TREE\_SITTER\_PROJECT\_ROOT に相対パスを指定した場合](#tree_sitter_project_root-に相対パスを指定した場合)も参照 |
-| `database is locked` | `.ast-cache/index.db` を保持する他プロセスを停止; 継続する場合は `rm -rf .ast-cache && tree-sitter-analyzer --autoindex` |
+| `database is locked` | `.ast-cache/index.db` を保持する他プロセスを停止; 継続する場合は `rm -rf .ast-cache && codexray --autoindex` |
 | 初回呼び出しが遅い | 初回はインデックスを構築。後続はサブ秒。事前に `--full-index` を実行すれば償却可能 |
 | エージェントが誤ったツールを選ぶ | `tsa-*` skill (`/tsa-graph`、`/tsa-find` 等) を使用 — 各 skill は可視ツールを 1 ワークフローに制限 |
 
@@ -440,7 +440,7 @@ uv run python check_quality.py --new-code-only  # 品質ゲート
 "TREE_SITTER_PROJECT_ROOT": "myproject"
 ```
 
-`tree-sitter-analyzer --doctor` で設定を確認できます。
+`codexray --doctor` で設定を確認できます。
 
 ---
 

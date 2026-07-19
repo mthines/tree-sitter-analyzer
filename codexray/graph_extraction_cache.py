@@ -74,13 +74,22 @@ Extraction = tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, An
 
 
 def is_disabled() -> bool:
-    """True when the cache is turned off via ``TSA_DISABLE_GRAPH_CACHE``."""
-    return bool(os.environ.get("TSA_DISABLE_GRAPH_CACHE"))
+    """True when the cache is turned off via ``CODEXRAY_DISABLE_GRAPH_CACHE``.
+
+    Accepts the legacy ``TSA_DISABLE_GRAPH_CACHE`` name too, for back-compat.
+    """
+    return bool(
+        os.environ.get("CODEXRAY_DISABLE_GRAPH_CACHE")
+        or os.environ.get("TSA_DISABLE_GRAPH_CACHE")
+    )
 
 
 def resolve_cache_dir() -> Path:
-    """Locate the global store: explicit override, then XDG, then ``~/.cache``."""
-    override = os.environ.get("TSA_CACHE_DIR")
+    """Locate the global store: explicit override, then XDG, then ``~/.cache``.
+
+    Honours ``CODEXRAY_CACHE_DIR`` (legacy alias: ``TSA_CACHE_DIR``).
+    """
+    override = os.environ.get("CODEXRAY_CACHE_DIR") or os.environ.get("TSA_CACHE_DIR")
     if override:
         return Path(override)
     xdg = os.environ.get("XDG_CACHE_HOME")

@@ -207,8 +207,8 @@ CLI_EPILOG = (
     "\n"
     "Environment:\n"
     "  TREE_SITTER_PROJECT_ROOT   Absolute project root (or pass --project-root).\n"
-    "  TSA_CACHE_DIR              Global extraction-cache location (default: $XDG_CACHE_HOME/codexray).\n"
-    "  TSA_DISABLE_GRAPH_CACHE    Set to 1 to disable the extraction cache.\n"
+    "  CODEXRAY_CACHE_DIR         Global extraction-cache location (default: $XDG_CACHE_HOME/codexray; legacy: TSA_CACHE_DIR).\n"
+    "  CODEXRAY_DISABLE_GRAPH_CACHE  Set to 1 to disable the extraction cache (legacy: TSA_DISABLE_GRAPH_CACHE).\n"
 )
 
 
