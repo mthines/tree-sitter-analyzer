@@ -32,6 +32,22 @@ hypothesis_settings.register_profile(
 hypothesis_settings.load_profile("tree_sitter_analyzer")
 
 
+@pytest.fixture(autouse=True)
+def _isolate_graph_extraction_cache(tmp_path, monkeypatch):
+    """Keep the global content-addressed extraction cache out of the real
+    ``~/.cache`` during the suite.
+
+    ``CallGraph.build`` writes per-file extraction to a global store. Without
+    isolation every call-graph test would read and write the developer's / CI's
+    home cache, so a prior run's entries could make an assertion non-deterministic
+    across runs. Point each test at a throwaway dir; tests that need a specific
+    location (the cache tests) override this via their own ``TSA_CACHE_DIR`` and
+    ``TSA_DISABLE_GRAPH_CACHE`` monkeypatching, which runs after this fixture.
+    """
+    if not os.environ.get("TSA_DISABLE_GRAPH_CACHE"):
+        monkeypatch.setenv("TSA_CACHE_DIR", str(tmp_path / "_tsa_graph_cache"))
+
+
 def _cleanup_pytest_git_repos() -> None:
     """Best-effort cleanup for project-local git repos used by subprocess tests."""
     git_repos_root = PROJECT_ROOT / "_pytest_git_repos"
