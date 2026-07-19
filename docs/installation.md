@@ -145,7 +145,7 @@ For contributors who need to modify source code:
 
 ```bash
 # Clone repository
-git clone https://github.com/aimasteracc/tree-sitter-analyzer.git
+git clone https://github.com/mthines/tree-sitter-analyzer.git
 cd tree-sitter-analyzer
 
 # Install dependencies
@@ -275,7 +275,7 @@ chmod -R u+r /path/to/project
 
 ### Getting Help
 
-- **GitHub Issues**: [Report bugs and request features](https://github.com/aimasteracc/tree-sitter-analyzer/issues)
+- **GitHub Issues**: [Report bugs and request features](https://github.com/mthines/tree-sitter-analyzer/issues)
 - **Documentation**: See other guides in the `docs/` directory
 - **Contributing Guide**: See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidance
 

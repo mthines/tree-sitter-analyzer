@@ -1,5 +1,24 @@
 # Changelog
 
+## [Unreleased] — mthines fork
+
+Fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) **v1.29.0** with call-graph improvements for TypeScript/JavaScript and a global extraction cache. See [What this fork adds](README.md#what-this-fork-adds).
+
+### Added
+
+- **Global content-addressed extraction cache.** Per-file parse + extraction is memoised in a global store keyed by `content + language + extractor version + installed tree-sitter grammar versions`. Repeat runs and monorepo / nested invocations reuse work instead of re-parsing (~5.5× faster warm runs on a 350-file project). Location via `TSA_CACHE_DIR` (default: `$XDG_CACHE_HOME/tree-sitter-analyzer/graph-extract`); disable with `TSA_DISABLE_GRAPH_CACHE=1`. Best-effort: any cache error falls back to a live parse. Design: [`docs/design/global-extraction-cache.md`](docs/design/global-extraction-cache.md).
+
+### Fixed
+
+- **TypeScript / JavaScript call-graph registration.** Arrow-const exports (`export const f = () => …`), class-field arrow methods (`fetch = () => …`), and `#private` methods are now registered as call-graph nodes; previously their call edges were dropped, so an idiomatic arrow-style endpoint handler reported zero callees. On Hono: `fetch` callees 0 → 1; edges-per-node 0.84 → 3.0.
+- **Ambiguous qualified-method-call fan-out.** A qualified call on a receiver whose type is not statically known (`x.get(...)`) no longer binds to every same-named method in the project; the resolver emits no edge instead of a wrong one. On NestJS: `loadInstance` `.get()` fan-out 17 → 0.
+
+### Changed
+
+- Repository/documentation/issue URLs now point to the fork; upstream is credited throughout and via the `Upstream` project URL.
+
+---
+
 ## [1.29.0] - 2026-07-04
 
 Install-friction reduction release. This release makes TSA significantly easier to set up for first-time users and adds a diagnostic command for troubleshooting.

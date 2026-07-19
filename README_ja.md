@@ -2,7 +2,9 @@
 
 **[English](README.md)** | **日本語** | **[简体中文](README_zh.md)**
 
-[![PyPI](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Coverage](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer/branch/main/graph/badge.svg)](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer) [![Stars](https://img.shields.io/github/stars/aimasteracc/tree-sitter-analyzer.svg?style=social)](https://github.com/aimasteracc/tree-sitter-analyzer) [![対応: Claude Code · Cursor · MCP](https://img.shields.io/badge/対応-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
+> **Fork.** This is [`mthines/tree-sitter-analyzer`](https://github.com/mthines/tree-sitter-analyzer), a fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache. These changes are **not on PyPI** — install from git. See the English [What this fork adds](README.md#what-this-fork-adds) and [Install this fork](README.md#install-this-fork-from-git). *(This translated README documents the upstream package; fork-specific notes are English-only for now.)*
+
+[![PyPI](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/tree-sitter-analyzer.svg?style=social)](https://github.com/mthines/tree-sitter-analyzer) [![対応: Claude Code · Cursor · MCP](https://img.shields.io/badge/対応-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
 
 **AI エージェントが信頼できるコード インテリジェンス** — 20+ 言語にわたる正確なクロスランゲージ構造解析、エージェントネイティブ設計（MCP + CLI）。
 
@@ -392,7 +394,7 @@ CodeGraph も類似の集合をサポート; 両ツール共に未実装の主�
 | 指標 | 値 |
 |---|---|
 | テスト通過 | 包括的テストスイート ✅ |
-| カバレッジ | [![Coverage](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer/branch/main/graph/badge.svg)](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer) |
+| カバレッジ | |
 | 型安全性 | 100% mypy |
 | プラットフォーム | macOS · Linux · Windows |
 | Pre-commit ゲート | ruff · bandit · mypy · pyupgrade · detect-secrets · tsa-codemap-sync |
@@ -445,7 +447,7 @@ uv run python check_quality.py --new-code-only  # 品質ゲート
 ## 開発
 
 ```bash
-git clone https://github.com/aimasteracc/tree-sitter-analyzer.git
+git clone https://github.com/mthines/tree-sitter-analyzer.git
 cd tree-sitter-analyzer
 uv sync --extra all --extra mcp
 uv run pytest -q

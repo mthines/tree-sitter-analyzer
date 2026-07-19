@@ -478,7 +478,7 @@ Use /browse for all web browsing. Use ~/.claude/skills/gstack/... for gstack fil
 
 1. **Fetch the review** (the PR-body summary is just a template — the real findings are inline comments):
    ```bash
-   gh api repos/aimasteracc/tree-sitter-analyzer/pulls/<N>/comments \
+   gh api repos/mthines/tree-sitter-analyzer/pulls/<N>/comments \
      | python3 -c "import json,sys; [print(c['path'],c.get('line'),'\n',c['body'][:1500],'\n---') for c in json.load(sys.stdin)]"
    ```
    Codex review is triggered on open / ready-for-review / `@codex review` comment. If it hasn't posted yet, wait for it (CI-monitor pattern) before merging.

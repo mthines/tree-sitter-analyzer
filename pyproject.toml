@@ -13,6 +13,7 @@ authors = [
     { name = "aisheng.yu", email = "aimasteracc@gmail.com" },
 ]
 maintainers = [
+    { name = "Mads Thines", email = "madsthines@gmail.com" },
     { name = "aisheng.yu", email = "aimasteracc@gmail.com" },
 ]
 keywords = [
@@ -342,13 +343,14 @@ bash = "tree_sitter_analyzer.languages.bash_plugin:BashPlugin"
 scala = "tree_sitter_analyzer.languages.scala_plugin:ScalaPlugin"
 
 [project.urls]
-Homepage = "https://github.com/aimasteracc/tree-sitter-analyzer"
-Documentation = "https://github.com/aimasteracc/tree-sitter-analyzer#readme"
-Repository = "https://github.com/aimasteracc/tree-sitter-analyzer.git"
-Issues = "https://github.com/aimasteracc/tree-sitter-analyzer/issues"
-Changelog = "https://github.com/aimasteracc/tree-sitter-analyzer/blob/main/CHANGELOG.md"
-"Bug Reports" = "https://github.com/aimasteracc/tree-sitter-analyzer/issues"
-"Source Code" = "https://github.com/aimasteracc/tree-sitter-analyzer"
+Homepage = "https://github.com/mthines/tree-sitter-analyzer"
+Documentation = "https://github.com/mthines/tree-sitter-analyzer#readme"
+Repository = "https://github.com/mthines/tree-sitter-analyzer.git"
+Issues = "https://github.com/mthines/tree-sitter-analyzer/issues"
+Changelog = "https://github.com/mthines/tree-sitter-analyzer/blob/main/CHANGELOG.md"
+"Bug Reports" = "https://github.com/mthines/tree-sitter-analyzer/issues"
+"Source Code" = "https://github.com/mthines/tree-sitter-analyzer"
+Upstream = "https://github.com/aimasteracc/tree-sitter-analyzer"
 
 [tool.hatch.build.targets.wheel]
 packages = ["tree_sitter_analyzer"]

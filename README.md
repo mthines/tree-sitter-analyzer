@@ -2,7 +2,9 @@
 
 **English** | **[日本語](README_ja.md)** | **[简体中文](README_zh.md)**
 
-[![PyPI](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Coverage](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer/branch/main/graph/badge.svg)](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer) [![Stars](https://img.shields.io/github/stars/aimasteracc/tree-sitter-analyzer.svg?style=social)](https://github.com/aimasteracc/tree-sitter-analyzer) [![Works with Claude Code · Cursor · MCP](https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
+[![PyPI (upstream)](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/tree-sitter-analyzer.svg?style=social)](https://github.com/mthines/tree-sitter-analyzer) [![Works with Claude Code · Cursor · MCP](https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
+
+> **Fork.** [`mthines/tree-sitter-analyzer`](https://github.com/mthines/tree-sitter-analyzer) extends [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) (© its authors, MIT) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache — see [What this fork adds](#what-this-fork-adds). These changes are **not on PyPI**; [install from git](#install-this-fork-from-git) to get them.
 
 **Code intelligence AI agents can trust** — correct cross-language structure across 20+ languages, agent-native (MCP + CLI).
 
@@ -19,11 +21,35 @@ TSA indexes your codebase with tree-sitter and serves correct call graphs, symbo
 
 ---
 
+## What this fork adds
+
+This fork extends upstream **v1.29.0** with call-graph improvements focused on modern TypeScript/JavaScript, plus a global build cache. Design notes: [`docs/design/global-extraction-cache.md`](docs/design/global-extraction-cache.md).
+
+- **TypeScript / JavaScript call-graph correctness.** Arrow-const exports (`export const f = () => …`), class-field arrow methods (`fetch = () => …`), and `#private` methods are now registered as call-graph nodes. Upstream dropped their call edges, so an endpoint handler written in idiomatic arrow style reported *zero* callees. On the [Hono](https://github.com/honojs/hono) codebase: `fetch` callees **0 → 1**, call-graph edges-per-node **0.84 → 3.0**.
+- **No same-name method fan-out.** A qualified call on a receiver whose type isn't statically known (`registry.get(...)`) no longer binds to *every* same-named method in the project. Without receiver-type inference the resolver stays conservative and emits no edge rather than a wrong one. On [NestJS](https://github.com/nestjs/nest): a single `loadInstance` `.get()` that fanned out to **17** unrelated methods → **0** false edges.
+- **Global content-addressed extraction cache.** Per-file parse + extraction is memoised in a global, content-addressed store, so repeat runs and monorepo / nested invocations reuse work instead of re-parsing. **~5.5×** faster warm runs on a 350-file project. The key is `content + language + extractor version + installed grammar versions`, so a `tree-sitter` grammar upgrade can never serve stale results. Configure the location with `TSA_CACHE_DIR`; disable entirely with `TSA_DISABLE_GRAPH_CACHE=1`.
+
+---
+
 ## Get Started
 
 > **Requires Python 3.10+** (check: `python3 --version`). Install from [python.org](https://www.python.org/downloads/) if needed.
 
-### Automated install (recommended)
+### Install this fork (from git)
+
+This fork's changes are **not published to PyPI** — install from git to get them:
+
+```bash
+# run on demand with uvx
+uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" tree-sitter-analyzer --help
+
+# or install into an environment (all languages + MCP)
+pip install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
+```
+
+> The automated installer and the `uvx --from tree-sitter-analyzer` / `pip install tree-sitter-analyzer` commands below install the **upstream published package**, which does *not* include this fork's changes. Use the git commands above for the fork.
+
+### Automated install (upstream package)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/aimasteracc/tree-sitter-analyzer/main/install.sh | bash
@@ -449,7 +475,6 @@ Mostly nothing. The defaults are designed so you can hook it into your agent and
 | Metric | Value |
 |---|---|
 | Tests passed | Comprehensive test suite ✅ |
-| Coverage | [![Coverage](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer/branch/main/graph/badge.svg)](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer) |
 | Type safety | 100 % mypy |
 | Platforms | macOS · Linux · Windows |
 | Pre-commit gates | ruff · bandit · mypy · pyupgrade · detect-secrets · tsa-codemap-sync |
@@ -480,7 +505,7 @@ uv run python check_quality.py --new-code-only  # quality gate
 ## Development
 
 ```bash
-git clone https://github.com/aimasteracc/tree-sitter-analyzer.git
+git clone https://github.com/mthines/tree-sitter-analyzer.git
 cd tree-sitter-analyzer
 uv sync --extra all --extra mcp
 uv run pytest -q
