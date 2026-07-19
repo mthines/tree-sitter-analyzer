@@ -31,6 +31,95 @@ This fork extends upstream **v1.29.0** with call-graph improvements focused on m
 
 ---
 
+## Call graph for agents (CLI + jq)
+
+The call graph is built to be driven straight from the CLI — no MCP server needed for shell-capable agents.
+Point at the repo root, filter to one function, emit JSON, and narrow with `jq`.
+
+```bash
+# What FN calls, transitively — the execution map under an entry point
+tree-sitter-analyzer --project-root . --call-graph chain \
+  --call-graph-function FN --call-graph-depth 3 --format json
+
+# Direct callees / callers of FN
+tree-sitter-analyzer --project-root . --call-graph callees --call-graph-function FN --format json
+tree-sitter-analyzer --project-root . --call-graph callers --call-graph-function FN --format json
+
+# Disambiguate a common name by file
+tree-sitter-analyzer --project-root . --call-graph callees \
+  --call-graph-function FN --call-graph-file src/foo.ts --format json
+
+# Whole-graph node/edge counts
+tree-sitter-analyzer --project-root . --call-graph summary --format json
+```
+
+Keep only what you need with `jq` — it filters in the shell, so only the slice reaches the model's context:
+
+```bash
+# direct callees, names only
+... --call-graph chain --call-graph-function FN --format json \
+  | jq -r '.chain[] | select(.depth==1) | .callee.name'
+
+# callee name + location
+... --call-graph callees --call-graph-function FN --format json \
+  | jq -r '.callees[] | "\(.name)\t\(.file):\(.line)"'
+
+# who calls FN
+... --call-graph callers --call-graph-function FN --format json | jq -r '.callers[].name'
+```
+
+Use `--format json` for `jq`; use `--format toon` (≈ half the size) when feeding a whole, small result straight to a model.
+
+### JSON shape (stable contract)
+
+`jq` recipes rely on these keys — treat them as a contract.
+
+`--call-graph callees` / `callers`:
+
+```json
+{
+  "mode": "callees",
+  "function": "FN",
+  "function_indexed": true,
+  "callee_count": 9,
+  "callees": [
+    { "name": "cleanPath", "file": "path.go", "line": 23, "end_line": 124, "language": "go" }
+  ]
+}
+```
+
+`callers` is identical, with `caller_count` and `callers`.
+
+`--call-graph chain`:
+
+```json
+{
+  "mode": "chain",
+  "function": "FN",
+  "depth": 3,
+  "edge_count": 38,
+  "chain": [
+    {
+      "caller": { "name": "handleHTTPRequest", "file": "gin.go", "line": 690, "end_line": 760, "language": "go", "receiver": "Engine" },
+      "callee": { "name": "cleanPath", "file": "path.go", "line": 23, "end_line": 124, "language": "go" },
+      "depth": 1
+    }
+  ]
+}
+```
+
+`receiver` is present on method calls (the type the method belongs to) and absent on free functions.
+
+`--call-graph summary`:
+
+```json
+{ "mode": "summary", "function_count": 1323, "call_edge_count": 3202, "file_count": 96 }
+```
+
+> **Empty results are honest, not silent.** `function_indexed: false` or `callee_count: 0` means the tool could not resolve that function — never read it as "calls nothing." Trace those by hand; the graph is static structure, not a runtime path.
+
+---
+
 ## Get Started
 
 > **Requires Python 3.10+** (check: `python3 --version`). Install from [python.org](https://www.python.org/downloads/) if needed.
