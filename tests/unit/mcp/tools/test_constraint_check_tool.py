@@ -2,7 +2,7 @@
 
 The implementation does NOT exist yet — every test in this file is
 expected to fail today with ``ImportError`` at the
-``from tree_sitter_analyzer.mcp.tools.constraint_check_tool import ...``
+``from codexray.mcp.tools.constraint_check_tool import ...``
 line. This pins down the public contract that the GREEN phase must
 satisfy.
 
@@ -143,7 +143,7 @@ constraints:
 
 def _make_tool(project_root: Path):
     """Construct ``ConstraintCheckTool`` bound to ``project_root``."""
-    from tree_sitter_analyzer.mcp.tools.constraint_check_tool import (
+    from codexray.mcp.tools.constraint_check_tool import (
         ConstraintCheckTool,
     )
 

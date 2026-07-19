@@ -8,7 +8,7 @@ This guide documents the migration from the old GitHub Actions workflow structur
 
 ### What Changed
 
-The tree-sitter-analyzer project has migrated from duplicated inline workflows to a reusable workflow architecture. This change ensures consistent testing across all branches (develop, release, hotfix, main) and eliminates the issue where tests passed on develop but failed on release/main.
+The codexray project has migrated from duplicated inline workflows to a reusable workflow architecture. This change ensures consistent testing across all branches (develop, release, hotfix, main) and eliminates the issue where tests passed on develop but failed on release/main.
 
 ### Why It Changed
 

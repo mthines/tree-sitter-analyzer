@@ -1,6 +1,6 @@
 # SQL Cross-Platform Compatibility
 
-Tree-sitter Analyzer provides robust SQL parsing capabilities across different operating systems (Windows, macOS, Linux) and Python versions. Due to differences in how the underlying `tree-sitter-sql` parser behaves on different platforms, we have implemented a compatibility layer to ensure consistent results.
+CodeXray provides robust SQL parsing capabilities across different operating systems (Windows, macOS, Linux) and Python versions. Due to differences in how the underlying `tree-sitter-sql` parser behaves on different platforms, we have implemented a compatibility layer to ensure consistent results.
 
 ## Supported Platforms
 
@@ -41,7 +41,7 @@ This process happens automatically when you use the `SQLPlugin`.
 If you encounter parsing issues on a specific setup, you can record a new behavior profile:
 
 ```bash
-python -m tree_sitter_analyzer.platform_compat.record --output-dir my_profiles
+python -m codexray.platform_compat.record --output-dir my_profiles
 ```
 
 This will generate a `profile.json` file (written to the current directory) that captures how the parser behaves on your machine. You can then submit this profile to the development team or use it to develop new adaptation rules.
@@ -53,7 +53,7 @@ This will generate a `profile.json` file (written to the current directory) that
 If SQL parsing is failing or producing incorrect results, enable diagnostic mode to see what's happening:
 
 ```python
-from tree_sitter_analyzer.languages.sql_plugin import SQLPlugin
+from codexray.languages.sql_plugin import SQLPlugin
 
 plugin = SQLPlugin(diagnostic_mode=True)
 # Logs will show:
@@ -81,15 +81,15 @@ The analyzer includes CLI tools for managing compatibility:
 -   `--record-sql-profile`: Record a new behavior profile.
 -   `--compare-sql-profiles`: Compare two profiles to see differences.
 
-(See `tree-sitter-analyzer --help` for usage details)
+(See `codexray --help` for usage details)
 
 ## Upgrading from Previous Versions
 
-If you are upgrading from an older version of `tree-sitter-analyzer`:
+If you are upgrading from an older version of `codexray`:
 
 1.  **No Action Required**: The compatibility layer is enabled by default.
 2.  **Verification**: You can verify that your platform is correctly detected by running:
     ```bash
-    uv run tree-sitter-analyzer --sql-platform-info
+    uv run codexray --sql-platform-info
     ```
 3.  **Backward Compatibility**: Existing SQL extraction logic is preserved. The new layer only intervenes when known parsing errors are detected.

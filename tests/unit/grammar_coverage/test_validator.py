@@ -21,7 +21,7 @@ from unittest.mock import MagicMock, mock_open, patch
 
 import pytest
 
-from tree_sitter_analyzer.grammar_coverage.validator import (
+from codexray.grammar_coverage.validator import (
     CoverageReport,
     check_coverage_threshold,
     generate_coverage_report,
@@ -183,7 +183,7 @@ class TestCountNodeTypes:
 
     def test_count_node_types_with_mock_tree(self):
         """测试节点类型统计（使用 mock tree）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import _count_node_types
+        from codexray.grammar_coverage.validator import _count_node_types
 
         # 创建 mock node hierarchy
         root = MagicMock()
@@ -215,7 +215,7 @@ class TestCountNodeTypes:
 
     def test_count_node_types_ignores_unnamed_nodes(self):
         """测试统计时忽略未命名节点"""
-        from tree_sitter_analyzer.grammar_coverage.validator import _count_node_types
+        from codexray.grammar_coverage.validator import _count_node_types
 
         root = MagicMock()
         root.is_named = True
@@ -241,7 +241,7 @@ class TestCountNodeTypes:
 
     def test_count_node_types_nested_structure(self):
         """测试嵌套结构的节点统计"""
-        from tree_sitter_analyzer.grammar_coverage.validator import _count_node_types
+        from codexray.grammar_coverage.validator import _count_node_types
 
         root = MagicMock()
         root.is_named = True
@@ -271,7 +271,7 @@ class TestGetLanguageExtension:
 
     def test_get_supported_extensions(self):
         """测试获取支持的文件扩展名"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_language_extension,
         )
 
@@ -284,7 +284,7 @@ class TestGetLanguageExtension:
 
     def test_get_unsupported_extension_raises_error(self):
         """测试不支持的语言抛出 ValueError"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_language_extension,
         )
 
@@ -297,7 +297,7 @@ class TestLoadExpectedJson:
 
     def test_load_valid_json(self):
         """测试加载有效的 JSON 文件"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _load_expected_json,
         )
 
@@ -317,7 +317,7 @@ class TestLoadExpectedJson:
 
     def test_load_missing_file_raises_error(self):
         """测试文件不存在抛出 FileNotFoundError"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _load_expected_json,
         )
 
@@ -327,7 +327,7 @@ class TestLoadExpectedJson:
 
     def test_load_invalid_json_raises_error(self):
         """测试无效 JSON 抛出 JSONDecodeError"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _load_expected_json,
         )
 
@@ -364,12 +364,12 @@ class TestValidatePluginCoverage:
         )  # 至少覆盖核心类型  # ratchet: nondeterministic
         assert report.coverage_percentage > 0.0
 
-    @patch("tree_sitter_analyzer.grammar_coverage.validator._parse_corpus_file")
-    @patch("tree_sitter_analyzer.grammar_coverage.validator._load_expected_json")
+    @patch("codexray.grammar_coverage.validator._parse_corpus_file")
+    @patch("codexray.grammar_coverage.validator._load_expected_json")
     @patch(
-        "tree_sitter_analyzer.grammar_coverage.validator._get_covered_node_types_from_plugin"
+        "codexray.grammar_coverage.validator._get_covered_node_types_from_plugin"
     )
-    @patch("tree_sitter_analyzer.grammar_coverage.validator._get_language_extension")
+    @patch("codexray.grammar_coverage.validator._get_language_extension")
     def test_validate_plugin_coverage_mocked(
         self,
         mock_get_ext,
@@ -406,7 +406,7 @@ class TestEdgeCases:
 
     def test_empty_corpus_file(self):
         """测试空的 corpus 文件"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _count_node_types,
         )
 

@@ -3,7 +3,7 @@
 # DeepSeek TUI autonomous development — 状态检查命令（对标 24x7 监控手册）
 # =============================================================================
 
-PROJECT_DIR="/Users/aisheng.yu/git-private/tree-sitter-analyzer"
+PROJECT_DIR="/Users/aisheng.yu/git-private/codexray"
 OUTPUT_FORMAT="text"
 
 for arg in "$@"; do
@@ -167,7 +167,7 @@ if [ "${OUTPUT_FORMAT}" = "json" ]; then
     exit 0
 fi
 
-echo "📊 tree-sitter-analyzer 自主开发状态 @ $(date)"
+echo "📊 codexray 自主开发状态 @ $(date)"
 echo ""
 
 # 1. 进程检查

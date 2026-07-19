@@ -14,7 +14,7 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_cpp
 
-from tree_sitter_analyzer.languages.cpp_plugin import CppElementExtractor
+from codexray.languages.cpp_plugin import CppElementExtractor
 
 CPP_SRC = """\
 class Base {};
@@ -80,7 +80,7 @@ def test_legacy_base_specifier_wrapper_still_handled() -> None:
     node — the compatibility branch must still collect names from it."""
     from unittest.mock import Mock
 
-    from tree_sitter_analyzer.languages._cpp_variable import (
+    from codexray.languages._cpp_variable import (
         extract_base_classes,
     )
 

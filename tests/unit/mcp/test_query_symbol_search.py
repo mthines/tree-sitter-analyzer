@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.query_symbol_search import (
+from codexray.mcp.tools.query_symbol_search import (
     _build_match_fn,
     _build_type_filter,
     _collect_source_files,
@@ -100,7 +100,7 @@ class TestBuildTypeFilter:
 class TestSymbolSearchIntegration:
     @pytest.fixture
     def tool_with_project(self, tmp_path):
-        from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+        from codexray.mcp.tools.query_tool import QueryTool
 
         sample = tmp_path / "symbols.py"
         sample.write_text(
@@ -167,7 +167,7 @@ def analyze_file():
             assert "class" in d.get("type", "").lower()
 
     def test_symbol_type_in_schema(self):
-        from tree_sitter_analyzer.mcp.tools.query_helpers import TOOL_SCHEMA
+        from codexray.mcp.tools.query_helpers import TOOL_SCHEMA
 
         props = TOOL_SCHEMA["properties"]
         assert "symbol_type" in props
@@ -178,7 +178,7 @@ def analyze_file():
 class TestFindReferences:
     @pytest.fixture
     def ref_project(self, tmp_path):
-        from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+        from codexray.mcp.tools.query_tool import QueryTool
 
         main_py = tmp_path / "main.py"
         main_py.write_text(
@@ -231,7 +231,7 @@ class HealthScorer:
             asyncio.run(execute_find_references(".", {"symbol": ""}))
 
     def test_find_references_flag_in_schema(self):
-        from tree_sitter_analyzer.mcp.tools.query_helpers import TOOL_SCHEMA
+        from codexray.mcp.tools.query_helpers import TOOL_SCHEMA
 
         props = TOOL_SCHEMA["properties"]
         assert "find_references" in props

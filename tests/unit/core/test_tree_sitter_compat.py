@@ -11,7 +11,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.utils.tree_sitter_compat import (
+from codexray.utils.tree_sitter_compat import (
     TreeSitterQueryCompat,
     create_query_safely,
     get_node_text_safe,
@@ -200,7 +200,7 @@ class TestCreateQuerySafely:
         expected_query = MagicMock()
         with (
             patch("tree_sitter.Query", return_value=expected_query) as query_cls,
-            patch("tree_sitter_analyzer.utils.tree_sitter_compat.logger"),
+            patch("codexray.utils.tree_sitter_compat.logger"),
         ):
             mock_language = MagicMock()
             result = create_query_safely(mock_language, "(identifier) @name")
@@ -232,7 +232,7 @@ class TestLogApiInfo:
     def test_log_api_info_with_tree_sitter(self, caplog):
         """Test logging API info when tree-sitter is available"""
         with caplog.at_level(
-            logging.DEBUG, logger="tree_sitter_analyzer.utils.tree_sitter_compat"
+            logging.DEBUG, logger="codexray.utils.tree_sitter_compat"
         ):
             log_api_info()
 
@@ -247,7 +247,7 @@ class TestLogApiInfo:
     def test_log_api_info_logs_debug_info(self, caplog):
         """Test that log_api_info logs debug information"""
         with caplog.at_level(
-            logging.DEBUG, logger="tree_sitter_analyzer.utils.tree_sitter_compat"
+            logging.DEBUG, logger="codexray.utils.tree_sitter_compat"
         ):
             log_api_info()
 

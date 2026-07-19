@@ -18,8 +18,8 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.nav_facade import build_nav_facade
-from tree_sitter_analyzer.mcp.tools.utils.co_change import (
+from codexray.mcp.tools.nav_facade import build_nav_facade
+from codexray.mcp.tools.utils.co_change import (
     _CO_CHANGE_CACHE,
     _CO_CHANGE_CACHE_MAXSIZE,
     _compute_co_change,
@@ -66,7 +66,7 @@ def test_basic_coupling_exact_lift() -> None:
     head_sha = "a" * 40
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),  # rev-parse HEAD
@@ -116,7 +116,7 @@ def test_different_peers_get_different_lifts() -> None:
     head_sha = "b" * 40
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -162,7 +162,7 @@ def test_no_git_repo_returns_empty() -> None:
     a valid question; the data is simply absent.'
     """
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.return_value = (128, "")
         _CO_CHANGE_CACHE.clear()
@@ -181,7 +181,7 @@ def test_git_log_failure_after_head_returns_empty() -> None:
     """
     head_sha = "a1" * 20
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),  # rev-parse HEAD succeeds
@@ -214,7 +214,7 @@ def test_cache_hit_skips_subprocess() -> None:
     head_sha = "c" * 40
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),  # call 1: rev-parse
@@ -238,7 +238,7 @@ def test_cache_key_includes_result_shaping_parameters() -> None:
     head_sha = "ca" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -278,7 +278,7 @@ def test_git_log_walks_from_head_explicitly() -> None:
     head_sha = "cb" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -308,7 +308,7 @@ def test_min_shared_filter_excludes_rare_peers() -> None:
     head_sha = "d" * 40
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -337,7 +337,7 @@ def test_test_files_excluded_from_peers() -> None:
     head_sha = "e" * 40
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -364,7 +364,7 @@ def test_no_target_commits_returns_empty() -> None:
     head_sha = "f" * 40
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -394,7 +394,7 @@ def test_max_results_truncation() -> None:
     head_sha = "9" * 40
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -426,7 +426,7 @@ def test_single_subprocess_structural_invariant() -> None:
     head_sha = "0a" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -452,7 +452,7 @@ def test_result_includes_agent_summary() -> None:
     head_sha = "aa" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -478,7 +478,7 @@ async def test_nav_facade_co_change_action_dispatches() -> None:
     head_sha = "bb" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -517,7 +517,7 @@ async def test_nav_facade_co_change_output_format_toon() -> None:
     head_sha = "cc" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -546,7 +546,7 @@ async def test_nav_facade_co_change_default_output_format_is_toon() -> None:
     head_sha = "dd" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -582,7 +582,7 @@ def test_nav_facade_schema_action_enum_includes_co_change() -> None:
 
 def test_nav_co_change_in_new_action_parity() -> None:
     """nav_co_change lives in NEW_ACTION_PARITY with --co-change CLI flag."""
-    from tree_sitter_analyzer.mcp.facade_map import LEGACY_TOOL_MAP, NEW_ACTION_PARITY
+    from codexray.mcp.facade_map import LEGACY_TOOL_MAP, NEW_ACTION_PARITY
 
     assert "nav_co_change" in NEW_ACTION_PARITY
     assert "nav_co_change" not in LEGACY_TOOL_MAP
@@ -599,7 +599,7 @@ def test_nav_co_change_in_new_action_parity() -> None:
 
 def test_cli_co_change_flag_exists() -> None:
     """--co-change must be registered in the argument parser."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     flags = {s for a in parser._actions for s in a.option_strings if s.startswith("--")}
@@ -613,7 +613,7 @@ def test_cli_co_change_flag_exists() -> None:
 
 def test_nav_description_mentions_co_change() -> None:
     """_NAV_DESCRIPTION must include co_change so agents can discover the action."""
-    from tree_sitter_analyzer.mcp.tools.nav_facade import _NAV_DESCRIPTION
+    from codexray.mcp.tools.nav_facade import _NAV_DESCRIPTION
 
     assert "co_change" in _NAV_DESCRIPTION
 
@@ -625,7 +625,7 @@ def test_nav_description_mentions_co_change() -> None:
 
 def test_server_instructions_mention_co_change() -> None:
     """MCP server instructions must document co_change."""
-    from tree_sitter_analyzer.mcp._server_helpers import _SERVER_INSTRUCTIONS
+    from codexray.mcp._server_helpers import _SERVER_INSTRUCTIONS
 
     assert "co_change" in _SERVER_INSTRUCTIONS
 
@@ -654,7 +654,7 @@ def test_window_string_format() -> None:
     head_sha = "ee" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -698,7 +698,7 @@ def test_sorted_by_lift_descending() -> None:
     head_sha = "ff" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -742,7 +742,7 @@ def test_lift_uses_actual_commit_count_not_max_commits() -> None:
     head_sha = "19" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -769,7 +769,7 @@ def test_lift_uses_actual_commit_count_not_max_commits() -> None:
 
 def test_lru_cache_evicts_at_maxsize() -> None:
     """Cache must not grow beyond _CO_CHANGE_CACHE_MAXSIZE entries."""
-    from tree_sitter_analyzer.mcp.tools.utils.co_change import (
+    from codexray.mcp.tools.utils.co_change import (
         _co_change_cache_put,
     )
 
@@ -891,8 +891,8 @@ def test_cli_co_change_execution_dispatches(tmp_path: Path) -> None:  # noqa: F8
     from unittest.mock import AsyncMock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     captured: list[dict] = []
 
@@ -927,7 +927,7 @@ def test_cli_co_change_execution_dispatches(tmp_path: Path) -> None:  # noqa: F8
     }
 
     with _patch(
-        "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade"
+        "codexray.mcp.tools.nav_facade.build_nav_facade"
     ) as mock_build:
         mock_facade = mock_build.return_value
         mock_facade.execute = AsyncMock(return_value=fake_result)
@@ -955,8 +955,8 @@ def test_cli_test_map_execution_dispatches(tmp_path: Path) -> None:  # noqa: F82
     from unittest.mock import AsyncMock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     captured: list[dict] = []
 
@@ -992,7 +992,7 @@ def test_cli_test_map_execution_dispatches(tmp_path: Path) -> None:  # noqa: F82
     }
 
     with _patch(
-        "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade"
+        "codexray.mcp.tools.nav_facade.build_nav_facade"
     ) as mock_build:
         mock_facade = mock_build.return_value
         mock_facade.execute = AsyncMock(return_value=fake_result)
@@ -1030,10 +1030,10 @@ async def test_nav_facade_co_change_resolves_symbol_to_file_via_call_graph() -> 
 
     with (
         patch(
-            "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+            "codexray.mcp.tools.utils.co_change._run_git"
         ) as mock_run_git,
         patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_impact_tool.CodeGraphImpactTool"
+            "codexray.mcp.tools.codegraph_impact_tool.CodeGraphImpactTool"
         ) as MockImpactTool,
     ):
         mock_run_git.side_effect = [
@@ -1068,7 +1068,7 @@ async def test_nav_facade_co_change_symbol_fallback_when_resolution_fails() -> N
     head_sha = "hh" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1100,8 +1100,8 @@ def test_cli_co_change_execution_handles_exception() -> None:
     from unittest.mock import AsyncMock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     errors_captured: list[str] = []
 
@@ -1126,7 +1126,7 @@ def test_cli_co_change_execution_handles_exception() -> None:
     )
 
     with _patch(
-        "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade"
+        "codexray.mcp.tools.nav_facade.build_nav_facade"
     ) as mock_build:
         mock_facade = mock_build.return_value
         mock_facade.execute = AsyncMock(side_effect=RuntimeError("Test error"))
@@ -1149,8 +1149,8 @@ def test_cli_co_change_json_output_format() -> None:
     from unittest.mock import AsyncMock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     json_captured: list[dict] = []
 
@@ -1185,7 +1185,7 @@ def test_cli_co_change_json_output_format() -> None:
     }
 
     with _patch(
-        "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade"
+        "codexray.mcp.tools.nav_facade.build_nav_facade"
     ) as mock_build:
         mock_facade = mock_build.return_value
         mock_facade.execute = AsyncMock(return_value=fake_result)
@@ -1208,8 +1208,8 @@ def test_cli_co_change_toon_output_format() -> None:
     from unittest.mock import AsyncMock, MagicMock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     ctx = SpecialCommandContext(
         asyncio_run=asyncio.run,
@@ -1236,7 +1236,7 @@ def test_cli_co_change_toon_output_format() -> None:
     }
 
     with _patch(
-        "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade"
+        "codexray.mcp.tools.nav_facade.build_nav_facade"
     ) as mock_build:
         mock_facade = mock_build.return_value
         mock_facade.execute = AsyncMock(return_value=fake_result)
@@ -1258,8 +1258,8 @@ def test_cli_co_change_returns_error_code_on_failure() -> None:
     from unittest.mock import AsyncMock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     json_captured: list[dict] = []
 
@@ -1289,7 +1289,7 @@ def test_cli_co_change_returns_error_code_on_failure() -> None:
     }
 
     with _patch(
-        "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade"
+        "codexray.mcp.tools.nav_facade.build_nav_facade"
     ) as mock_build:
         mock_facade = mock_build.return_value
         mock_facade.execute = AsyncMock(return_value=fake_result)
@@ -1311,8 +1311,8 @@ def test_cli_test_map_with_file_path() -> None:
     from unittest.mock import AsyncMock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     json_captured: list[dict] = []
 
@@ -1348,7 +1348,7 @@ def test_cli_test_map_with_file_path() -> None:
     }
 
     with _patch(
-        "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade"
+        "codexray.mcp.tools.nav_facade.build_nav_facade"
     ) as mock_build:
         mock_facade = mock_build.return_value
         mock_facade.execute = AsyncMock(return_value=fake_result)
@@ -1368,8 +1368,8 @@ def test_handle_nav_actions_returns_none_when_no_flags() -> None:
     import argparse
     import asyncio
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     ctx = SpecialCommandContext(
         asyncio_run=asyncio.run,
@@ -1417,7 +1417,7 @@ def test_small_sample_guard_insufficient_history_next_step() -> None:
     head_sha = "31" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1447,7 +1447,7 @@ def test_small_sample_guard_adequate_sample_may_say_safe() -> None:
     head_sha = "32" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1498,7 +1498,7 @@ def test_candidates_below_threshold_exact_count() -> None:
     head_sha = "33" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1522,7 +1522,7 @@ def test_candidates_below_threshold_zero_when_no_peers_at_all() -> None:
     head_sha = "34" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1559,7 +1559,7 @@ def test_candidates_below_threshold_mixed_above_and_below() -> None:
     head_sha = "35" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1602,7 +1602,7 @@ def test_adequate_sample_filtered_candidates_next_step_says_filtered() -> None:
     head_sha = "36" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1643,7 +1643,7 @@ async def test_nav_facade_co_change_carries_candidates_below_threshold() -> None
     head_sha = "37" * 20
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1676,7 +1676,7 @@ def test_coupled_peers_small_sample_carries_caveat():
     head_sha = "b" * 40
 
     with patch(
-        "tree_sitter_analyzer.mcp.tools.utils.co_change._run_git"
+        "codexray.mcp.tools.utils.co_change._run_git"
     ) as mock_run_git:
         mock_run_git.side_effect = [
             (0, head_sha),
@@ -1705,8 +1705,8 @@ def test_cli_co_change_routes_symbol_vs_path():
     from unittest.mock import AsyncMock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.cli.nav_special_commands import handle_nav_actions
-    from tree_sitter_analyzer.cli.special_commands import SpecialCommandContext
+    from codexray.cli.nav_special_commands import handle_nav_actions
+    from codexray.cli.special_commands import SpecialCommandContext
 
     captured: list[dict] = []
 
@@ -1729,7 +1729,7 @@ def test_cli_co_change_routes_symbol_vs_path():
             output_format="json",
         )
         with _patch(
-            "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade"
+            "codexray.mcp.tools.nav_facade.build_nav_facade"
         ) as mock_build:
             mock_facade = mock_build.return_value
             mock_facade.execute = AsyncMock(

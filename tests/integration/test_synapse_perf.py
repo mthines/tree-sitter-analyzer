@@ -1,6 +1,6 @@
 """RED perf test for Feature 1 (Synapse): resolver overhead budget.
 
-Indexes the ``tree_sitter_analyzer/`` source tree twice — once with the
+Indexes the ``codexray/`` source tree twice — once with the
 resolver disabled via ``TSA_SYNAPSE=0`` (baseline) and once with the
 default behaviour (resolver on). The Synapse resolver is allowed to add
 at most 30% wall-clock overhead.
@@ -23,10 +23,10 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray.ast_cache import ASTCache
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-_TARGET_DIR = _REPO_ROOT / "tree_sitter_analyzer"
+_TARGET_DIR = _REPO_ROOT / "codexray"
 
 # Indexing the full package three times per condition would easily blow
 # past the per-test 180s timeout if the project ever doubles in size. So

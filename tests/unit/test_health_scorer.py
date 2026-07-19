@@ -21,7 +21,7 @@ class TestHealthScorer:
 
     @pytest.fixture
     def scorer(self):
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         return HealthScorer()
 
@@ -72,7 +72,7 @@ class TestHealthScorer:
 
     def test_score_project_includes_reported_source_extensions(self, scorer, tmp_path):
         """Project scoring should include all configured reportable extensions."""
-        from tree_sitter_analyzer.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
+        from codexray.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
 
         for idx, ext in enumerate(sorted(PROJECT_HEALTH_SOURCE_EXTS)):
             path = tmp_path / f"sample{idx}{ext}"
@@ -93,7 +93,7 @@ class TestHealthScorer:
 
     def test_score_project_respects_custom_source_extensions(self, tmp_path):
         """Health scorer should limit scan scope to caller-provided extensions."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         py_file = tmp_path / "main.py"
         cfg_file = tmp_path / "project.cfg"
@@ -108,8 +108,8 @@ class TestHealthScorer:
 
     def test_score_file_fast_dependencies_uses_fallback(self, monkeypatch, tmp_path):
         """Latency-sensitive callers can bypass whole-project dependency graphing."""
-        from tree_sitter_analyzer import health_scorer
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray import health_scorer
+        from codexray.health_scorer import HealthScorer
 
         source = tmp_path / "main.py"
         source.write_text("import app.service\n")
@@ -132,8 +132,8 @@ class TestHealthScorer:
         self, monkeypatch, tmp_path
     ):
         """Default scoring keeps the full dependency graph dimension."""
-        from tree_sitter_analyzer import health_scorer
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray import health_scorer
+        from codexray.health_scorer import HealthScorer
 
         source = tmp_path / "main.py"
         source.write_text("import app.service\n")
@@ -150,7 +150,7 @@ class TestHealthScorer:
 
     def test_is_excluded_falls_back_to_absolute_parts(self, tmp_path):
         """Paths outside root still honor generated/hidden path parts."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         scorer = HealthScorer()
 
@@ -158,7 +158,7 @@ class TestHealthScorer:
 
     def test_iter_source_files_skips_hidden_filenames(self, tmp_path):
         """Hidden filenames are not counted as project source files."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         visible = tmp_path / "src" / "main.py"
         hidden = tmp_path / "src" / ".ignored.py"
@@ -175,7 +175,7 @@ class TestHealthScorer:
 
     def test_score_project_counts_scoring_failures(self, monkeypatch, tmp_path):
         """Stats should record files that were discovered but failed scoring."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         source = tmp_path / "main.py"
         source.write_text("x = 1\n")
@@ -189,7 +189,7 @@ class TestHealthScorer:
 
     def test_score_project_counts_defensive_excluded_file(self, monkeypatch, tmp_path):
         """A defensive _is_excluded hit is still reported in project stats."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         hidden = tmp_path / ".hidden" / "main.py"
         hidden.parent.mkdir()
@@ -210,7 +210,7 @@ class TestHealthScorer:
 
     def test_score_project_prunes_hidden_and_generated_dirs(self, tmp_path):
         """Project scoring should not descend into hidden/generated directories."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         visible = tmp_path / "src" / "main.py"
         hidden = tmp_path / ".hidden" / "ignored.py"
@@ -293,7 +293,7 @@ class TestHealthScorer:
 
     def test_stale_coverage_json_is_ignored(self, monkeypatch, tmp_path):
         """Do not use stale JSON coverage when pytest-cov has newer raw data."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         source = tmp_path / "pkg" / "module.py"
         source.parent.mkdir()
@@ -323,7 +323,7 @@ class TestHealthScorer:
     )
     def test_current_coverage_json_is_used(self, monkeypatch, tmp_path):
         """Use JSON coverage when it is as current as the raw coverage data."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         source = tmp_path / "pkg" / "module.py"
         source.parent.mkdir()
@@ -350,7 +350,7 @@ class TestHealthScorer:
 
     def test_weights_sum_to_100(self):
         """Default dimension weights must sum to 100."""
-        from tree_sitter_analyzer.health_scorer import DIMENSION_WEIGHTS
+        from codexray.health_scorer import DIMENSION_WEIGHTS
 
         assert sum(DIMENSION_WEIGHTS.values()) == 100, (
             f"Weights sum to {sum(DIMENSION_WEIGHTS.values())}"
@@ -364,7 +364,7 @@ class TestHealthScorer:
         per-arm), and counts the elif within its parent if-statement, so
         the result is 10 decision nodes + base 1 = CC=11.
         """
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         sh = tmp_path / "branchy.sh"
         sh.write_text(
@@ -389,7 +389,7 @@ class TestHealthScorer:
     def test_dependencies_neutral_for_unanalyzable_languages(self, tmp_path):
         """Languages DependencyGraph cannot resolve (bash/scala/swift) must
         get a NEUTRAL dependency score, not a false-perfect 100."""
-        from tree_sitter_analyzer.health_scorer import score_dependencies
+        from codexray.health_scorer import score_dependencies
 
         for name, body in (
             ("a.sh", "#!/bin/bash\necho hi\n"),
@@ -404,7 +404,7 @@ class TestHealthScorer:
         """The ``fast_dependencies=True`` path (``_score_deps_fallback``) must
         apply the SAME neutral-language guard as ``score_dependencies`` — a
         ``.sh`` file gets 50, not a false-perfect 100."""
-        from tree_sitter_analyzer.health_scorer import _score_deps_fallback
+        from codexray.health_scorer import _score_deps_fallback
 
         sh = tmp_path / "tool.sh"
         sh.write_text("#!/bin/bash\necho hi\n", encoding="utf-8")
@@ -414,7 +414,7 @@ class TestHealthScorer:
         """A K-arm bash ``case`` dispatch: the extractor (single source of
         truth) reports CC=2 for a 10-arm case (base 1 + 1 case_statement
         branch). The extractor does not count per-arm items for bash case."""
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         arms = "\n".join(f"    {i}) echo {i} ;;" for i in range(1, 11))
         sh = tmp_path / "dispatch.sh"
@@ -431,8 +431,8 @@ class TestHealthScorer:
         reports all of them (abstract methods get CC=1 base). score_complexity
         averages over all 5 functions → avg_cc = (1+1+2+2+2)/5 = 1.6 → 100.0
         (still in the ideal range)."""
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
-        from tree_sitter_analyzer.health_scorer import score_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
+        from codexray.health_scorer import score_complexity
 
         scala = tmp_path / "T.scala"
         scala.write_text(
@@ -487,10 +487,10 @@ class TestHealthScorer:
         import subprocess
         from types import SimpleNamespace
 
-        from tree_sitter_analyzer.health_scorer import score_git_hotspot
+        from codexray.health_scorer import score_git_hotspot
 
         repo = tmp_path / "repo"
-        file_path = repo / "tree_sitter_analyzer" / "cli_main.py"
+        file_path = repo / "codexray" / "cli_main.py"
         file_path.parent.mkdir(parents=True)
         file_path.write_text("x = 1\n")
         calls = []
@@ -506,12 +506,12 @@ class TestHealthScorer:
         score = score_git_hotspot(str(file_path))
 
         assert score == pytest.approx(88.9, abs=0.1)
-        assert calls[1][0][-1] == "tree_sitter_analyzer/cli_main.py"
+        assert calls[1][0][-1] == "codexray/cli_main.py"
         assert calls[1][1]["cwd"] == str(repo)
 
     def test_seven_dimensions_in_weights(self):
         """All 7 dimensions should be in DIMENSION_WEIGHTS."""
-        from tree_sitter_analyzer.health_scorer import DIMENSION_WEIGHTS
+        from codexray.health_scorer import DIMENSION_WEIGHTS
 
         expected = {
             "size",
@@ -534,7 +534,7 @@ class TestHealthScore:
     """Test the HealthScore data class."""
 
     def test_health_score_creation(self):
-        from tree_sitter_analyzer.health_scorer import HealthScore
+        from codexray.health_scorer import HealthScore
 
         score = HealthScore(
             file_path="test.py",
@@ -551,7 +551,7 @@ class TestHealthScore:
         assert len(score.dimensions) == 4
 
     def test_health_score_to_dict(self):
-        from tree_sitter_analyzer.health_scorer import HealthScore
+        from codexray.health_scorer import HealthScore
 
         score = HealthScore(
             file_path="test.py",
@@ -564,7 +564,7 @@ class TestHealthScore:
         assert d["dimensions"]["size"] == 80
 
     def test_health_score_grade(self):
-        from tree_sitter_analyzer.health_scorer import HealthScore
+        from codexray.health_scorer import HealthScore
 
         assert HealthScore("f", 95, {}).grade == "A"
         assert HealthScore("f", 85, {}).grade == "B"
@@ -612,8 +612,8 @@ class TestScoreComplexityExtractorPath:
         score=100. The switch-specific invariant is locked in
         test_java_switch_counts_construct_once_via_extractor below.
         """
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
-        from tree_sitter_analyzer.health_scorer import score_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
+        from codexray.health_scorer import score_complexity
 
         java_src = (
             "public class Foo {\n"
@@ -662,8 +662,8 @@ class TestScoreComplexityExtractorPath:
         covered separately by test_java_high_complexity_method_scored_correctly
         (15 sequential ``if`` branches → CC=16 → penalised).
         """
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
-        from tree_sitter_analyzer.health_scorer import CC_IDEAL, score_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
+        from codexray.health_scorer import CC_IDEAL, score_complexity
 
         switch_cases = "\n".join(
             f"            case {i}: result = {i}; break;" for i in range(1, 20)
@@ -704,7 +704,7 @@ class TestScoreComplexityExtractorPath:
         Old scorer would return 100.0 (CC=1 due to wrong node names).
         New scorer (via extractor) correctly counts the branches.
         """
-        from tree_sitter_analyzer.health_scorer import score_complexity
+        from codexray.health_scorer import score_complexity
 
         # Build a Java method with many if statements (15 → CC≈16 from extractor)
         branches = "\n".join(f"        if (x > {i}) result += {i};" for i in range(15))
@@ -740,8 +740,8 @@ class TestScoreComplexityExtractorPath:
 
         A JS function with a ternary must yield CC > 1 from the extractor.
         """
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
-        from tree_sitter_analyzer.health_scorer import score_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
+        from codexray.health_scorer import score_complexity
 
         js_src = "function compute(x) {\n  return x > 0 ? x : -x;\n}\n"
         f = self._write(tmp_path, "compute.js", js_src)
@@ -758,7 +758,7 @@ class TestScoreComplexityExtractorPath:
 
     def test_no_plugin_language_returns_neutral(self, tmp_path):
         """When language is None, score_complexity returns 50.0 (neutral)."""
-        from tree_sitter_analyzer.health_scorer import score_complexity
+        from codexray.health_scorer import score_complexity
 
         f = self._write(tmp_path, "x.txt", "hello world\n")
         assert score_complexity(f, "hello world\n", None) == 50.0
@@ -768,8 +768,8 @@ class TestScoreComplexityExtractorPath:
         the average extractor CC (not a raw AST walk with stale node types).
         Both paths must agree on the average when using the extractor as source.
         """
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
-        from tree_sitter_analyzer.health_scorer import score_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
+        from codexray.health_scorer import score_complexity
 
         # 4 identical simple functions → avg_cc should be 1.0 → score 100.0
         py_src = "\n".join([f"def f{i}(x):\n    return x\n" for i in range(4)])

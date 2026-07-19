@@ -39,7 +39,7 @@ def _insert(
 
 
 def test_cascade_search_exact_tier_scores_first() -> None:
-    from tree_sitter_analyzer.cache.search import search_symbols_cascade
+    from codexray.cache.search import search_symbols_cascade
 
     conn = _make_conn()
     _insert(conn, "HandlerFunc", kind="import", file_path="imports.py")
@@ -52,7 +52,7 @@ def test_cascade_search_exact_tier_scores_first() -> None:
 
 
 def test_cascade_search_like_fallback() -> None:
-    from tree_sitter_analyzer.cache.search import search_symbols_cascade
+    from codexray.cache.search import search_symbols_cascade
 
     conn = _make_conn()
     _insert(conn, "handle_request", file_path="routes.py")
@@ -65,7 +65,7 @@ def test_cascade_search_like_fallback() -> None:
 
 
 def test_cascade_search_fuzzy_fallback_handles_typo() -> None:
-    from tree_sitter_analyzer.cache.search import search_symbols_cascade
+    from codexray.cache.search import search_symbols_cascade
 
     conn = _make_conn()
     _insert(conn, "handleFunc", file_path="handlers.py")
@@ -78,7 +78,7 @@ def test_cascade_search_fuzzy_fallback_handles_typo() -> None:
 
 
 def test_cascade_search_respects_language_filter() -> None:
-    from tree_sitter_analyzer.cache.search import search_symbols_cascade
+    from codexray.cache.search import search_symbols_cascade
 
     conn = _make_conn()
     _insert(conn, "build", language="python", file_path="py.py")
@@ -90,7 +90,7 @@ def test_cascade_search_respects_language_filter() -> None:
 
 
 def test_cascade_search_short_or_empty_queries_stop_early() -> None:
-    from tree_sitter_analyzer.cache.search import search_symbols_cascade
+    from codexray.cache.search import search_symbols_cascade
 
     conn = _make_conn()
     _insert(conn, "x")
@@ -102,7 +102,7 @@ def test_cascade_search_short_or_empty_queries_stop_early() -> None:
 
 
 def test_cascade_private_fallback_helpers_cover_error_paths() -> None:
-    from tree_sitter_analyzer.cache.search import (
+    from codexray.cache.search import (
         _bounded_levenshtein,
         _extend_fuzzy_results,
         _fuzzy_rows,
@@ -196,7 +196,7 @@ def _seed_q3_style_rows(conn: sqlite3.Connection) -> None:
     _insert_fts(
         conn,
         "filter_stop_words",
-        file_path="tree_sitter_analyzer/search_filters.py",
+        file_path="codexray/search_filters.py",
     )
     for i, name in enumerate(_Q3_STYLE_TEST_NAMES, start=1):
         _insert_fts(
@@ -209,8 +209,8 @@ def _seed_q3_style_rows(conn: sqlite3.Connection) -> None:
 
 def test_cascade_conceptual_query_promotes_production_above_tests() -> None:
     """#607 RED: top-`limit` window must not be saturated by test symbols."""
-    from tree_sitter_analyzer.cache.search import search_symbols_cascade
-    from tree_sitter_analyzer.utils.test_detection import is_test_file
+    from codexray.cache.search import search_symbols_cascade
+    from codexray.utils.test_detection import is_test_file
 
     conn = _make_fts_conn()
     _seed_q3_style_rows(conn)
@@ -230,8 +230,8 @@ def test_cascade_conceptual_query_promotes_production_above_tests() -> None:
 
 def test_cascade_test_intent_query_keeps_test_symbols_on_top() -> None:
     """Counter-direction pin: a query that asks about tests is NOT demoted."""
-    from tree_sitter_analyzer.cache.search import search_symbols_cascade
-    from tree_sitter_analyzer.utils.test_detection import is_test_file
+    from codexray.cache.search import search_symbols_cascade
+    from codexray.utils.test_detection import is_test_file
 
     conn = _make_fts_conn()
     _seed_q3_style_rows(conn)

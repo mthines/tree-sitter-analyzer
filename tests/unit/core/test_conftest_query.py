@@ -10,10 +10,10 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.core.parser import Parser
-from tree_sitter_analyzer.core.query import QueryExecutor
-from tree_sitter_analyzer.core.query_filter import QueryFilter
-from tree_sitter_analyzer.core.query_service import QueryService
+from codexray.core.parser import Parser
+from codexray.core.query import QueryExecutor
+from codexray.core.query_filter import QueryFilter
+from codexray.core.query_service import QueryService
 
 
 @pytest.fixture

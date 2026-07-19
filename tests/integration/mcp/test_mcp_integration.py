@@ -12,10 +12,10 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp import MCP_INFO
-from tree_sitter_analyzer.mcp.resources import CodeFileResource, ProjectStatsResource
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.utils import (
+from codexray.mcp import MCP_INFO
+from codexray.mcp.resources import CodeFileResource, ProjectStatsResource
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.utils import (
     get_performance_monitor,
 )
 
@@ -25,14 +25,14 @@ class TestMCPServerLifecycle:
 
     def test_server_initialization(self):
         """Test server initialization."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         assert server.is_initialized()
-        assert server.name == "tree-sitter-analyzer-mcp"
+        assert server.name == "codexray-mcp"
         assert server.version.startswith(MCP_INFO["version"])
 
     def test_server_components_initialized(self):
         """Test that all server components are initialized."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         assert callable(server._analyze_code_scale)
         assert (
             server.read_partial_tool.get_tool_definition()["name"]
@@ -60,7 +60,7 @@ class TestMCPServerLifecycle:
 
     def test_set_project_path(self):
         """Test setting project path."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         server.set_project_path(temp_dir)
         assert server.project_stats_resource.project_root == temp_dir
@@ -71,7 +71,7 @@ class TestMCPServerLifecycle:
     @pytest.mark.asyncio
     async def test_server_cleanup(self):
         """Test server cleanup."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         # Perform cleanup
         cleanup = getattr(server, "cleanup", None)
         if cleanup is None:
@@ -88,7 +88,7 @@ class TestMCPToolsIntegration:
     @pytest.mark.asyncio
     async def test_analyze_code_scale_tool(self):
         """Test analyze_code_scale tool."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -104,7 +104,7 @@ class TestMCPToolsIntegration:
     @pytest.mark.asyncio
     async def test_analyze_code_structure_tool(self):
         """Test analyze_code_structure tool."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -124,7 +124,7 @@ class TestMCPToolsIntegration:
     @pytest.mark.asyncio
     async def test_extract_code_section_tool(self):
         """Test extract_code_section tool."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello():\n    pass\n\ndef world():\n    pass")
@@ -144,7 +144,7 @@ class TestMCPToolsIntegration:
     @pytest.mark.asyncio
     async def test_query_code_tool(self):
         """Test query_code tool."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -166,7 +166,7 @@ class TestMCPToolsIntegration:
     @pytest.mark.asyncio
     async def test_file_output_manager_tool(self):
         """Test file output via tools with output_file parameter."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -193,7 +193,7 @@ class TestMCPResourcesIntegration:
     @pytest.mark.asyncio
     async def test_code_file_resource(self):
         """Test code file resource."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -207,7 +207,7 @@ class TestMCPResourcesIntegration:
     @pytest.mark.asyncio
     async def test_project_stats_resource(self):
         """Test project statistics resource."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         server.set_project_path(temp_dir)
 
@@ -226,7 +226,7 @@ class TestMCPErrorHandling:
     @pytest.mark.asyncio
     async def test_invalid_file_path_error(self):
         """Test error handling for invalid file path."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         # Invalid absolute path raises ValueError
         with pytest.raises(ValueError, match="Invalid file path"):
             await server._analyze_code_scale(
@@ -236,13 +236,13 @@ class TestMCPErrorHandling:
     @pytest.mark.asyncio
     async def test_unsupported_language_error(self):
         """Test error handling for unsupported language."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.xyz"
         test_file.write_text("some content")
 
         # Unsupported language raises UnsupportedLanguageError
-        from tree_sitter_analyzer.core.analysis_engine import UnsupportedLanguageError
+        from codexray.core.analysis_engine import UnsupportedLanguageError
 
         with pytest.raises(UnsupportedLanguageError):
             await server._analyze_code_scale(
@@ -252,7 +252,7 @@ class TestMCPErrorHandling:
     @pytest.mark.asyncio
     async def test_invalid_query_error(self):
         """Test error handling for invalid query."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -275,7 +275,7 @@ class TestMCPPerformanceIntegration:
     @pytest.mark.asyncio
     async def test_cache_integration(self):
         """Test cache integration with MCP server."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -295,7 +295,7 @@ class TestMCPPerformanceIntegration:
     @pytest.mark.asyncio
     async def test_performance_monitoring(self):
         """Test performance monitoring integration."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -320,7 +320,7 @@ class TestMCPMultiLanguageIntegration:
     @pytest.mark.asyncio
     async def test_python_analysis(self):
         """Test Python file analysis."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass")
@@ -334,7 +334,7 @@ class TestMCPMultiLanguageIntegration:
     @pytest.mark.asyncio
     async def test_javascript_analysis(self):
         """Test JavaScript file analysis."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.js"
         test_file.write_text("function hello() {}")
@@ -348,7 +348,7 @@ class TestMCPMultiLanguageIntegration:
     @pytest.mark.asyncio
     async def test_java_analysis(self):
         """Test Java file analysis."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "Test.java"
         test_file.write_text("public class Test { public void hello() {} }")
@@ -366,7 +366,7 @@ class TestMCPConcurrencyIntegration:
     @pytest.mark.asyncio
     async def test_concurrent_analyses(self):
         """Test concurrent file analyses."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
 
         # Create multiple test files
@@ -394,7 +394,7 @@ class TestMCPConcurrencyIntegration:
     @pytest.mark.asyncio
     async def test_concurrent_queries(self):
         """Test concurrent code queries."""
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         temp_dir = tempfile.mkdtemp()
         test_file = Path(temp_dir) / "test.py"
         test_file.write_text("def hello(): pass\ndef world(): pass")

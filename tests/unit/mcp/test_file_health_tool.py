@@ -7,11 +7,11 @@ from types import SimpleNamespace
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.file_health_tool import FileHealthTool
-from tree_sitter_analyzer.mcp.tools.utils.file_health_response import (
+from codexray.mcp.tools.file_health_tool import FileHealthTool
+from codexray.mcp.tools.utils.file_health_response import (
     build_file_health_result,
 )
-from tree_sitter_analyzer.mcp.tools.utils.file_health_smells import (
+from codexray.mcp.tools.utils.file_health_smells import (
     _add_high_coupling_smell,
     _add_low_complexity_smell,
     _add_low_structure_smell,
@@ -21,7 +21,7 @@ from tree_sitter_analyzer.mcp.tools.utils.file_health_smells import (
     _check_long_functions,
     _check_technical_debt,
 )
-from tree_sitter_analyzer.models import Function
+from codexray.models import Function
 
 
 def _run(coro):
@@ -116,7 +116,7 @@ def test_file_health_result_marks_healthy_files_as_no_action() -> None:
         "weakest_score": 95.0,
         "next_step": "No immediate refactor needed.",
         "verification_command": (
-            "uv run python -m tree_sitter_analyzer "
+            "uv run python -m codexray "
             "src/healthy.py --file-health --format json"
         ),
         "stop_condition": "File remains grade A/B with no actionable smells.",
@@ -151,15 +151,15 @@ def test_file_health_result_includes_direct_agent_commands_for_smells() -> None:
         == "refactoring_suggestions(file_path='src/needs work.py')"
     )
     assert action["cli_command"] == (
-        "uv run python -m tree_sitter_analyzer "
+        "uv run python -m codexray "
         "'src/needs work.py' --refactor --format json"
     )
     assert action["post_edit_commands"] == [
         (
-            "uv run python -m tree_sitter_analyzer "
+            "uv run python -m codexray "
             "'src/needs work.py' --file-health --format json"
         ),
-        "uv run python -m tree_sitter_analyzer --change-impact --format json",
+        "uv run python -m codexray --change-impact --format json",
     ]
     # M10 (round-26): file_health's top-level ``verdict`` mirrors into
     # ``agent_summary`` via ``mirror_summary_line`` so chained agents see
@@ -174,15 +174,15 @@ def test_file_health_result_includes_direct_agent_commands_for_smells() -> None:
         "weakest_dimension": "complexity",
         "weakest_score": 35.0,
         "next_step": (
-            "Run refactoring suggestions: uv run python -m tree_sitter_analyzer "
+            "Run refactoring suggestions: uv run python -m codexray "
             "'src/needs work.py' --refactor --format json"
         ),
         "verification_command": (
-            "uv run python -m tree_sitter_analyzer "
+            "uv run python -m codexray "
             "'src/needs work.py' --file-health --format json"
         ),
         "stop_condition": (
-            "Re-run uv run python -m tree_sitter_analyzer "
+            "Re-run uv run python -m codexray "
             "'src/needs work.py' --file-health --format json and confirm "
             "the grade improves or smell_count drops."
         ),

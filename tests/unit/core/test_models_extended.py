@@ -6,7 +6,7 @@ Tests for new HTML/CSS-specific models including MarkupElement and StyleElement,
 and their integration with the existing CodeElement hierarchy.
 """
 
-from tree_sitter_analyzer.models import (
+from codexray.models import (
     AnalysisResult,
     CodeElement,
     MarkupElement,
@@ -297,7 +297,7 @@ class TestExtendedModelsIntegration:
 
     def test_mixed_elements_in_analysis_result(self):
         """Test AnalysisResult with mixed element types"""
-        from tree_sitter_analyzer.models import Function, Variable
+        from codexray.models import Function, Variable
 
         mixed_elements = [
             MarkupElement(

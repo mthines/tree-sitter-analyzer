@@ -54,7 +54,7 @@ jobs:
         id: snapshot_check
         run: |
           echo "=== Checking Grammar Snapshot ==="
-          uv run python -m tree_sitter_analyzer.grammar_coverage.grammar_snapshot --check
+          uv run python -m codexray.grammar_coverage.grammar_snapshot --check
         continue-on-error: true
 
       - name: Report new nodes (if any)
@@ -62,13 +62,13 @@ jobs:
         run: |
           echo "::warning::New grammar node types detected!"
           echo "Run the following to update the snapshot after adding corpus + plugin support:"
-          echo "  python -m tree_sitter_analyzer.grammar_coverage.grammar_snapshot --update"
+          echo "  python -m codexray.grammar_coverage.grammar_snapshot --update"
           echo "  git add grammar_snapshot.json && git commit -m 'chore: update grammar snapshot'"
 
       - name: Update snapshot (manual trigger only)
         if: github.event.inputs.update_snapshot == 'true'
         run: |
-          uv run python -m tree_sitter_analyzer.grammar_coverage.grammar_snapshot --update
+          uv run python -m codexray.grammar_coverage.grammar_snapshot --update
           echo "Snapshot updated. Check grammar_snapshot.json for changes."
 
       - name: Upload snapshot as artifact

@@ -14,8 +14,8 @@ sys.path.insert(0, ".")
 
 import pytest
 
-from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor
-from tree_sitter_analyzer.models import Class, Function
+from codexray.languages.java_plugin import JavaElementExtractor
+from codexray.models import Class, Function
 
 
 @pytest.fixture

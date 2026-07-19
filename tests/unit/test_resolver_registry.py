@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import pkgutil
 
-from tree_sitter_analyzer.synapse_resolver import (
+from codexray.synapse_resolver import (
     ResolvedCallee,
     resolve_callee,
 )
-from tree_sitter_analyzer.synapse_resolver import languages as _languages
-from tree_sitter_analyzer.synapse_resolver._context import ResolverContext
-from tree_sitter_analyzer.synapse_resolver._registry import (
+from codexray.synapse_resolver import languages as _languages
+from codexray.synapse_resolver._context import ResolverContext
+from codexray.synapse_resolver._registry import (
     get_language_resolver,
     register_language,
     registered_languages,

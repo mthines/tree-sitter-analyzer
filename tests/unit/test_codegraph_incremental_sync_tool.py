@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+from codexray.mcp.tools.incremental_sync_tool import (
     CodeGraphIncrementalSyncTool,
 )
 

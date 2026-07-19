@@ -9,8 +9,8 @@ a comprehensive modern JavaScript file and showcasing the extracted information.
 import sys
 from pathlib import Path
 
-from tree_sitter_analyzer.api import analyze_file
-from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
+from codexray.api import analyze_file
+from codexray.formatters.formatter_registry import FormatterRegistry
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -433,7 +433,7 @@ def demonstrate_query_capabilities():
     print("\n🔎 JavaScript Query Capabilities:")
     print("=" * 50)
 
-    from tree_sitter_analyzer.queries.javascript import get_available_javascript_queries
+    from codexray.queries.javascript import get_available_javascript_queries
 
     queries = get_available_javascript_queries()
 

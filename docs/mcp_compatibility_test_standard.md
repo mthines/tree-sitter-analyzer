@@ -3,7 +3,7 @@
 
 ## 1. はじめに
 
-このドキュメントは、`tree-sitter-analyzer`の異なるバージョン間におけるMCP（Model Context Protocol）ツールの互換性テストを、一貫性と再現性をもって実施するための標準プロセスを定義します。
+このドキュメントは、`codexray`の異なるバージョン間におけるMCP（Model Context Protocol）ツールの互換性テストを、一貫性と再現性をもって実施するための標準プロセスを定義します。
 
 ## 2. 基本方針
 
@@ -49,7 +49,7 @@
 テスト関連のファイルは、プロジェクトルートの `compatibility_test/` ディレクトリに集約します。
 
 ```
-tree-sitter-analyzer/
+codexray/
 ├── compatibility_test/
 │   ├── README.md                           # 互換性テストガイド
 │   ├── test_cases.json                     # テストケース定義
@@ -75,8 +75,8 @@ tree-sitter-analyzer/
 
 比較したい2つのバージョン（以下、vA, vB）に対して、それぞれサーバー設定を定義します。
 
-- **サーバー名**: `tree-sitter-analyzer-vA`, `tree-sitter-analyzer-vB` のように、バージョンを明記します。
-- **コマンド**: `uvx --from tree-sitter-analyzer[mcp]=={VERSION} tree-sitter-analyzer-mcp` を使用して、特定のバージョンをインストール・実行します。
+- **サーバー名**: `codexray-vA`, `codexray-vB` のように、バージョンを明記します。
+- **コマンド**: `uvx --from codexray[mcp]=={VERSION} codexray-mcp` を使用して、特定のバージョンをインストール・実行します。
 - **環境変数 `TREE_SITTER_OUTPUT_PATH`**: 各バージョンの出力が混在しないよう、バージョン固有のパス（例: `.analysis-vA`）を指定します。
 - **有効/無効フラグ `disabled`**: テスト実行時に、スクリプトがこのフラグを切り替えます。
 
@@ -87,11 +87,11 @@ tree-sitter-analyzer/
 ```json
 {
   "mcpServers": {
-    "tree-sitter-analyzer-vA": {
+    "codexray-vA": {
       "command": "uv",
       "args": [
-        "run", "--with", "tree-sitter-analyzer[mcp]=={VERSION_A}",
-        "python", "-m", "tree_sitter_analyzer.mcp.server"
+        "run", "--with", "codexray[mcp]=={VERSION_A}",
+        "python", "-m", "codexray.mcp.server"
       ],
       "env": {
         "TREE_SITTER_PROJECT_ROOT": "{PROJECT_ROOT}",
@@ -101,11 +101,11 @@ tree-sitter-analyzer/
       "timeout": 3600,
       "disabled": true
     },
-    "tree-sitter-analyzer-vB": {
+    "codexray-vB": {
       "command": "uv",
       "args": [
-        "run", "--with", "tree-sitter-analyzer[mcp]=={VERSION_B}",
-        "python", "-m", "tree_sitter_analyzer.mcp.server"
+        "run", "--with", "codexray[mcp]=={VERSION_B}",
+        "python", "-m", "codexray.mcp.server"
       ],
       "env": {
         "TREE_SITTER_PROJECT_ROOT": "{PROJECT_ROOT}",
@@ -126,8 +126,8 @@ tree-sitter-analyzer/
 テストスクリプトは、以下の手順でバージョンを切り替えます。
 
 1. `mcp_settings.json` を読み込みます。
-2. すべての `tree-sitter-analyzer-*` サーバーの `disabled` フラグを `true` に設定します。
-3. テスト対象の単一バージョン（例: `tree-sitter-analyzer-vA`）の `disabled` フラグのみを `false` に設定します。
+2. すべての `codexray-*` サーバーの `disabled` フラグを `true` に設定します。
+3. テスト対象の単一バージョン（例: `codexray-vA`）の `disabled` フラグのみを `false` に設定します。
 4. 変更を `mcp_settings.json` に保存します。
 5. MCPサーバーが再起動し、指定したバージョンが有効になるのを待ちます（約5秒）。
 
@@ -162,7 +162,7 @@ tree-sitter-analyzer/
     },
     {
       "id": "python_engine",
-      "params": { "file_path": "tree_sitter_analyzer/core/engine.py", "format_type": "full" },
+      "params": { "file_path": "codexray/core/engine.py", "format_type": "full" },
       "output_file": "analyze_code_structure_python.txt"
     }
   ],

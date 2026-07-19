@@ -2,15 +2,15 @@ import os
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -61,7 +61,7 @@ async def test_fd_02_multi_file_search(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test multi-directory search
@@ -99,7 +99,7 @@ async def test_fd_03_multi_file_with_missing(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test with missing directory (should handle gracefully)
@@ -145,7 +145,7 @@ async def test_fd_04_explicit_root_path(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test explicit subdir as root
@@ -182,7 +182,7 @@ async def test_fd_05_and_basic_simulation(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test AND search simulation (files with .txt extension AND containing "hello")
@@ -209,7 +209,7 @@ async def test_fd_06_and_empty_pattern_simulation(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test with empty file pattern
@@ -233,7 +233,7 @@ async def test_fd_07_and_bad_pattern_simulation(tmp_path, monkeypatch):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test with invalid regex pattern
@@ -268,7 +268,7 @@ async def test_fd_08_and_pattern_starts_with_dash(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test pattern starting with dash
@@ -310,7 +310,7 @@ async def test_fd_09_and_plus_extension(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test AND with extension filter
@@ -343,7 +343,7 @@ async def test_fd_10_and_plus_type(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test AND with type filter

@@ -13,8 +13,8 @@ import tempfile
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.function_extraction import (
+from codexray.ast_cache import ASTCache
+from codexray.function_extraction import (
     _CALL_NODE_TYPES,
     _FUNC_DEF_TYPES,
 )
@@ -57,7 +57,7 @@ def test_advanced_elements_carry_analyzer_language_not_unknown(
     also requires a non-empty extraction (a 0-element regression still fails).
     Element-count completeness is covered separately by the golden-master tests.
     """
-    from tree_sitter_analyzer.api import analyze_file
+    from codexray.api import analyze_file
 
     result = analyze_file(path, include_queries=False)
     elements = result["elements"]
@@ -72,7 +72,7 @@ def test_advanced_backfill_preserves_markdown_embedded_languages() -> None:
     embedded language with the file language. Markdown elements carry the
     embedded lang (e.g. ``python``) or ``text`` for un-tagged fences — never the
     ``"unknown"`` sentinel — so they are left untouched."""
-    from tree_sitter_analyzer.api import analyze_file
+    from codexray.api import analyze_file
 
     result = analyze_file("examples/test_markdown.md", include_queries=False)
     languages = {element["language"] for element in result["elements"]}
@@ -125,8 +125,8 @@ def test_php_scoped_call_keeps_scope() -> None:
     keep its scope in full_name, else the resolver mis-binds it as a local fn."""
     from tree_sitter import Parser
 
-    from tree_sitter_analyzer.function_extraction import walk_tree
-    from tree_sitter_analyzer.language_loader import load_language
+    from codexray.function_extraction import walk_tree
+    from codexray.language_loader import load_language
 
     lang = load_language("php")
     parser = Parser(lang)
@@ -145,7 +145,7 @@ def test_csharp_extraction_and_moat() -> None:
     import shutil
     import tempfile
 
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     d = tempfile.mkdtemp()
     try:

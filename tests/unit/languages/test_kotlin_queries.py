@@ -2,7 +2,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.queries.kotlin import (
+from codexray.queries.kotlin import (
     ALL_QUERIES,
     KOTLIN_QUERIES,
     KOTLIN_QUERY_DESCRIPTIONS,

@@ -26,8 +26,8 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
-from tree_sitter_analyzer.mcp.tools.project_facade import build_project_facade
+from codexray.mcp.tools.facade_tool import FacadeTool
+from codexray.mcp.tools.project_facade import build_project_facade
 
 # ---------------------------------------------------------------------------
 # INVARIANT DELEGATION NOTICE

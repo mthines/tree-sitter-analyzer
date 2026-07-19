@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-analyzer",
+  "name": "codexray",
   "version": 1,
   "languages": ["python", "json", "scala", "bash"],
   "features": {

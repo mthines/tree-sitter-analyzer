@@ -13,7 +13,7 @@ import pytest
 # Add project root to path
 sys.path.insert(0, ".")
 
-from tree_sitter_analyzer.language_detector import (
+from codexray.language_detector import (
     LanguageDetector,
     detect_language_from_file,
     detector,
@@ -735,7 +735,7 @@ def test_detect_language_forced_ambiguity(
 def test_is_supported_with_plugin_manager_failure(language_detector, fn, label):
     """is_supported and is_language_supported fall back gracefully when PluginManager raises"""
     with unittest.mock.patch(
-        "tree_sitter_analyzer.plugins.manager.PluginManager",
+        "codexray.plugins.manager.PluginManager",
         side_effect=ImportError("nope"),
     ):
         assert fn(language_detector) is False

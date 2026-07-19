@@ -9,11 +9,11 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 from tests.unit.mcp.test_tools._test_analyze_scale_tool_execute_mixins import (
     AnalyzeScaleToolExecuteBatchAdvancedMixin,
     AnalyzeScaleToolExecuteJavaMixin,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
 
 @pytest.fixture
@@ -33,7 +33,7 @@ class TestAnalyzeScaleToolCountElements:
 
     def test_count_elements_java_style(self, tool):
         """Test counting Java-style elements."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_elem = MagicMock()
         mock_elem.element_type = "class"
@@ -43,7 +43,7 @@ class TestAnalyzeScaleToolCountElements:
 
     def test_count_elements_universal_style(self, tool):
         """Test counting universal-style elements."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_elem = MagicMock(spec=[])
         mock_elem.element_type = "class"
@@ -52,7 +52,7 @@ class TestAnalyzeScaleToolCountElements:
 
     def test_count_elements_no_match(self, tool):
         """Test counting with no matching elements."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_elem = MagicMock()
         mock_elem.element_type = "function"
@@ -61,7 +61,7 @@ class TestAnalyzeScaleToolCountElements:
 
     def test_count_elements_empty_list(self, tool):
         """Test counting with empty list."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         count = tool._count_elements([], ELEMENT_TYPE_CLASS, "class")
         assert count == 0
@@ -364,7 +364,7 @@ class TestCountElementsUniversalBranch:
     """Tests targeting the universal elif branch in _count_elements (line 279)."""
 
     def test_count_elements_matches_via_getattr_not_is_element_of_type(self, tool):
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         class FakeElement:
             element_type = "function"
@@ -387,7 +387,7 @@ class TestGenerateLLMGuidanceQueryLoader:
             "imports": [],
         }
         with patch(
-            "tree_sitter_analyzer.query_loader.get_query_loader"
+            "codexray.query_loader.get_query_loader"
         ) as mock_get_loader:
             mock_loader = MagicMock()
             mock_loader.list_queries_for_language.return_value = [
@@ -409,7 +409,7 @@ class TestGenerateLLMGuidanceQueryLoader:
             "imports": [],
         }
         with patch(
-            "tree_sitter_analyzer.query_loader.get_query_loader"
+            "codexray.query_loader.get_query_loader"
         ) as mock_get_loader:
             mock_loader = MagicMock()
             mock_loader.list_queries_for_language.return_value = []
@@ -453,7 +453,7 @@ class TestExecuteLanguageSanitization:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 side_effect=lambda r, f: r,
             ),
         ):
@@ -515,7 +515,7 @@ class TestExecuteMetricsBatchFullBody:
             ),
             patch("pathlib.Path.exists", return_value=False),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 side_effect=lambda r, f: r,
             ),
         ):
@@ -526,7 +526,7 @@ class TestExecuteMetricsBatchFullBody:
     @pytest.mark.asyncio
     async def test_batch_with_non_string_path_entry(self, tool):
         with patch(
-            "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response",
+            "codexray.mcp.utils.format_helper.apply_toon_format_to_response",
             side_effect=lambda r, f: r,
         ):
             arguments = {"file_paths": [None], "metrics_only": True}
@@ -541,7 +541,7 @@ class TestExecuteMetricsBatchFullBody:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -557,7 +557,7 @@ class TestExecuteMetricsBatchFullBody:
                 },
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
+                "codexray.mcp.tools.analyze_scale_tool.apply_toon_format_to_response",
                 side_effect=lambda r, f: r,
             ),
         ):
@@ -605,7 +605,7 @@ class TestModuleLevelInstance:
     """Test that module-level instance exists."""
 
     def test_module_level_instance(self):
-        from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import (
+        from codexray.mcp.tools.analyze_scale_tool import (
             analyze_scale_tool,
         )
 
@@ -618,7 +618,7 @@ class TestCoverageBoost:
 
     def test_count_elements_universal_string_fallback(self, tool):
         """Test _count_elements falls back to string match when is_element_of_type fails."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         class _FakeElem:
             pass
@@ -651,7 +651,7 @@ class TestCoverageBoost:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -689,7 +689,7 @@ class TestCoverageBoost:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(
@@ -727,7 +727,7 @@ class TestCoverageBoost:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(

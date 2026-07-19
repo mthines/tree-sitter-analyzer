@@ -8,7 +8,7 @@ Public Contract Tests for TOON Encoder.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.toon_encoder import ToonEncoder
+from codexray.formatters.toon_encoder import ToonEncoder
 
 
 class TestToonEncoderPublicContract:

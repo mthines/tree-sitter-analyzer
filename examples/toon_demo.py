@@ -16,8 +16,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from tree_sitter_analyzer.formatters.toon_encoder import ToonEncoder
-from tree_sitter_analyzer.formatters.toon_formatter import ToonFormatter
+from codexray.formatters.toon_encoder import ToonEncoder
+from codexray.formatters.toon_formatter import ToonFormatter
 
 
 def demo_basic_encoding():
@@ -210,19 +210,19 @@ def demo_cli_usage():
 
     print("""
 --- Basic TOON Output ---
-  uv run python -m tree_sitter_analyzer.cli file.py --structure --format toon
+  uv run python -m codexray.cli file.py --structure --format toon
 
 --- With Tab Delimiter ---
-  uv run python -m tree_sitter_analyzer.cli file.py --structure --format toon --toon-use-tabs
+  uv run python -m codexray.cli file.py --structure --format toon --toon-use-tabs
 
 --- Summary with TOON ---
-  uv run python -m tree_sitter_analyzer.cli file.py --summary --format toon
+  uv run python -m codexray.cli file.py --summary --format toon
 
 --- Advanced Analysis ---
-  uv run python -m tree_sitter_analyzer.cli file.py --advanced --format toon
+  uv run python -m codexray.cli file.py --advanced --format toon
 
 --- Partial Read ---
-  uv run python -m tree_sitter_analyzer.cli file.py --partial-read --start-line 1 --end-line 50 --format toon
+  uv run python -m codexray.cli file.py --partial-read --start-line 1 --end-line 50 --format toon
 """)
 
 

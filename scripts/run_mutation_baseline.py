@@ -24,33 +24,33 @@ from pathlib import Path
 # Module -> (source file, targeted test paths)
 MODULES: dict[str, tuple[str, list[str]]] = {
     "ast_diff": (
-        "tree_sitter_analyzer/ast_diff.py",
+        "codexray/ast_diff.py",
         [
             "tests/unit/test_ast_diff.py",
             "tests/unit/test_ast_diff_tool.py",
         ],
     ),
     "semantic_change_classifier": (
-        "tree_sitter_analyzer/semantic_change_classifier.py",
+        "codexray/semantic_change_classifier.py",
         [
             "tests/unit/test_semantic_change_classifier.py",
             "tests/unit/test_semantic_classify_tool.py",
         ],
     ),
     "facade_tool": (
-        "tree_sitter_analyzer/mcp/tools/facade_tool.py",
+        "codexray/mcp/tools/facade_tool.py",
         [
             "tests/unit/mcp/",
         ],
     ),
     "query_symbol_search": (
-        "tree_sitter_analyzer/mcp/tools/query_symbol_search.py",
+        "codexray/mcp/tools/query_symbol_search.py",
         [
             "tests/unit/mcp/",
         ],
     ),
     "toon_encoder": (
-        "tree_sitter_analyzer/formatters/toon_encoder.py",
+        "codexray/formatters/toon_encoder.py",
         [
             "tests/unit/mcp/test_output_cost_invariants.py",
         ],

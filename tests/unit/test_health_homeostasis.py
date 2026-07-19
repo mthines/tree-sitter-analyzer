@@ -1,7 +1,7 @@
 """RED tests for HealthHomeostasisLoop classifier logic.
 
 Target module (does NOT exist yet):
-    tree_sitter_analyzer.health_homeostasis.HealthHomeostasisLoop
+    codexray.health_homeostasis.HealthHomeostasisLoop
 
 Contract under test:
     HealthHomeostasisLoop(
@@ -43,7 +43,7 @@ pytestmark = pytest.mark.filterwarnings("ignore::DeprecationWarning")
 
 
 def _import_loop():
-    from tree_sitter_analyzer.health_homeostasis import (  # noqa: WPS433
+    from codexray.health_homeostasis import (  # noqa: WPS433
         HealthHomeostasisLoop,
     )
 
@@ -51,7 +51,7 @@ def _import_loop():
 
 
 def _import_history():
-    from tree_sitter_analyzer.registry.health_history import (
+    from codexray.registry.health_history import (
         HealthHistory,  # noqa: WPS433
     )
 
@@ -63,7 +63,7 @@ def _import_ordering():
 
     Spec says A < B < C < D < F (A best). Module MAY expose a public helper —
     fall back to importing whatever the implementation chose."""
-    from tree_sitter_analyzer.health_homeostasis import (  # noqa: WPS433
+    from codexray.health_homeostasis import (  # noqa: WPS433
         is_worse_grade,
     )
 

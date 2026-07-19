@@ -29,7 +29,7 @@ class TestMultiFileScenarios:
     @pytest.mark.asyncio
     async def test_same_node_type_different_files(self):
         """测试相同节点类型在不同文件（应正确区分）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -68,11 +68,11 @@ class TestMultiFileScenarios:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="def foo(): pass"),
@@ -92,7 +92,7 @@ class TestMultiFileScenarios:
     @pytest.mark.asyncio
     async def test_same_position_range_different_files(self):
         """测试相同位置范围但不同文件"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -129,11 +129,11 @@ class TestMultiFileScenarios:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="def foo(): pass"),
@@ -151,7 +151,7 @@ class TestMultiFileScenarios:
     @pytest.mark.asyncio
     async def test_cross_file_node_identity_no_conflict(self):
         """测试跨文件节点身份不冲突"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -204,11 +204,11 @@ class TestMultiFileScenarios:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(
@@ -232,7 +232,7 @@ class TestMultiFileScenarios:
     @pytest.mark.asyncio
     async def test_empty_file_path_boundary(self):
         """测试 file_path 为空的边界情况"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -273,11 +273,11 @@ class TestMultiFileScenarios:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="def foo(): pass"),
@@ -290,7 +290,7 @@ class TestMultiFileScenarios:
     @pytest.mark.asyncio
     async def test_relative_vs_absolute_path(self):
         """测试相对路径 vs 绝对路径"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -331,11 +331,11 @@ class TestMultiFileScenarios:
 
         with (
             patch(
-                "tree_sitter_analyzer.plugins.manager.PluginManager",
+                "codexray.plugins.manager.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "tree_sitter_analyzer.language_loader.loader.create_parser_safely",
+                "codexray.language_loader.loader.create_parser_safely",
                 return_value=mock_parser,
             ),
             patch.object(Path, "read_text", return_value="def foo(): pass"),

@@ -13,8 +13,8 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools.symbol_search_tool import CodeGraphSymbolSearchTool
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools.symbol_search_tool import CodeGraphSymbolSearchTool
 
 _Q3_STYLE_QUERY = "where are stop words filtered out of search queries"
 

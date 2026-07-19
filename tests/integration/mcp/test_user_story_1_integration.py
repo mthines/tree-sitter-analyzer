@@ -21,10 +21,10 @@ import time
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
 
 class TestUserStory1Integration:

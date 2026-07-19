@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.core.analysis_engine import (
+from codexray.core.analysis_engine import (
     AnalysisRequest,
     UnifiedAnalysisEngine,
     get_analysis_engine,

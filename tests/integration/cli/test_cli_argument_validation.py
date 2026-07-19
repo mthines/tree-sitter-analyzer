@@ -9,7 +9,7 @@ import argparse
 
 import pytest
 
-from tree_sitter_analyzer.cli.argument_validator import CLIArgumentValidator
+from codexray.cli.argument_validator import CLIArgumentValidator
 
 
 class TestCLIArgumentValidation:

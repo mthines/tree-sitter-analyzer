@@ -1,12 +1,12 @@
-# Contributing to tree-sitter-analyzer
+# Contributing to codexray
 
-Thank you for your interest in contributing! This document provides guidelines for contributing to tree-sitter-analyzer.
+Thank you for your interest in contributing! This document provides guidelines for contributing to codexray.
 
 ## Quick Start
 
 ```bash
 # 1. Fork and clone the repository
-git clone https://github.com/YOUR_USERNAME/tree-sitter-analyzer.git
+git clone https://github.com/YOUR_USERNAME/codexray.git
 
 # 2. Create a feature branch from develop
 git checkout -b feature/my-feature origin/develop
@@ -154,7 +154,7 @@ uv run pytest tests/regression/test_plugin_golden_masters.py -v -k "{language}"
 uv run pytest tests/ -v
 
 # Run with coverage report
-uv run pytest tests/ --cov=tree_sitter_analyzer --cov-report=term-missing
+uv run pytest tests/ --cov=codexray --cov-report=term-missing
 
 # Run specific test file
 uv run pytest tests/integration/docs/test_readme_structure.py -v
@@ -259,7 +259,7 @@ than memorizing file paths:
 - **[`rfcs/`](../rfcs/)** — design proposals for substantial changes.
 
 ```
-tree-sitter-analyzer/
+codexray/
 ├── README.md / CHANGELOG.md / CLAUDE.md / AGENTS.md   # entry points & agent rules
 ├── GITFLOW.md · SECURITY.md · CODE_OF_CONDUCT.md      # governance (+ _ja / _zh translations)
 ├── docs/            # user & developer guides — see docs/README.md

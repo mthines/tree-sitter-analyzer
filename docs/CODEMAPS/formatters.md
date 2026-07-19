@@ -1,7 +1,7 @@
 <!-- Generated: 2026-05-30; doc-code re-sync: 2026-06-17 -->
 # Formatters Codemap
 
-Output formats supported by both CLI and MCP. Located in `tree_sitter_analyzer/formatters/`.
+Output formats supported by both CLI and MCP. Located in `codexray/formatters/`.
 
 ## Format Registry
 
@@ -9,8 +9,8 @@ Output formats supported by both CLI and MCP. Located in `tree_sitter_analyzer/f
 |---|---|---|---|
 | `toon` | `formatters/toon_formatter.py` (+ `formatters/toon_encoder.py` engine) | **MCP** | LLM agents — 50-70% fewer tokens than JSON (see `CLAUDE.md` §1; enforced by `tests/unit/mcp/test_output_cost_invariants.py`) |
 | `json` | `formatters/json_formatter.py` | **CLI** | `jq` piping, programmatic ingestion |
-| `table` | `formatters/table_formatter.py` (canonical, re-exports `LegacyTableFormatter`) + `tree_sitter_analyzer/default_table_formatter.py` + `legacy_table_formatter.py` | `--table` flag | Terminal viewing with box-drawing chars |
-| `csv` | via `tree_sitter_analyzer/_legacy_table_formatter_csv.py` | `--table csv` | Spreadsheet ingestion |
+| `table` | `formatters/table_formatter.py` (canonical, re-exports `LegacyTableFormatter`) + `codexray/default_table_formatter.py` + `legacy_table_formatter.py` | `--table` flag | Terminal viewing with box-drawing chars |
+| `csv` | via `codexray/_legacy_table_formatter_csv.py` | `--table csv` | Spreadsheet ingestion |
 | `signatures` | `formatters/_java_formatter_signatures_mixin.py` (Java); `formatters/_python_formatter_signatures_table.py` (Python); `formatters/_typescript_formatter_signatures_table.py` (TypeScript); `default_table_formatter.py` (fallback) | `--table signatures` | Lightweight method-directory for large files — ~25-80% of full tokens; agent-first, then `--partial-read` for bodies |
 | `yaml` | `formatters/yaml_formatter.py` | explicit `--format yaml` | Human-readable structured |
 

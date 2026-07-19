@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.mcp.tools.utils.call_graph_impact import (
+from codexray.mcp.tools.utils.call_graph_impact import (
     CallGraphImpactResult,
     FunctionImpact,
     compute_call_graph_impact,
@@ -77,13 +77,13 @@ class TestComputeCallGraphImpact:
         result = compute_call_graph_impact("/tmp/nonexistent", [])
         assert result is None
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.call_graph_impact._build_call_graph")
+    @patch("codexray.mcp.tools.utils.call_graph_impact._build_call_graph")
     def test_returns_none_when_cg_fails(self, mock_build):
         mock_build.return_value = None
         result = compute_call_graph_impact("/tmp/nonexistent", ["a.py"])
         assert result is None
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.call_graph_impact._build_call_graph")
+    @patch("codexray.mcp.tools.utils.call_graph_impact._build_call_graph")
     def test_can_disable_full_scan_fallback(self, mock_build):
         mock_build.return_value = None
         result = compute_call_graph_impact(
@@ -92,7 +92,7 @@ class TestComputeCallGraphImpact:
         assert result is None
         mock_build.assert_called_once_with("/tmp/project", allow_full_scan=False)
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.call_graph_impact._build_call_graph")
+    @patch("codexray.mcp.tools.utils.call_graph_impact._build_call_graph")
     def test_basic_impact(self, mock_build):
         cg = MagicMock()
         cg.all_functions.return_value = [
@@ -110,7 +110,7 @@ class TestComputeCallGraphImpact:
         assert result.total_downstream == 0
         assert "b.py" in result.affected_functions_by_file
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.call_graph_impact._build_call_graph")
+    @patch("codexray.mcp.tools.utils.call_graph_impact._build_call_graph")
     def test_high_fan_in_detected(self, mock_build):
         cg = MagicMock()
         cg.all_functions.return_value = [
@@ -127,7 +127,7 @@ class TestComputeCallGraphImpact:
         assert len(result.high_risk_functions) == 1
         assert "fan_in=6" in result.high_risk_functions[0]
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.call_graph_impact._build_call_graph")
+    @patch("codexray.mcp.tools.utils.call_graph_impact._build_call_graph")
     def test_no_functions_in_changed_file(self, mock_build):
         cg = MagicMock()
         cg.all_functions.return_value = [
@@ -145,7 +145,7 @@ class TestChangeImpactIntegration:
         import os
         import tempfile
 
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             ChangeImpactRequest,
             _build_change_impact_result,
         )
@@ -157,7 +157,7 @@ class TestChangeImpactIntegration:
                 f.write("def hello():\n    pass\n")
 
             with patch(
-                "tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis.compute_call_graph_impact"
+                "codexray.mcp.tools.utils.change_impact_analysis.compute_call_graph_impact"
             ) as mock_cg:
                 cg_result = CallGraphImpactResult(
                     functions_analyzed=1,
@@ -185,7 +185,7 @@ class TestChangeImpactIntegration:
         # so the cwd fallback hits an empty dir. The test contract (README-
         # only change → no call_graph impact section) is preserved.
         monkeypatch.chdir(tmp_path)
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             ChangeImpactRequest,
             _build_change_impact_result,
         )

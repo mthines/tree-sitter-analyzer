@@ -8,7 +8,7 @@ the existing SQLite AST cache and unified edge store.
 - SQLite remains the canonical parser cache: AST rows, FTS5 search, file hashes,
   and compatibility for existing tools.
 - LadybugDB is the preferred embedded graph mirror for interactive traversal:
-  install with `tree-sitter-analyzer[graph]`. The default
+  install with `codexray[graph]`. The default
   `--knowledge-graph-backend auto` writes a LadybugDB mirror when the extra is
   installed, plus a JSON fallback.
 - The knowledge graph JSON sidecar remains the stable export/fallback format and
@@ -35,13 +35,13 @@ LadybugDB in 5.418 seconds.
 ## CLI
 
 ```bash
-uv run python -m tree_sitter_analyzer --knowledge-graph-index --format json
-uv run python -m tree_sitter_analyzer --knowledge-graph-index \
+uv run python -m codexray --knowledge-graph-index --format json
+uv run python -m codexray --knowledge-graph-index \
   --knowledge-graph-index-mode build \
   --knowledge-graph-backend auto \
   --format json
-uv run python -m tree_sitter_analyzer --knowledge-graph-serve
-uv run python -m tree_sitter_analyzer --knowledge-graph-export \
+uv run python -m codexray --knowledge-graph-serve
+uv run python -m codexray --knowledge-graph-export \
   --knowledge-graph-lod file \
   --knowledge-graph-export-max-nodes 10000 \
   --format json

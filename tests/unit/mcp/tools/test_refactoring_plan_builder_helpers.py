@@ -2,7 +2,7 @@
 
 import textwrap
 
-from tree_sitter_analyzer.mcp.tools._refactoring_plan_builder import (
+from codexray.mcp.tools._refactoring_plan_builder import (
     _assigned_names_from_statement,
     _assigned_names_from_statement_and_body,
     _assigned_names_from_statements,

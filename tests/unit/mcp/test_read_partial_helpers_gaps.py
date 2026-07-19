@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server_utils.resource_registration import (
+from codexray.mcp.server_utils.resource_registration import (
     register_resources,
 )
 

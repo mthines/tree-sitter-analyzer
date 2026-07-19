@@ -3,7 +3,7 @@
 from collections.abc import Iterable
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
 
 
 async def collect_unicode_attack_results(

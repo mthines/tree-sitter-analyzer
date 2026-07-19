@@ -1,10 +1,10 @@
 # SQL Format Guide
 
-このガイドでは、tree-sitter-analyzerのSQL専用出力フォーマットについて詳しく説明します。
+このガイドでは、codexrayのSQL専用出力フォーマットについて詳しく説明します。
 
 ## 概要
 
-tree-sitter-analyzerは、SQLファイル専用の出力フォーマットを提供します。これにより、データベーススキーマの文書化に適した、プロフェッショナルな出力を生成できます。
+codexrayは、SQLファイル専用の出力フォーマットを提供します。これにより、データベーススキーマの文書化に適した、プロフェッショナルな出力を生成できます。
 
 ## 🆕 v1.9.7 SQL出力フォーマット再設計完了
 
@@ -121,16 +121,16 @@ idx_user_email,Index,50,51,"ON users(email)","{""table"": ""users"", ""columns""
 
 ```bash
 # Full format（詳細）- 専用SQLフォーマッターを使用
-uv run tree-sitter-analyzer examples/sample_database.sql --table full
+uv run codexray examples/sample_database.sql --table full
 
 # Compact format（概要）- 専用SQLフォーマッターを使用
-uv run tree-sitter-analyzer examples/sample_database.sql --table compact
+uv run codexray examples/sample_database.sql --table compact
 
 # CSV format（データ処理用）- 専用SQLフォーマッターを使用
-uv run tree-sitter-analyzer examples/sample_database.sql --table csv
+uv run codexray examples/sample_database.sql --table csv
 
 # 高度な分析（構造とメトリクス）
-uv run tree-sitter-analyzer examples/sample_database.sql --advanced --output-format text
+uv run codexray examples/sample_database.sql --advanced --output-format text
 ```
 
 ### MCP Tool使用例
@@ -243,7 +243,7 @@ SQL専用フォーマットでは、以下のメタデータが自動的に抽�
 
 ```bash
 # ファイル出力を使用（リダイレクトで出力）
-tree-sitter-analyzer examples/sample_database.sql --table full > schema_doc.md
+codexray examples/sample_database.sql --table full > schema_doc.md
 ```
 
 ### 3. 継続的文書化
@@ -253,7 +253,7 @@ CI/CDパイプラインに組み込んで、スキーマ変更を自動文書化
 ```yaml
 - name: Generate SQL Documentation
   run: |
-    tree-sitter-analyzer examples/sample_database.sql --table full > docs/schema.md
+    codexray examples/sample_database.sql --table full > docs/schema.md
 ```
 
 ## トラブルシューティング

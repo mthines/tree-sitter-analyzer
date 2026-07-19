@@ -4,7 +4,7 @@ Tests for SQL Formatter Wrapper SQL element extraction methods.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.sql_formatter_wrapper import SQLFormatterWrapper
+from codexray.formatters.sql_formatter_wrapper import SQLFormatterWrapper
 
 
 @pytest.fixture

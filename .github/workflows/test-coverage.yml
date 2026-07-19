@@ -73,7 +73,7 @@ jobs:
         uv run pytest tests/ -n auto -v --tb=short --maxfail=200 \
           --ignore=tests/e2e \
           -m "not requires_ripgrep and not requires_fd and not slow and not e2e" \
-          --cov=tree_sitter_analyzer \
+          --cov=codexray \
           --cov-report=xml \
           --cov-report=html \
           --cov-report=term-missing \

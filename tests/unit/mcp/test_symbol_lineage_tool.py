@@ -4,8 +4,8 @@ import asyncio
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._graph_cache_fingerprint import is_ast_index_stale
-from tree_sitter_analyzer.mcp.tools.symbol_lineage_tool import (
+from codexray.mcp.tools._graph_cache_fingerprint import is_ast_index_stale
+from codexray.mcp.tools.symbol_lineage_tool import (
     SymbolLineageTool,
     _assess_risk,
     _is_test_file,
@@ -66,12 +66,12 @@ class TestIsTestFile:
         "path",
         [
             "src/main.py",
-            "tree_sitter_analyzer/mcp/server.py",
+            "codexray/mcp/server.py",
             "README.md",
             "setup.py",
             # DF-19 production-file false positives now correctly False:
             "src/test_widget.py",  # test_ prefix but no test-dir evidence
-            "tree_sitter_analyzer/mcp/tools/test_gap_tool.py",  # production tool
+            "codexray/mcp/tools/test_gap_tool.py",  # production tool
             "FooTest.java",  # not in canonical suffix set
             "foo_test.js",  # _test.js not in canonical suffix set
         ],
@@ -157,7 +157,7 @@ class TestInheritanceLineage:
     profile. Non-class symbols carry no hierarchy section."""
 
     def test_class_symbol_returns_inheritance_hierarchy(self, tool, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(
             tmp_path, "base.py", "class Base:\n    def run(self):\n        pass\n"
@@ -179,7 +179,7 @@ class TestInheritanceLineage:
         assert again["hierarchy"]["subclass_count"] == 2
 
     def test_function_symbol_has_no_hierarchy(self, tool, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "m.py", "def standalone():\n    return 1\n")
         ASTCache(str(tmp_path)).index_project(max_files=50)
@@ -191,7 +191,7 @@ class TestInheritanceLineage:
     def test_qualified_symbol_name_resolves_hierarchy(self, tool, tmp_path):
         # Codex P2: a qualified symbol (pkg.Base) must resolve via its bare name
         # — ClassHierarchy stores classes by bare name from the AST cache.
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "base.py", "class Base:\n    pass\n")
         _write_py(
@@ -207,7 +207,7 @@ class TestInheritanceLineage:
         # Codex P2: a lineage call BEFORE the index is built caches a no-
         # hierarchy response; once the index is built the cache must refresh
         # (the index.db mtime invalidates the per-symbol cache).
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "base.py", "class Base:\n    pass\n")
         _write_py(
@@ -225,8 +225,8 @@ class TestInheritanceLineage:
     def test_hierarchy_degrades_to_none_on_error(self, tool, tmp_path, monkeypatch):
         # A ClassHierarchy failure (e.g. corrupt cache) must degrade to no
         # hierarchy, never crash the lineage call.
-        import tree_sitter_analyzer.class_hierarchy as ch_mod
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        import codexray.class_hierarchy as ch_mod
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "base.py", "class Base:\n    pass\n")
         ASTCache(str(tmp_path)).index_project(max_files=50)
@@ -246,7 +246,7 @@ class TestInheritanceLineage:
         import os
         import time
 
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(
             tmp_path, "base.py", "class Base:\n    def run(self):\n        pass\n"
@@ -286,7 +286,7 @@ class TestInheritanceLineage:
         import os
         import time
 
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(
             tmp_path, "base.py", "class Base:\n    def run(self):\n        pass\n"
@@ -320,7 +320,7 @@ class TestInheritanceLineage:
         import os
         import time
 
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "base.py", "class Base:\n    pass\n")
         _write_py(
@@ -350,7 +350,7 @@ class TestInheritanceLineage:
         import os
         import time
 
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         # Use a .py stub that contains Kotlin-like class syntax so the Python
         # grammar indexes something useful. Real Kotlin indexing requires
@@ -391,7 +391,7 @@ class TestInheritanceLineage:
         import os
         import time
 
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         kt_path = tmp_path / "Main.kt"
         kt_path.write_text("class Main {\n    fun run() {}\n}\n")
@@ -423,7 +423,7 @@ class TestInheritanceLineage:
 class TestAstIndexStaleness:
     def test_empty_ast_index_is_unknown_not_stale(self, tool, tmp_path):
         """An empty DB created by a read path is not a completed stale index."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "pkg/a.py", "class A:\n    pass\n")
         ASTCache(str(tmp_path)).close()
@@ -434,7 +434,7 @@ class TestAstIndexStaleness:
         self, tool, tmp_path
     ):
         """#931: newly added supported files must invalidate the AST index."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "pkg/a.py", "class A:\n    pass\n")
         ASTCache(str(tmp_path)).index_project(max_files=50)
@@ -446,7 +446,7 @@ class TestAstIndexStaleness:
 
     def test_stale_when_indexed_source_file_is_deleted(self, tool, tmp_path):
         """#933: deleted indexed files must make the AST index stale."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         source_path = tmp_path / "pkg" / "a.py"
         _write_py(tmp_path, "pkg/a.py", "class A:\n    pass\n")
@@ -466,7 +466,7 @@ class TestGraphCacheFingerprintHelpers:
         so the helper falls back to the path's own posix form."""
         from pathlib import Path
 
-        from tree_sitter_analyzer.cache.fingerprint import (
+        from codexray.cache.fingerprint import (
             _indexed_abs_and_rel_path,
         )
 
@@ -480,7 +480,7 @@ class TestGraphCacheFingerprintHelpers:
         """A relative indexed path is resolved against root and stays relative."""
         from pathlib import Path
 
-        from tree_sitter_analyzer.cache.fingerprint import (
+        from codexray.cache.fingerprint import (
             _indexed_abs_and_rel_path,
         )
 
@@ -493,7 +493,7 @@ class TestGraphCacheFingerprintHelpers:
         self, tmp_path
     ):
         """The walker yields only supported, non-dot files outside EXCLUDE_DIRS."""
-        from tree_sitter_analyzer.cache.fingerprint import (
+        from codexray.cache.fingerprint import (
             _walk_supported_source_paths,
         )
 

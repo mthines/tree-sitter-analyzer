@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.file_output_factory import (
+from codexray.mcp.utils.file_output_factory import (
     FileOutputManagerFactory,
     get_file_output_manager,
 )

@@ -21,9 +21,9 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.core import AnalysisEngine
-from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.core import AnalysisEngine
+from codexray.formatters.formatter_registry import FormatterRegistry
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
 
@@ -97,7 +97,7 @@ class CrossComponentFormatValidator:
             cmd = [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--file",
                 file_path,
                 "--table",

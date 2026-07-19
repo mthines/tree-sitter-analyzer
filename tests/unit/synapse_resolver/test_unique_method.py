@@ -8,8 +8,8 @@ to it. If `method` is defined on multiple classes (e.g. `execute`), stay
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.synapse_resolver import resolve_callee
-from tree_sitter_analyzer.synapse_resolver._context import ResolverContext
+from codexray.synapse_resolver import resolve_callee
+from codexray.synapse_resolver._context import ResolverContext
 
 
 def _ctx(**kw):

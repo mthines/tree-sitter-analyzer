@@ -3,7 +3,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.ast_path import ASTPathNavigator
+from codexray.ast_path import ASTPathNavigator
 
 _PYTHON_SAMPLE = '''\
 """Module docstring."""

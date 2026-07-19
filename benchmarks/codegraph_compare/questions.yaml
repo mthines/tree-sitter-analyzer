@@ -2,7 +2,7 @@
 # Benchmark question bank for the native / CodeGraph / TSA three-arm comparison.
 # 21 questions across 7 repos × 3 questions each.
 # All 5 categories appear across the full set.
-# Questions are tool-neutral — they do not mention CodeGraph or tree-sitter-analyzer.
+# Questions are tool-neutral — they do not mention CodeGraph or codexray.
 
 questions:
 

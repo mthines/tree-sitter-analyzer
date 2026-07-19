@@ -14,7 +14,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
+from codexray.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
 
 
 class TestGetCodeOutlineToolToonFormat:

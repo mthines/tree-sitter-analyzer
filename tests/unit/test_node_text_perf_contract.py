@@ -38,8 +38,8 @@ _REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _node_text_files() -> list[Path]:
-    """All modules under tree_sitter_analyzer/ defining a ``_node_text``."""
-    src_root = _REPO_ROOT / "tree_sitter_analyzer"
+    """All modules under codexray/ defining a ``_node_text``."""
+    src_root = _REPO_ROOT / "codexray"
     matches: list[Path] = []
     for path in src_root.rglob("*.py"):
         try:
@@ -112,8 +112,8 @@ def test_node_text_throughput_is_O1_per_call() -> None:
     With the fix it's well under 100 ms on any modern box. We pick a
     loose 1.0s budget so this passes even on the slowest CI runner.
     """
-    from tree_sitter_analyzer.core.parser import Parser
-    from tree_sitter_analyzer.import_extractors import _node_text
+    from codexray.core.parser import Parser
+    from codexray.import_extractors import _node_text
 
     src = (
         "import os\nimport sys\n"

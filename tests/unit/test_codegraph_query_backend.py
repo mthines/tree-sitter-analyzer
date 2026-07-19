@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.codegraph_query_backend import CodeGraphQueryBackend
+from codexray.codegraph_query_backend import CodeGraphQueryBackend
 
 
 class RowCache:
@@ -49,7 +49,7 @@ def test_backend_resolves_definitions_without_symbol_resolver() -> None:
     )
     backend = CodeGraphQueryBackend(RowCache(conn))
 
-    with patch("tree_sitter_analyzer.symbol_resolver.SymbolResolver") as resolver_cls:
+    with patch("codexray.symbol_resolver.SymbolResolver") as resolver_cls:
         resolver_cls.side_effect = AssertionError("backend must not use SymbolResolver")
         results = backend.resolve_definitions("run")
 

@@ -1,4 +1,4 @@
-"""Tests for ``tree_sitter_analyzer.security.fixture_detector`` (P3).
+"""Tests for ``codexray.security.fixture_detector`` (P3).
 
 Two responsibilities are tested independently:
 
@@ -21,8 +21,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.security import fixture_detector
-from tree_sitter_analyzer.security.fixture_detector import (
+from codexray.security import fixture_detector
+from codexray.security.fixture_detector import (
     FixtureFact,
     fixture_to_verdict,
     is_fixture,
@@ -77,12 +77,12 @@ class TestAllowlist:
             tmp_path,
             {
                 "CLAUDE.md": _frontmatter(
-                    [{"path": "tree_sitter_analyzer/foo.py", "note": "test note"}]
+                    [{"path": "codexray/foo.py", "note": "test note"}]
                 ),
-                "tree_sitter_analyzer/foo.py": "def f(): pass\n",
+                "codexray/foo.py": "def f(): pass\n",
             },
         )
-        fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+        fact = is_fixture("codexray/foo.py", root)
         assert isinstance(fact, FixtureFact)
         assert fact.is_fixture is True
         assert fact.confidence == 1.0
@@ -91,9 +91,9 @@ class TestAllowlist:
 
     def test_no_claude_md_returns_negative(self, tmp_path: Path) -> None:
         root = _make_project(
-            tmp_path, {"tree_sitter_analyzer/foo.py": "def f(): pass\n"}
+            tmp_path, {"codexray/foo.py": "def f(): pass\n"}
         )
-        fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+        fact = is_fixture("codexray/foo.py", root)
         assert fact.is_fixture is False
         assert fact.source == "none"
 
@@ -118,34 +118,34 @@ class TestTier2Scan:
         test_body = (
             "from pathlib import Path\n"
             "PROJECT_ROOT = Path(__file__).parent.parent\n"
-            "SAMPLE_FOO = str(PROJECT_ROOT / 'tree_sitter_analyzer' / 'foo.py')\n"
+            "SAMPLE_FOO = str(PROJECT_ROOT / 'codexray' / 'foo.py')\n"
         )
         root = _make_project(
             tmp_path,
             {
                 "tests/test_x.py": test_body,
-                "tree_sitter_analyzer/foo.py": "def f(): pass\n",
+                "codexray/foo.py": "def f(): pass\n",
             },
         )
-        fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+        fact = is_fixture("codexray/foo.py", root)
         assert fact.is_fixture is True
         assert fact.confidence == 0.85
         assert fact.source in {"path_literal", "constant_assignment"}
         assert any("test_x.py" in line for line in fact.evidence)
 
     def test_bare_repo_relative_literal_is_caution(self, tmp_path: Path) -> None:
-        # A bare string ``"tree_sitter_analyzer/foo.py"`` outside any
+        # A bare string ``"codexray/foo.py"`` outside any
         # SAMPLE_ assignment hits the lowest-confidence tier (0.7).
         # That translates to CAUTION (per fixture_to_verdict), not
         # UNSAFE.
         root = _make_project(
             tmp_path,
             {
-                "tests/test_x.py": "name = 'tree_sitter_analyzer/foo.py'\n",
-                "tree_sitter_analyzer/foo.py": "def f(): pass\n",
+                "tests/test_x.py": "name = 'codexray/foo.py'\n",
+                "codexray/foo.py": "def f(): pass\n",
             },
         )
-        fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+        fact = is_fixture("codexray/foo.py", root)
         assert fact.is_fixture is True
         assert fact.confidence == 0.7
         assert fixture_to_verdict(fact) == "CAUTION"
@@ -162,10 +162,10 @@ class TestTier2Scan:
             tmp_path,
             {
                 "tests/test_plugins.py": test_body,
-                "tree_sitter_analyzer/languages/java_plugin.py": "X = 1\n",
+                "codexray/languages/java_plugin.py": "X = 1\n",
             },
         )
-        fact = is_fixture("tree_sitter_analyzer/languages/java_plugin.py", root)
+        fact = is_fixture("codexray/languages/java_plugin.py", root)
         # No other signal exists → suppressed → negative.
         assert fact.is_fixture is False
 
@@ -175,10 +175,10 @@ class TestTier2Scan:
             tmp_path,
             {
                 "tests/test_x.py": "def test_x(): assert True\n",
-                "tree_sitter_analyzer/foo.py": "def f(): pass\n",
+                "codexray/foo.py": "def f(): pass\n",
             },
         )
-        fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+        fact = is_fixture("codexray/foo.py", root)
         assert fact.is_fixture is False
 
 
@@ -187,7 +187,7 @@ class TestRealRepoRegression:
         # Regression test for feedback_test-fixture-files (memory):
         # java_plugin.py IS a negative fixture in the real repo and the
         # detector must flag it as UNSAFE-grade.
-        target = "tree_sitter_analyzer/languages/java_plugin.py"
+        target = "codexray/languages/java_plugin.py"
         fact = is_fixture(target, REPO_ROOT)
         assert fact.is_fixture is True, (
             f"Real-repo detection failed for {target}; got {fact!r}. "
@@ -211,13 +211,13 @@ class TestCache:
                 "tests/test_x.py": (
                     "from pathlib import Path\n"
                     "PROJECT_ROOT = Path('.')\n"
-                    "name = PROJECT_ROOT / 'tree_sitter_analyzer' / 'foo.py'\n"
+                    "name = PROJECT_ROOT / 'codexray' / 'foo.py'\n"
                 ),
-                "tree_sitter_analyzer/foo.py": "",
+                "codexray/foo.py": "",
             },
         )
         assert not (root / ".ast-cache" / "fixture_index.json").exists()
-        is_fixture("tree_sitter_analyzer/foo.py", root)
+        is_fixture("codexray/foo.py", root)
         assert (root / ".ast-cache" / "fixture_index.json").is_file()
 
     def test_cache_corrupt_falls_through_to_scan(
@@ -229,9 +229,9 @@ class TestCache:
                 "tests/test_x.py": (
                     "from pathlib import Path\n"
                     "PROJECT_ROOT = Path('.')\n"
-                    "SAMPLE_FOO = PROJECT_ROOT / 'tree_sitter_analyzer' / 'foo.py'\n"
+                    "SAMPLE_FOO = PROJECT_ROOT / 'codexray' / 'foo.py'\n"
                 ),
-                "tree_sitter_analyzer/foo.py": "",
+                "codexray/foo.py": "",
             },
         )
         cache_path = root / ".ast-cache" / "fixture_index.json"
@@ -240,9 +240,9 @@ class TestCache:
 
         with caplog.at_level(
             logging.WARNING,
-            logger="tree_sitter_analyzer.security.fixture_detector",
+            logger="codexray.security.fixture_detector",
         ):
-            fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+            fact = is_fixture("codexray/foo.py", root)
 
         # Detection still works despite the broken cache …
         assert fact.is_fixture is True
@@ -257,16 +257,16 @@ class TestCache:
                 "tests/test_x.py": (
                     "from pathlib import Path\n"
                     "PROJECT_ROOT = Path('.')\n"
-                    "name = PROJECT_ROOT / 'tree_sitter_analyzer' / 'foo.py'\n"
+                    "name = PROJECT_ROOT / 'codexray' / 'foo.py'\n"
                 ),
-                "tree_sitter_analyzer/foo.py": "",
+                "codexray/foo.py": "",
                 ".ast-cache/fixture_index.json": (
                     '{"schema_version": 1, "signature": "old", "fixtures": {}}\n'
                 ),
             },
         )
 
-        fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+        fact = is_fixture("codexray/foo.py", root)
 
         assert fact.is_fixture is True
         assert fact.confidence == 0.85
@@ -278,20 +278,20 @@ class TestCache:
         root = _make_project(
             tmp_path,
             {
-                "tests/.hidden/test_x.py": "name = 'tree_sitter_analyzer/foo.py'\n",
-                "tree_sitter_analyzer/foo.py": "",
+                "tests/.hidden/test_x.py": "name = 'codexray/foo.py'\n",
+                "codexray/foo.py": "",
             },
         )
 
-        fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+        fact = is_fixture("codexray/foo.py", root)
 
         assert fact.is_fixture is False
 
     def test_targeted_scan_returns_none_without_tests_dir(self, tmp_path: Path) -> None:
-        root = _make_project(tmp_path, {"tree_sitter_analyzer/foo.py": ""})
+        root = _make_project(tmp_path, {"codexray/foo.py": ""})
 
         fact = fixture_detector._targeted_fixture_scan(
-            root, "tree_sitter_analyzer/foo.py"
+            root, "codexray/foo.py"
         )
 
         assert fact is None
@@ -302,13 +302,13 @@ class TestCache:
         root = _make_project(
             tmp_path,
             {
-                "tests/test_x.py": "target = 'tree_sitter_analyzer/foo.py'\n",
-                "tree_sitter_analyzer/foo.py": "",
+                "tests/test_x.py": "target = 'codexray/foo.py'\n",
+                "codexray/foo.py": "",
             },
         )
 
         fact = fixture_detector._targeted_fixture_scan(
-            root, "tree_sitter_analyzer/foo.py"
+            root, "codexray/foo.py"
         )
 
         assert fact is not None
@@ -319,13 +319,13 @@ class TestCache:
         root = _make_project(
             tmp_path,
             {
-                "tests/test_x.py": "name = 'tree_sitter_analyzer/__init__.py'\n",
-                "tree_sitter_analyzer/__init__.py": "",
+                "tests/test_x.py": "name = 'codexray/__init__.py'\n",
+                "codexray/__init__.py": "",
             },
         )
 
         fact = fixture_detector._targeted_fixture_scan(
-            root, "tree_sitter_analyzer/__init__.py"
+            root, "codexray/__init__.py"
         )
 
         assert fact is None
@@ -336,8 +336,8 @@ class TestCache:
         root = _make_project(
             tmp_path,
             {
-                "tests/test_x.py": "name = 'tree_sitter_analyzer/foo.py'\n",
-                "tree_sitter_analyzer/foo.py": "",
+                "tests/test_x.py": "name = 'codexray/foo.py'\n",
+                "codexray/foo.py": "",
             },
         )
         broken = root / "tests" / "test_x.py"
@@ -351,7 +351,7 @@ class TestCache:
         monkeypatch.setattr(Path, "read_text", flaky_read_text)
 
         fact = fixture_detector._targeted_fixture_scan(
-            root, "tree_sitter_analyzer/foo.py"
+            root, "codexray/foo.py"
         )
 
         assert fact is None
@@ -363,7 +363,7 @@ class TestCache:
             tmp_path,
             {
                 "tests/test_x.py": "foo.py\n",
-                "tree_sitter_analyzer/foo.py": "",
+                "codexray/foo.py": "",
             },
         )
         broken = root / "tests" / "test_x.py"
@@ -396,9 +396,9 @@ class TestCache:
         root = _make_project(
             tmp_path,
             {
-                "tests/test_unreadable.py": "name = 'tree_sitter_analyzer/foo.py'\n",
+                "tests/test_unreadable.py": "name = 'codexray/foo.py'\n",
                 "tests/test_broken.py": "def broken(:\n",
-                "tree_sitter_analyzer/foo.py": "",
+                "codexray/foo.py": "",
             },
         )
         unreadable = root / "tests" / "test_unreadable.py"
@@ -428,7 +428,7 @@ class TestCache:
 
         with caplog.at_level(
             logging.WARNING,
-            logger="tree_sitter_analyzer.security.fixture_detector",
+            logger="codexray.security.fixture_detector",
         ):
             fixture_detector._write_cache(cache_path, "sig", {})
 
@@ -488,13 +488,13 @@ class TestDisableEnvVar:
             tmp_path,
             {
                 "CLAUDE.md": _frontmatter(
-                    [{"path": "tree_sitter_analyzer/foo.py", "note": "n"}]
+                    [{"path": "codexray/foo.py", "note": "n"}]
                 ),
-                "tree_sitter_analyzer/foo.py": "",
+                "codexray/foo.py": "",
             },
         )
         monkeypatch.setenv("TSA_DISABLE_FIXTURE_DETECTION", "1")
-        fact = is_fixture("tree_sitter_analyzer/foo.py", root)
+        fact = is_fixture("codexray/foo.py", root)
         assert fact.is_fixture is False
         assert fact.source == "disabled"
         # list_fixtures must also short-circuit.
@@ -514,17 +514,17 @@ class TestListFixtures:
                 "CLAUDE.md": _frontmatter(
                     [
                         {
-                            "path": "tree_sitter_analyzer/allowed.py",
+                            "path": "codexray/allowed.py",
                             "note": "allowlist note",
                         }
                     ]
                 ),
-                "tree_sitter_analyzer/allowed.py": "",
-                "tree_sitter_analyzer/scanned.py": "",
+                "codexray/allowed.py": "",
+                "codexray/scanned.py": "",
                 "tests/test_x.py": (
                     "from pathlib import Path\n"
                     "PROJECT_ROOT = Path('.')\n"
-                    "SAMPLE_X = PROJECT_ROOT / 'tree_sitter_analyzer' / 'scanned.py'\n"
+                    "SAMPLE_X = PROJECT_ROOT / 'codexray' / 'scanned.py'\n"
                 ),
             },
         )

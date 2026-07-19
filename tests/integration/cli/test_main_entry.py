@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.__main__ module
+Tests for codexray.__main__ module
 
 Provides tests for the main entry point.
 """
@@ -14,7 +14,7 @@ class TestMainEntry:
     def test_cli_integration_availability(self):
         """Test CLI integration availability"""
         try:
-            from tree_sitter_analyzer import cli
+            from codexray import cli
 
             assert hasattr(cli, "main")
         except ImportError:

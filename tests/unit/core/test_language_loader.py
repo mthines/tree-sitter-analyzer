@@ -10,7 +10,7 @@ sys.path.insert(0, ".")
 
 # Mock functionality now provided by pytest-mock
 
-from tree_sitter_analyzer.language_loader import (
+from codexray.language_loader import (
     LanguageLoader,
     check_language_availability,
     create_parser_safely,

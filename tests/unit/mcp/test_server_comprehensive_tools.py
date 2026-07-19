@@ -9,8 +9,8 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import (
-    TreeSitterAnalyzerMCPServer,
+from codexray.mcp.server import (
+    CodeXrayMCPServer,
     main,
     main_sync,
     parse_mcp_args,
@@ -19,8 +19,8 @@ from tree_sitter_analyzer.mcp.server import (
 
 def _capture_call_tool_handler(server):
     """Helper: patch Server, call create_server(), return captured call_tool handler."""
-    with patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True):
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+    with patch("codexray.mcp.server.MCP_AVAILABLE", True):
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured_handlers = {}
 
@@ -42,13 +42,13 @@ def _capture_call_tool_handler(server):
             return captured_handlers["call_tool"]
 
 
-class TestTreeSitterAnalyzerMCPServerToolHandling:
+class TestCodeXrayMCPServerToolHandling:
     """Test MCP server tool call handling."""
 
     @pytest.fixture
     def mock_server_with_tools(self, temp_project_dir):
         """Create a server with mocked tools."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Mock all tools
         server.table_format_tool = AsyncMock()
@@ -68,7 +68,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
 
         return server
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_call_tool_check_code_scale(
         self, mock_server_with_tools, temp_project_dir
@@ -80,7 +80,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
         test_file = Path(temp_project_dir) / "test.py"
         test_file.write_text("def hello():\n    pass\n")
 
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured_handlers = {}
 
@@ -116,7 +116,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             assert "language" in response_data
             assert response_data["language"] == "python"
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_call_tool_analyze_code_structure(
         self, mock_server_with_tools
@@ -130,7 +130,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
         inner.execute.return_value = {"success": True, "table": "formatted"}
         structure_facade.action_map["analyze"] = inner
 
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured_handlers = {}
 
@@ -157,7 +157,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             inner.execute.assert_called_once()
             assert len(result) == 1
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_call_tool_extract_code_section(self, mock_server_with_tools):
         """Wave C2: ``extract_code_section`` is a deprecated legacy name routed
@@ -170,7 +170,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             return_value={"success": True, "content": "extracted"}
         )
 
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured_handlers = {}
 
@@ -197,7 +197,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             read_inner.execute.assert_called_once()
             assert len(result) == 1
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_call_tool_extract_code_section_batch_requests(
         self, mock_server_with_tools
@@ -217,7 +217,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             }
         )
 
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured_handlers = {}
 
@@ -256,7 +256,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             assert response_data["format"] == "toon"
             assert response_data["toon_content"] == "BATCH"
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_call_tool_set_project_path(
         self, mock_server_with_tools, temp_project_dir
@@ -265,9 +265,9 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
         server = mock_server_with_tools
 
         with (
-            patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class,
+            patch("codexray.mcp.server.Server") as mock_server_class,
             patch(
-                "tree_sitter_analyzer.mcp.server_utils.tool_registration.TextContent"
+                "codexray.mcp.server_utils.tool_registration.TextContent"
             ) as mock_text_content,
         ):
             # Mock TextContent to return a simple object with text attribute
@@ -310,13 +310,13 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             assert response_data["status"] == "success"
             assert response_data["project_root"] == str(temp_project_dir)
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_call_tool_unknown_tool(self, mock_server_with_tools):
         """Test handling of unknown tool calls."""
         server = mock_server_with_tools
 
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured_handlers = {}
 
@@ -345,7 +345,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             assert "error" in response_data
             assert "Unknown tool" in response_data["error"]
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_call_tool_security_validation(self, mock_server_with_tools):
         """Test security validation in tool calls."""
@@ -357,7 +357,7 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
             "validate_file_path",
             return_value=(False, "Invalid path"),
         ):
-            with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+            with patch("codexray.mcp.server.Server") as mock_server_class:
                 mock_server = Mock()
                 captured_handlers = {}
 
@@ -387,12 +387,12 @@ class TestTreeSitterAnalyzerMCPServerToolHandling:
                 assert "Invalid or unsafe file path" in response_data["error"]
 
 
-class TestTreeSitterAnalyzerMCPServerProjectPath:
+class TestCodeXrayMCPServerProjectPath:
     """Test MCP server project path management."""
 
     def test_set_project_path_success(self, temp_project_dir):
         """Test successful project path setting."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Create another temp directory
         import tempfile
@@ -407,7 +407,7 @@ class TestTreeSitterAnalyzerMCPServerProjectPath:
         """Test project path setting with universal tool."""
         mock_universal_tool = Mock()
 
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
         server.universal_analyze_tool = mock_universal_tool
 
         import tempfile
@@ -421,7 +421,7 @@ class TestTreeSitterAnalyzerMCPServerProjectPath:
 
     def test_set_project_path_without_universal_tool(self, temp_project_dir):
         """Test project path setting without universal tool."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
         server.universal_analyze_tool = None
 
         import tempfile
@@ -431,16 +431,16 @@ class TestTreeSitterAnalyzerMCPServerProjectPath:
             server.set_project_path(new_project_dir)
 
 
-class TestTreeSitterAnalyzerMCPServerRuntime:
+class TestCodeXrayMCPServerRuntime:
     """Test MCP server runtime functionality."""
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_run_success(self, temp_project_dir):
         """Test successful server run."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
-        with patch("tree_sitter_analyzer.mcp.server.stdio_server") as mock_stdio:
+        with patch("codexray.mcp.server.stdio_server") as mock_stdio:
             mock_read_stream = Mock()
             mock_write_stream = Mock()
             mock_stdio.return_value.__aenter__.return_value = (
@@ -460,22 +460,22 @@ class TestTreeSitterAnalyzerMCPServerRuntime:
 
                 mock_mcp_server.run.assert_called_once()
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", False)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", False)
     @pytest.mark.asyncio
     async def test_run_mcp_unavailable(self, temp_project_dir):
         """Test server run when MCP is unavailable."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         with pytest.raises(RuntimeError, match="MCP library not available"):
             await server.run()
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_run_with_exception(self, temp_project_dir):
         """Test server run with exception handling."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
-        with patch("tree_sitter_analyzer.mcp.server.stdio_server") as mock_stdio:
+        with patch("codexray.mcp.server.stdio_server") as mock_stdio:
             mock_stdio.side_effect = Exception("Test error")
 
             with pytest.raises(Exception, match="Test error"):
@@ -500,13 +500,13 @@ class TestMCPServerUtilities:
     @pytest.mark.asyncio
     async def test_main_with_args(self):
         """Test main function with command line arguments."""
-        with patch("tree_sitter_analyzer.mcp.server.parse_mcp_args") as mock_parse:
+        with patch("codexray.mcp.server.parse_mcp_args") as mock_parse:
             mock_args = Mock()
             mock_args.project_root = "/test/path"
             mock_parse.return_value = mock_args
 
             with patch(
-                "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+                "codexray.mcp.server.CodeXrayMCPServer"
             ) as mock_server_class:
                 mock_server = AsyncMock()
                 mock_server_class.return_value = mock_server
@@ -519,18 +519,18 @@ class TestMCPServerUtilities:
     async def test_main_with_env_var(self):
         """Test main function with environment variable."""
         with patch.dict(os.environ, {"TREE_SITTER_PROJECT_ROOT": "/env/path"}):
-            with patch("tree_sitter_analyzer.mcp.server.parse_mcp_args") as mock_parse:
+            with patch("codexray.mcp.server.parse_mcp_args") as mock_parse:
                 mock_args = Mock()
                 mock_args.project_root = None
                 mock_parse.return_value = mock_args
 
-                with patch("tree_sitter_analyzer.mcp.server.PathClass") as mock_path:
+                with patch("codexray.mcp.server.PathClass") as mock_path:
                     mock_path.cwd.return_value.joinpath.return_value.exists(
                         return_value=True
                     )
 
                     with patch(
-                        "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+                        "codexray.mcp.server.CodeXrayMCPServer"
                     ) as mock_server_class:
                         mock_server = AsyncMock()
                         mock_server_class.return_value = mock_server
@@ -542,18 +542,18 @@ class TestMCPServerUtilities:
     @pytest.mark.asyncio
     async def test_main_with_auto_detection(self):
         """Test main function with auto-detected project root."""
-        with patch("tree_sitter_analyzer.mcp.server.parse_mcp_args") as mock_parse:
+        with patch("codexray.mcp.server.parse_mcp_args") as mock_parse:
             mock_args = Mock()
             mock_args.project_root = None
             mock_parse.return_value = mock_args
 
             with patch(
-                "tree_sitter_analyzer.mcp.server.detect_project_root"
+                "codexray.mcp.server.detect_project_root"
             ) as mock_detect:
                 mock_detect.return_value = "/detected/path"
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+                    "codexray.mcp.server.CodeXrayMCPServer"
                 ) as mock_server_class:
                     mock_server = AsyncMock()
                     mock_server_class.return_value = mock_server
@@ -565,18 +565,18 @@ class TestMCPServerUtilities:
     @pytest.mark.asyncio
     async def test_main_with_invalid_placeholder(self):
         """Test main function with invalid placeholder in project root."""
-        with patch("tree_sitter_analyzer.mcp.server.parse_mcp_args") as mock_parse:
+        with patch("codexray.mcp.server.parse_mcp_args") as mock_parse:
             mock_args = Mock()
             mock_args.project_root = "${workspaceFolder}"
             mock_parse.return_value = mock_args
 
             with patch(
-                "tree_sitter_analyzer.mcp.server.detect_project_root"
+                "codexray.mcp.server.detect_project_root"
             ) as mock_detect:
                 mock_detect.return_value = "/detected/path"
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+                    "codexray.mcp.server.CodeXrayMCPServer"
                 ) as mock_server_class:
                     mock_server = AsyncMock()
                     mock_server_class.return_value = mock_server
@@ -587,7 +587,7 @@ class TestMCPServerUtilities:
 
     def test_main_sync(self):
         """Test synchronous main function."""
-        with patch("tree_sitter_analyzer.mcp.server.asyncio.run") as mock_run:
+        with patch("codexray.mcp.server.asyncio.run") as mock_run:
             # Mock asyncio.run to prevent actual coroutine creation
             mock_run.return_value = None
             main_sync()
@@ -606,7 +606,7 @@ class TestMCPServerUtilities:
     @pytest.mark.asyncio
     async def test_main_exception_handling(self):
         """Test main function exception handling."""
-        with patch("tree_sitter_analyzer.mcp.server.parse_mcp_args") as mock_parse:
+        with patch("codexray.mcp.server.parse_mcp_args") as mock_parse:
             mock_parse.side_effect = Exception("Parse error")
 
             with pytest.raises(SystemExit):

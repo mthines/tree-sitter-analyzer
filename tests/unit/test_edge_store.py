@@ -6,13 +6,13 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cache.schema import apply_migration_v8
-from tree_sitter_analyzer.cache.write import (
+from codexray.ast_cache import ASTCache
+from codexray.cache.schema import apply_migration_v8
+from codexray.cache.write import (
     write_graph_edges_for_file,
 )
-from tree_sitter_analyzer.graph import edge_store as edge_store_module
-from tree_sitter_analyzer.graph.edge_store import (
+from codexray.graph import edge_store as edge_store_module
+from codexray.graph.edge_store import (
     Edge,
     EdgeKind,
     EdgeStore,

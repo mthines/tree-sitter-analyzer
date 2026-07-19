@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.core.query_service import QueryService
+from codexray.core.query_service import QueryService
 
 
 @pytest.fixture
@@ -30,7 +30,7 @@ class TestExtractNodeName:
     """Cover _extract_node_name branches."""
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe",
+        "codexray.core.query_service.get_node_text_safe",
         return_value="my_func",
     )
     def test_name_field_found(self, mock_text, query_service):
@@ -43,7 +43,7 @@ class TestExtractNodeName:
         assert query_service._extract_node_name(node) == "my_func"
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe",
+        "codexray.core.query_service.get_node_text_safe",
         return_value="inner_name",
     )
     def test_declarator_field_with_inner_declarator(self, mock_text, query_service):
@@ -60,7 +60,7 @@ class TestExtractNodeName:
         assert query_service._extract_node_name(node) == "inner_name"
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe",
+        "codexray.core.query_service.get_node_text_safe",
         return_value="inner_name2",
     )
     def test_declarator_field_with_inner_name(self, mock_text, query_service):
@@ -81,7 +81,7 @@ class TestExtractNodeName:
         assert query_service._extract_node_name(node) is None
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe", return_value=""
+        "codexray.core.query_service.get_node_text_safe", return_value=""
     )
     def test_empty_text_returns_none(self, mock_text, query_service):
         node = MagicMock()
@@ -93,7 +93,7 @@ class TestExtractNodeName:
         assert query_service._extract_node_name(node) is None
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe",
+        "codexray.core.query_service.get_node_text_safe",
         return_value="x" * 201,
     )
     def test_very_long_name_ignored(self, mock_text, query_service):
@@ -114,7 +114,7 @@ class TestExtractParentContext:
         assert query_service._extract_parent_context(node) is None
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe",
+        "codexray.core.query_service.get_node_text_safe",
         return_value="MyClass",
     )
     def test_parent_is_container(self, mock_text, query_service):
@@ -136,7 +136,7 @@ class TestExtractParentContext:
         assert query_service._extract_parent_context(node) is None
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe", return_value="Mod"
+        "codexray.core.query_service.get_node_text_safe", return_value="Mod"
     )
     def test_grandparent_is_container(self, mock_text, query_service):
         name_node = MagicMock()
@@ -159,7 +159,7 @@ class TestExtractParentContext:
         assert query_service._extract_parent_context(node) is None
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe", return_value=""
+        "codexray.core.query_service.get_node_text_safe", return_value=""
     )
     def test_container_with_empty_name(self, mock_text, query_service):
         parent = MagicMock()
@@ -185,7 +185,7 @@ class TestCreateResultDictFull:
     """Cover _create_result_dict with name and parent extraction."""
 
     @patch(
-        "tree_sitter_analyzer.core.query_service.get_node_text_safe",
+        "codexray.core.query_service.get_node_text_safe",
         return_value="my_method",
     )
     def test_with_name_and_parent(self, mock_text, query_service):

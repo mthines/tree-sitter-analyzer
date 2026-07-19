@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool,
     _convert_analysis_result,
 )
@@ -242,13 +242,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
         ):
             mock_registry.is_format_supported.return_value = True
@@ -293,13 +293,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
         ):
             mock_registry.is_format_supported.return_value = True
@@ -345,13 +345,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
         ):
             mock_registry.is_format_supported.return_value = True
@@ -395,13 +395,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
         ):
             mock_registry.is_format_supported.return_value = True
@@ -440,13 +440,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
             patch.object(
                 tool.file_output_manager,
@@ -492,13 +492,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
             patch.object(
                 tool.file_output_manager,
@@ -549,13 +549,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
         ):
             mock_registry.is_format_supported.return_value = True
@@ -595,13 +595,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
         ):
             mock_registry.is_format_supported.return_value = True
@@ -660,13 +660,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
         ):
             mock_registry.is_format_supported.return_value = False
@@ -702,13 +702,13 @@ class TestAnalyzeCodeStructureToolExecute:
                 return_value=mock_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
                 return_value=MagicMock(
                     format_structure=MagicMock(return_value="mocked_table_output")
                 ),
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
+                "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry"
             ) as mock_registry,
             patch.object(
                 tool.file_output_manager,

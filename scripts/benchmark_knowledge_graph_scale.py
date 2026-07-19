@@ -11,14 +11,14 @@ import time
 from pathlib import Path
 from typing import Any
 
-from tree_sitter_analyzer.knowledge_graph import (
+from codexray.knowledge_graph import (
     JsonKnowledgeGraphStore,
     KnowledgeEdge,
     KnowledgeGraphSnapshot,
     KnowledgeNode,
     LadybugKnowledgeGraphStore,
 )
-from tree_sitter_analyzer.knowledge_graph.query import open_query_backend
+from codexray.knowledge_graph.query import open_query_backend
 
 
 def main() -> int:

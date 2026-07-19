@@ -14,7 +14,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.markdown_plugin import (
+from codexray.languages.markdown_plugin import (
     MarkdownElement,
     MarkdownElementExtractor,
     MarkdownPlugin,
@@ -497,17 +497,17 @@ Footnote reference[^1]
         mock_root_node.children = []
 
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe"
+            "codexray.encoding_utils.read_file_safe"
         ) as mock_read_file_safe:
             mock_read_file_safe.return_value = (content, "utf-8")
 
             with patch(
-                "tree_sitter_analyzer.languages.markdown_plugin.plugin.tree_sitter"
+                "codexray.languages.markdown_plugin.plugin.tree_sitter"
             ) as mock_ts_plugin:
                 mock_ts_plugin.Parser.return_value = mock_parser
 
                 with patch(
-                    "tree_sitter_analyzer.languages.markdown_plugin.extractor.tree_sitter"
+                    "codexray.languages.markdown_plugin.extractor.tree_sitter"
                 ) as mock_ts:
                     mock_ts.Parser.return_value = mock_parser
 
@@ -519,7 +519,7 @@ Footnote reference[^1]
                         with patch.object(
                             self.plugin, "create_extractor", return_value=mock_extractor
                         ):
-                            from tree_sitter_analyzer.core.analysis_engine import (
+                            from codexray.core.analysis_engine import (
                                 AnalysisRequest,
                             )
 
@@ -593,7 +593,7 @@ if __name__ == "__main__":
         [
             __file__,
             "-v",
-            "--cov=tree_sitter_analyzer.languages.markdown_plugin",
+            "--cov=codexray.languages.markdown_plugin",
             "--cov-report=term-missing",
         ]
     )

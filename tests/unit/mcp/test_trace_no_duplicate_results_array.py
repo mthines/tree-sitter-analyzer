@@ -18,7 +18,7 @@ import tempfile
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.trace_impact_tool import TraceImpactTool
+from codexray.mcp.tools.trace_impact_tool import TraceImpactTool
 
 
 def _project() -> str:

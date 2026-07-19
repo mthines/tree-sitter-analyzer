@@ -3,7 +3,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import (
+from codexray.mcp.tools.search_content_tool import (
     SearchContentTool,
 )
 

@@ -12,8 +12,8 @@ import time
 from pathlib import Path
 from typing import Any
 
-from tree_sitter_analyzer.knowledge_graph.query import open_query_backend
-from tree_sitter_analyzer.mcp.tools.knowledge_graph_tool import (
+from codexray.knowledge_graph.query import open_query_backend
+from codexray.mcp.tools.knowledge_graph_tool import (
     CodeGraphKnowledgeIndexTool,
 )
 

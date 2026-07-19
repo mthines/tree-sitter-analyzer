@@ -3,7 +3,7 @@
 Custom assertion helpers for testing.
 
 This module provides specialized assertion functions for validating
-complex data structures and behaviors in the tree-sitter-analyzer project.
+complex data structures and behaviors in the codexray project.
 """
 
 from __future__ import annotations

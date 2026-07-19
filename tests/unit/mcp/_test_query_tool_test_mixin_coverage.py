@@ -1,6 +1,6 @@
 """Private mixins for query-tool query categorization coverage."""
 
-from tree_sitter_analyzer.mcp.tools.query_tool import _categorize_queries
+from codexray.mcp.tools.query_tool import _categorize_queries
 
 
 class TestCategorizeQueriesCoverageTestMixin:

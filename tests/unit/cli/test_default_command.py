@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.default_command import DefaultCommand
+from codexray.cli.commands.default_command import DefaultCommand
 
 
 @pytest.fixture
@@ -93,7 +93,7 @@ class TestDefaultCommandOutput:
     async def test_execute_async_outputs_error_message(self, command):
         """Test execute_async outputs error message."""
         with patch(
-            "tree_sitter_analyzer.cli.commands.default_command.output_error"
+            "codexray.cli.commands.default_command.output_error"
         ) as mock_error:
             await command.execute_async("python")
             mock_error.assert_called_once_with(
@@ -104,7 +104,7 @@ class TestDefaultCommandOutput:
     async def test_execute_async_outputs_usage_examples(self, command):
         """Test execute_async outputs usage examples."""
         with patch(
-            "tree_sitter_analyzer.cli.commands.default_command.output_info"
+            "codexray.cli.commands.default_command.output_info"
         ) as mock_info:
             await command.execute_async("python")
             # Check that output_info was called multiple times
@@ -119,12 +119,12 @@ class TestDefaultCommandOutput:
     async def test_execute_async_outputs_examples(self, command):
         """Test execute_async outputs example commands."""
         with patch(
-            "tree_sitter_analyzer.cli.commands.default_command.output_info"
+            "codexray.cli.commands.default_command.output_info"
         ) as mock_info:
             await command.execute_async("python")
             calls = [str(call) for call in mock_info.call_args_list]
             # Check that example commands are included
-            assert any("tree-sitter-analyzer" in call for call in calls)
+            assert any("codexray" in call for call in calls)
             assert any("file.java" in call for call in calls)
 
 

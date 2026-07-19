@@ -9,7 +9,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.synapse_resolver._context import (
+from codexray.synapse_resolver._context import (
     ResolverContext,
     _build_module_to_file,
     _resolve_absolute_module,
@@ -17,7 +17,7 @@ from tree_sitter_analyzer.synapse_resolver._context import (
     build_resolver_context,
     is_enabled,
 )
-from tree_sitter_analyzer.synapse_resolver._imports import ImportEntry
+from codexray.synapse_resolver._imports import ImportEntry
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -191,7 +191,7 @@ class TestEnsureLoaded:
         assert ctx._file_symbols == {}
 
     def test_with_cache_calls_build(self, monkeypatch: pytest.MonkeyPatch):
-        from tree_sitter_analyzer.synapse_resolver import _context
+        from codexray.synapse_resolver import _context
 
         built = _prebuilt_ctx(
             file_symbols={"x.py": [("go", "function", 7)]},
@@ -214,7 +214,7 @@ class TestEnsureLoaded:
     def test_second_property_access_does_not_rebuild(
         self, monkeypatch: pytest.MonkeyPatch
     ):
-        from tree_sitter_analyzer.synapse_resolver import _context
+        from codexray.synapse_resolver import _context
 
         built = _prebuilt_ctx()
         mock_build = MagicMock(return_value=built)
@@ -238,7 +238,7 @@ class TestFileClassMethodsLazy:
     """file_class_methods triggers _build_file_class_methods_from_cache lazily."""
 
     def test_lazy_load_from_cache(self, monkeypatch: pytest.MonkeyPatch):
-        from tree_sitter_analyzer.synapse_resolver import _context
+        from codexray.synapse_resolver import _context
 
         expected = {"c.py": {"SomeClass": {"do_it": 42}}}
         mock_fcm = MagicMock(return_value=expected)
@@ -261,7 +261,7 @@ class TestFileClassMethodsLazy:
         mock_fcm.assert_called_once_with(cache)
 
     def test_no_double_load(self, monkeypatch: pytest.MonkeyPatch):
-        from tree_sitter_analyzer.synapse_resolver import _context
+        from codexray.synapse_resolver import _context
 
         mock_fcm = MagicMock(return_value={})
         monkeypatch.setattr(_context, "_build_file_class_methods_from_cache", mock_fcm)
@@ -399,7 +399,7 @@ class TestBuildResolverContextCache:
     """build_resolver_context reuses LRU-cached results for same cache snapshot."""
 
     def test_lru_cache_hit(self, monkeypatch: pytest.MonkeyPatch):
-        from tree_sitter_analyzer.synapse_resolver import _context
+        from codexray.synapse_resolver import _context
 
         built = _prebuilt_ctx()
         mock_build = MagicMock(return_value=built)
@@ -414,7 +414,7 @@ class TestBuildResolverContextCache:
         assert mock_build.call_count == 1
 
     def test_lru_cache_miss_different_identity(self, monkeypatch: pytest.MonkeyPatch):
-        from tree_sitter_analyzer.synapse_resolver import _context
+        from codexray.synapse_resolver import _context
 
         counter = {"n": 0}
 
@@ -441,7 +441,7 @@ class TestBuildResolverContextCache:
         assert counter["n"] == 2
 
     def test_clear_cache_forces_rebuild(self, monkeypatch: pytest.MonkeyPatch):
-        from tree_sitter_analyzer.synapse_resolver import _context
+        from codexray.synapse_resolver import _context
 
         built = _prebuilt_ctx()
         call_count = {"n": 0}

@@ -14,8 +14,8 @@ import sqlite3
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.mcp.tools import call_path_enrich as enrich
-from tree_sitter_analyzer.mcp.tools.call_path_tool import CodeGraphCallPathTool
+from codexray.mcp.tools import call_path_enrich as enrich
+from codexray.mcp.tools.call_path_tool import CodeGraphCallPathTool
 
 # Source files written to disk so bodies can be read verbatim.
 _SRC_A = '''def alpha():
@@ -400,7 +400,7 @@ def _run_tool(tmp_path, cache, args):
     tool._finder = MagicMock()
     tool._finder._try_get_cache.return_value = cache
     # Real finder logic over the fixture cache.
-    from tree_sitter_analyzer.call_path import CallPathFinder
+    from codexray.call_path import CallPathFinder
 
     real = CallPathFinder(str(tmp_path), cache=cache)
     tool._finder.find_path.side_effect = real.find_path

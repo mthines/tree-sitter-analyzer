@@ -4,7 +4,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.query_loader import QueryLoader
+from codexray.query_loader import QueryLoader
 
 
 class TestQueryIdempotency:

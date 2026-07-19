@@ -13,7 +13,7 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_scala
 
-from tree_sitter_analyzer.languages.scala_plugin import ScalaElementExtractor
+from codexray.languages.scala_plugin import ScalaElementExtractor
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -516,7 +516,7 @@ object O:
 
 
 def test_scala_ast_cache_symbol_path_indexes_new_constructs() -> None:
-    from tree_sitter_analyzer.cache.extraction import _extract_symbols
+    from codexray.cache.extraction import _extract_symbols
 
     code = """\
 object Instances:

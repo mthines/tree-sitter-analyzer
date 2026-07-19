@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.call_graph_tool import CodeGraphCallTool
+from codexray.mcp.tools.call_graph_tool import CodeGraphCallTool
 
 # See tests/unit/test_call_graph.py — root cause was iteration-order
 # in CallGraph.build(), now fixed with a two-pass build. Marker kept

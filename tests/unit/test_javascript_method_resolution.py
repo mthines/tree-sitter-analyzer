@@ -13,11 +13,11 @@ self-contained resolver:
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.synapse_resolver._registry import (
+from codexray.synapse_resolver._registry import (
     get_language_resolver,
     registered_languages,
 )
-from tree_sitter_analyzer.synapse_resolver.languages.javascript import (
+from codexray.synapse_resolver.languages.javascript import (
     build_javascript_context,
     resolve_javascript_callee,
 )
@@ -495,7 +495,7 @@ def _index_js(tmp_path, files: dict[str, str]):
     """Index *files* into a tmp project; return a row-factory sqlite conn."""
     import sqlite3
 
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     for name, body in files.items():
         (tmp_path / name).write_text(body)
@@ -513,7 +513,7 @@ def test_shadow_set_from_cache_is_module_scope_only(tmp_path) -> None:
     """SET-CONSTRUCTION pin through the real cache (#626): a module-level
     ``const Math = {...}`` enters the shadow set; a function-local
     ``const Map = ...`` no longer does (before #626 both did)."""
-    from tree_sitter_analyzer.synapse_resolver.languages.javascript import (
+    from codexray.synapse_resolver.languages.javascript import (
         _js_shadowed_globals_from_conn,
     )
 

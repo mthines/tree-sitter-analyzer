@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import (
+from codexray.mcp.tools.list_files_tool import (
     ListFilesTool,
     _build_agent_summary,
 )

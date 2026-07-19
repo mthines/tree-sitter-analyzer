@@ -26,8 +26,8 @@ from __future__ import annotations
 
 def test_file_path_not_dropped_after_fix() -> None:
     """file_path declared in uml_tool schema → passes through _project_args."""
-    from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
-    from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+    from codexray.mcp.tools.facade_tool import FacadeTool
+    from codexray.mcp.tools.viz_facade import build_viz_facade
 
     facade = build_viz_facade("/repo")
     inner = facade.action_map["uml"]
@@ -42,8 +42,8 @@ def test_file_path_not_dropped_after_fix() -> None:
 
 def test_class_name_not_dropped_after_fix() -> None:
     """class_name declared in uml_tool schema → passes through _project_args."""
-    from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
-    from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+    from codexray.mcp.tools.facade_tool import FacadeTool
+    from codexray.mcp.tools.viz_facade import build_viz_facade
 
     facade = build_viz_facade("/repo")
     inner = facade.action_map["uml"]
@@ -58,8 +58,8 @@ def test_class_name_not_dropped_after_fix() -> None:
 
 def test_include_tests_not_dropped() -> None:
     """include_tests declared in uml_tool schema → passes through _project_args."""
-    from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
-    from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+    from codexray.mcp.tools.facade_tool import FacadeTool
+    from codexray.mcp.tools.viz_facade import build_viz_facade
 
     facade = build_viz_facade("/repo")
     inner = facade.action_map["uml"]

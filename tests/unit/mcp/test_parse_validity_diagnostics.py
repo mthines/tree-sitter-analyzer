@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
-from tree_sitter_analyzer.mcp.tools.utils import parse_validity
+from codexray.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
+from codexray.mcp.tools.utils import parse_validity
 
 
 def test_file_byte_diagnostics_ignores_missing_and_empty_files(tmp_path: Path) -> None:

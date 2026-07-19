@@ -12,8 +12,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.exceptions import FileHandlingError, SecurityError
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.exceptions import FileHandlingError, SecurityError
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
 
 class TestReadPartialToolEdgeCases:

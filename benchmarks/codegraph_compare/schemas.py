@@ -126,7 +126,7 @@ class ArmSpec:
     """One treatment arm (tool combination) in the benchmark."""
 
     id: str
-    adapter: str  # native | codegraph | tree_sitter_analyzer
+    adapter: str  # native | codegraph | codexray
     index_mode: str  # none | warm | cold
 
 

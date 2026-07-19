@@ -2,8 +2,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.table_command import TableCommand
-from tree_sitter_analyzer.constants import (
+from codexray.cli.commands.table_command import TableCommand
+from codexray.constants import (
     ELEMENT_TYPE_SQL_FUNCTION,
     ELEMENT_TYPE_SQL_INDEX,
     ELEMENT_TYPE_SQL_PROCEDURE,
@@ -58,7 +58,7 @@ class TestConvertToFormatterFormatBehavioral:
         assert result["analysis_metadata"]["analyzer_version"] == "2.0.0"
 
     def test_with_class_element(self, table_command):
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_elem = MagicMock()
         mock_elem.name = "TestClass"

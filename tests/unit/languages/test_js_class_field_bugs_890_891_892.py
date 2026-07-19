@@ -29,11 +29,11 @@ try:
 except ImportError:
     _TREE_SITTER_AVAILABLE = False
 
-from tree_sitter_analyzer.languages.javascript_plugin.extractor import (
+from codexray.languages.javascript_plugin.extractor import (
     JavaScriptElementExtractor,
 )
-from tree_sitter_analyzer.languages.javascript_plugin.plugin import JavaScriptPlugin
-from tree_sitter_analyzer.queries.javascript import VARIABLES
+from codexray.languages.javascript_plugin.plugin import JavaScriptPlugin
+from codexray.queries.javascript import VARIABLES
 
 pytestmark = pytest.mark.skipif(
     not _TREE_SITTER_AVAILABLE,

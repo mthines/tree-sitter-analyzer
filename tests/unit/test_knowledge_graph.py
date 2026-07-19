@@ -15,18 +15,18 @@ from urllib.error import HTTPError
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cli.commands import codegraph_index_commands
-from tree_sitter_analyzer.cli.commands.codegraph_index_commands import (
+from codexray.ast_cache import ASTCache
+from codexray.cli.commands import codegraph_index_commands
+from codexray.cli.commands.codegraph_index_commands import (
     run_knowledge_graph_serve,
 )
-from tree_sitter_analyzer.cli.special_commands import (
+from codexray.cli.special_commands import (
     SpecialCommandContext,
     _handle_knowledge_graph_index,
     _handle_knowledge_graph_serve,
 )
-from tree_sitter_analyzer.graph.edge_store import Edge, EdgeStore
-from tree_sitter_analyzer.knowledge_graph import (
+from codexray.graph.edge_store import Edge, EdgeStore
+from codexray.knowledge_graph import (
     JsonKnowledgeGraphStore,
     KnowledgeEdge,
     KnowledgeGraphBuilder,
@@ -34,31 +34,31 @@ from tree_sitter_analyzer.knowledge_graph import (
     KnowledgeNode,
     LadybugKnowledgeGraphStore,
 )
-from tree_sitter_analyzer.knowledge_graph.builder import (
+from codexray.knowledge_graph.builder import (
     _iter_markdown_files,
     _json_obj,
     _nullable_int,
     _resolve_project_ref,
 )
-from tree_sitter_analyzer.knowledge_graph.exporters import (
+from codexray.knowledge_graph.exporters import (
     aggregate_package_graph,
     summarize,
     to_graphology,
 )
-from tree_sitter_analyzer.knowledge_graph.html_viewer import to_html_viewer
-from tree_sitter_analyzer.knowledge_graph.ladybug_query import (
+from codexray.knowledge_graph.html_viewer import to_html_viewer
+from codexray.knowledge_graph.ladybug_query import (
     LadybugKnowledgeGraphQuery,
 )
-from tree_sitter_analyzer.knowledge_graph.query import (
+from codexray.knowledge_graph.query import (
     JsonKnowledgeGraphQuery,
     _empty_graph,
     _nullable_line,
     open_query_backend,
 )
-from tree_sitter_analyzer.knowledge_graph.query import (
+from codexray.knowledge_graph.query import (
     _json_obj as _query_json_obj,
 )
-from tree_sitter_analyzer.knowledge_graph.server import (
+from codexray.knowledge_graph.server import (
     KnowledgeGraphService,
     _content_type,
     _first,
@@ -69,8 +69,8 @@ from tree_sitter_analyzer.knowledge_graph.server import (
     ensure_knowledge_graph_ready,
     serve_knowledge_graph,
 )
-from tree_sitter_analyzer.knowledge_graph.stores import LadybugUnavailableError
-from tree_sitter_analyzer.mcp.tools.knowledge_graph_tool import (
+from codexray.knowledge_graph.stores import LadybugUnavailableError
+from codexray.mcp.tools.knowledge_graph_tool import (
     CodeGraphKnowledgeGraphTool,
     CodeGraphKnowledgeIndexTool,
     _compact_sync_report,
@@ -337,7 +337,7 @@ def test_builder_edge_and_markdown_caps_cover_relationship_boundaries(
     assert "doc.md" in markdown_files
     assert ".venv/ignored.md" not in markdown_files
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.builder.glob.glob",
+        "codexray.knowledge_graph.builder.glob.glob",
         lambda *args, **kwargs: [str(tmp_path / ".venv" / "ignored.md")],
     )
     assert _iter_markdown_files(str(tmp_path), ["**/*.md"]) == []
@@ -591,7 +591,7 @@ def test_html_viewer_embeds_graphology_payload_safely() -> None:
 
 
 def test_cli_parser_accepts_knowledge_graph_uml_export_flags() -> None:
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     args = parser.parse_args(
@@ -846,23 +846,23 @@ def test_serve_knowledge_graph_starts_and_closes_server(
             events.append("close")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server._prepare_reason",
+        "codexray.knowledge_graph.server._prepare_reason",
         lambda project_root: "",
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server.ensure_knowledge_graph_ready",
+        "codexray.knowledge_graph.server.ensure_knowledge_graph_ready",
         lambda project_root: {"prepared": True, "reason": "startup incremental update"},
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server.KnowledgeGraphService",
+        "codexray.knowledge_graph.server.KnowledgeGraphService",
         lambda project_root: SimpleNamespace(),
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server.ThreadingHTTPServer",
+        "codexray.knowledge_graph.server.ThreadingHTTPServer",
         FakeServer,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server.webbrowser.open",
+        "codexray.knowledge_graph.server.webbrowser.open",
         lambda url: events.append(url),
     )
 
@@ -872,7 +872,7 @@ def test_serve_knowledge_graph_starts_and_closes_server(
 
     events.clear()
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server.ensure_knowledge_graph_ready",
+        "codexray.knowledge_graph.server.ensure_knowledge_graph_ready",
         lambda project_root: {"prepared": False, "reason": "fresh"},
     )
     serve_knowledge_graph(str(tmp_path), open_browser=False)
@@ -913,7 +913,7 @@ def test_prepare_reason_and_ready_error_paths(
         str(ladybug_path): 40,
     }
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server._mtime_ns",
+        "codexray.knowledge_graph.server._mtime_ns",
         lambda path: mtimes.get(path),
     )
     assert _prepare_reason(str(tmp_path)) == "json sidecar older than SQLite index"
@@ -933,11 +933,11 @@ def test_prepare_reason_and_ready_error_paths(
             return {"success": False, "error": "index failed"}
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.CodeGraphKnowledgeIndexTool",
+        "codexray.mcp.tools.knowledge_graph_tool.CodeGraphKnowledgeIndexTool",
         FailingKnowledgeIndexTool,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server._prepare_reason",
+        "codexray.knowledge_graph.server._prepare_reason",
         lambda project_root: "forced",
     )
     with pytest.raises(RuntimeError, match="index failed"):
@@ -956,13 +956,13 @@ def test_cli_knowledge_graph_serve_error_paths(
     )
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server.serve_knowledge_graph",
+        "codexray.knowledge_graph.server.serve_knowledge_graph",
         lambda **kwargs: (_ for _ in ()).throw(KeyboardInterrupt()),
     )
     assert run_knowledge_graph_serve(args, errors.append) == 0
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server.serve_knowledge_graph",
+        "codexray.knowledge_graph.server.serve_knowledge_graph",
         lambda **kwargs: (_ for _ in ()).throw(RuntimeError("boom")),
     )
     assert run_knowledge_graph_serve(args, errors.append) == 1
@@ -1041,7 +1041,7 @@ def test_ensure_knowledge_graph_ready_updates_by_default_even_when_fresh(
     os.utime(ast_cache / "knowledge-graph.json", ns=(2, 2))
     monkeypatch.setattr(LadybugKnowledgeGraphStore, "available", lambda: False)
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.CodeGraphKnowledgeIndexTool",
+        "codexray.mcp.tools.knowledge_graph_tool.CodeGraphKnowledgeIndexTool",
         FakeKnowledgeIndexTool,
     )
 
@@ -1068,7 +1068,7 @@ def test_ensure_knowledge_graph_ready_updates_missing_sidecar(
 
     monkeypatch.setattr(LadybugKnowledgeGraphStore, "available", lambda: False)
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.CodeGraphKnowledgeIndexTool",
+        "codexray.mcp.tools.knowledge_graph_tool.CodeGraphKnowledgeIndexTool",
         FakeKnowledgeIndexTool,
     )
 
@@ -1195,7 +1195,7 @@ def test_ladybug_store_reports_missing_optional_dependency(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.stores.importlib.util.find_spec",
+        "codexray.knowledge_graph.stores.importlib.util.find_spec",
         lambda name: None,
     )
 
@@ -1205,7 +1205,7 @@ def test_ladybug_store_reports_missing_optional_dependency(
         raise AssertionError(name)
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.stores.importlib.import_module",
+        "codexray.knowledge_graph.stores.importlib.import_module",
         _missing_ladybug,
     )
     store = LadybugKnowledgeGraphStore(str(tmp_path))
@@ -1214,7 +1214,7 @@ def test_ladybug_store_reports_missing_optional_dependency(
     with pytest.raises(LadybugUnavailableError) as exc_info:
         store.write(snapshot)
 
-    assert "tree-sitter-analyzer[graph]" in str(exc_info.value)
+    assert "codexray[graph]" in str(exc_info.value)
     assert store.status()["available"] is False
 
 
@@ -1435,11 +1435,11 @@ async def test_knowledge_index_tool_builds_json_and_hybrid_error(
             return {"path": "graph.lbug", "node_count": len(snapshot.nodes)}
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.KnowledgeGraphBuilder",
+        "codexray.mcp.tools.knowledge_graph_tool.KnowledgeGraphBuilder",
         FakeBuilder,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.LadybugKnowledgeGraphStore",
+        "codexray.mcp.tools.knowledge_graph_tool.LadybugKnowledgeGraphStore",
         FakeLadybugStore,
     )
     tool = CodeGraphKnowledgeIndexTool(str(tmp_path))
@@ -1466,7 +1466,7 @@ async def test_knowledge_index_tool_builds_json_and_hybrid_error(
     assert "missing ladybug" in hybrid_result["error"]
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.LadybugKnowledgeGraphStore",
+        "codexray.mcp.tools.knowledge_graph_tool.LadybugKnowledgeGraphStore",
         FakeLadybugSuccessStore,
     )
     ladybug_result = await tool.execute(
@@ -1519,11 +1519,11 @@ async def test_knowledge_index_tool_skips_writes_when_update_has_no_changes(
             return {"available": False}
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.KnowledgeGraphBuilder",
+        "codexray.mcp.tools.knowledge_graph_tool.KnowledgeGraphBuilder",
         ExplodingBuilder,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.LadybugKnowledgeGraphStore",
+        "codexray.mcp.tools.knowledge_graph_tool.LadybugKnowledgeGraphStore",
         FakeLadybugStore,
     )
     tool = CodeGraphKnowledgeIndexTool(str(tmp_path))
@@ -1700,13 +1700,13 @@ def test_compact_sync_report_drops_per_file_payloads() -> None:
 def test_cli_knowledge_graph_import_and_special_command_paths(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    from tree_sitter_analyzer.cli.commands import mcp_commands
+    from codexray.cli.commands import mcp_commands
 
     importlib.reload(mcp_commands)
     errors: list[str] = []
     monkeypatch.setitem(
         sys.modules,
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool",
+        "codexray.mcp.tools.knowledge_graph_tool",
         None,
     )
     args = SimpleNamespace(format="json", output_format="json", project_root=".")
@@ -1936,7 +1936,7 @@ def test_on_sync_modify_removes_ghost_nodes(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """CRITICAL regression: delete_by_file called BEFORE patch for changed files."""
-    from tree_sitter_analyzer.knowledge_graph.server import _make_on_sync_callback
+    from codexray.knowledge_graph.server import _make_on_sync_callback
 
     call_order: list[str] = []
 
@@ -1967,12 +1967,12 @@ def test_on_sync_modify_removes_ghost_nodes(
 
     # Patch at the server module level (used by LadybugKnowledgeGraphStore(...) call)
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.server.LadybugKnowledgeGraphStore",
+        "codexray.knowledge_graph.server.LadybugKnowledgeGraphStore",
         FakeLadybugStore,
     )
     # Patch KnowledgeGraphBuilder in the builder module (imported inline via `from .builder import`)
     monkeypatch.setattr(
-        "tree_sitter_analyzer.knowledge_graph.builder.KnowledgeGraphBuilder",
+        "codexray.knowledge_graph.builder.KnowledgeGraphBuilder",
         FakeBuilder,
     )
 
@@ -2027,7 +2027,7 @@ def test_http_status_endpoint_returns_mtime_ns(tmp_path: Path) -> None:
 def test_http_uml_endpoint_returns_mermaid_for_component(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from tree_sitter_analyzer.knowledge_graph import server as server_mod
+    from codexray.knowledge_graph import server as server_mod
 
     snapshot = KnowledgeGraphSnapshot(
         nodes=[
@@ -2072,7 +2072,7 @@ def test_http_uml_endpoint_class_falls_back_when_no_class_nodes(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """When kind=class requested but no class nodes exist, returns component diagram."""
-    from tree_sitter_analyzer.knowledge_graph import server as server_mod
+    from codexray.knowledge_graph import server as server_mod
 
     snapshot = KnowledgeGraphSnapshot(
         nodes=[
@@ -2119,7 +2119,7 @@ def test_http_uml_endpoint_returns_class_diagram_with_class_nodes(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """When class nodes exist, returns class diagram."""
-    from tree_sitter_analyzer.knowledge_graph import server as server_mod
+    from codexray.knowledge_graph import server as server_mod
 
     snapshot = KnowledgeGraphSnapshot(
         nodes=[

@@ -1,8 +1,8 @@
 """RED tests for the Inhibition / Constraint DSL (Feature 3).
 
-The ``tree_sitter_analyzer.constraints`` package does NOT exist yet — every
+The ``codexray.constraints`` package does NOT exist yet — every
 test in this file is expected to fail today, most with ``ImportError`` on
-the first ``from tree_sitter_analyzer.constraints import ...`` line. That
+the first ``from codexray.constraints import ...`` line. That
 is intentional: this is the contract the implementer must satisfy in the
 follow-up GREEN phase.
 
@@ -59,7 +59,7 @@ def _stage_constraints_file(tmp_path: Path, fixture_name: str) -> Path:
     """Copy a fixture into ``<tmp_path>/architectural-constraints.yml``.
 
     The loader resolves config relative to ``project_root`` and prefers
-    the root-level file over ``.tree-sitter-analyzer/constraints.yml``,
+    the root-level file over ``.codexray/constraints.yml``,
     per spec. Returning ``tmp_path`` lets each test scope its filesystem
     cleanly via pytest's ``tmp_path`` fixture.
     """
@@ -87,12 +87,12 @@ def _build_call_edges_db(
     """
     import json as _json
 
-    from tree_sitter_analyzer.graph.edge_store import EdgeKind, symbol_node
+    from codexray.graph.edge_store import EdgeKind, symbol_node
 
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(db_path))
     try:
-        from tree_sitter_analyzer.graph.edge_store import EDGE_STORE_SCHEMA
+        from codexray.graph.edge_store import EDGE_STORE_SCHEMA
 
         conn.executescript(EDGE_STORE_SCHEMA)
         params = []
@@ -195,7 +195,7 @@ class TestConstraintParser:
 
     def test_parse_valid_yaml(self, tmp_path: Path) -> None:
         """Three rules, three severities, exceptions preserved on rule 2."""
-        from tree_sitter_analyzer.constraints import load_constraints
+        from codexray.constraints import load_constraints
 
         project = _stage_constraints_file(tmp_path, "valid.yml")
         constraints = load_constraints(str(project))
@@ -232,8 +232,8 @@ class TestConstraintParser:
         the agent reads. Without a line pointer the agent has to re-read
         the whole file to find the typo.
         """
-        from tree_sitter_analyzer.constraints import load_constraints
-        from tree_sitter_analyzer.constraints.parser import ConstraintParseError
+        from codexray.constraints import load_constraints
+        from codexray.constraints.parser import ConstraintParseError
 
         project = _stage_constraints_file(tmp_path, "invalid.yml")
 
@@ -247,8 +247,8 @@ class TestConstraintParser:
 
     def test_parse_unknown_top_level_key_raises(self, tmp_path: Path) -> None:
         """``rulez:`` instead of ``constraints:`` is fatal and names the typo."""
-        from tree_sitter_analyzer.constraints import load_constraints
-        from tree_sitter_analyzer.constraints.parser import ConstraintParseError
+        from codexray.constraints import load_constraints
+        from codexray.constraints.parser import ConstraintParseError
 
         project = _stage_constraints_file(tmp_path, "unknown_top_key.yml")
 
@@ -273,14 +273,14 @@ class TestConstraintParser:
         just skip rules they don't understand — so the rollout doesn't
         block on lockstep upgrades.
         """
-        from tree_sitter_analyzer.constraints import load_constraints
+        from codexray.constraints import load_constraints
 
         project = _stage_constraints_file(tmp_path, "unknown_per_rule_key.yml")
 
         # Capture from the specific constraint-parser logger so Py3.13's
         # stricter propagation defaults don't drop the warning.
         with caplog.at_level(
-            "WARNING", logger="tree_sitter_analyzer.constraints.parser"
+            "WARNING", logger="codexray.constraints.parser"
         ):
             constraints = load_constraints(str(project))
 
@@ -301,10 +301,10 @@ class TestConstraintParser:
 
     def test_missing_config_returns_empty_constraints(self, tmp_path: Path) -> None:
         """A repo with no constraints.yml is a valid state, not an error."""
-        from tree_sitter_analyzer.constraints import load_constraints
+        from codexray.constraints import load_constraints
 
         # tmp_path is fresh and empty — no architectural-constraints.yml,
-        # no .tree-sitter-analyzer/constraints.yml.
+        # no .codexray/constraints.yml.
         constraints = load_constraints(str(tmp_path))
 
         assert constraints == [], (
@@ -328,13 +328,13 @@ class TestGlobMatching:
         positives. This was the bug bash item that triggered the spec
         to call out ``**`` explicitly.
         """
-        from tree_sitter_analyzer.constraints.parser import match_glob
+        from codexray.constraints.parser import match_glob
 
         # Recursive descent matches.
         assert (
             match_glob(
-                "tree_sitter_analyzer/mcp/**",
-                "tree_sitter_analyzer/mcp/tools/foo.py",
+                "codexray/mcp/**",
+                "codexray/mcp/tools/foo.py",
             )
             is True
         )
@@ -343,8 +343,8 @@ class TestGlobMatching:
         # ``mcp/`` is significant.
         assert (
             match_glob(
-                "tree_sitter_analyzer/mcp/**",
-                "tree_sitter_analyzer/cli/mcp_commands.py",
+                "codexray/mcp/**",
+                "codexray/cli/mcp_commands.py",
             )
             is False
         )
@@ -360,7 +360,7 @@ class TestEvaluator:
 
     def test_violation_detected_mcp_to_cli(self, tmp_path: Path) -> None:
         """A real edge that crosses a forbidden boundary → 1 error violation."""
-        from tree_sitter_analyzer.constraints import (
+        from codexray.constraints import (
             evaluate,
             load_constraints,
         )
@@ -373,11 +373,11 @@ class TestEvaluator:
             rows=[
                 (
                     "do_thing",  # caller_name
-                    "tree_sitter_analyzer/mcp/x.py",  # caller_file
+                    "codexray/mcp/x.py",  # caller_file
                     42,  # caller_line
                     "cli_helper",  # callee_name
                     "cli_helper",  # callee_full
-                    "tree_sitter_analyzer/cli/y.py",  # callee_file
+                    "codexray/cli/y.py",  # callee_file
                 ),
             ],
         )
@@ -396,8 +396,8 @@ class TestEvaluator:
         v = violations[0]
         assert v.severity == "error"
         assert v.rule_id == "dogfood-mcp-no-cli"
-        assert v.caller_file == "tree_sitter_analyzer/mcp/x.py"
-        assert v.callee_file == "tree_sitter_analyzer/cli/y.py"
+        assert v.caller_file == "codexray/mcp/x.py"
+        assert v.callee_file == "codexray/cli/y.py"
         assert v.caller_line == 42
 
     def test_exception_suppresses_violation(self, tmp_path: Path) -> None:
@@ -407,7 +407,7 @@ class TestEvaluator:
         without disabling the whole rule, so this test pins down that the
         match is exact (not a substring).
         """
-        from tree_sitter_analyzer.constraints import (
+        from codexray.constraints import (
             evaluate,
             load_constraints,
         )
@@ -452,7 +452,7 @@ class TestEvaluator:
         than the per-test 5s budget on slow runners — but the measured
         eval window stays at 500 ms regardless.
         """
-        from tree_sitter_analyzer.constraints import (
+        from codexray.constraints import (
             evaluate,
             load_constraints,
         )
@@ -466,8 +466,8 @@ class TestEvaluator:
         rows: list[tuple[str, str, int, str, str, str]] = []
         for i in range(50_000):
             if i % 10 == 0:
-                caller_file = f"tree_sitter_analyzer/mcp/mod_{i}.py"
-                callee_file = f"tree_sitter_analyzer/cli/cli_{i}.py"
+                caller_file = f"codexray/mcp/mod_{i}.py"
+                callee_file = f"codexray/cli/cli_{i}.py"
             else:
                 caller_file = f"src/pkg_{i % 50}/mod_{i}.py"
                 callee_file = f"src/pkg_{(i + 1) % 50}/mod_{i + 1}.py"
@@ -560,8 +560,8 @@ class TestEvaluator:
         """
         import json as _json
 
-        from tree_sitter_analyzer.constraints import evaluate, load_constraints
-        from tree_sitter_analyzer.graph.edge_store import (
+        from codexray.constraints import evaluate, load_constraints
+        from codexray.graph.edge_store import (
             EDGE_STORE_SCHEMA,
             EdgeKind,
             symbol_node,
@@ -574,12 +574,12 @@ class TestEvaluator:
         # Build two edges with identical (caller_file, caller_line, callee_name)
         # but different callee_resolved_file — simulating a call site that was
         # resolved to two targets by different indexing passes.
-        caller_file = "tree_sitter_analyzer/mcp/x.py"
+        caller_file = "codexray/mcp/x.py"
         caller_name = "do_thing"
         caller_line = 42
         callee_name = "cli_helper"
-        callee_file_a = "tree_sitter_analyzer/cli/y.py"
-        callee_file_b = "tree_sitter_analyzer/cli/z.py"
+        callee_file_a = "codexray/cli/y.py"
+        callee_file_b = "codexray/cli/z.py"
 
         conn = sqlite3.connect(str(db_path))
         try:
@@ -659,7 +659,7 @@ class TestEvaluator:
         only ``hashlib`` — no ``mcp`` import at all.  The evaluator must
         NOT flag this as a constraint violation.
         """
-        from tree_sitter_analyzer.constraints import evaluate, load_constraints
+        from codexray.constraints import evaluate, load_constraints
 
         project = _stage_constraints_file(tmp_path, "dogfood_minimal.yml")
         db_path = project / ".ast-cache" / "index.db"
@@ -671,11 +671,11 @@ class TestEvaluator:
             rows=[
                 (
                     "_hash_one_file",  # caller_name
-                    "tree_sitter_analyzer/core/analysis_session.py",  # caller_file
+                    "codexray/core/analysis_session.py",  # caller_file
                     188,  # caller_line
                     "update",  # callee_name
                     "sha256_hash.update",  # callee_full
-                    "tree_sitter_analyzer/mcp/tools/utils/file_health_blocks.py",  # callee_file (WRONG resolution)
+                    "codexray/mcp/tools/utils/file_health_blocks.py",  # callee_file (WRONG resolution)
                 ),
             ],
         )
@@ -685,9 +685,9 @@ class TestEvaluator:
         _populate_ast_imports(
             db_path,
             rows=[
-                ("tree_sitter_analyzer/core/analysis_session.py", "hashlib"),
-                ("tree_sitter_analyzer/core/analysis_session.py", "json"),
-                ("tree_sitter_analyzer/core/analysis_session.py", "pathlib"),
+                ("codexray/core/analysis_session.py", "hashlib"),
+                ("codexray/core/analysis_session.py", "json"),
+                ("codexray/core/analysis_session.py", "pathlib"),
             ],
         )
 
@@ -712,7 +712,7 @@ class TestEvaluator:
         Ensures the import-reachability guard does not over-filter real
         violations — only phantom bare-name resolutions are suppressed.
         """
-        from tree_sitter_analyzer.constraints import evaluate, load_constraints
+        from codexray.constraints import evaluate, load_constraints
 
         project = _stage_constraints_file(tmp_path, "dogfood_minimal.yml")
         db_path = project / ".ast-cache" / "index.db"
@@ -723,11 +723,11 @@ class TestEvaluator:
             rows=[
                 (
                     "do_thing",  # caller_name
-                    "tree_sitter_analyzer/mcp/x.py",  # caller_file
+                    "codexray/mcp/x.py",  # caller_file
                     42,  # caller_line
                     "cli_helper",  # callee_name
                     "cli_helper",  # callee_full
-                    "tree_sitter_analyzer/cli/y.py",  # callee_file (REAL violation)
+                    "codexray/cli/y.py",  # callee_file (REAL violation)
                 ),
             ],
         )
@@ -736,7 +736,7 @@ class TestEvaluator:
         _populate_ast_imports(
             db_path,
             rows=[
-                ("tree_sitter_analyzer/mcp/x.py", "tree_sitter_analyzer.cli.y"),
+                ("codexray/mcp/x.py", "codexray.cli.y"),
             ],
         )
 
@@ -753,5 +753,5 @@ class TestEvaluator:
         )
         v = violations[0]
         assert v.rule_id == "dogfood-mcp-no-cli"
-        assert v.caller_file == "tree_sitter_analyzer/mcp/x.py"
-        assert v.callee_file == "tree_sitter_analyzer/cli/y.py"
+        assert v.caller_file == "codexray/mcp/x.py"
+        assert v.callee_file == "codexray/cli/y.py"

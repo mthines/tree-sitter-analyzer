@@ -5,11 +5,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.sql_plugin import (
+from codexray.languages.sql_plugin import (
     SQLElementExtractor,
     SQLPlugin,
 )
-from tree_sitter_analyzer.models import (
+from codexray.models import (
     SQLElementType,
     SQLFunction,
     SQLTable,

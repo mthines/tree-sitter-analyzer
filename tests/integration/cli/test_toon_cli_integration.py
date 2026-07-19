@@ -22,7 +22,7 @@ class TestToonCLIOptions:
     def test_format_toon_option_in_help(self):
         """Test that --format toon is documented in help."""
         result = subprocess.run(
-            [sys.executable, "-m", "tree_sitter_analyzer.cli", "--help"],
+            [sys.executable, "-m", "codexray.cli", "--help"],
             capture_output=True,
             text=True,
         )
@@ -33,7 +33,7 @@ class TestToonCLIOptions:
     def test_output_format_toon_option_in_help(self):
         """Test that --output-format toon is documented in help."""
         result = subprocess.run(
-            [sys.executable, "-m", "tree_sitter_analyzer.cli", "--help"],
+            [sys.executable, "-m", "codexray.cli", "--help"],
             capture_output=True,
             text=True,
         )
@@ -46,7 +46,7 @@ class TestToonCLIOptions:
     def test_toon_use_tabs_option_in_help(self):
         """Test that --toon-use-tabs is documented in help."""
         result = subprocess.run(
-            [sys.executable, "-m", "tree_sitter_analyzer.cli", "--help"],
+            [sys.executable, "-m", "codexray.cli", "--help"],
             capture_output=True,
             text=True,
         )
@@ -119,7 +119,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--structure",
                 "--output-format",
@@ -151,7 +151,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--structure",
                 "--format",
@@ -176,7 +176,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--summary",
                 "--output-format",
@@ -199,7 +199,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--advanced",
                 "--output-format",
@@ -222,7 +222,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--partial-read",
                 "--start-line",
@@ -249,7 +249,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--query-key",
                 "function",
@@ -271,7 +271,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--structure",
                 "--output-format",
@@ -296,7 +296,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--structure",
                 "--output-format",
@@ -313,7 +313,7 @@ public class Sample {
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_python_file),
                 "--structure",
                 "--output-format",
@@ -350,7 +350,7 @@ class TestToonCLIEdgeCases:
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_file),
                 "--structure",
                 "--output-format",
@@ -373,7 +373,7 @@ class TestToonCLIEdgeCases:
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_file),
                 "--structure",
                 "--format",
@@ -399,7 +399,7 @@ class TestToonCLIEdgeCases:
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli",
+                "codexray.cli",
                 str(sample_file),
                 "--structure",
                 "--output-format",

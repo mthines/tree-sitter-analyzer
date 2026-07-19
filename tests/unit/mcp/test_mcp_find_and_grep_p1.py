@@ -2,16 +2,16 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -37,7 +37,7 @@ def _mock_find_and_grep_json_run(monkeypatch, file_path, line_text, match_text):
         return 1, b"", b"Unknown command"
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
 
@@ -84,7 +84,7 @@ async def test_find_and_grep_exec_composed(monkeypatch, tmp_path):
         return 1, b"", b"bad cmd"
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -133,7 +133,7 @@ async def test_find_and_grep_multiline_case_insensitive(monkeypatch, tmp_path):
         return 1, b"", b"bad cmd"
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -184,7 +184,7 @@ file4.py:12
             return 0, mock_rg_count_output, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -248,7 +248,7 @@ async def test_find_and_grep_error_handling(monkeypatch, tmp_path):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -291,7 +291,7 @@ async def test_find_and_grep_file_discovery_parameters(monkeypatch, tmp_path):
             )
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -343,7 +343,7 @@ async def test_find_and_grep_content_search_parameters(monkeypatch, tmp_path):
             )
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -398,7 +398,7 @@ async def test_find_and_grep_with_file_sorting(monkeypatch, tmp_path):
             return 0, (json.dumps(rg_json) + "\n").encode(), b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test path sorting
@@ -433,7 +433,7 @@ async def test_find_and_grep_summary_only_mode(monkeypatch, tmp_path):
             return 0, "\n".join(matches).encode(), b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -462,7 +462,7 @@ async def test_tools_timeout_handling(monkeypatch, tmp_path):
         return 124, b"", b"Timeout after 1000 ms"
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture",
         fake_timeout_run,
     )
 
@@ -498,7 +498,7 @@ async def test_tools_with_empty_results(monkeypatch, tmp_path):
         return 0, b"", b""  # Empty results
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_empty_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_empty_run
     )
 
     for tool, args in tools:

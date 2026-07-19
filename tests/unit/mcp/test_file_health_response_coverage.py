@@ -5,7 +5,7 @@ from __future__ import annotations
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from tree_sitter_analyzer.mcp.tools.utils.file_health_response import (
+from codexray.mcp.tools.utils.file_health_response import (
     _build_agent_next_action,
     _build_agent_summary,
     _build_extraction_plan,
@@ -368,7 +368,7 @@ class TestFindFunctionEndLine:
         )
         analysis = SimpleNamespace(elements=[])
         with patch(
-            "tree_sitter_analyzer.mcp.tools.utils.file_health_response.get_functions"
+            "codexray.mcp.tools.utils.file_health_response.get_functions"
         ) as mock_gf:
             mock_gf.return_value = [{"line": 1, "end_line": 4}]
             result = _find_function_end_line(str(target), 1, analysis)

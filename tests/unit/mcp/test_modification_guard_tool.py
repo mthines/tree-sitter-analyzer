@@ -14,7 +14,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.modification_guard_tool import ModificationGuardTool
+from codexray.mcp.tools.modification_guard_tool import ModificationGuardTool
 
 
 @pytest.fixture
@@ -304,7 +304,7 @@ class TestModificationGuardToolExecution:
         fake_callers_tool.execute = AsyncMock(return_value={"caller_count": 7})
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.callers_tool.CodeGraphCallersTool",
+            "codexray.mcp.tools.callers_tool.CodeGraphCallersTool",
             return_value=fake_callers_tool,
         ) as callers_cls:
             count = await tool._try_ast_caller_count("sharedFunc", "src/shared.py")
@@ -326,7 +326,7 @@ class TestModificationGuardToolExecution:
     ) -> None:
         """AST reconciliation is best-effort and must not fail the guard."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.callers_tool.CodeGraphCallersTool",
+            "codexray.mcp.tools.callers_tool.CodeGraphCallersTool",
             side_effect=RuntimeError("index unavailable"),
         ):
             count = await tool._try_ast_caller_count("sharedFunc", "src/shared.py")
@@ -342,7 +342,7 @@ class TestModificationGuardToolExecution:
         fake_callers_tool.execute = AsyncMock(return_value={"caller_count": "many"})
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.callers_tool.CodeGraphCallersTool",
+            "codexray.mcp.tools.callers_tool.CodeGraphCallersTool",
             return_value=fake_callers_tool,
         ):
             count = await tool._try_ast_caller_count("sharedFunc", "src/shared.py")

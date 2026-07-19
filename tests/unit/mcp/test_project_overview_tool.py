@@ -6,7 +6,7 @@ import asyncio
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+from codexray.mcp.tools.project_overview_tool import (
     ProjectOverviewTool,
     _add_file_to_scan,
     _add_path_to_scan,
@@ -733,7 +733,7 @@ class TestEdgeCases:
 
 def test_load_gitignore_only_comments_returns_none(tmp_path) -> None:
     """A .gitignore with only comments/blank lines compiles to None."""
-    from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+    from codexray.mcp.tools.project_overview_tool import (
         _load_gitignore_patterns,
     )
 
@@ -745,7 +745,7 @@ def test_load_gitignore_unreadable_returns_none(tmp_path, monkeypatch) -> None:
     """A .gitignore that raises on read degrades gracefully to None."""
     import builtins
 
-    from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+    from codexray.mcp.tools.project_overview_tool import (
         _load_gitignore_patterns,
     )
 

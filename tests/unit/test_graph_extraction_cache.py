@@ -13,9 +13,9 @@ no cache internals are imported.
 
 from __future__ import annotations
 
-import tree_sitter_analyzer.call_graph as cg_mod
-import tree_sitter_analyzer.graph_extraction_cache as gec_mod
-from tree_sitter_analyzer.call_graph import CallGraph
+import codexray.call_graph as cg_mod
+import codexray.graph_extraction_cache as gec_mod
+from codexray.call_graph import CallGraph
 
 _TWO_FUNCS = "export const a = () => 1\nexport const b = () => a()\n"
 

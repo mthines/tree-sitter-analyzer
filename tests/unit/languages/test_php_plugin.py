@@ -3,7 +3,7 @@
 import pytest
 import tree_sitter
 
-from tree_sitter_analyzer.languages.php_plugin import PHPElementExtractor, PHPPlugin
+from codexray.languages.php_plugin import PHPElementExtractor, PHPPlugin
 
 # Sample PHP code snippets for testing
 SIMPLE_CLASS_CODE = """<?php
@@ -881,7 +881,7 @@ class TestPhpUseClauseGuards:
 
     @staticmethod
     def _helpers():
-        from tree_sitter_analyzer.languages import php_helpers
+        from codexray.languages import php_helpers
 
         return php_helpers
 
@@ -929,7 +929,7 @@ enum Suit
         import tree_sitter
         import tree_sitter_php
 
-        from tree_sitter_analyzer.languages.php_plugin import PHPElementExtractor
+        from codexray.languages.php_plugin import PHPElementExtractor
 
         lang = tree_sitter.Language(tree_sitter_php.language_php())
         tree = tree_sitter.Parser(lang).parse(self.CODE.encode())
@@ -965,7 +965,7 @@ function topLevelTwo(int $x): int { return $x; }
         import tree_sitter
         import tree_sitter_php
 
-        from tree_sitter_analyzer.languages.php_plugin import PHPElementExtractor
+        from codexray.languages.php_plugin import PHPElementExtractor
 
         lang = tree_sitter.Language(tree_sitter_php.language_php())
         tree = tree_sitter.Parser(lang).parse(code.encode())

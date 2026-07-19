@@ -93,7 +93,7 @@ _skip_no_fts5 = pytest.mark.skipif(
 
 class TestNormalizeBm25:
     def _call(self, raw: float, worst: float, best: float | None = None) -> float:
-        from tree_sitter_analyzer.cache.query import _normalize_bm25
+        from codexray.cache.query import _normalize_bm25
 
         return _normalize_bm25(raw, worst, best)
 
@@ -147,7 +147,7 @@ class TestFtsSearchRanked:
         language: str | None = None,
         limit: int = 100,
     ) -> list[dict[str, Any]]:
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         return fts_search_ranked(conn, query, language=language, limit=limit)
 
@@ -199,7 +199,7 @@ class TestFtsSearchRanked:
         conn = sqlite3.connect(":memory:")
         conn.row_factory = sqlite3.Row
 
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         results = fts_search_ranked(conn, "search")
         assert results == []
@@ -294,7 +294,7 @@ class TestFtsSearchRanked:
 class TestASTCacheFtsSearchRanked:
     def test_delegates_to_query_module(self):
         """When FTS5 available, ASTCache delegates to _ast_cache_query.fts_search_ranked."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         cache = MagicMock(spec=ASTCache)
         cache._fts5_available = True
@@ -303,11 +303,11 @@ class TestASTCacheFtsSearchRanked:
         ranked_results = [{"name": "search", "relevance_score": 0.9}]
 
         with patch(
-            "tree_sitter_analyzer.cache.query.fts_search_ranked",
+            "codexray.cache.query.fts_search_ranked",
             return_value=ranked_results,
         ) as mock_fn:
             # call the real method via the bound-like call
-            from tree_sitter_analyzer.cache import query as _q
+            from codexray.cache import query as _q
 
             result = _q.fts_search_ranked(
                 MagicMock(),  # fake conn
@@ -319,7 +319,7 @@ class TestASTCacheFtsSearchRanked:
 
     def test_falls_back_for_short_query(self, tmp_path):
         """When query is 1 char, ASTCache falls back without calling FTS5."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         # We don't need a real DB — just confirm the guard logic
         cache = ASTCache.__new__(ASTCache)
@@ -354,7 +354,7 @@ class TestFtsSymbolToMatch:
     def test_shape(self):
         from pathlib import Path
 
-        from tree_sitter_analyzer.mcp.tools.query_symbol_search import (
+        from codexray.mcp.tools.query_symbol_search import (
             _fts_symbol_to_match,
         )
 
@@ -371,7 +371,7 @@ class TestFtsSymbolToMatch:
 class TestExecuteSymbolSearchFtsPath:
     async def test_uses_fts_when_available(self, tmp_path):
         """When ASTCache.fts_search_ranked returns results, response has ranked metadata."""
-        from tree_sitter_analyzer.mcp.tools.query_symbol_search import (
+        from codexray.mcp.tools.query_symbol_search import (
             execute_symbol_search,
         )
 
@@ -379,7 +379,7 @@ class TestExecuteSymbolSearchFtsPath:
         mock_cache.fts_search_ranked.return_value = [_RANKED_ROW]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.query_symbol_search.ASTCache",
+            "codexray.mcp.tools.query_symbol_search.ASTCache",
             return_value=mock_cache,
         ):
             response = await execute_symbol_search(
@@ -393,7 +393,7 @@ class TestExecuteSymbolSearchFtsPath:
 
     async def test_falls_back_when_fts_empty(self, tmp_path):
         """When ASTCache.fts_search_ranked returns [], scatter search runs instead."""
-        from tree_sitter_analyzer.mcp.tools.query_symbol_search import (
+        from codexray.mcp.tools.query_symbol_search import (
             execute_symbol_search,
         )
 
@@ -402,11 +402,11 @@ class TestExecuteSymbolSearchFtsPath:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.query_symbol_search.ASTCache",
+                "codexray.mcp.tools.query_symbol_search.ASTCache",
                 return_value=mock_cache,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.query_symbol_search._scatter_symbol_search",
+                "codexray.mcp.tools.query_symbol_search._scatter_symbol_search",
                 return_value=[],
             ) as mock_scatter,
         ):
@@ -420,7 +420,7 @@ class TestExecuteSymbolSearchFtsPath:
 
     async def test_skips_fts_for_short_query(self, tmp_path):
         """Single-character symbol skips the FTS path entirely."""
-        from tree_sitter_analyzer.mcp.tools.query_symbol_search import (
+        from codexray.mcp.tools.query_symbol_search import (
             execute_symbol_search,
         )
 
@@ -428,11 +428,11 @@ class TestExecuteSymbolSearchFtsPath:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.query_symbol_search.ASTCache",
+                "codexray.mcp.tools.query_symbol_search.ASTCache",
                 return_value=mock_cache,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.query_symbol_search._scatter_symbol_search",
+                "codexray.mcp.tools.query_symbol_search._scatter_symbol_search",
                 return_value=[],
             ),
         ):

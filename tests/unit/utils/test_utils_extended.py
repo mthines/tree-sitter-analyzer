@@ -9,7 +9,7 @@ import unittest.mock
 from pathlib import Path
 from unittest.mock import patch
 
-from tree_sitter_analyzer.utils import (
+from codexray.utils import (
     LoggingContext,
     create_performance_logger,
     log_debug,
@@ -66,7 +66,7 @@ class TestUtilsExtended:
 
     def test_logging_functions_with_kwargs(self):
         """Test logging functions with keyword arguments."""
-        with patch("tree_sitter_analyzer.utils.logging.logger") as mock_logger:
+        with patch("codexray.utils.logging.logger") as mock_logger:
             log_info("test message", extra={"key": "value"})
             log_warning("test warning", extra={"key": "value"})
             log_error("test error", extra={"key": "value"})
@@ -81,7 +81,7 @@ class TestUtilsExtended:
 
     def test_log_performance_with_details(self):
         """Test log_performance with details."""
-        with patch("tree_sitter_analyzer.utils.logging.perf_logger") as mock_logger:
+        with patch("codexray.utils.logging.perf_logger") as mock_logger:
             log_performance("test operation", 1.5, details={"lines": 100, "files": 5})
 
         mock_logger.debug.assert_called_once_with(
@@ -90,7 +90,7 @@ class TestUtilsExtended:
 
     def test_log_performance_without_details(self):
         """Test log_performance without details."""
-        with patch("tree_sitter_analyzer.utils.logging.perf_logger") as mock_logger:
+        with patch("codexray.utils.logging.perf_logger") as mock_logger:
             log_performance("test operation", 1.5)
 
         mock_logger.debug.assert_called_once_with("test operation: 1.5000s")
@@ -98,10 +98,10 @@ class TestUtilsExtended:
     def test_safe_print_functions(self):
         """Test safe print functions."""
         with (
-            patch("tree_sitter_analyzer.utils.logging.log_info") as mock_info,
-            patch("tree_sitter_analyzer.utils.logging.log_debug") as mock_debug,
-            patch("tree_sitter_analyzer.utils.logging.log_error") as mock_error,
-            patch("tree_sitter_analyzer.utils.logging.log_warning") as mock_warning,
+            patch("codexray.utils.logging.log_info") as mock_info,
+            patch("codexray.utils.logging.log_debug") as mock_debug,
+            patch("codexray.utils.logging.log_error") as mock_error,
+            patch("codexray.utils.logging.log_warning") as mock_warning,
         ):
             safe_print("test info", level="info")
             safe_print("test debug", level="debug")
@@ -137,14 +137,14 @@ class TestUtilsExtended:
 
     def test_safe_print_with_invalid_level(self):
         """Test safe print with invalid level."""
-        with patch("tree_sitter_analyzer.utils.logging.log_info") as mock_info:
+        with patch("codexray.utils.logging.log_info") as mock_info:
             safe_print("test", level="INVALID")
 
         mock_info.assert_called_once_with("test")
 
     def test_safe_print_quiet_mode(self):
         """Test safe print in quiet mode."""
-        with patch("tree_sitter_analyzer.utils.log_info") as mock_info:
+        with patch("codexray.utils.log_info") as mock_info:
             safe_print("test info", level="info", quiet=True)
             mock_info.assert_not_called()
 
@@ -169,7 +169,7 @@ class TestUtilsExtended:
 
     def test_logging_with_exception(self):
         """Test logging with exception."""
-        with patch("tree_sitter_analyzer.utils.logging.logger") as mock_logger:
+        with patch("codexray.utils.logging.logger") as mock_logger:
             try:
                 raise ValueError("test exception")
             except ValueError:
@@ -180,7 +180,7 @@ class TestUtilsExtended:
     def test_logging_with_unicode(self):
         """Test logging with unicode characters."""
         unicode_message = "测试消息 with unicode 🚀"
-        with patch("tree_sitter_analyzer.utils.logging.logger") as mock_logger:
+        with patch("codexray.utils.logging.logger") as mock_logger:
             log_info(unicode_message)
 
         mock_logger.info.assert_called_once_with(unicode_message)
@@ -256,7 +256,7 @@ class TestUtilsExtended:
 
     def test_logging_with_safe_print_integration(self):
         """Test integration between logging and safe print."""
-        with patch("tree_sitter_analyzer.utils.logging.logger") as mock_logger:
+        with patch("codexray.utils.logging.logger") as mock_logger:
             log_info("test message")
             safe_print("test message", level="info")
 
@@ -267,7 +267,7 @@ class TestUtilsExtended:
 
     def test_all_logging_functions_work_together(self):
         """Test that all logging functions work together."""
-        with patch("tree_sitter_analyzer.utils.logging.logger") as mock_logger:
+        with patch("codexray.utils.logging.logger") as mock_logger:
             log_info("info message")
             log_warning("warning message")
             log_error("error message")
@@ -293,7 +293,7 @@ class TestUtilsExtended:
 
     def test_edge_cases(self):
         """Test various edge cases."""
-        with patch("tree_sitter_analyzer.utils.logging.logger") as mock_logger:
+        with patch("codexray.utils.logging.logger") as mock_logger:
             log_info("")
             long_message = "a" * 10000
             log_info(long_message)
@@ -309,7 +309,7 @@ class TestUtilsExtended:
     def test_error_handling(self):
         """Test error handling in various scenarios."""
         test_obj = object()
-        with patch("tree_sitter_analyzer.utils.logging.logger") as mock_logger:
+        with patch("codexray.utils.logging.logger") as mock_logger:
             log_info(None)
             log_info(123)
             log_info(test_obj)

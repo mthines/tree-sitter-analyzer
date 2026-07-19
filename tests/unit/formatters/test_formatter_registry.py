@@ -10,8 +10,8 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.default_table_formatter import DefaultTableFormatter
-from tree_sitter_analyzer.formatters.formatter_registry import (
+from codexray.default_table_formatter import DefaultTableFormatter
+from codexray.formatters.formatter_registry import (
     CompactFormatter,
     CsvFormatter,
     FormatterRegistry,
@@ -19,12 +19,12 @@ from tree_sitter_analyzer.formatters.formatter_registry import (
     IFormatter,
     JsonFormatter,
 )
-from tree_sitter_analyzer.formatters.java_formatter import JavaTableFormatter
-from tree_sitter_analyzer.formatters.javascript_formatter import (
+from codexray.formatters.java_formatter import JavaTableFormatter
+from codexray.formatters.javascript_formatter import (
     JavaScriptTableFormatter,
 )
-from tree_sitter_analyzer.formatters.python_formatter import PythonTableFormatter
-from tree_sitter_analyzer.models import (
+from codexray.formatters.python_formatter import PythonTableFormatter
+from codexray.models import (
     Class,
     CodeElement,
     Function,
@@ -78,7 +78,7 @@ class TestFormatterRegistry:
     def teardown_method(self):
         """Cleanup after each test method"""
         # Restore built-in formatters
-        from tree_sitter_analyzer.formatters.formatter_registry import (
+        from codexray.formatters.formatter_registry import (
             register_builtin_formatters,
         )
 
@@ -233,7 +233,7 @@ class TestFormatterRegistry:
         import logging
 
         # Set logging level to capture warnings for the specific logger
-        logger = logging.getLogger("tree_sitter_analyzer.formatters.formatter_registry")
+        logger = logging.getLogger("codexray.formatters.formatter_registry")
         caplog.set_level(logging.WARNING, logger=logger.name)
 
         class Formatter1(IFormatter):
@@ -515,7 +515,7 @@ class TestFormatterRegistryIntegration:
 
     def setup_method(self):
         """Setup for each test method - ensure registry is properly initialized"""
-        from tree_sitter_analyzer.formatters.formatter_registry import (
+        from codexray.formatters.formatter_registry import (
             register_builtin_formatters,
         )
 
@@ -558,7 +558,7 @@ class TestFormatterRegistryLanguageSupport:
 
     def setup_method(self):
         """Setup for each test method - ensure registry is properly initialized"""
-        from tree_sitter_analyzer.formatters.formatter_registry import (
+        from codexray.formatters.formatter_registry import (
             register_builtin_formatters,
         )
 

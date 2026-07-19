@@ -1,4 +1,4 @@
-# Tree-sitter Analyzer
+# CodeXray
 
 A multi-language static code analysis tool that uses tree-sitter to parse source files into structured code elements, exposed via CLI and MCP protocol.
 

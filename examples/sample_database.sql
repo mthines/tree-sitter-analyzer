@@ -1,5 +1,5 @@
 -- Sample SQL Database Schema
--- This file demonstrates various SQL elements for testing tree-sitter-analyzer
+-- This file demonstrates various SQL elements for testing codexray
 
 -- Create users table
 CREATE TABLE users (

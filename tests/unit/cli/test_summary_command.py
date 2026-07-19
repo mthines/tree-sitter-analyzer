@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.summary_command import SummaryCommand
+from codexray.cli.commands.summary_command import SummaryCommand
 
 
 @pytest.fixture
@@ -137,10 +137,10 @@ class TestSummaryCommandOutputSummaryAnalysis:
         command.args.output_format = "text"
         command.args.summary = "classes,methods"
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_section"
+            "codexray.cli.commands.summary_command.output_section"
         ) as mock_section:
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+                "codexray.cli.commands.summary_command.output_data"
             ) as mock_data:
                 command._output_summary_analysis(analysis_result)
                 mock_section.assert_called_once_with("Summary Results")
@@ -160,7 +160,7 @@ class TestSummaryCommandOutputSummaryAnalysis:
         command.args.output_format = "json"
         command.args.summary = "classes,methods"
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_json"
+            "codexray.cli.commands.summary_command.output_json"
         ) as mock_json:
             command._output_summary_analysis(analysis_result)
             mock_json.assert_called_once()
@@ -179,7 +179,7 @@ class TestSummaryCommandOutputSummaryAnalysis:
         command.args.output_format = "toon"
         command.args.summary = "classes,methods"
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.ToonFormatter"
+            "codexray.cli.commands.summary_command.ToonFormatter"
         ) as mock_formatter_class:
             mock_formatter = MagicMock()
             mock_formatter.format.return_value = "formatted_output"
@@ -195,7 +195,7 @@ class TestSummaryCommandOutputSummaryAnalysis:
 
     def test_output_summary_analysis_default_types(self, command):
         """Test _output_summary_analysis with default types."""
-        from tree_sitter_analyzer.constants import (
+        from codexray.constants import (
             ELEMENT_TYPE_CLASS,
             ELEMENT_TYPE_FUNCTION,
         )
@@ -221,10 +221,10 @@ class TestSummaryCommandOutputSummaryAnalysis:
         command.args.output_format = "text"
         command.args.summary = None  # Should default to "classes,methods"
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_section"
+            "codexray.cli.commands.summary_command.output_section"
         ) as mock_section:
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+                "codexray.cli.commands.summary_command.output_data"
             ) as mock_data:
                 command._output_summary_analysis(analysis_result)
                 mock_section.assert_called_once_with("Summary Results")
@@ -232,7 +232,7 @@ class TestSummaryCommandOutputSummaryAnalysis:
 
     def test_output_summary_analysis_custom_types(self, command):
         """Test _output_summary_analysis with custom types."""
-        from tree_sitter_analyzer.constants import (
+        from codexray.constants import (
             ELEMENT_TYPE_CLASS,
             ELEMENT_TYPE_VARIABLE,
         )
@@ -258,10 +258,10 @@ class TestSummaryCommandOutputSummaryAnalysis:
         command.args.output_format = "text"
         command.args.summary = "classes,fields"
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_section"
+            "codexray.cli.commands.summary_command.output_section"
         ) as mock_section:
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+                "codexray.cli.commands.summary_command.output_data"
             ) as mock_data:
                 command._output_summary_analysis(analysis_result)
                 mock_section.assert_called_once_with("Summary Results")
@@ -269,7 +269,7 @@ class TestSummaryCommandOutputSummaryAnalysis:
 
     def test_output_summary_analysis_all_types(self, command):
         """Test _output_summary_analysis with all types."""
-        from tree_sitter_analyzer.constants import (
+        from codexray.constants import (
             ELEMENT_TYPE_CLASS,
             ELEMENT_TYPE_FUNCTION,
             ELEMENT_TYPE_IMPORT,
@@ -305,10 +305,10 @@ class TestSummaryCommandOutputSummaryAnalysis:
         command.args.output_format = "text"
         command.args.summary = "classes,methods,fields,imports"
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_section"
+            "codexray.cli.commands.summary_command.output_section"
         ) as mock_section:
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+                "codexray.cli.commands.summary_command.output_data"
             ) as mock_data:
                 command._output_summary_analysis(analysis_result)
                 mock_section.assert_called_once_with("Summary Results")
@@ -330,7 +330,7 @@ class TestSummaryCommandOutputTextFormat:
         }
         requested_types = ["classes", "methods"]
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_data:
             command._output_text_format(summary_data, requested_types)
             assert mock_data.call_count == 4
@@ -347,7 +347,7 @@ class TestSummaryCommandOutputTextFormat:
         }
         requested_types = ["classes"]
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_data:
             command._output_text_format(summary_data, requested_types)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -366,7 +366,7 @@ class TestSummaryCommandOutputTextFormat:
         }
         requested_types = ["methods"]
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_data:
             command._output_text_format(summary_data, requested_types)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -386,7 +386,7 @@ class TestSummaryCommandOutputTextFormat:
         }
         requested_types = ["fields"]
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_data:
             command._output_text_format(summary_data, requested_types)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -406,7 +406,7 @@ class TestSummaryCommandOutputTextFormat:
         }
         requested_types = ["imports"]
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_data:
             command._output_text_format(summary_data, requested_types)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -425,7 +425,7 @@ class TestSummaryCommandOutputTextFormat:
         }
         requested_types = ["classes", "methods"]
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_data:
             command._output_text_format(summary_data, requested_types)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -446,7 +446,7 @@ class TestSummaryCommandOutputTextFormat:
         }
         requested_types = ["classes", "methods"]
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_data:
             command._output_text_format(summary_data, requested_types)
             calls = [str(call) for call in mock_data.call_args_list]
@@ -472,7 +472,7 @@ class TestR37zSummaryCanonicalEnvelope:
 
         captured: dict[str, object] = {}
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_json",
+            "codexray.cli.commands.summary_command.output_json",
             side_effect=lambda d: captured.update(d),
         ):
             command._output_summary_analysis(analysis_result)
@@ -503,7 +503,7 @@ class TestR37zSummaryCanonicalEnvelope:
 
         captured: dict[str, object] = {}
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_json",
+            "codexray.cli.commands.summary_command.output_json",
             side_effect=lambda d: captured.update(d),
         ):
             command._output_summary_analysis(analysis_result)
@@ -523,7 +523,7 @@ class TestSummarySQLParameterSerialization:
         """Method params become plain dicts and the payload is JSON-serializable."""
         import json
 
-        from tree_sitter_analyzer.models.sql_models import (
+        from codexray.models.sql_models import (
             SQLElementType,
             SQLFunction,
             SQLParameter,
@@ -550,7 +550,7 @@ class TestSummarySQLParameterSerialization:
 
         captured: dict[str, object] = {}
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_json",
+            "codexray.cli.commands.summary_command.output_json",
             side_effect=lambda d: captured.update(d),
         ):
             command._output_summary_analysis(analysis_result)

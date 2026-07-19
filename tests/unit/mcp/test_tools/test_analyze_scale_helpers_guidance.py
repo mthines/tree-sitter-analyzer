@@ -4,7 +4,7 @@ Tests for generate_llm_guidance and validate_scale_arguments.
 
 from unittest.mock import patch
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_helpers import (
+from codexray.mcp.tools.analyze_scale_helpers import (
     generate_llm_guidance,
     validate_scale_arguments,
 )
@@ -92,7 +92,7 @@ class TestGenerateLlmGuidance:
         guidance = generate_llm_guidance(self._base_metrics(), overview)
         assert any("Many imports" in a for a in guidance["key_areas"])
 
-    @patch("tree_sitter_analyzer.query_loader.get_query_loader")
+    @patch("codexray.query_loader.get_query_loader")
     def test_python_language_suggested_queries(self, mock_loader):
         mock_loader.return_value.list_queries_for_language.return_value = [
             "functions",
@@ -104,7 +104,7 @@ class TestGenerateLlmGuidance:
         assert "functions" in guidance["suggested_queries"]
         assert "classes" in guidance["suggested_queries"]
 
-    @patch("tree_sitter_analyzer.query_loader.get_query_loader")
+    @patch("codexray.query_loader.get_query_loader")
     def test_unknown_language_no_suggested_queries(self, mock_loader):
         mock_loader.return_value.list_queries_for_language.return_value = []
         guidance = generate_llm_guidance(
@@ -160,7 +160,7 @@ class TestGenerateLlmGuidance:
         assert "fields" in overview
         assert "imports" in overview
 
-    @patch("tree_sitter_analyzer.query_loader.get_query_loader")
+    @patch("codexray.query_loader.get_query_loader")
     def test_available_queries_populated_from_loader(self, mock_loader):
         mock_loader.return_value.list_queries_for_language.return_value = [
             "classes",

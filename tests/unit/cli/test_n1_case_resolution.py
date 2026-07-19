@@ -26,12 +26,12 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands._case_resolution import (
+from codexray.cli.commands._case_resolution import (
     case_to_sensitive_bool,
     collect_case_args,
     warn_on_duplicate_case,
 )
-from tree_sitter_analyzer.mcp.tools.find_and_grep_helpers import build_search_meta
+from codexray.mcp.tools.find_and_grep_helpers import build_search_meta
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
@@ -166,9 +166,9 @@ class TestN1DuplicateCaseFlagsEmitWarning:
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli",
+                "codexray.cli.commands.find_and_grep_cli",
                 "--roots",
-                str(PROJECT_ROOT / "tree_sitter_analyzer"),
+                str(PROJECT_ROOT / "codexray"),
                 "--query",
                 "Foo",
                 "--case",
@@ -222,7 +222,7 @@ class TestN1SearchContentCaseEcho:
         src = tmp_path / "src.py"
         src.write_text("def foo():\n    return 'FOO'\n")
 
-        from tree_sitter_analyzer.mcp.tools.search_content_tool import (
+        from codexray.mcp.tools.search_content_tool import (
             SearchContentTool,
         )
 
@@ -248,7 +248,7 @@ class TestN1SearchContentCaseEcho:
         src = tmp_path / "src.py"
         src.write_text("def foo():\n    return 'FOO'\n")
 
-        from tree_sitter_analyzer.mcp.tools.search_content_tool import (
+        from codexray.mcp.tools.search_content_tool import (
             SearchContentTool,
         )
 

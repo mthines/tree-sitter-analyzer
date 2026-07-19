@@ -14,7 +14,7 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.models import YAMLElement
+from codexray.models import YAMLElement
 
 # Strategies for generating valid YAML element data
 yaml_element_types = st.sampled_from(

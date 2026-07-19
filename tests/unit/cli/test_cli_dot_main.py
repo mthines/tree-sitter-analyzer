@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 def test_cli_main_module_importable() -> None:
     """Test that cli.__main__ module can be imported."""
-    from tree_sitter_analyzer.cli import __main__ as cli_main
+    from codexray.cli import __main__ as cli_main
 
     assert cli_main is not None
     assert hasattr(cli_main, "__doc__")
@@ -16,7 +16,7 @@ def test_cli_main_module_importable() -> None:
 
 def test_cli_main_has_main_function() -> None:
     """Test that cli.__main__ references the main function."""
-    from tree_sitter_analyzer.cli.__main__ import main
+    from codexray.cli.__main__ import main
 
     assert main is not None
     assert callable(main)
@@ -27,8 +27,8 @@ def test_cli_main_runs_main_when_executed() -> None:
     import runpy
     import sys
 
-    with patch("tree_sitter_analyzer.cli_main.main") as mock_main:
-        module_name = "tree_sitter_analyzer.cli.__main__"
+    with patch("codexray.cli_main.main") as mock_main:
+        module_name = "codexray.cli.__main__"
         existing_module = sys.modules.pop(module_name, None)
         try:
             runpy.run_module(module_name, run_name="__main__")

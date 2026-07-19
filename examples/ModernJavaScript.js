@@ -4,7 +4,7 @@
  * This file demonstrates modern JavaScript features and patterns
  * that the enhanced JavaScript plugin can analyze and extract.
  *
- * @author tree-sitter-analyzer
+ * @author codexray
  * @version 1.0.0
  */
 

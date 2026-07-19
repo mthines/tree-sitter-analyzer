@@ -16,19 +16,19 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.ast_diff_tool import ASTDiffTool
-from tree_sitter_analyzer.mcp.tools.callers_tool import CodeGraphCallersTool
-from tree_sitter_analyzer.mcp.tools.change_impact_tool import ChangeImpactTool
-from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
-from tree_sitter_analyzer.mcp.tools.code_patterns_tool import CodePatternsTool
-from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import CodeGraphStatusTool
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.import_graph_tool import CodeGraphImportGraphTool
-from tree_sitter_analyzer.mcp.tools.project_health_tool import ProjectHealthTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
-from tree_sitter_analyzer.mcp.tools.smart_context_tool import SmartContextTool
-from tree_sitter_analyzer.mcp.tools.symbol_search_tool import CodeGraphSymbolSearchTool
+from codexray.mcp.tools.ast_diff_tool import ASTDiffTool
+from codexray.mcp.tools.callers_tool import CodeGraphCallersTool
+from codexray.mcp.tools.change_impact_tool import ChangeImpactTool
+from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+from codexray.mcp.tools.code_patterns_tool import CodePatternsTool
+from codexray.mcp.tools.codegraph_status_tool import CodeGraphStatusTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.import_graph_tool import CodeGraphImportGraphTool
+from codexray.mcp.tools.project_health_tool import ProjectHealthTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.smart_context_tool import SmartContextTool
+from codexray.mcp.tools.symbol_search_tool import CodeGraphSymbolSearchTool
 
 
 def _make_tools() -> list[object]:
@@ -150,7 +150,7 @@ class TestUniversalOutputFormatParam:
     across every call — while still rejecting genuinely-unknown keys."""
 
     def test_output_format_accepted_when_schema_omits_it(self) -> None:
-        from tree_sitter_analyzer.mcp.utils.schema_strictness import (
+        from codexray.mcp.utils.schema_strictness import (
             enforce_strict_params,
         )
 
@@ -165,7 +165,7 @@ class TestUniversalOutputFormatParam:
         )
 
     def test_genuinely_unknown_param_still_rejected(self) -> None:
-        from tree_sitter_analyzer.mcp.utils.schema_strictness import (
+        from codexray.mcp.utils.schema_strictness import (
             enforce_strict_params,
         )
 
@@ -175,7 +175,7 @@ class TestUniversalOutputFormatParam:
 
     @pytest.mark.parametrize("tool", TOOLS, ids=_tool_id)
     def test_every_contract_tool_accepts_output_format(self, tool: object) -> None:
-        from tree_sitter_analyzer.mcp.utils.schema_strictness import (
+        from codexray.mcp.utils.schema_strictness import (
             enforce_strict_params,
         )
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# tree-sitter-analyzer 全自动开发 — DeepSeek TUI 版本
+# codexray 全自动开发 — DeepSeek TUI 版本
 #
 # 基于 Claude Code 版本的 5 层架构 + 永续循环 + 7 防御模式
 # 适配为 DeepSeek TUI 原生调度系统
@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-PROJECT_DIR="${1:-/Users/aisheng.yu/git-private/tree-sitter-analyzer}"
+PROJECT_DIR="${1:-/Users/aisheng.yu/git-private/codexray}"
 RUNTIME_DIR="${PROJECT_DIR}/.autonomous-runtime"
 STATE_FILE="${RUNTIME_DIR}/autonomous-state.json"
 LOCK_FILE="${RUNTIME_DIR}/loop.lock"
@@ -55,9 +55,9 @@ report_wiki_snapshots() {
         echo "[wiki] $(basename "$path")" >> "${LOG_FILE}"
     done < <(printf '%s\n' \
         "${WIKI_DIR}/ts-analyzer-autonomous-dev-design.md" \
-        "${WIKI_DIR}/tree-sitter-analyzer-autonomous-dev-capability.md" \
-        "${WIKI_DIR}/tree-sitter-analyzer-24x7-autonomous-dev-monitoring.md" \
-        "${WIKI_DIR}/tree-sitter-analyzer-test-mastery.md")
+        "${WIKI_DIR}/codexray-autonomous-dev-capability.md" \
+        "${WIKI_DIR}/codexray-24x7-autonomous-dev-monitoring.md" \
+        "${WIKI_DIR}/codexray-test-mastery.md")
 }
 
 # ── 停止条件检测 ──────────────────────────────────────────────
@@ -89,13 +89,13 @@ sync_state() {
 
     local commits tools tests
     commits=$(git rev-list --count HEAD 2>/dev/null || echo 0)
-    tools=$(grep -r "def " tree_sitter_analyzer/mcp/tools/ --include="*.py" 2>/dev/null | wc -l | tr -d ' ')
+    tools=$(grep -r "def " codexray/mcp/tools/ --include="*.py" 2>/dev/null | wc -l | tr -d ' ')
     tests=$(find tests -name "*.py" -not -name "__init__.py" -not -name "conftest.py" 2>/dev/null | wc -l | tr -d ' ')
 
     cat > "${STATE_FILE}" << STATEJSON
 {
     "last_sync": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-    "project": "tree-sitter-analyzer",
+    "project": "codexray",
     "branch": "$(git branch --show-current)",
     "head": "$(git rev-parse --short HEAD)",
     "commits": ${commits},
@@ -111,7 +111,7 @@ main() {
     acquire_lock
 
     echo "╔══════════════════════════════════════════════════════╗"
-    echo "║  tree-sitter-analyzer 自主开发 — DeepSeek TUI 版本  ║"
+    echo "║  codexray 自主开发 — DeepSeek TUI 版本  ║"
     echo "╚══════════════════════════════════════════════════════╝"
     echo "[$(date)] process $$ started"
 

@@ -9,8 +9,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor, RustPlugin
-from tree_sitter_analyzer.models import Import, Variable
+from codexray.languages.rust_plugin import RustElementExtractor, RustPlugin
+from codexray.models import Import, Variable
 
 
 @pytest.fixture
@@ -83,7 +83,7 @@ class TestRustElementExtractorUnit:
             assert isinstance(result, Import)
             assert "std::collections::HashMap" in result.name
 
-    @patch("tree_sitter_analyzer.languages.rust_plugin.log_error")
+    @patch("codexray.languages.rust_plugin.log_error")
     def test_extract_import_error(self, mock_log, rust_extractor):
         node = _mock_node("use_declaration")
         with patch.object(
@@ -108,7 +108,7 @@ class TestRustElementExtractorUnit:
             "_extract_type_def",
             return_value=MagicMock(name="MyEnum", start_line=1, end_line=3),
         ):
-            from tree_sitter_analyzer.models import Class
+            from codexray.models import Class
 
             with patch.object(
                 rust_extractor,
@@ -126,7 +126,7 @@ class TestRustElementExtractorUnit:
             "_extract_type_def",
             return_value=MagicMock(name="MyTrait", start_line=1, end_line=3),
         ):
-            from tree_sitter_analyzer.models import Class
+            from codexray.models import Class
 
             with patch.object(
                 rust_extractor,
@@ -170,7 +170,7 @@ class TestRustElementExtractorUnit:
                     assert "Debug" in result.implements_interfaces
                     assert "Clone" in result.implements_interfaces
 
-    @patch("tree_sitter_analyzer.languages.rust_plugin.log_error")
+    @patch("codexray.languages.rust_plugin.log_error")
     def test_extract_type_def_error(self, mock_log, rust_extractor):
         # Need a node WITH a name so we enter the try body before error triggers
         name_node = _mock_node("identifier", text="BadStruct")
@@ -208,7 +208,7 @@ class TestRustElementExtractorUnit:
             assert len(rust_extractor.impl_blocks) == 1
             assert rust_extractor.impl_blocks[0]["type"] == "Foo"
 
-    @patch("tree_sitter_analyzer.languages.rust_plugin.log_error")
+    @patch("codexray.languages.rust_plugin.log_error")
     def test_extract_impl_error(self, mock_log, rust_extractor):
         type_node = _mock_node("type_identifier", text="BadImpl")
         node = _mock_node(
@@ -252,7 +252,7 @@ class TestRustElementExtractorUnit:
                 assert result.name == "field_name"
                 assert result.variable_type == "i32"
 
-    @patch("tree_sitter_analyzer.languages.rust_plugin.log_error")
+    @patch("codexray.languages.rust_plugin.log_error")
     def test_extract_field_error(self, mock_log, rust_extractor):
         # Need name and type nodes to enter try body
         name_node = _mock_node("identifier", text="bad_field")
@@ -322,7 +322,7 @@ class TestRustElementExtractorUnit:
     def test_get_node_text_error(self, rust_extractor):
         node = _mock_node("identifier", start_byte=0, end_byte=10)
         with patch(
-            "tree_sitter_analyzer.languages.rust_plugin.extract_text_slice",
+            "codexray.languages.rust_plugin.extract_text_slice",
             side_effect=Exception("bad encoding"),
         ):
             result = rust_extractor._get_node_text(node)
@@ -358,7 +358,7 @@ class TestRustElementExtractorUnit:
                 assert result.name == "my_async_fn"
                 assert result.is_async is True
 
-    @patch("tree_sitter_analyzer.languages.rust_plugin.log_error")
+    @patch("codexray.languages.rust_plugin.log_error")
     def test_extract_function_error(self, mock_log, rust_extractor):
         # Need a name node to enter try body
         name_node = _mock_node("identifier", text="bad_fn")
@@ -621,11 +621,11 @@ class TestRustExtractorCoverageBoost:
         rust_extractor.content_lines = ["hello world"]
         rust_extractor._node_text_cache.clear()
         with patch(
-            "tree_sitter_analyzer.languages.rust_plugin.safe_encode",
+            "codexray.languages.rust_plugin.safe_encode",
             return_value=b"hello world",
         ):
             with patch(
-                "tree_sitter_analyzer.languages.rust_plugin.extract_text_slice",
+                "codexray.languages.rust_plugin.extract_text_slice",
                 return_value="hello",
             ):
                 result = rust_extractor._get_node_text(node)
@@ -638,7 +638,7 @@ class TestRustExtractorCoverageBoost:
         rust_extractor.content_lines = ["hello"]
         rust_extractor._node_text_cache.clear()
         with patch(
-            "tree_sitter_analyzer.languages.rust_plugin.safe_encode",
+            "codexray.languages.rust_plugin.safe_encode",
             side_effect=Exception("encoding fail"),
         ):
             result = rust_extractor._get_node_text(node)

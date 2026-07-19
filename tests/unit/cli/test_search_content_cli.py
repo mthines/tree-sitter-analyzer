@@ -6,7 +6,7 @@ return ``rc=1`` whenever the underlying tool response has
 pipelines and CI gates).
 
 Reproduce (pre-fix):
-    uv run search-content --roots tree_sitter_analyzer \
+    uv run search-content --roots codexray \
         --query "[" --output-format json
     # stdout: {"success": false, "error": "..."}
     # rc=0  (BUG)
@@ -29,7 +29,7 @@ from test_search_content_cli_main import (  # noqa: F401
 from test_search_content_cli_parser import TestBuildParser  # noqa: F401
 from test_search_content_cli_run import TestRunFunction  # noqa: F401
 
-from tree_sitter_analyzer.cli.commands.search_content_cli import _run
+from codexray.cli.commands.search_content_cli import _run
 
 
 def _base_args() -> argparse.Namespace:
@@ -69,14 +69,14 @@ async def _run_with_mock_result(result: Any) -> int:
     args = _base_args()
     with (
         patch(
-            "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root",
+            "codexray.cli.commands.search_content_cli.detect_project_root",
             return_value="/project/root",
         ),
         patch(
-            "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+            "codexray.cli.commands.search_content_cli.SearchContentTool"
         ) as mock_tool_class,
-        patch("tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"),
-        patch("tree_sitter_analyzer.cli.commands.search_content_cli.output_data"),
+        patch("codexray.cli.commands.search_content_cli.set_output_mode"),
+        patch("codexray.cli.commands.search_content_cli.output_data"),
     ):
         mock_tool = AsyncMock()
         mock_tool.execute = AsyncMock(return_value=result)
@@ -123,16 +123,16 @@ class TestH1SearchContentExitCode:
         args = _base_args()
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root",
+                "codexray.cli.commands.search_content_cli.detect_project_root",
                 return_value="/project/root",
             ),
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+                "codexray.cli.commands.search_content_cli.SearchContentTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"
+                "codexray.cli.commands.search_content_cli.set_output_mode"
             ),
-            patch("tree_sitter_analyzer.cli.commands.search_content_cli.output_error"),
+            patch("codexray.cli.commands.search_content_cli.output_error"),
         ):
             mock_tool = AsyncMock()
             mock_tool.execute = AsyncMock(side_effect=RuntimeError("boom"))

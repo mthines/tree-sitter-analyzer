@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.call_graph import CallGraph
-from tree_sitter_analyzer.dead_code_analyzer import (
+from codexray.call_graph import CallGraph
+from codexray.dead_code_analyzer import (
     DeadCodeResult,
     _is_known_entry,
     _is_test_file,
@@ -302,7 +302,7 @@ def test_excludes_dot_prefixed_vendored_dirs(tmp_path):
     dot-dirs (.benchmark-repos, .ast-cache). Cloned target repos there are not
     the project's own code and were polluting unused-imports / unreferenced
     variables output."""
-    from tree_sitter_analyzer.dead_code_analyzer import (
+    from codexray.dead_code_analyzer import (
         find_unreferenced_variables,
         find_unused_imports,
     )
@@ -341,8 +341,8 @@ def test_exclude_dirs_is_canonical_constant() -> None:
     """dead_code_analyzer must source its excluded-dir set from the single
     canonical ``constants.EXCLUDE_DIRS`` rather than defining its own private
     copy that can drift. The module-level name must BE the canonical object."""
-    from tree_sitter_analyzer import dead_code_analyzer
-    from tree_sitter_analyzer.constants import EXCLUDE_DIRS
+    from codexray import dead_code_analyzer
+    from codexray.constants import EXCLUDE_DIRS
 
     assert dead_code_analyzer._EXCLUDE_DIRS is EXCLUDE_DIRS
 
@@ -351,7 +351,7 @@ def test_exclude_dirs_covers_previously_excluded_dirs() -> None:
     """Migrating to the canonical constant must not lose any directory that
     dead_code_analyzer previously excluded — the canonical set is the union,
     so every historical entry is still covered (behavior unchanged)."""
-    from tree_sitter_analyzer.dead_code_analyzer import _EXCLUDE_DIRS
+    from codexray.dead_code_analyzer import _EXCLUDE_DIRS
 
     # The exact set dead_code_analyzer carried before centralization.
     previously_excluded = {

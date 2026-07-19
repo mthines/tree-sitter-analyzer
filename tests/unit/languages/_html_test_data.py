@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from tree_sitter_analyzer.languages.html_plugin import HtmlPlugin
+    from codexray.languages.html_plugin import HtmlPlugin
 
 TAG_CODE = """
 <!-- Structure tags -->

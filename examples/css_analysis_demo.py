@@ -2,7 +2,7 @@
 """
 CSS解析デモンストレーション
 
-このスクリプトは、Tree-sitter AnalyzerのCSS解析機能を実際に使用する例を示します。
+このスクリプトは、CodeXrayのCSS解析機能を実際に使用する例を示します。
 comprehensive_sample.cssファイルを解析し、CSSルール、セレクタ、プロパティの分析を行います。
 """
 
@@ -11,14 +11,14 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-# Tree-sitter Analyzerのインポート
+# CodeXrayのインポート
 try:
-    from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
-    from tree_sitter_analyzer.languages.css_plugin import CssPlugin
+    from codexray.core.analysis_engine import get_analysis_engine
+    from codexray.languages.css_plugin import CssPlugin
 except ImportError as e:
-    print(f"エラー: Tree-sitter Analyzerがインストールされていません: {e}")
+    print(f"エラー: CodeXrayがインストールされていません: {e}")
     print("以下のコマンドでインストールしてください:")
-    print("uv add 'tree-sitter-analyzer[css]'")
+    print("uv add 'codexray[css]'")
     exit(1)
 
 
@@ -32,7 +32,7 @@ class CssAnalysisDemo:
 
     async def initialize(self):
         """解析エンジンの初期化"""
-        print("🔧 Tree-sitter Analyzer エンジンを初期化中...")
+        print("🔧 CodeXray エンジンを初期化中...")
         self.engine = await get_analysis_engine()
         print("✅ 初期化完了")
 
@@ -393,7 +393,7 @@ class CssAnalysisDemo:
 
     async def run_demo(self):
         """デモの実行"""
-        print("🌳 Tree-sitter Analyzer CSS解析デモ")
+        print("🌳 CodeXray CSS解析デモ")
         print("=" * 60)
 
         # 初期化

@@ -202,7 +202,7 @@ class MCPClient:
     def initialize(
         self,
         *,
-        client_name: str = "tree-sitter-analyzer-e2e",
+        client_name: str = "codexray-e2e",
         client_version: str = "0.0.0",
         timeout: float = DEFAULT_HANDSHAKE_TIMEOUT_SEC,
     ) -> dict[str, Any]:
@@ -332,7 +332,7 @@ def _spawn_mcp(
 
     python_exe = python or sys.executable
     proc = subprocess.Popen(
-        [python_exe, "-m", "tree_sitter_analyzer.mcp.server"],
+        [python_exe, "-m", "codexray.mcp.server"],
         cwd=str(REPO_ROOT),
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,

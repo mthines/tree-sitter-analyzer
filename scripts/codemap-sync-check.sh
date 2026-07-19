@@ -67,7 +67,7 @@ emit_block() {
 # Match added lines containing an opening paren + quoted identifier + comma
 # inside _tool_registry.py. The pattern is intentionally broader than
 # "codegraph_" — any new ("name", ...Tool(...)) entry counts.
-REGISTRY_PATH="tree_sitter_analyzer/mcp/_tool_registry.py"
+REGISTRY_PATH="codexray/mcp/_tool_registry.py"
 CODEMAP_MCP="docs/CODEMAPS/mcp-tools.md"
 if is_staged "$REGISTRY_PATH"; then
   ADDED="$(added_lines_for "$REGISTRY_PATH")"
@@ -80,7 +80,7 @@ if is_staged "$REGISTRY_PATH"; then
 fi
 
 # --- Trigger 2: CLI argument parser --------------------------------------
-ARGS_PATH="tree_sitter_analyzer/cli/argument_parser_builder.py"
+ARGS_PATH="codexray/cli/argument_parser_builder.py"
 CODEMAP_CLI="docs/CODEMAPS/cli.md"
 if is_staged "$ARGS_PATH"; then
   ADDED="$(added_lines_for "$ARGS_PATH")"
@@ -92,10 +92,10 @@ if is_staged "$ARGS_PATH"; then
 fi
 
 # --- Trigger 3: New language plugin --------------------------------------
-# Any newly-added .py file under tree_sitter_analyzer/languages/
+# Any newly-added .py file under codexray/languages/
 CODEMAP_LANGS="docs/CODEMAPS/languages.md"
 NEW_LANG_FILES="$(git diff --cached --name-only --diff-filter=A 2>/dev/null \
-                    | grep -E '^tree_sitter_analyzer/languages/.+\.py$' || true)"
+                    | grep -E '^codexray/languages/.+\.py$' || true)"
 if [[ -n "$NEW_LANG_FILES" ]]; then
   if ! is_staged "$CODEMAP_LANGS"; then
     while IFS= read -r f; do
@@ -108,7 +108,7 @@ fi
 # --- Trigger 4: New formatter --------------------------------------------
 CODEMAP_FMT="docs/CODEMAPS/formatters.md"
 NEW_FMT_FILES="$(git diff --cached --name-only --diff-filter=A 2>/dev/null \
-                   | grep -E '^tree_sitter_analyzer/formatters/.+\.py$' || true)"
+                   | grep -E '^codexray/formatters/.+\.py$' || true)"
 if [[ -n "$NEW_FMT_FILES" ]]; then
   if ! is_staged "$CODEMAP_FMT"; then
     while IFS= read -r f; do

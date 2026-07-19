@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
 
 def test_uml_tool_definition() -> None:
@@ -55,8 +55,8 @@ def test_unsupported_diagram_validation() -> None:
 
 @pytest.mark.asyncio
 async def test_class_diagram_execute_with_mock_exporter(monkeypatch) -> None:
-    from tree_sitter_analyzer.mcp.tools import uml_tool
-    from tree_sitter_analyzer.uml_export import UMLDiagram, UMLEdge
+    from codexray.mcp.tools import uml_tool
+    from codexray.uml_export import UMLDiagram, UMLEdge
 
     class FakeExporter:
         def class_diagram(
@@ -117,8 +117,8 @@ async def test_execute_dispatches_non_class_diagrams(
     diagram: str,
     expected_mermaid: str,
 ) -> None:
-    from tree_sitter_analyzer.mcp.tools import uml_tool
-    from tree_sitter_analyzer.uml_export import UMLDiagram, UMLEdge
+    from codexray.mcp.tools import uml_tool
+    from codexray.uml_export import UMLDiagram, UMLEdge
 
     class FakeExporter:
         def package_diagram(self, max_edges: int, package_depth: int) -> UMLDiagram:

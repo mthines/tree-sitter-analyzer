@@ -5,14 +5,14 @@ import sqlite3
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.call_path import (
+from codexray.call_path import (
     CallChain,
     CallPathFinder,
     CallPathResult,
     _files_in_chain,
     _path_signature,
 )
-from tree_sitter_analyzer.graph.edge_store import EdgeKind, symbol_node
+from codexray.graph.edge_store import EdgeKind, symbol_node
 
 
 def _make_cache_with_edges(tmp_path: Path, edges: list[dict]) -> MagicMock:
@@ -380,7 +380,7 @@ class TestCallPathFinderFallback:
 
 class TestCallPathFinderCLI:
     def test_cli_tool_instantiation(self, tmp_path):
-        from tree_sitter_analyzer.mcp.tools.call_path_tool import CodeGraphCallPathTool
+        from codexray.mcp.tools.call_path_tool import CodeGraphCallPathTool
 
         tool = CodeGraphCallPathTool(str(tmp_path))
         defn = tool.get_tool_definition()
@@ -391,7 +391,7 @@ class TestCallPathFinderCLI:
         assert schema["required"] == ["source_function", "target_function"]
 
     def test_validate_missing_source(self, tmp_path):
-        from tree_sitter_analyzer.mcp.tools.call_path_tool import CodeGraphCallPathTool
+        from codexray.mcp.tools.call_path_tool import CodeGraphCallPathTool
 
         tool = CodeGraphCallPathTool(str(tmp_path))
         try:
@@ -401,7 +401,7 @@ class TestCallPathFinderCLI:
             assert "source_function" in str(e)
 
     def test_validate_missing_target(self, tmp_path):
-        from tree_sitter_analyzer.mcp.tools.call_path_tool import CodeGraphCallPathTool
+        from codexray.mcp.tools.call_path_tool import CodeGraphCallPathTool
 
         tool = CodeGraphCallPathTool(str(tmp_path))
         try:
@@ -638,7 +638,7 @@ class TestFallbackBackwardGate:
     """
 
     def test_bidirectional_fallback_backward_duplicate_deduped(self, tmp_path):
-        from tree_sitter_analyzer.call_graph import CallGraph
+        from codexray.call_graph import CallGraph
 
         graph = CallGraph(str(tmp_path))
         graph.build = lambda: None  # type: ignore[method-assign]
@@ -662,7 +662,7 @@ class TestFallbackBackwardGate:
         import unittest.mock as _m
 
         with _m.patch.object(
-            __import__("tree_sitter_analyzer.call_graph", fromlist=["CallGraph"]),
+            __import__("codexray.call_graph", fromlist=["CallGraph"]),
             "CallGraph",
             return_value=graph,
         ):
@@ -671,7 +671,7 @@ class TestFallbackBackwardGate:
         assert len(result.paths) == 1
 
     def test_bidirectional_fallback_backward_adds_distinct_chain(self, tmp_path):
-        from tree_sitter_analyzer.call_graph import CallGraph
+        from codexray.call_graph import CallGraph
 
         graph = CallGraph(str(tmp_path))
         graph.build = lambda: None  # type: ignore[method-assign]
@@ -717,7 +717,7 @@ class TestFallbackBackwardGate:
         import unittest.mock as _m
 
         with _m.patch.object(
-            __import__("tree_sitter_analyzer.call_graph", fromlist=["CallGraph"]),
+            __import__("codexray.call_graph", fromlist=["CallGraph"]),
             "CallGraph",
             return_value=graph,
         ):

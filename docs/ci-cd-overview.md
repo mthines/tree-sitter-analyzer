@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document provides a comprehensive overview of the tree-sitter-analyzer project's Continuous Integration and Continuous Deployment (CI/CD) infrastructure. The CI/CD system is built on GitHub Actions and follows GitFlow branching practices to ensure code quality, consistency, and reliable deployments.
+This document provides a comprehensive overview of the codexray project's Continuous Integration and Continuous Deployment (CI/CD) infrastructure. The CI/CD system is built on GitHub Actions and follows GitFlow branching practices to ensure code quality, consistency, and reliable deployments.
 
 ## Architecture Overview
 

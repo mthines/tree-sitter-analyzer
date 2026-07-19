@@ -16,8 +16,8 @@ import tree_sitter
 import tree_sitter_php
 import tree_sitter_ruby
 
-from tree_sitter_analyzer.languages.php_plugin import PHPElementExtractor
-from tree_sitter_analyzer.languages.ruby_plugin import RubyElementExtractor
+from codexray.languages.php_plugin import PHPElementExtractor
+from codexray.languages.ruby_plugin import RubyElementExtractor
 
 RUBY_SRC = """\
 class Animal; end
@@ -101,7 +101,7 @@ def test_interfaces_survive_api_serialization() -> None:
     """Theme-C tail: plugins collected interfaces but element_to_dict dropped
     them (field missing from _OPTIONAL_ELEM_FIELDS) — agents never saw
     implements/mixins for ANY language."""
-    from tree_sitter_analyzer.internal_api.result_helpers import element_to_dict
+    from codexray.internal_api.result_helpers import element_to_dict
 
     dog = _php_classes()["Dog"]
     as_dict = element_to_dict(dog)
@@ -145,7 +145,7 @@ def test_ruby_superclass_with_only_operator_returns_none() -> None:
     source) must yield None, not crash or return garbage."""
     from unittest.mock import Mock
 
-    from tree_sitter_analyzer.languages.ruby_plugin import RubyElementExtractor
+    from codexray.languages.ruby_plugin import RubyElementExtractor
 
     extractor = RubyElementExtractor()
     op = Mock()

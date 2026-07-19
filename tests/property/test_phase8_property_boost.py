@@ -4,8 +4,8 @@
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.encoding_utils import EncodingManager
-from tree_sitter_analyzer.query_loader import QueryLoader
+from codexray.encoding_utils import EncodingManager
+from codexray.query_loader import QueryLoader
 
 
 class TestQueryLoaderProperties:

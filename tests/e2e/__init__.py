@@ -1,4 +1,4 @@
-"""End-to-end tests for tree-sitter-analyzer.
+"""End-to-end tests for codexray.
 
 Unlike ``tests/unit/`` (which exercises individual functions in
 isolation), the E2E suite **spawns the real MCP server as a

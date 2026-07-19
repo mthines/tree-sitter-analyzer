@@ -49,8 +49,8 @@ pytest tests/ -v
 
 - [ ] ✅ Black formatting: `uv run black --check .`
 - [ ] ✅ Ruff linting: `uv run ruff check .`
-- [ ] ✅ Type checking: `uv run mypy tree_sitter_analyzer/`
-- [ ] ✅ Security scan: `uv run bandit -r tree_sitter_analyzer/`
+- [ ] ✅ Type checking: `uv run mypy codexray/`
+- [ ] ✅ Security scan: `uv run bandit -r codexray/`
 - [ ] ✅ All tests pass: `uv run pytest tests/ -v`
 
 ### 📊 Quality Check Results
@@ -82,7 +82,7 @@ If applicable, add screenshots or code examples to help explain your changes.
 
 ```python
 # Example of new functionality
-analyzer = TreeSitterAnalyzer()
+analyzer = CodeXray()
 result = analyzer.new_method()
 ```
 

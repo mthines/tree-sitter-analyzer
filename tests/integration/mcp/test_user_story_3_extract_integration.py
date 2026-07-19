@@ -17,8 +17,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
 
 class TestUserStory3ExtractIntegration:

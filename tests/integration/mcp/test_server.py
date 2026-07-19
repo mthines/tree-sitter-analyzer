@@ -13,7 +13,7 @@ import contextlib
 import pytest
 import pytest_asyncio
 
-from tree_sitter_analyzer.mcp import MCP_INFO
+from codexray.mcp import MCP_INFO
 
 
 @pytest_asyncio.fixture(autouse=True)
@@ -23,8 +23,8 @@ async def cleanup_event_loop():
 
     # 明示的にシングルトンインスタンスをクリーンアップ
     try:
-        from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
-        from tree_sitter_analyzer.core.cache_service import CacheService
+        from codexray.core.analysis_engine import UnifiedAnalysisEngine
+        from codexray.core.cache_service import CacheService
 
         # UnifiedAnalysisEngineのクリーンアップ
         if (
@@ -105,7 +105,7 @@ class TestMCPServerInitialization:
 
     def test_mcp_info_values(self) -> None:
         """Test MCP_INFO contains expected values"""
-        assert MCP_INFO["name"] == "tree-sitter-analyzer-mcp"
+        assert MCP_INFO["name"] == "codexray-mcp"
         assert MCP_INFO["protocol_version"] == "2024-11-05"
         assert isinstance(MCP_INFO["version"], str)
         assert isinstance(MCP_INFO["description"], str)

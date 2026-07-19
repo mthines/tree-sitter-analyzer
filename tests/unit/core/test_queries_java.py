@@ -5,7 +5,7 @@ Tests for Java queries module
 
 import pytest
 
-from tree_sitter_analyzer.queries.java import (
+from codexray.queries.java import (
     ALL_QUERIES,
     JAVA_QUERIES,
     JAVA_QUERY_DESCRIPTIONS,

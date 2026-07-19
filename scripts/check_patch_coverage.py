@@ -4,7 +4,7 @@
 This is a local companion to Codecov patch coverage. Generate
 ``coverage.json`` with pytest-cov, then run this script before pushing a
 PR branch. The check is intentionally strict: every added executable line
-under ``tree_sitter_analyzer/`` must be covered, and added branch source
+under ``codexray/`` must be covered, and added branch source
 lines must not have missing branch arcs.
 """
 
@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Any
 
 HUNK_RE = re.compile(r"\+(?P<start>\d+)(?:,(?P<count>\d+))?")
-DEFAULT_PATHS = ("tree_sitter_analyzer",)
+DEFAULT_PATHS = ("codexray",)
 
 
 @dataclass(frozen=True)
@@ -113,7 +113,7 @@ def normalize_repo_path(path: str, project_root: Path) -> str:
 
 def is_tracked_python_source(path: str) -> bool:
     """Return true for package source paths covered by Codecov patch gate."""
-    return path.endswith(".py") and path.startswith("tree_sitter_analyzer/")
+    return path.endswith(".py") and path.startswith("codexray/")
 
 
 def missing_patch_coverage(
@@ -186,7 +186,7 @@ def print_report(misses: list[PatchCoverageMiss]) -> None:
     for miss in misses:
         print(f"  {miss.path}:{miss.line}: {miss.reason}")
     print(
-        "\nRun focused tests with --cov=tree_sitter_analyzer "
+        "\nRun focused tests with --cov=codexray "
         "--cov-report=json, then add effective tests for the lines above."
     )
 

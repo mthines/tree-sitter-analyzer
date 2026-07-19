@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unit tests for tree_sitter_analyzer.core.query_service module.
+Unit tests for codexray.core.query_service module.
 
 This module tests the QueryService class.
 """
@@ -11,7 +11,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.core.query_service import QueryService
+from codexray.core.query_service import QueryService
 
 
 class TestQueryServiceInit:
@@ -388,7 +388,7 @@ class TestQueryServiceQueryExceptionFallback:
                     service.parser, "parse_code", return_value=mock_result
                 ):
                     with patch(
-                        "tree_sitter_analyzer.core.query_executor.TreeSitterQueryCompat.safe_execute_query",
+                        "codexray.core.query_executor.TreeSitterQueryCompat.safe_execute_query",
                         side_effect=RuntimeError("query failed"),
                     ):
                         results = await service.execute_query(
@@ -423,7 +423,7 @@ class TestQueryServiceQueryExceptionFallback:
                     service.parser, "parse_code", return_value=mock_result
                 ):
                     with patch(
-                        "tree_sitter_analyzer.core.query_executor.TreeSitterQueryCompat.safe_execute_query",
+                        "codexray.core.query_executor.TreeSitterQueryCompat.safe_execute_query",
                         return_value=[],
                     ):
                         results = await service.execute_query(
@@ -441,7 +441,7 @@ class TestQueryServiceGetQueryDescriptionException:
         """Test that exception in get_query_description returns None."""
         service = QueryService()
         with patch(
-            "tree_sitter_analyzer.core.query_service.query_loader.get_query_description",
+            "codexray.core.query_service.query_loader.get_query_description",
             side_effect=RuntimeError("db error"),
         ):
             result = service.get_query_description("python", "functions")

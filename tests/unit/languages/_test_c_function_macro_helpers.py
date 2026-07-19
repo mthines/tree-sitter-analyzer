@@ -5,16 +5,16 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from tree_sitter_analyzer.languages._c_function import (
+from codexray.languages._c_function import (
     _function_raw_text,
     extract_c_function,
 )
-from tree_sitter_analyzer.languages._c_macro import (
+from codexray.languages._c_macro import (
     _append_macro_params,
     _macro_function_parts,
     extract_macro_function,
 )
-from tree_sitter_analyzer.languages._c_signature import (
+from codexray.languages._c_signature import (
     _append_modifier,
     _find_function_declarator,
     _function_declarator_info,

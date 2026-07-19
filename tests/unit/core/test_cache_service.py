@@ -12,7 +12,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.core.cache_service import CacheEntry, CacheService
+from codexray.core.cache_service import CacheEntry, CacheService
 
 
 class TestCacheEntry:

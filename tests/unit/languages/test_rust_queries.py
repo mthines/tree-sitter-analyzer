@@ -2,7 +2,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.queries.rust import (
+from codexray.queries.rust import (
     ALL_QUERIES,
     RUST_QUERIES,
     RUST_QUERY_DESCRIPTIONS,

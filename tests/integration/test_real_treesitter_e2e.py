@@ -13,8 +13,8 @@ from pathlib import Path
 import pytest
 from tree_sitter import Language, Parser
 
-from tree_sitter_analyzer.core.parser import Parser as TSParser
-from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
+from codexray.core.parser import Parser as TSParser
+from codexray.formatters.formatter_registry import FormatterRegistry
 
 # Skip if tree-sitter-python is not available
 pytestmark = []

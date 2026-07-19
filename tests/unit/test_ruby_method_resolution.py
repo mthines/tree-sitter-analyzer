@@ -15,11 +15,11 @@ self-contained resolver:
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.synapse_resolver._registry import (
+from codexray.synapse_resolver._registry import (
     get_language_resolver,
     registered_languages,
 )
-from tree_sitter_analyzer.synapse_resolver.languages.ruby import (
+from codexray.synapse_resolver.languages.ruby import (
     build_ruby_context,
     resolve_ruby_callee,
 )

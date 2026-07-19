@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.core.parser import Parser
-from tree_sitter_analyzer.function_extraction import walk_tree
+from codexray.core.parser import Parser
+from codexray.function_extraction import walk_tree
 
 
 def _calls(code: str):

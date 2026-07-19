@@ -1,8 +1,8 @@
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.languages.sql_plugin import SQLElementExtractor, SQLPlugin
-from tree_sitter_analyzer.models import SQLElement, SQLElementType
-from tree_sitter_analyzer.platform_compat.adapter import CompatibilityAdapter
+from codexray.languages.sql_plugin import SQLElementExtractor, SQLPlugin
+from codexray.models import SQLElement, SQLElementType
+from codexray.platform_compat.adapter import CompatibilityAdapter
 
 
 class TestIntegrationProperties:
@@ -79,12 +79,12 @@ class TestIntegrationProperties:
         Validates: Requirements 5.2, 5.3, 5.4
         """
         with patch(
-            "tree_sitter_analyzer.languages.sql_plugin.extractor.log_debug"
+            "codexray.languages.sql_plugin.extractor.log_debug"
         ) as mock_log:
             # Test SQLPlugin initialization logging
             # We need to mock PlatformDetector to ensure consistent behavior
             with patch(
-                "tree_sitter_analyzer.languages.sql_plugin.extractor.PlatformDetector"
+                "codexray.languages.sql_plugin.extractor.PlatformDetector"
             ) as mock_detector:
                 mock_detector.detect.return_value.platform_key = "test_platform"
 
@@ -153,7 +153,7 @@ class TestIntegrationProperties:
             extractor, "_extract_sql_tables", side_effect=Exception("Simulated failure")
         ):
             with patch(
-                "tree_sitter_analyzer.languages.sql_plugin.extractor.log_error"
+                "codexray.languages.sql_plugin.extractor.log_error"
             ) as mock_log:
                 tree = MagicMock()
                 tree.root_node = MagicMock()

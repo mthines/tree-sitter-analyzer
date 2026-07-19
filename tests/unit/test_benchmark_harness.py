@@ -1,6 +1,6 @@
 """Unit tests for benchmarks/agent-tasks/{bench_runner,scenarios}.
 
-The harness lives outside ``tree_sitter_analyzer/`` so the wheel doesn't ship
+The harness lives outside ``codexray/`` so the wheel doesn't ship
 it. We import it via a path hack — same trick ``bench_runner`` itself uses
 for sibling-module imports.
 
@@ -19,7 +19,7 @@ from unittest.mock import patch
 
 import pytest
 
-# ``benchmarks/agent-tasks`` sits at the repo root, not under ``tree_sitter_analyzer``.
+# ``benchmarks/agent-tasks`` sits at the repo root, not under ``codexray``.
 _BENCH_DIR = Path(__file__).resolve().parents[2] / "benchmarks" / "agent-tasks"
 if str(_BENCH_DIR) not in sys.path:
     sys.path.insert(0, str(_BENCH_DIR))
@@ -31,7 +31,7 @@ from benchmarks.codegraph_compare import analyze as compare_analyze  # noqa: E40
 from benchmarks.codegraph_compare import evaluate as compare_evaluate  # noqa: E402
 from benchmarks.codegraph_compare import run as compare_run  # noqa: E402
 from benchmarks.codegraph_compare.adapters import IndexStats  # noqa: E402
-from benchmarks.codegraph_compare.adapters.tree_sitter_analyzer import (  # noqa: E402
+from benchmarks.codegraph_compare.adapters.codexray import (  # noqa: E402
     TSAAdapter,
 )
 
@@ -214,7 +214,7 @@ class TestCodeGraphCompareTSAAdapter:
 
         expected = IndexStats(build_seconds=1.0, index_size_bytes=2, file_count=3)
         with patch(
-            "benchmarks.codegraph_compare.adapters.tree_sitter_analyzer._build_cache",
+            "benchmarks.codegraph_compare.adapters.codexray._build_cache",
             return_value=expected,
         ) as build_cache:
             result = TSAAdapter().prepare_index(tmp_path, cold=False)
@@ -233,7 +233,7 @@ class TestCodeGraphCompareTSAAdapter:
         conn.close()
 
         with patch(
-            "benchmarks.codegraph_compare.adapters.tree_sitter_analyzer._build_cache"
+            "benchmarks.codegraph_compare.adapters.codexray._build_cache"
         ) as build_cache:
             result = TSAAdapter().prepare_index(tmp_path, cold=False)
 
@@ -243,11 +243,11 @@ class TestCodeGraphCompareTSAAdapter:
 
     def test_parse_tool_metrics_counts_mcp_calls_as_index_queries(self):
         # The TSA arm now runs through its MCP facade tools (not the CLI), so
-        # mcp__tree-sitter-analyzer__* calls count as index queries, Bash as
+        # mcp__codexray__* calls count as index queries, Bash as
         # search, Read as file reads — mirroring the CodeGraph MCP adapter.
         transcript = textwrap.dedent(
             """
-            Tool: mcp__tree-sitter-analyzer__nav
+            Tool: mcp__codexray__nav
             {"action": "context", "query": "Router"}
             Tool: Bash
             rg Router
@@ -267,7 +267,7 @@ class TestCodeGraphCompareTSAAdapter:
         config = TSAAdapter().build_run_config(tmp_path, "Where is routing handled?")
 
         # Steer the agent to the one-call MCP context entry point, not the CLI.
-        assert "mcp__tree-sitter-analyzer__nav" in config.extra_context
+        assert "mcp__codexray__nav" in config.extra_context
         assert "action=context" in config.extra_context
         assert "--codegraph-query" not in config.extra_context
 
@@ -278,7 +278,7 @@ class TestCodeGraphCompareToolPolicy:
             _ARM_ALLOWED_TOOLS,
             _ARM_DISALLOWED_TOOLS,
         )
-        from benchmarks.codegraph_compare.adapters.tree_sitter_analyzer import (
+        from benchmarks.codegraph_compare.adapters.codexray import (
             _ALLOWED_TOOLS,
         )
 
@@ -287,8 +287,8 @@ class TestCodeGraphCompareToolPolicy:
             disallowed = set(_ARM_DISALLOWED_TOOLS[arm])
 
             # The TSA MCP facade tools are available (index-first path).
-            assert "mcp__tree-sitter-analyzer__nav" in allowed
-            assert any(t.startswith("mcp__tree-sitter-analyzer__") for t in allowed)
+            assert "mcp__codexray__nav" in allowed
+            assert any(t.startswith("mcp__codexray__") for t in allowed)
             # The competing index and escape hatches are blocked for a fair,
             # isolated TSA-vs-CodeGraph comparison.
             assert "mcp__codegraph__*" in disallowed
@@ -297,8 +297,8 @@ class TestCodeGraphCompareToolPolicy:
 
         # The adapter exposes the TSA MCP facade tools (alongside raw discovery,
         # which the prompt steers the agent away from).
-        assert "mcp__tree-sitter-analyzer__nav" in _ALLOWED_TOOLS
-        assert "mcp__tree-sitter-analyzer__search" in _ALLOWED_TOOLS
+        assert "mcp__codexray__nav" in _ALLOWED_TOOLS
+        assert "mcp__codexray__search" in _ALLOWED_TOOLS
 
     def test_tsa_prompt_is_mcp_index_first(self):
         prompt_path = (
@@ -311,7 +311,7 @@ class TestCodeGraphCompareToolPolicy:
         prompt = prompt_path.read_text(encoding="utf-8")
 
         # MCP-arm prompt: nav action=context first, index is source of truth.
-        assert "mcp__tree-sitter-analyzer__nav" in prompt
+        assert "mcp__codexray__nav" in prompt
         assert "action=context" in prompt
         assert "AST index is the source of truth" in prompt
         # No stale CLI-DSL references from the old CLI-based arm.
@@ -321,7 +321,7 @@ class TestCodeGraphCompareToolPolicy:
         """The TSA MCP server must get --project-root <target repo>.
 
         Without it the server auto-detects and resolves to the ANALYZER repo
-        (where its package lives), so every query analyzes tree-sitter-analyzer
+        (where its package lives), so every query analyzes codexray
         instead of the benchmark target — the agent then calls set_project_path,
         re-queries, and Reads the analyzer tree, inflating cost ~2.5x and
         invalidating the comparison.
@@ -336,7 +336,7 @@ class TestCodeGraphCompareToolPolicy:
         repo.mkdir()
         cfg_path = _write_arm_mcp_config("tsa-warm", repo)
         cfg = _json.loads(cfg_path.read_text())
-        args = cfg["mcpServers"]["tree-sitter-analyzer"]["args"]
+        args = cfg["mcpServers"]["codexray"]["args"]
 
         assert "--project-root" in args
         assert str(repo) in args

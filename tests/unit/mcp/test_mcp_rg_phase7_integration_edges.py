@@ -2,15 +2,15 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -45,7 +45,7 @@ async def test_rg_81_find_and_grep_hidden_and_globs(monkeypatch, tmp_path):
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -75,7 +75,7 @@ async def test_rg_82_find_and_grep_mtime_sort(monkeypatch, tmp_path):
         return 1, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute({"roots": [str(tmp_path)], "query": "x", "sort": "mtime"})
@@ -93,7 +93,7 @@ async def test_rg_83_find_and_grep_fd_elapsed_and_rg_elapsed(monkeypatch, tmp_pa
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -113,7 +113,7 @@ async def test_rg_84_search_content_no_ignore_autodetect_flag(monkeypatch, tmp_p
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute({"roots": [str(tmp_path)], "query": "x"})
@@ -132,7 +132,7 @@ async def test_rg_85_find_and_grep_encoding_passthrough(monkeypatch, tmp_path):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -153,7 +153,7 @@ async def test_rg_86_find_and_grep_context_passthrough(monkeypatch, tmp_path):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -184,7 +184,7 @@ async def test_rg_87_find_and_grep_hidden_no_ignore_passthrough(monkeypatch, tmp
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -196,7 +196,7 @@ async def test_rg_87_find_and_grep_hidden_no_ignore_passthrough(monkeypatch, tmp
 @pytest.mark.unit
 @pytest.mark.asyncio
 async def test_rg_88_find_and_grep_glob_pattern(tmp_path):
-    from tree_sitter_analyzer.mcp.tools import fd_rg_utils
+    from codexray.mcp.tools import fd_rg_utils
 
     cmd = fd_rg_utils.build_fd_command(
         pattern="*.py",
@@ -233,7 +233,7 @@ async def test_rg_89_find_and_grep_meta_truncated(monkeypatch, tmp_path):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -273,7 +273,7 @@ async def test_rg_90_search_content_group_by_file_then_summary(monkeypatch, tmp_
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test group_by_file format parameter
@@ -311,7 +311,7 @@ async def test_rg_91_search_content_total_only_then_normal_cache(monkeypatch, tm
         return 0, b"/a.txt:1\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run_total
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run_total
     )
 
     total = await tool.execute(
@@ -324,7 +324,7 @@ async def test_rg_91_search_content_total_only_then_normal_cache(monkeypatch, tm
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture",
         fake_run_normal,
     )
 
@@ -369,7 +369,7 @@ async def test_rg_94_count_only_total_key_removed(monkeypatch, tmp_path):
         return 0, b"file1:3\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -390,7 +390,7 @@ async def test_rg_95_total_only_returns_int_find_and_grep(monkeypatch, tmp_path)
         return 0, b"file1.py:9\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     total = await tool.execute(

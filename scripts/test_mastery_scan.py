@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test Mastery Scanner — automated test suite quality metrics per tree-sitter-analyzer-test-mastery wiki.
+Test Mastery Scanner — automated test suite quality metrics per codexray-test-mastery wiki.
 
 Phase 1: Measure baseline metrics
 Phase 2: Enforce quality gates
@@ -102,7 +102,7 @@ def is_auxiliary_test_file(relative_path: str, assertions: int, tests: int) -> b
 
 def scan() -> dict[str, Any]:
     """Full test suite scan."""
-    src_dir = PROJECT_ROOT / "tree_sitter_analyzer"
+    src_dir = PROJECT_ROOT / "codexray"
     test_dir = PROJECT_ROOT / "tests"
 
     # Source metrics

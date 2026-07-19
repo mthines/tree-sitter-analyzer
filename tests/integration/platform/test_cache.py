@@ -1,7 +1,7 @@
 import time
 from unittest.mock import Mock
 
-from tree_sitter_analyzer.platform_compat.profiles import BehaviorProfile, ProfileCache
+from codexray.platform_compat.profiles import BehaviorProfile, ProfileCache
 
 
 def test_cache_hit_miss():

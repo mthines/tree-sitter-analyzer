@@ -9,7 +9,7 @@
 
 ## Reporting a Vulnerability
 
-We take security seriously. If you discover a security vulnerability in Tree-sitter Analyzer, please report it responsibly.
+We take security seriously. If you discover a security vulnerability in CodeXray, please report it responsibly.
 
 ### How to Report
 
@@ -41,7 +41,7 @@ We will not pursue legal action against security researchers who:
 
 ## Security Best Practices
 
-When using Tree-sitter Analyzer:
+When using CodeXray:
 - Always use the latest version
 - Review third-party plugins before use
 - Run in isolated environments when analyzing untrusted code

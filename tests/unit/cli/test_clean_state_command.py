@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.clean_state_command import (
+from codexray.cli.commands.clean_state_command import (
     EPHEMERAL_STATE_PATHS,
     run_clean_state,
 )

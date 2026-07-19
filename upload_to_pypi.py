@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Smart PyPI Upload Script for tree-sitter-analyzer
+Smart PyPI Upload Script for codexray
 Automatically detects version and handles all edge cases
 """
 
@@ -46,9 +46,9 @@ def get_version_from_pyproject() -> str | None:
 def get_version_from_package() -> str | None:
     """Get version from package __init__.py"""
     try:
-        import tree_sitter_analyzer
+        import codexray
 
-        return tree_sitter_analyzer.__version__
+        return codexray.__version__
     except Exception as e:
         print(f"❌ Failed to read version from package: {e}")
         return None
@@ -113,8 +113,8 @@ def check_packages(version: str) -> bool:
         print("❌ dist/ directory not found. Please run 'uv build' first.")
         return False
 
-    wheel_file = dist_path / f"tree_sitter_analyzer-{version}-py3-none-any.whl"
-    tar_file = dist_path / f"tree_sitter_analyzer-{version}.tar.gz"
+    wheel_file = dist_path / f"codexray-{version}-py3-none-any.whl"
+    tar_file = dist_path / f"codexray-{version}.tar.gz"
 
     missing_files = []
     if not wheel_file.exists():
@@ -144,7 +144,7 @@ def check_pypi_version(version: str) -> bool:
         import json
         import urllib.request
 
-        url = "https://pypi.org/pypi/tree-sitter-analyzer/json"
+        url = "https://pypi.org/pypi/codexray/json"
         with urllib.request.urlopen(url, timeout=10) as response:  # nosec B310
             data = json.loads(response.read().decode())
             existing_versions = list(data.get("releases", {}).keys())
@@ -166,7 +166,7 @@ def check_pypi_version(version: str) -> bool:
     try:
         import requests
 
-        url = f"https://pypi.org/pypi/tree-sitter-analyzer/{version}/json"
+        url = f"https://pypi.org/pypi/codexray/{version}/json"
         response = requests.head(url, timeout=10)
         if response.status_code == 200:
             print(f"❌ Version {version} already exists on PyPI")
@@ -180,7 +180,7 @@ def check_pypi_version(version: str) -> bool:
     # Method 3: Try pip index (may not work in all environments)
     try:
         result = subprocess.run(  # nosec B607, B603
-            ["uv", "run", "pip", "index", "versions", "tree-sitter-analyzer"],
+            ["uv", "run", "pip", "index", "versions", "codexray"],
             capture_output=True,
             text=True,
             check=True,
@@ -338,7 +338,7 @@ def upload_with_uv() -> bool:
 
 def main() -> None:
     """Main function"""
-    print("🚀 Smart PyPI Upload for tree-sitter-analyzer")
+    print("🚀 Smart PyPI Upload for codexray")
     print("=" * 50)
 
     # Get version
@@ -385,18 +385,18 @@ def main() -> None:
         if response.lower() != "y":
             sys.exit(1)
 
-    print(f"\n📋 Ready to upload tree-sitter-analyzer v{version}")
+    print(f"\n📋 Ready to upload codexray v{version}")
     print("✅ All checks passed (or skipped)")
 
     # Upload
     response = input("\n🚀 Proceed with upload? (Y/n): ")
     if response.lower() != "n":
         if upload_with_uv():
-            print(f"\n🎉 Successfully uploaded tree-sitter-analyzer v{version}!")
+            print(f"\n🎉 Successfully uploaded codexray v{version}!")
             print("\n🧪 Test the installation:")
-            print(f"  pip install tree-sitter-analyzer=={version}")
+            print(f"  pip install codexray=={version}")
             print(
-                '  python -c "import tree_sitter_analyzer; print(tree_sitter_analyzer.__version__)"'
+                '  python -c "import codexray; print(codexray.__version__)"'
             )
         else:
             print("\n❌ Upload failed. Please check the error messages above.")

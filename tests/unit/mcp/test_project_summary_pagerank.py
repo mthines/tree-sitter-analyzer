@@ -22,10 +22,10 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.get_project_summary_tool import (
+from codexray.mcp.tools.get_project_summary_tool import (
     GetProjectSummaryTool,
 )
-from tree_sitter_analyzer.mcp.utils.project_index import (
+from codexray.mcp.utils.project_index import (
     ProjectIndexManager,
 )
 
@@ -140,7 +140,7 @@ class TestClassifyDir:
         assert manager._classify_dir(d) == "context"
 
     def test_tooling_by_name(self, tmp_path: Path) -> None:
-        d = tmp_path / "tree-sitter-analyzer"
+        d = tmp_path / "static_analyzer"
         d.mkdir()
         (d / "README.md").write_text("# Analyzer\n")
         (d / "pyproject.toml").write_text("")
@@ -563,7 +563,7 @@ class TestDetectJavaRootPackages:
     """Java root package detection via edge_extractors.java module."""
 
     def test_reads_pom_groupid(self, java_project_with_noise: Path) -> None:
-        from tree_sitter_analyzer.mcp.utils.edge_extractors.java import (
+        from codexray.mcp.utils.edge_extractors.java import (
             _detect_java_root_packages,
         )
 
@@ -571,7 +571,7 @@ class TestDetectJavaRootPackages:
         assert "com.example" in roots
 
     def test_reads_gradle_group(self, gradle_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.utils.edge_extractors.java import (
+        from codexray.mcp.utils.edge_extractors.java import (
             _detect_java_root_packages,
         )
 
@@ -579,7 +579,7 @@ class TestDetectJavaRootPackages:
         assert "org.myorg" in roots
 
     def test_no_build_file_returns_empty(self, tmp_path: Path) -> None:
-        from tree_sitter_analyzer.mcp.utils.edge_extractors.java import (
+        from codexray.mcp.utils.edge_extractors.java import (
             _detect_java_root_packages,
         )
 
@@ -588,7 +588,7 @@ class TestDetectJavaRootPackages:
 
     def test_multi_module_collects_all(self, tmp_path: Path) -> None:
         """Multi-module Maven project: collects groupIds from sub-poms."""
-        from tree_sitter_analyzer.mcp.utils.edge_extractors.java import (
+        from codexray.mcp.utils.edge_extractors.java import (
             _detect_java_root_packages,
         )
 

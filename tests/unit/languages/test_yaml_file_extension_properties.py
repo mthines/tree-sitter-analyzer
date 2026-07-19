@@ -17,9 +17,9 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.language_detector import detect_language_from_file
-from tree_sitter_analyzer.languages.yaml_plugin import YAML_AVAILABLE, YAMLPlugin
-from tree_sitter_analyzer.plugins.manager import PluginManager
+from codexray.language_detector import detect_language_from_file
+from codexray.languages.yaml_plugin import YAML_AVAILABLE, YAMLPlugin
+from codexray.plugins.manager import PluginManager
 
 # Strategy for valid YAML content
 yaml_content_strategy = st.text(
@@ -210,7 +210,7 @@ class TestYAMLFileExtensionProperties:
 
         Validates: Requirements 3.2
         """
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         # Create a YAML file with valid content
         yaml_content = "# Test YAML\ntest_key: test_value\n"
@@ -257,7 +257,7 @@ class TestYAMLFileExtensionProperties:
 
         Validates: Requirements 3.2
         """
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         # Create a YAML file with valid content
         yaml_content = "# Test YAML\ntest_key: test_value\n"

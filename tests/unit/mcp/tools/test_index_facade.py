@@ -25,8 +25,8 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
-from tree_sitter_analyzer.mcp.tools.index_facade import (
+from codexray.mcp.tools.facade_tool import FacadeTool
+from codexray.mcp.tools.index_facade import (
     _INDEX_DESCRIPTION,
     build_index_facade,
 )

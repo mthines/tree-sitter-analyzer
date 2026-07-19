@@ -1,5 +1,5 @@
 /**
- * Sample C file for tree-sitter-analyzer testing
+ * Sample C file for codexray testing
  * Covers all major C language constructs
  */
 

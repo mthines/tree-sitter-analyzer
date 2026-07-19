@@ -9,29 +9,29 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.formatters.base_formatter import BaseTableFormatter
-from tree_sitter_analyzer.formatters.cpp_formatter import CppTableFormatter
-from tree_sitter_analyzer.formatters.csharp_formatter import CSharpTableFormatter
-from tree_sitter_analyzer.formatters.go_formatter import GoTableFormatter
-from tree_sitter_analyzer.formatters.java_formatter import JavaTableFormatter
-from tree_sitter_analyzer.formatters.javascript_formatter import (
+from codexray.formatters.base_formatter import BaseTableFormatter
+from codexray.formatters.cpp_formatter import CppTableFormatter
+from codexray.formatters.csharp_formatter import CSharpTableFormatter
+from codexray.formatters.go_formatter import GoTableFormatter
+from codexray.formatters.java_formatter import JavaTableFormatter
+from codexray.formatters.javascript_formatter import (
     JavaScriptTableFormatter,
 )
-from tree_sitter_analyzer.formatters.kotlin_formatter import KotlinTableFormatter
-from tree_sitter_analyzer.formatters.php_formatter import (
+from codexray.formatters.kotlin_formatter import KotlinTableFormatter
+from codexray.formatters.php_formatter import (
     PHPCompactFormatter,
     PHPCSVFormatter,
     PHPFullFormatter,
     PHPTableFormatter,
 )
-from tree_sitter_analyzer.formatters.ruby_formatter import (
+from codexray.formatters.ruby_formatter import (
     RubyCompactFormatter,
     RubyCSVFormatter,
     RubyFullFormatter,
     RubyTableFormatter,
 )
-from tree_sitter_analyzer.formatters.rust_formatter import RustTableFormatter
-from tree_sitter_analyzer.formatters.typescript_formatter import (
+from codexray.formatters.rust_formatter import RustTableFormatter
+from codexray.formatters.typescript_formatter import (
     TypeScriptTableFormatter,
 )
 
@@ -131,4 +131,4 @@ class TestBaseFormatterContract:
         assert (
             formatter_cls.__name__ == formatter_cls.__name__
         )  # trivially true; ensures class is importable
-        assert "tree_sitter_analyzer.formatters" in formatter_cls.__module__
+        assert "codexray.formatters" in formatter_cls.__module__

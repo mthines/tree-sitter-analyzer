@@ -1,4 +1,4 @@
-from tree_sitter_analyzer.formatters._csharp_formatter_helpers import (
+from codexray.formatters._csharp_formatter_helpers import (
     format_csharp_compact_table,
     format_csharp_csv,
     format_csharp_full_table,

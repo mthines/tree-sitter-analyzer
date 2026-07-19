@@ -2,7 +2,7 @@
 
 import tree_sitter
 
-from tree_sitter_analyzer.languages.csharp_plugin import (
+from codexray.languages.csharp_plugin import (
     CSharpPlugin,
 )
 

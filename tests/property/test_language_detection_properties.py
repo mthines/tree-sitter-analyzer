@@ -9,7 +9,7 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 from hypothesis.stateful import RuleBasedStateMachine, invariant, rule
 
-from tree_sitter_analyzer.language_detector import LanguageDetector
+from codexray.language_detector import LanguageDetector
 
 # Create detector instance for extension-based detection
 detector = LanguageDetector()

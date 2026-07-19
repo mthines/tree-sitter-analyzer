@@ -26,12 +26,12 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
-from tree_sitter_analyzer.mcp.tools.auto_index_tool import CodeGraphAutoIndexTool
-from tree_sitter_analyzer.mcp.tools.code_similarity_tool import CodeGraphSimilarityTool
-from tree_sitter_analyzer.mcp.tools.decision_journal_tool import DecisionJournalTool
-from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
+from codexray.mcp.tools.auto_index_tool import CodeGraphAutoIndexTool
+from codexray.mcp.tools.code_similarity_tool import CodeGraphSimilarityTool
+from codexray.mcp.tools.decision_journal_tool import DecisionJournalTool
+from codexray.mcp.tools.incremental_sync_tool import (
     CodeGraphIncrementalSyncTool,
 )
 
@@ -71,10 +71,10 @@ def test_invalid_mode_enumerates_valid_values(
     assert "definitely-not-a-real-mode" in message
 
 
-def _capture_call_tool_handler(server: TreeSitterAnalyzerMCPServer):
+def _capture_call_tool_handler(server: CodeXrayMCPServer):
     """Capture the ``handle_call_tool`` closure registered by ``create_server``."""
-    with patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True):
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+    with patch("codexray.mcp.server.MCP_AVAILABLE", True):
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured: dict = {}
 
@@ -97,7 +97,7 @@ def test_boundary_enum_error_lists_values_and_canonical_hint(tmp_path) -> None:
     canonical enum recovery_hint (not the generic boilerplate)."""
     src = tmp_path / "x.py"
     src.write_text("def f():\n    return 1\n")
-    server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+    server = CodeXrayMCPServer(str(tmp_path))
     handler = _capture_call_tool_handler(server)
 
     res = asyncio.run(

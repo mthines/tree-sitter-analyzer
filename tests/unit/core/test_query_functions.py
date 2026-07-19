@@ -7,13 +7,13 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.core.query import QueryExecutor
+from codexray.core.query import QueryExecutor
 
 
 class TestModuleLevelFunctions:
     """模块级别函数测试"""
 
-    @patch("tree_sitter_analyzer.core.query.get_query_loader")
+    @patch("codexray.core.query.get_query_loader")
     def test_get_available_queries_module_level(self, mock_loader):
         """测试模块级别get_available_queries函数"""
         mock_query_loader = MagicMock()
@@ -24,14 +24,14 @@ class TestModuleLevelFunctions:
         ]
         mock_loader.return_value = mock_query_loader
 
-        from tree_sitter_analyzer.core.query import get_available_queries
+        from codexray.core.query import get_available_queries
 
         queries = get_available_queries()
 
         assert isinstance(queries, list)
         assert queries
 
-    @patch("tree_sitter_analyzer.core.query.get_query_loader")
+    @patch("codexray.core.query.get_query_loader")
     def test_get_available_queries_with_language(self, mock_loader):
         """测试带语言参数的get_available_queries"""
         mock_query_loader = MagicMock()
@@ -41,7 +41,7 @@ class TestModuleLevelFunctions:
         ]
         mock_loader.return_value = mock_query_loader
 
-        from tree_sitter_analyzer.core.query import get_available_queries
+        from codexray.core.query import get_available_queries
 
         queries = get_available_queries("python")
 
@@ -49,7 +49,7 @@ class TestModuleLevelFunctions:
         assert "classes" in queries
         assert "functions" in queries
 
-    @patch("tree_sitter_analyzer.core.query.get_query_loader")
+    @patch("codexray.core.query.get_query_loader")
     def test_get_query_description_module_level(self, mock_loader):
         """测试模块级别get_query_description函数"""
         mock_query_loader = MagicMock()
@@ -58,7 +58,7 @@ class TestModuleLevelFunctions:
         )
         mock_loader.return_value = mock_query_loader
 
-        from tree_sitter_analyzer.core.query import get_query_description
+        from codexray.core.query import get_query_description
 
         description = get_query_description("python", "classes")
 
@@ -115,7 +115,7 @@ class TestExecuteQueryLanguageNameEdgeCases:
 
         with patch.object(executor._query_loader, "get_query", return_value="test"):
             with patch(
-                "tree_sitter_analyzer.core.query.TreeSitterQueryCompat.safe_execute_query",
+                "codexray.core.query.TreeSitterQueryCompat.safe_execute_query",
                 return_value=[],
             ):
                 result = executor.execute_query(
@@ -134,7 +134,7 @@ class TestExecuteQueryLanguageNameEdgeCases:
 
         with patch.object(executor._query_loader, "get_query", return_value="test"):
             with patch(
-                "tree_sitter_analyzer.core.query.TreeSitterQueryCompat.safe_execute_query",
+                "codexray.core.query.TreeSitterQueryCompat.safe_execute_query",
                 return_value=[],
             ):
                 result = executor.execute_query(
@@ -152,7 +152,7 @@ class TestExecuteQueryLanguageNameEdgeCases:
 
         with patch.object(executor._query_loader, "get_query", return_value="test"):
             with patch(
-                "tree_sitter_analyzer.core.query.TreeSitterQueryCompat.safe_execute_query",
+                "codexray.core.query.TreeSitterQueryCompat.safe_execute_query",
                 return_value=[],
             ):
                 result = executor.execute_query(
@@ -170,7 +170,7 @@ class TestExecuteQueryLanguageNameEdgeCases:
 
         with patch.object(executor._query_loader, "get_query", return_value="test"):
             with patch(
-                "tree_sitter_analyzer.core.query.TreeSitterQueryCompat.safe_execute_query",
+                "codexray.core.query.TreeSitterQueryCompat.safe_execute_query",
                 return_value=[],
             ):
                 result = executor.execute_query(
@@ -192,7 +192,7 @@ class TestExecuteQueryEdgeCases:
 
         with patch.object(executor._query_loader, "get_query", return_value="test"):
             with patch(
-                "tree_sitter_analyzer.core.query.TreeSitterQueryCompat.safe_execute_query",
+                "codexray.core.query.TreeSitterQueryCompat.safe_execute_query",
                 return_value=[],
             ):
                 result = executor.execute_query(mock_tree, mock_language, "test", "")
@@ -209,7 +209,7 @@ class TestExecuteQueryEdgeCases:
 
         with patch.object(executor._query_loader, "get_query", return_value="test"):
             with patch(
-                "tree_sitter_analyzer.core.query.TreeSitterQueryCompat.safe_execute_query",
+                "codexray.core.query.TreeSitterQueryCompat.safe_execute_query",
                 return_value=[],
             ):
                 result = executor.execute_query(
@@ -242,7 +242,7 @@ class TestProcessCapturesMixedFormats:
         captures = [(mock_node1, "func"), {"node": mock_node2, "name": "class_def"}]
 
         with patch(
-            "tree_sitter_analyzer.core.query.get_node_text_safe", return_value="test"
+            "codexray.core.query.get_node_text_safe", return_value="test"
         ):
             result = executor._process_captures(captures, "source")
 
@@ -280,7 +280,7 @@ class TestDeprecatedFunctions:
 
     def test_get_all_queries_for_language_deprecated(self):
         """Test that get_all_queries_for_language shows deprecation warning."""
-        from tree_sitter_analyzer.core.query import get_all_queries_for_language
+        from codexray.core.query import get_all_queries_for_language
 
         with pytest.warns(DeprecationWarning, match="deprecated"):
             result = get_all_queries_for_language("python")
@@ -295,7 +295,7 @@ class TestExecuteQueryWithRealParser:
         """Test query execution with real Python code parsing."""
         executor = QueryExecutor()
         try:
-            from tree_sitter_analyzer.core.parser import Parser
+            from codexray.core.parser import Parser
 
             parser = Parser()
             code = "def hello():\n    pass"
@@ -315,7 +315,7 @@ class TestExecuteQueryWithRealParser:
         """Test query string execution with real code."""
         executor = QueryExecutor()
         try:
-            from tree_sitter_analyzer.core.parser import Parser
+            from codexray.core.parser import Parser
 
             parser = Parser()
             code = "class MyClass:\n    pass"

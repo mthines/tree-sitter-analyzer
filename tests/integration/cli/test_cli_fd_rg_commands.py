@@ -15,14 +15,14 @@ import pytest
 
 @pytest.mark.unit
 def test_list_files_cli_basic(monkeypatch, tmp_path):
-    from tree_sitter_analyzer.cli.commands import list_files_cli
+    from codexray.cli.commands import list_files_cli
 
     async def fake_execute(self, arguments):  # noqa: ANN001
         assert arguments["roots"] == [str(tmp_path)]
         return {"success": True, "count": 0, "results": []}
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.ListFilesTool.execute",
+        "codexray.mcp.tools.list_files_tool.ListFilesTool.execute",
         fake_execute,
         raising=True,
     )
@@ -49,7 +49,7 @@ def test_list_files_cli_basic(monkeypatch, tmp_path):
 
 @pytest.mark.unit
 def test_search_content_cli_total_only(monkeypatch, tmp_path):
-    from tree_sitter_analyzer.cli.commands import search_content_cli
+    from codexray.cli.commands import search_content_cli
 
     async def fake_execute(self, arguments):  # noqa: ANN001
         assert arguments["query"] == "TODO"
@@ -57,7 +57,7 @@ def test_search_content_cli_total_only(monkeypatch, tmp_path):
         return 42
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.search_content_tool.SearchContentTool.execute",
+        "codexray.mcp.tools.search_content_tool.SearchContentTool.execute",
         fake_execute,
         raising=True,
     )
@@ -89,7 +89,7 @@ def test_search_content_cli_total_only(monkeypatch, tmp_path):
 
 @pytest.mark.unit
 def test_find_and_grep_cli_count_only(monkeypatch, tmp_path):
-    from tree_sitter_analyzer.cli.commands import find_and_grep_cli
+    from codexray.cli.commands import find_and_grep_cli
 
     async def fake_execute(self, arguments):  # noqa: ANN001
         assert arguments["roots"] == [str(tmp_path)]
@@ -103,7 +103,7 @@ def test_find_and_grep_cli_count_only(monkeypatch, tmp_path):
         }
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.FindAndGrepTool.execute",
+        "codexray.mcp.tools.find_and_grep_tool.FindAndGrepTool.execute",
         fake_execute,
         raising=True,
     )

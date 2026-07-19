@@ -2,8 +2,8 @@
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.xref import XRefEngine, XRefResult
+from codexray.ast_cache import ASTCache
+from codexray.xref import XRefEngine, XRefResult
 
 
 @pytest.fixture
@@ -230,7 +230,7 @@ class TestXRefEngineFile:
         # shrink the chunk size and assert multi-chunk concatenation + dedup
         # still resolves the inbound call correctly. big.py defines 5 functions;
         # caller.py calls the resolved big.f3(); chunk size 2 → 3 chunks.
-        import tree_sitter_analyzer.xref as xref_mod
+        import codexray.xref as xref_mod
 
         monkeypatch.setattr(xref_mod, "_XREF_NAME_CHUNK", 2)
         project = tmp_path / "proj_big"

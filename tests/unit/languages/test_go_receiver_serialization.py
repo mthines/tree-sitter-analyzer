@@ -14,8 +14,8 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_go
 
-from tree_sitter_analyzer.internal_api.result_helpers import element_to_dict
-from tree_sitter_analyzer.languages.go_plugin import GoElementExtractor
+from codexray.internal_api.result_helpers import element_to_dict
+from codexray.languages.go_plugin import GoElementExtractor
 
 GO_SRC = """\
 package main

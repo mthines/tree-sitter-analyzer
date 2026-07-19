@@ -8,7 +8,7 @@ in `_process_type_suffix_parameter`.
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.table_command_helpers import (
+from codexray.cli.commands.table_command_helpers import (
     TYPE_SUFFIX_LANGUAGES,
     _process_single_parameter,
 )

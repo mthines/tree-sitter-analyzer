@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.file_output_manager import FileOutputManager
+from codexray.mcp.utils.file_output_manager import FileOutputManager
 
 
 class TestFileOutputManager:

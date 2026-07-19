@@ -13,13 +13,13 @@ import tempfile
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.function_extraction import _CALL_NODE_TYPES, _FUNC_DEF_TYPES
-from tree_sitter_analyzer.synapse_resolver._registry import (
+from codexray.ast_cache import ASTCache
+from codexray.function_extraction import _CALL_NODE_TYPES, _FUNC_DEF_TYPES
+from codexray.synapse_resolver._registry import (
     get_language_resolver,
     registered_languages,
 )
-from tree_sitter_analyzer.synapse_resolver.languages.swift import (
+from codexray.synapse_resolver.languages.swift import (
     SwiftResolverContext,
     resolve_swift_callee,
 )

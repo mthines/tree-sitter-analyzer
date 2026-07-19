@@ -9,7 +9,7 @@
 
 import tempfile
 
-from tree_sitter_analyzer.grammar_coverage.corpus_generator import (
+from codexray.grammar_coverage.corpus_generator import (
     generate_and_save_corpus,
     generate_corpus_by_category,
     generate_minimal_code_for_node_type,

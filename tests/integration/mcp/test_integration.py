@@ -23,10 +23,10 @@ from pathlib import Path
 import pytest
 import pytest_asyncio
 
-from tree_sitter_analyzer.mcp import MCP_INFO
-from tree_sitter_analyzer.mcp.resources import CodeFileResource, ProjectStatsResource
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.utils import (
+from codexray.mcp import MCP_INFO
+from codexray.mcp.resources import CodeFileResource, ProjectStatsResource
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.utils import (
     get_cache_manager,
     get_error_handler,
     get_performance_monitor,
@@ -133,7 +133,7 @@ class TestMCPServerIntegration:
 
     def setup_method(self) -> None:
         """Set up test fixtures"""
-        self.server = TreeSitterAnalyzerMCPServer()
+        self.server = CodeXrayMCPServer()
 
         # Create temporary test files
         self.temp_dir = tempfile.mkdtemp()
@@ -428,7 +428,7 @@ module.exports = { Calculator, createCalculator };
         assert isinstance(self.server.project_stats_resource, ProjectStatsResource)
 
         # Test server metadata
-        assert self.server.name == "tree-sitter-analyzer-mcp"
+        assert self.server.name == "codexray-mcp"
         assert self.server.version.startswith(MCP_INFO["version"])
         assert self.server.project_stats_resource.project_root == self.temp_dir
 

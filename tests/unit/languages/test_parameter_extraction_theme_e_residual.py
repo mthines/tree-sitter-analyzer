@@ -60,10 +60,10 @@ class TestJSDefaultParameterExtraction:
 
     def test_fibonacciSequence_only_default_param(self):
         """function fibonacciSequence(limit = 10) → ['limit = 10'] (1 param)."""
-        from tree_sitter_analyzer.languages.javascript_plugin._function_mixin import (
+        from codexray.languages.javascript_plugin._function_mixin import (
             JavaScriptFunctionExtractionMixin,
         )
-        from tree_sitter_analyzer.languages.javascript_plugin._text import (
+        from codexray.languages.javascript_plugin._text import (
             get_node_text_optimized,
         )
 
@@ -97,10 +97,10 @@ class TestJSDefaultParameterExtraction:
 
     def test_processData_mixed_plain_and_default(self):
         """function processData(items, options = {}) → ['items', 'options = {}']."""
-        from tree_sitter_analyzer.languages.javascript_plugin._function_mixin import (
+        from codexray.languages.javascript_plugin._function_mixin import (
             JavaScriptFunctionExtractionMixin,
         )
-        from tree_sitter_analyzer.languages.javascript_plugin._text import (
+        from codexray.languages.javascript_plugin._text import (
             get_node_text_optimized,
         )
 
@@ -132,10 +132,10 @@ class TestJSDefaultParameterExtraction:
 
     def test_generateSequence_all_defaults(self):
         """generateSequence(start = 0, end = 10) → ['start = 0', 'end = 10'] (2 params)."""
-        from tree_sitter_analyzer.languages.javascript_plugin._function_mixin import (
+        from codexray.languages.javascript_plugin._function_mixin import (
             JavaScriptFunctionExtractionMixin,
         )
-        from tree_sitter_analyzer.languages.javascript_plugin._text import (
+        from codexray.languages.javascript_plugin._text import (
             get_node_text_optimized,
         )
 
@@ -167,7 +167,7 @@ class TestJSDefaultParameterExtraction:
 
     def test_full_plugin_fibonacciSequence_count(self):
         """End-to-end: fibonacciSequence(limit = 10) function has 1 parameter."""
-        from tree_sitter_analyzer.languages.javascript_plugin.plugin import (
+        from codexray.languages.javascript_plugin.plugin import (
             JavaScriptPlugin,
         )
 
@@ -188,7 +188,7 @@ class TestJSDefaultParameterExtraction:
 
     def test_full_plugin_processData_param_list(self):
         """End-to-end: processData(items, options = {}) yields exactly 2 params."""
-        from tree_sitter_analyzer.languages.javascript_plugin.plugin import (
+        from codexray.languages.javascript_plugin.plugin import (
             JavaScriptPlugin,
         )
 
@@ -209,7 +209,7 @@ class TestJSDefaultParameterExtraction:
 
     def test_full_plugin_processData_param_values(self):
         """End-to-end: processData params are ['items', 'options = {}']."""
-        from tree_sitter_analyzer.languages.javascript_plugin.plugin import (
+        from codexray.languages.javascript_plugin.plugin import (
             JavaScriptPlugin,
         )
 
@@ -246,7 +246,7 @@ class TestPythonTypedDefaultParameterExtraction:
 
     def test_dog_init_three_params(self):
         """__init__(self, name: str, breed: str = 'Mixed') → 3 params."""
-        from tree_sitter_analyzer.languages.python_plugin.plugin import PythonPlugin
+        from codexray.languages.python_plugin.plugin import PythonPlugin
 
         code = 'def __init__(self, name: str, breed: str = "Mixed"):\n    pass\n'
         plugin = PythonPlugin()
@@ -265,7 +265,7 @@ class TestPythonTypedDefaultParameterExtraction:
 
     def test_dog_init_param_values(self):
         """params are ['self', 'name: str', 'breed: str = \"Mixed\"']."""
-        from tree_sitter_analyzer.languages.python_plugin.plugin import PythonPlugin
+        from codexray.languages.python_plugin.plugin import PythonPlugin
 
         code = 'def __init__(self, name: str, breed: str = "Mixed"):\n    pass\n'
         plugin = PythonPlugin()
@@ -284,7 +284,7 @@ class TestPythonTypedDefaultParameterExtraction:
 
     def test_cat_init_bool_default(self):
         """__init__(self, name: str, indoor: bool = True) → 3 params."""
-        from tree_sitter_analyzer.languages.python_plugin.plugin import PythonPlugin
+        from codexray.languages.python_plugin.plugin import PythonPlugin
 
         code = "def __init__(self, name: str, indoor: bool = True):\n    pass\n"
         plugin = PythonPlugin()
@@ -303,7 +303,7 @@ class TestPythonTypedDefaultParameterExtraction:
 
     def test_cat_init_param_values(self):
         """params are ['self', 'name: str', 'indoor: bool = True']."""
-        from tree_sitter_analyzer.languages.python_plugin.plugin import PythonPlugin
+        from codexray.languages.python_plugin.plugin import PythonPlugin
 
         code = "def __init__(self, name: str, indoor: bool = True):\n    pass\n"
         plugin = PythonPlugin()
@@ -322,7 +322,7 @@ class TestPythonTypedDefaultParameterExtraction:
 
     def test_untyped_default_still_works(self):
         """Plain default_parameter (no type) still extracted: def f(x=5) → ['x=5']."""
-        from tree_sitter_analyzer.languages.python_plugin.plugin import PythonPlugin
+        from codexray.languages.python_plugin.plugin import PythonPlugin
 
         code = "def f(x=5):\n    pass\n"
         plugin = PythonPlugin()
@@ -341,7 +341,7 @@ class TestPythonTypedDefaultParameterExtraction:
 
     def test_args_kwargs_unaffected(self):
         """*args/**kwargs are not broken by the fix."""
-        from tree_sitter_analyzer.languages.python_plugin.plugin import PythonPlugin
+        from codexray.languages.python_plugin.plugin import PythonPlugin
 
         code = "def g(*args, **kwargs):\n    pass\n"
         plugin = PythonPlugin()
@@ -375,7 +375,7 @@ class TestBashParamStructuralNa:
 
     def test_greet_params_empty(self):
         """greet() { echo $1 $2; } → parameters == [] (Bash has no formal params)."""
-        from tree_sitter_analyzer.languages.bash_plugin import BashPlugin
+        from codexray.languages.bash_plugin import BashPlugin
 
         code = 'greet() {\n    echo "Hello $1 $2"\n}\n'
         plugin = BashPlugin()
@@ -394,7 +394,7 @@ class TestBashParamStructuralNa:
 
     def test_function_keyword_params_empty(self):
         """function process() { ... } → parameters == [] (same structural reason)."""
-        from tree_sitter_analyzer.languages.bash_plugin import BashPlugin
+        from codexray.languages.bash_plugin import BashPlugin
 
         code = "function process() {\n    local x=$1\n}\n"
         plugin = BashPlugin()
@@ -417,7 +417,7 @@ class TestStructureConversionOfDefaults:
     'limit = 10' into {'name': '10', 'type': 'limit ='}."""
 
     def test_js_default_param_parses(self):
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+        from codexray.mcp.tools.analyze_code_structure_helpers import (
             _parse_string_parameter,
         )
 
@@ -428,7 +428,7 @@ class TestStructureConversionOfDefaults:
         }
 
     def test_python_typed_default_parses(self):
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+        from codexray.mcp.tools.analyze_code_structure_helpers import (
             _parse_string_parameter,
         )
 
@@ -439,7 +439,7 @@ class TestStructureConversionOfDefaults:
         }
 
     def test_legacy_java_form_unchanged(self):
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+        from codexray.mcp.tools.analyze_code_structure_helpers import (
             _parse_string_parameter,
         )
 
@@ -451,7 +451,7 @@ class TestStructureConversionOfDefaults:
     def test_get_method_parameters_string_form(self):
         from types import SimpleNamespace
 
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+        from codexray.mcp.tools.analyze_code_structure_helpers import (
             get_method_parameters,
         )
 
@@ -462,7 +462,7 @@ class TestStructureConversionOfDefaults:
         ]
 
     def test_empty_and_blank_param_strings(self):
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+        from codexray.mcp.tools.analyze_code_structure_helpers import (
             _parse_string_parameter,
         )
 

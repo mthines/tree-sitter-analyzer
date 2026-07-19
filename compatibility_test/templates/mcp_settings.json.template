@@ -1,10 +1,10 @@
 {
   "mcpServers": {
-    "tree-sitter-analyzer-vA": {
+    "codexray-vA": {
       "command": "uv",
       "args": [
-        "run", "--with", "tree-sitter-analyzer[mcp]=={VERSION_A}",
-        "python", "-m", "tree_sitter_analyzer.mcp.server"
+        "run", "--with", "codexray[mcp]=={VERSION_A}",
+        "python", "-m", "codexray.mcp.server"
       ],
       "env": {
         "TREE_SITTER_PROJECT_ROOT": "{PROJECT_ROOT}",
@@ -23,11 +23,11 @@
       "timeout": 3600,
       "disabled": true
     },
-    "tree-sitter-analyzer-vB": {
+    "codexray-vB": {
       "command": "uv",
       "args": [
-        "run", "--with", "tree-sitter-analyzer[mcp]=={VERSION_B}",
-        "python", "-m", "tree_sitter_analyzer.mcp.server"
+        "run", "--with", "codexray[mcp]=={VERSION_B}",
+        "python", "-m", "codexray.mcp.server"
       ],
       "env": {
         "TREE_SITTER_PROJECT_ROOT": "{PROJECT_ROOT}",

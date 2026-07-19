@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.path_resolver import PathResolver, resolve_path
+from codexray.mcp.utils.path_resolver import PathResolver, resolve_path
 
 
 def normalize_path_for_comparison(path_str):

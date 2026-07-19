@@ -16,7 +16,7 @@ import pytest
 # Add the project root to the path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from tree_sitter_analyzer.cli.commands.partial_read_command import PartialReadCommand
+from codexray.cli.commands.partial_read_command import PartialReadCommand
 
 
 class TestPartialReadCommandValidation:
@@ -249,7 +249,7 @@ line 10"""
         args = Namespace(file_path=self.test_file, start_line=None, end_line=5)
         command = PartialReadCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_error") as mock_error:
+        with patch("codexray.output_manager.output_error") as mock_error:
             result = command.execute()
 
             assert result == 1
@@ -263,7 +263,7 @@ line 10"""
         args = Namespace(file_path=self.test_file, start_line=0, end_line=5)
         command = PartialReadCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_error") as mock_error:
+        with patch("codexray.output_manager.output_error") as mock_error:
             result = command.execute()
 
             assert result == 1
@@ -278,7 +278,7 @@ line 10"""
         args = Namespace(file_path=self.test_file, start_line=-1, end_line=5)
         command = PartialReadCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_error") as mock_error:
+        with patch("codexray.output_manager.output_error") as mock_error:
             result = command.execute()
 
             assert result == 1
@@ -292,7 +292,7 @@ line 10"""
         args = Namespace(file_path=self.test_file, start_line=5, end_line=3)
         command = PartialReadCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_error") as mock_error:
+        with patch("codexray.output_manager.output_error") as mock_error:
             result = command.execute()
 
             assert result == 1
@@ -308,7 +308,7 @@ line 10"""
         args = Namespace(file_path=nonexistent_file, start_line=1, end_line=5)
         command = PartialReadCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_error") as mock_error:
+        with patch("codexray.output_manager.output_error") as mock_error:
             result = command.execute()
 
             assert result == 1
@@ -343,7 +343,7 @@ line 10"""
         )
         command = PartialReadCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_error") as mock_error:
+        with patch("codexray.output_manager.output_error") as mock_error:
             result = command.execute()
 
             assert result == 1

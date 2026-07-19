@@ -27,9 +27,9 @@ from hypothesis import settings as hypothesis_settings  # noqa: E402
 # cross-run shrink replay — is acceptable in CI; local debuggers can opt
 # back in via HYPOTHESIS_DATABASE=… if needed.
 hypothesis_settings.register_profile(
-    "tree_sitter_analyzer", deadline=None, database=None
+    "codexray", deadline=None, database=None
 )
-hypothesis_settings.load_profile("tree_sitter_analyzer")
+hypothesis_settings.load_profile("codexray")
 
 
 @pytest.fixture(autouse=True)
@@ -112,7 +112,7 @@ def pytest_configure(config):
         raise SystemExit(
             "FATAL: --cov specified multiple times on the command line. "
             "This causes double coverage tracking and can exhaust system memory. "
-            "Use --cov exactly once. Example: uv run pytest --cov=tree_sitter_analyzer --cov-report=json"
+            "Use --cov exactly once. Example: uv run pytest --cov=codexray --cov-report=json"
         )
 
 
@@ -208,7 +208,7 @@ app.listen(3000, () => {
         """
 # Test Project
 
-This is a test project for tree-sitter-analyzer.
+This is a test project for codexray.
 
 ## Features
 
@@ -329,34 +329,34 @@ def _reset_all_singletons():
     # reset_callable receives the resolved attribute and calls the reset method.
     _RESETS: list[tuple[str, str, object]] = [
         (
-            "tree_sitter_analyzer.core.analysis_engine",
+            "codexray.core.analysis_engine",
             "UnifiedAnalysisEngine",
             lambda cls: cls._reset_instance(),
         ),
         (
-            "tree_sitter_analyzer.core.language_detector",
+            "codexray.core.language_detector",
             "LanguageDetector",
             lambda cls: (
                 setattr(cls, "_instance", None) if hasattr(cls, "_instance") else None
             ),
         ),
         (
-            "tree_sitter_analyzer.core.query",
+            "codexray.core.query",
             "QueryExecutor",
             lambda cls: cls._cache.clear() if hasattr(cls, "_cache") else None,
         ),
         (
-            "tree_sitter_analyzer.formatters.formatter_registry",
+            "codexray.formatters.formatter_registry",
             "FormatterRegistry",
             lambda cls: (cls.clear(), cls.register_builtin_formatters()),
         ),
         (
-            "tree_sitter_analyzer.core.engine_manager",
+            "codexray.core.engine_manager",
             "EngineManager",
             lambda cls: cls.reset_instances(),
         ),
         (
-            "tree_sitter_analyzer.mcp.utils.file_output_factory",
+            "codexray.mcp.utils.file_output_factory",
             "FileOutputManagerFactory",
             lambda cls: cls._instances.clear() if hasattr(cls, "_instances") else None,
         ),
@@ -372,14 +372,14 @@ def _reset_all_singletons():
 
     # Module-level attribute resets (no class attribute to look up)
     _MODULE_ATTR_RESETS: list[tuple[str, str, str]] = [
-        ("tree_sitter_analyzer.mcp.utils.search_cache", "clear_cache", "call"),
+        ("codexray.mcp.utils.search_cache", "clear_cache", "call"),
         (
-            "tree_sitter_analyzer.mcp.utils.gitignore_detector",
+            "codexray.mcp.utils.gitignore_detector",
             "_default_detector",
             "set_none",
         ),
-        ("tree_sitter_analyzer.language_loader", "_loader_instance", "set_none"),
-        ("tree_sitter_analyzer.query_loader", "_query_loader_instance", "set_none"),
+        ("codexray.language_loader", "_loader_instance", "set_none"),
+        ("codexray.query_loader", "_query_loader_instance", "set_none"),
     ]
 
     for module_path, attr_name, action in _MODULE_ATTR_RESETS:

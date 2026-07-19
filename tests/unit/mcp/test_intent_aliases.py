@@ -16,7 +16,7 @@ Test Coverage:
 
 import pytest
 
-from tree_sitter_analyzer.mcp.intent_aliases import (
+from codexray.mcp.intent_aliases import (
     IntentAliasResolver,
     get_all_aliases,
     get_tool_name_from_alias,

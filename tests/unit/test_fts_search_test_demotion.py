@@ -102,7 +102,7 @@ class TestFtsSearchRankedTestDemotion:
             line=5,
         )
 
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         results = fts_search_ranked(conn, "foo")
 
@@ -125,7 +125,7 @@ class TestFtsSearchRankedTestDemotion:
             line=10,
         )
 
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         results = fts_search_ranked(conn, "foo test")
 
@@ -150,17 +150,17 @@ class TestFtsSearchRankedTestDemotion:
         _insert(
             conn,
             "fts_search_ranked",
-            file_path="tree_sitter_analyzer/ast_cache.py",
+            file_path="codexray/ast_cache.py",
             kind="function",
             line=167,
         )
 
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         results = fts_search_ranked(conn, "fts_search_ranked")
 
         assert results, "Expected results"
-        assert results[0]["file"] == "tree_sitter_analyzer/ast_cache.py", (
+        assert results[0]["file"] == "codexray/ast_cache.py", (
             f"Expected production implementation first, got {results[0]['file']!r}"
         )
 
@@ -186,18 +186,18 @@ class TestFtsSearchRankedTestDemotion:
         _insert(
             conn,
             "widget",
-            file_path="tree_sitter_analyzer/widget.py",
+            file_path="codexray/widget.py",
             kind="function",
             line=42,
         )
 
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         results = fts_search_ranked(conn, "widget", limit=5)
 
         assert results, "Expected results"
         assert len(results) == 5, "Result window must respect the caller's limit"
-        assert results[0]["file"] == "tree_sitter_analyzer/widget.py", (
+        assert results[0]["file"] == "codexray/widget.py", (
             "Production hit must be promoted above test matches even when BM25 "
             f"ranks it past the limit window; got {results[0]['file']!r}"
         )
@@ -209,7 +209,7 @@ class TestFtsSearchRankedTestDemotion:
         _insert(conn, "foo", file_path="src/primary.py", kind="function", line=1)
         _insert(conn, "foo", file_path="src/secondary.py", kind="function", line=1)
 
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         results = fts_search_ranked(conn, "foo")
 
@@ -243,7 +243,7 @@ class TestFtsSearchRankedTestDemotion:
             language="go",
         )
 
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         results = fts_search_ranked(conn, "foo", language="python")
 
@@ -255,7 +255,7 @@ class TestFtsSearchRankedTestDemotion:
         conn = _make_fts_conn()
         _insert(conn, "f", file_path="src/f.py")
 
-        from tree_sitter_analyzer.cache.query import fts_search_ranked
+        from codexray.cache.query import fts_search_ranked
 
         assert fts_search_ranked(conn, "f") == []
         assert fts_search_ranked(conn, "") == []

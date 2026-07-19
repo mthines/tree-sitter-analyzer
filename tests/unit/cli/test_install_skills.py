@@ -14,15 +14,15 @@ from pathlib import Path
 
 class TestBundledSkillsPackage:
     def test_skills_dir_exists_in_package(self):
-        """tree_sitter_analyzer/skills/ must exist as a package-level directory."""
-        import tree_sitter_analyzer.skills as skills_pkg
+        """codexray/skills/ must exist as a package-level directory."""
+        import codexray.skills as skills_pkg
 
         pkg_path = Path(skills_pkg.__file__).parent  # type: ignore[arg-type]
         assert pkg_path.is_dir()
 
     def test_exactly_13_tsa_skill_dirs(self):
         """Bundled skills dir must contain exactly 13 tsa-* subdirectories."""
-        import tree_sitter_analyzer.skills as skills_pkg
+        import codexray.skills as skills_pkg
 
         pkg_path = Path(skills_pkg.__file__).parent  # type: ignore[arg-type]
         tsa_dirs = [
@@ -32,7 +32,7 @@ class TestBundledSkillsPackage:
 
     def test_each_skill_dir_has_skill_md(self):
         """Every bundled tsa-* dir must contain SKILL.md."""
-        import tree_sitter_analyzer.skills as skills_pkg
+        import codexray.skills as skills_pkg
 
         pkg_path = Path(skills_pkg.__file__).parent  # type: ignore[arg-type]
         for d in pkg_path.iterdir():
@@ -41,7 +41,7 @@ class TestBundledSkillsPackage:
 
     def test_known_skill_names_present(self):
         """Spot-check: the 13 expected skill names are all present."""
-        import tree_sitter_analyzer.skills as skills_pkg
+        import codexray.skills as skills_pkg
 
         pkg_path = Path(skills_pkg.__file__).parent  # type: ignore[arg-type]
         expected = {
@@ -75,7 +75,7 @@ class TestBundledSkillsPackage:
 class TestInstallSkillsHelper:
     def test_install_copies_skills_to_target(self, tmp_path):
         """install_skills should copy all 13 dirs into target/.claude/skills/."""
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         target = tmp_path / "myproject"
         target.mkdir()
@@ -93,7 +93,7 @@ class TestInstallSkillsHelper:
     def test_install_global_uses_home_dot_claude(self, tmp_path, monkeypatch):
         """With global=True, target must be ~/.claude/skills/."""
         monkeypatch.setenv("HOME", str(tmp_path))
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         report = install_skills(target_dir=None, global_install=True)
         skills_dir = tmp_path / ".claude" / "skills"
@@ -108,7 +108,7 @@ class TestInstallSkillsHelper:
 
     def test_no_overwrite_existing_skill(self, tmp_path):
         """If a skill dir already exists, it must be skipped (not overwritten)."""
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         target = tmp_path / "proj"
         target.mkdir()
@@ -125,7 +125,7 @@ class TestInstallSkillsHelper:
 
     def test_idempotent_second_run(self, tmp_path):
         """Running install_skills twice must skip all dirs on the second run."""
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         target = tmp_path / "proj"
         target.mkdir()
@@ -143,7 +143,7 @@ class TestInstallSkillsHelper:
 class TestInstallSkillsCLIFlag:
     def test_install_skills_flag_exists_in_parser(self):
         """--install-skills must be registered in the argument parser."""
-        from tree_sitter_analyzer.cli_main import create_argument_parser
+        from codexray.cli_main import create_argument_parser
 
         parser = create_argument_parser()
         flags = {
@@ -153,7 +153,7 @@ class TestInstallSkillsCLIFlag:
 
     def test_install_skills_global_flag_exists_in_parser(self):
         """--install-skills-global must be registered alongside --install-skills."""
-        from tree_sitter_analyzer.cli_main import create_argument_parser
+        from codexray.cli_main import create_argument_parser
 
         parser = create_argument_parser()
         flags = {
@@ -178,7 +178,7 @@ class TestBundledSkillsWheelPath:
 
     def test_skills_dir_constant_matches_file_parent(self):
         """SKILLS_DIR in __init__.py must agree with __file__.parent."""
-        from tree_sitter_analyzer import skills as skills_pkg
+        from codexray import skills as skills_pkg
 
         skills_dir = Path(skills_pkg.SKILLS_DIR)
         file_parent = Path(skills_pkg.__file__).parent  # type: ignore[arg-type]
@@ -186,7 +186,7 @@ class TestBundledSkillsWheelPath:
 
     def test_exactly_13_tsa_dirs_via_skills_dir(self):
         """SKILLS_DIR must contain exactly 13 tsa-* subdirectories."""
-        from tree_sitter_analyzer import skills as skills_pkg
+        from codexray import skills as skills_pkg
 
         skills_dir = Path(skills_pkg.SKILLS_DIR)
         tsa_dirs = [
@@ -196,7 +196,7 @@ class TestBundledSkillsWheelPath:
 
     def test_each_skill_has_skill_md_via_skills_dir(self):
         """Every tsa-* dir reachable via SKILLS_DIR must contain SKILL.md."""
-        from tree_sitter_analyzer import skills as skills_pkg
+        from codexray import skills as skills_pkg
 
         skills_dir = Path(skills_pkg.SKILLS_DIR)
         for d in skills_dir.iterdir():
@@ -215,7 +215,7 @@ class TestInstallSkillsPathValidation:
     def test_self_copy_is_rejected(self):
         """install_skills must raise ValueError if destination resolves into
         the bundled skills directory itself (prevents corrupting the package)."""
-        # The bundled skills dir is e.g. .../tree_sitter_analyzer/skills/
+        # The bundled skills dir is e.g. .../codexray/skills/
         # We need to pass a target_dir such that <target_dir>/.claude/skills/
         # resolves to the bundled skills dir.  That path is two levels up:
         # bundled_skills_dir / ".." / ".." == package root at best — but a
@@ -226,7 +226,7 @@ class TestInstallSkillsPathValidation:
 
         import pytest
 
-        from tree_sitter_analyzer.cli.install_skills import (
+        from codexray.cli.install_skills import (
             _bundled_skills_dir,
             install_skills,
         )
@@ -234,7 +234,7 @@ class TestInstallSkillsPathValidation:
         bundled = _bundled_skills_dir()
 
         with patch(
-            "tree_sitter_analyzer.cli.install_skills._resolve_target",
+            "codexray.cli.install_skills._resolve_target",
             return_value=bundled,
         ):
             with pytest.raises(ValueError, match="self-copy"):
@@ -252,7 +252,7 @@ class TestInstallSkillsHandlerDispatch:
         from types import SimpleNamespace
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.cli.special_commands import (
+        from codexray.cli.special_commands import (
             SpecialCommandContext,
             _handle_install_skills,
         )
@@ -278,7 +278,7 @@ class TestInstallSkillsHandlerDispatch:
         from types import SimpleNamespace
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.cli.special_commands import (
+        from codexray.cli.special_commands import (
             SpecialCommandContext,
             _handle_install_skills,
         )
@@ -319,7 +319,7 @@ class TestInstallSkillsHandlerDispatch:
         from types import SimpleNamespace
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.cli.special_commands import (
+        from codexray.cli.special_commands import (
             SpecialCommandContext,
             _handle_install_skills,
         )
@@ -358,7 +358,7 @@ class TestInstallSkillsHandlerDispatch:
         from types import SimpleNamespace
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.cli.special_commands import (
+        from codexray.cli.special_commands import (
             SpecialCommandContext,
             _handle_install_skills,
         )
@@ -403,13 +403,13 @@ class TestInstallSkillsErrorHandling:
 
         import pytest
 
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         target = tmp_path / "proj"
         target.mkdir()
 
         with patch(
-            "tree_sitter_analyzer.cli.install_skills.Path.mkdir",
+            "codexray.cli.install_skills.Path.mkdir",
             side_effect=PermissionError("denied"),
         ):
             with pytest.raises(PermissionError, match="Cannot create skills directory"):
@@ -421,13 +421,13 @@ class TestInstallSkillsErrorHandling:
 
         import pytest
 
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         target = tmp_path / "proj"
         target.mkdir()
 
         with patch(
-            "tree_sitter_analyzer.cli.install_skills.shutil.copytree",
+            "codexray.cli.install_skills.shutil.copytree",
             side_effect=PermissionError("cannot copy"),
         ):
             with pytest.raises(PermissionError, match="cannot copy"):
@@ -435,7 +435,7 @@ class TestInstallSkillsErrorHandling:
 
     def test_skip_existing_prints_to_stderr(self, tmp_path, capsys):
         """When a skill already exists, skip message goes to stderr."""
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         target = tmp_path / "proj"
         target.mkdir()
@@ -451,7 +451,7 @@ class TestInstallSkillsErrorHandling:
 
     def test_installed_skill_prints_to_stderr(self, tmp_path, capsys):
         """When a skill is installed, message goes to stderr."""
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         target = tmp_path / "proj"
         target.mkdir()
@@ -467,7 +467,7 @@ class TestInstallSkillsErrorHandling:
     def test_destination_echoed_to_stderr_before_install(self, tmp_path, capsys):
         """#549: the resolved destination dir is echoed to stderr first, so the
         user always knows WHERE skills are going (no silent install/skip)."""
-        from tree_sitter_analyzer.cli.install_skills import install_skills
+        from codexray.cli.install_skills import install_skills
 
         target = tmp_path / "proj"
         target.mkdir()
@@ -486,7 +486,7 @@ class TestInstallSkillsErrorHandling:
 
 
 class TestSkillContentSync:
-    """The bundled package copy (tree_sitter_analyzer/skills/) MUST be
+    """The bundled package copy (codexray/skills/) MUST be
     byte-identical to the .claude/skills/ source of truth.
 
     If these ever diverge an agent installing the package gets stale content.
@@ -517,12 +517,12 @@ class TestSkillContentSync:
     def test_bundled_content_matches_claude_source_for_all_13_skills(self):
         """Bundled SKILL.md bytes must equal .claude/skills SKILL.md bytes.
 
-        The bundled copy lives at tree_sitter_analyzer/skills/<name>/SKILL.md.
+        The bundled copy lives at codexray/skills/<name>/SKILL.md.
         The source-of-truth copy lives at .claude/skills/<name>/SKILL.md.
         They are synced at authoring time; this test detects drift.
         """
         repo = self._repo_root()
-        bundled_base = repo / "tree_sitter_analyzer" / "skills"
+        bundled_base = repo / "codexray" / "skills"
         source_base = repo / ".claude" / "skills"
 
         mismatches = []
@@ -540,7 +540,7 @@ class TestSkillContentSync:
 
         assert mismatches == [], (
             f"Bundled and .claude/skills copies diverged for: {mismatches}. "
-            "Run: cp .claude/skills/<name>/SKILL.md tree_sitter_analyzer/skills/<name>/SKILL.md "
+            "Run: cp .claude/skills/<name>/SKILL.md codexray/skills/<name>/SKILL.md "
             "for each skill in the list."
         )
 
@@ -557,7 +557,7 @@ class TestSkillContentSync:
         """
         import re
 
-        from tree_sitter_analyzer.mcp.facade_map import LEGACY_TOOL_MAP
+        from codexray.mcp.facade_map import LEGACY_TOOL_MAP
 
         # Authoritative: every legacy v1.x name, derived dynamically so the
         # scan can never rot behind facade_map. get_project_summary appeared
@@ -566,7 +566,7 @@ class TestSkillContentSync:
 
         repo = self._repo_root()
         scan_bases = [
-            repo / "tree_sitter_analyzer" / "skills",
+            repo / "codexray" / "skills",
             repo / ".claude" / "skills",
         ]
 

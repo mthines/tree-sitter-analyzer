@@ -14,8 +14,8 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.core import AnalysisEngine
-from tree_sitter_analyzer.core.parser import Parser, ParseResult
+from codexray.core import AnalysisEngine
+from codexray.core.parser import Parser, ParseResult
 
 # ========================================
 # Hypothesis Strategies for Code Generation
@@ -448,7 +448,7 @@ class TestEngineErrorRecoveryProperties:
         result = await engine.analyze_code(code, language="python")
 
         # Property: Result should always be an AnalysisResult
-        from tree_sitter_analyzer.models import AnalysisResult
+        from codexray.models import AnalysisResult
 
         assert isinstance(result, AnalysisResult), (
             "Engine should return AnalysisResult even for invalid code"
@@ -478,7 +478,7 @@ class TestEngineErrorRecoveryProperties:
         result = await engine.analyze_code(code, language="java")
 
         # Property: Result should always be an AnalysisResult
-        from tree_sitter_analyzer.models import AnalysisResult
+        from codexray.models import AnalysisResult
 
         assert isinstance(result, AnalysisResult), (
             "Engine should return AnalysisResult even for invalid code"
@@ -507,7 +507,7 @@ class TestEngineErrorRecoveryProperties:
         result = await engine.analyze_code(code, language="javascript")
 
         # Property: Result should always be an AnalysisResult
-        from tree_sitter_analyzer.models import AnalysisResult
+        from codexray.models import AnalysisResult
 
         assert isinstance(result, AnalysisResult), (
             "Engine should return AnalysisResult even for invalid code"

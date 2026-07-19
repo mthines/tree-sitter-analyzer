@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import tree_sitter
 
-from tree_sitter_analyzer.languages.json_plugin import JSONPlugin
+from codexray.languages.json_plugin import JSONPlugin
 
 
 def _parse(code: str) -> tuple[tree_sitter.Tree, JSONPlugin]:
@@ -86,7 +86,7 @@ class TestJSONPluginMetadata:
         assert plugin.is_applicable("script.py") is False
 
     def test_create_extractor_is_fresh_instance(self) -> None:
-        from tree_sitter_analyzer.languages.json_plugin import JSONElementExtractor
+        from codexray.languages.json_plugin import JSONElementExtractor
 
         plugin = JSONPlugin()
         assert isinstance(plugin.create_extractor(), JSONElementExtractor)

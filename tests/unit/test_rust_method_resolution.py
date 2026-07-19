@@ -18,7 +18,7 @@ mis-classification is the failure this machinery exists to prevent.
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.synapse_resolver.languages.rust import (
+from codexray.synapse_resolver.languages.rust import (
     build_rust_resolver_context,
     resolve_rust_callee,
 )
@@ -424,7 +424,7 @@ def test_std_name_collision_with_python_symbol_still_stdlib() -> None:
 # ---------------------------------------------------------------------------
 def test_rust_is_registered() -> None:
     """Importing the languages package registers 'rust' in the registry."""
-    import tree_sitter_analyzer.synapse_resolver.languages as _languages  # noqa: F401
-    from tree_sitter_analyzer.synapse_resolver._registry import registered_languages
+    import codexray.synapse_resolver.languages as _languages  # noqa: F401
+    from codexray.synapse_resolver._registry import registered_languages
 
     assert "rust" in registered_languages()

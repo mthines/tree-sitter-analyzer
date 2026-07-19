@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.mcp.server module.
+Tests for codexray.mcp.server module.
 
 Basic test suite for the MCP server functionality.
 """
@@ -9,9 +9,9 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import (
+from codexray.mcp.server import (
     MCP_AVAILABLE,
-    TreeSitterAnalyzerMCPServer,
+    CodeXrayMCPServer,
     main,
 )
 
@@ -19,44 +19,44 @@ from tree_sitter_analyzer.mcp.server import (
 class TestMCPServerBasic:
     """Basic tests for MCP server."""
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
-    @patch("tree_sitter_analyzer.mcp.server.get_analysis_engine")
-    @patch("tree_sitter_analyzer.mcp.server.setup_logger")
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.get_analysis_engine")
+    @patch("codexray.mcp.server.setup_logger")
     def test_server_initialization(self, mock_logger, mock_engine):
         """Test server initialization."""
         mock_engine.return_value = Mock()
         mock_logger.return_value = Mock()
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
 
         assert server.server is None
         assert server.analysis_engine is not None
-        from tree_sitter_analyzer.mcp import MCP_INFO
+        from codexray.mcp import MCP_INFO
 
-        assert server.name == "tree-sitter-analyzer-mcp"
+        assert server.name == "codexray-mcp"
         # 版本号应与主体一致
         assert server.version.startswith(MCP_INFO["version"])
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", False)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", False)
     def test_create_server_mcp_unavailable(self):
         """Test server creation when MCP is unavailable."""
         with (
-            patch("tree_sitter_analyzer.mcp.server.get_analysis_engine"),
-            patch("tree_sitter_analyzer.mcp.server.setup_logger"),
+            patch("codexray.mcp.server.get_analysis_engine"),
+            patch("codexray.mcp.server.setup_logger"),
         ):
-            server = TreeSitterAnalyzerMCPServer()
+            server = CodeXrayMCPServer()
 
             with pytest.raises(RuntimeError, match="MCP library not available"):
                 server.create_server()
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", False)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", False)
     def test_run_mcp_unavailable(self):
         """Test run when MCP is unavailable."""
         with (
-            patch("tree_sitter_analyzer.mcp.server.get_analysis_engine"),
-            patch("tree_sitter_analyzer.mcp.server.setup_logger"),
+            patch("codexray.mcp.server.get_analysis_engine"),
+            patch("codexray.mcp.server.setup_logger"),
         ):
-            server = TreeSitterAnalyzerMCPServer()
+            server = CodeXrayMCPServer()
 
             import asyncio
 
@@ -72,10 +72,10 @@ class TestMCPServerBasic:
 class TestMCPServerWithMCP:
     """Tests for MCP server when MCP is available."""
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
-    @patch("tree_sitter_analyzer.mcp.server.Server")
-    @patch("tree_sitter_analyzer.mcp.server.get_analysis_engine")
-    @patch("tree_sitter_analyzer.mcp.server.setup_logger")
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.Server")
+    @patch("codexray.mcp.server.get_analysis_engine")
+    @patch("codexray.mcp.server.setup_logger")
     def test_create_server_success(self, mock_logger, mock_engine, mock_server_class):
         """Test successful server creation."""
         mock_engine.return_value = Mock()
@@ -83,19 +83,19 @@ class TestMCPServerWithMCP:
         mock_server = Mock()
         mock_server_class.return_value = mock_server
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
         result = server.create_server()
 
         assert result == mock_server
         assert server.server == mock_server
-        mock_server_class.assert_called_once_with("tree-sitter-analyzer-mcp")
+        mock_server_class.assert_called_once_with("codexray-mcp")
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
-    @patch("tree_sitter_analyzer.mcp.server.stdio_server")
-    @patch("tree_sitter_analyzer.mcp.server.InitializationOptions")
-    @patch("tree_sitter_analyzer.mcp.server.Server")
-    @patch("tree_sitter_analyzer.mcp.server.get_analysis_engine")
-    @patch("tree_sitter_analyzer.mcp.server.setup_logger")
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.stdio_server")
+    @patch("codexray.mcp.server.InitializationOptions")
+    @patch("codexray.mcp.server.Server")
+    @patch("codexray.mcp.server.get_analysis_engine")
+    @patch("codexray.mcp.server.setup_logger")
     def test_run_server_basic(
         self,
         mock_logger,
@@ -122,7 +122,7 @@ class TestMCPServerWithMCP:
 
         mock_server.run.side_effect = quick_run
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
 
         import asyncio
 
@@ -140,16 +140,16 @@ class TestMCPServerWithMCP:
 class TestAnalyzeCodeScale:
     """Test analyze code scale functionality."""
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
-    @patch("tree_sitter_analyzer.mcp.server.get_analysis_engine")
-    @patch("tree_sitter_analyzer.mcp.server.setup_logger")
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.get_analysis_engine")
+    @patch("codexray.mcp.server.setup_logger")
     def test_analyze_code_scale_method(self, mock_logger, mock_engine):
         """Test _analyze_code_scale method."""
         # Mock dependencies
         mock_engine.return_value = Mock()
         mock_logger.return_value = Mock()
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
 
         # Mock the analysis engine and file operations
         mock_result = Mock()
@@ -176,9 +176,9 @@ class TestAnalyzeCodeScale:
 
         # Mock file existence and language detection
         with (
-            patch("tree_sitter_analyzer.mcp.server.PathClass") as mock_path,
+            patch("codexray.mcp.server.PathClass") as mock_path,
             patch(
-                "tree_sitter_analyzer.language_detector.detect_language_from_file"
+                "codexray.language_detector.detect_language_from_file"
             ) as mock_detect_lang,
         ):
             mock_path_instance = Mock()
@@ -206,8 +206,8 @@ class TestAnalyzeCodeScale:
 class TestMainFunction:
     """Test main function."""
 
-    @patch("tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer")
-    @patch("tree_sitter_analyzer.mcp.server.logger")
+    @patch("codexray.mcp.server.CodeXrayMCPServer")
+    @patch("codexray.mcp.server.logger")
     def test_main_keyboard_interrupt(self, mock_logger, mock_server_class):
         """Test main function handles KeyboardInterrupt."""
         mock_server = Mock()
@@ -230,8 +230,8 @@ class TestMainFunction:
         mock_logger.info.assert_any_call("Server stopped by user")
         mock_logger.info.assert_called_with("MCP server shutdown complete")
 
-    @patch("tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer")
-    @patch("tree_sitter_analyzer.mcp.server.logger")
+    @patch("codexray.mcp.server.CodeXrayMCPServer")
+    @patch("codexray.mcp.server.logger")
     def test_main_exception_handling(self, mock_logger, mock_server_class):
         """Test main function handles exceptions."""
         mock_server_class.side_effect = Exception("Test error")
@@ -252,15 +252,15 @@ class TestMainFunction:
 class TestToolsAndResources:
     """Test tools and resources functionality."""
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
-    @patch("tree_sitter_analyzer.mcp.server.get_analysis_engine")
-    @patch("tree_sitter_analyzer.mcp.server.setup_logger")
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.get_analysis_engine")
+    @patch("codexray.mcp.server.setup_logger")
     def test_tools_initialization(self, mock_logger, mock_engine):
         """Test that tools are properly initialized."""
         mock_engine.return_value = Mock()
         mock_logger.return_value = Mock()
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
 
         # Test that the three core tools are initialized
         assert (
@@ -273,15 +273,15 @@ class TestToolsAndResources:
         )
         assert callable(server.analysis_engine.analyze_file)
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
-    @patch("tree_sitter_analyzer.mcp.server.get_analysis_engine")
-    @patch("tree_sitter_analyzer.mcp.server.setup_logger")
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.get_analysis_engine")
+    @patch("codexray.mcp.server.setup_logger")
     def test_resources_initialization(self, mock_logger, mock_engine):
         """Test that resources are properly initialized."""
         mock_engine.return_value = Mock()
         mock_logger.return_value = Mock()
 
-        server = TreeSitterAnalyzerMCPServer()
+        server = CodeXrayMCPServer()
 
         assert server.code_file_resource.get_resource_info()["name"] == "code_file"
         assert (
@@ -303,6 +303,6 @@ class TestFallbackClasses:
     def test_mcp_availability_handling(self):
         """Test that MCP availability is properly handled."""
         # Just test that the module can be imported and MCP_AVAILABLE is a boolean
-        from tree_sitter_analyzer.mcp.server import MCP_AVAILABLE
+        from codexray.mcp.server import MCP_AVAILABLE
 
         assert isinstance(MCP_AVAILABLE, bool)

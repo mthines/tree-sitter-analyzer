@@ -26,7 +26,7 @@ def _parse_and_extract(src: str):
     import tree_sitter
     import tree_sitter_go
 
-    from tree_sitter_analyzer.languages.go_plugin import GoElementExtractor
+    from codexray.languages.go_plugin import GoElementExtractor
 
     lang = tree_sitter.Language(tree_sitter_go.language())
     parser = tree_sitter.Parser(lang)
@@ -285,7 +285,7 @@ class TestExtractMethodReceiverRegex:
         """Invoke extract_method_receiver with a fake node yielding receiver_text."""
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.languages._go_common import (
+        from codexray.languages._go_common import (
             extract_method_receiver,
         )
 
@@ -340,7 +340,7 @@ class TestExtractMethodReceiverRegex:
     def test_no_receiver_returns_none(self) -> None:
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.languages._go_common import (
+        from codexray.languages._go_common import (
             extract_method_receiver,
         )
 

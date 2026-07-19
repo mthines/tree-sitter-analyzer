@@ -1,4 +1,4 @@
-// Package sample demonstrates Go language features for tree-sitter-analyzer.
+// Package sample demonstrates Go language features for codexray.
 // This file contains examples of various Go constructs including:
 // - Package declaration
 // - Imports

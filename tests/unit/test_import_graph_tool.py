@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.import_graph import ImportGraph, ImportGraphResult
-from tree_sitter_analyzer.mcp.tools.import_graph_tool import CodeGraphImportGraphTool
+from codexray.import_graph import ImportGraph, ImportGraphResult
+from codexray.mcp.tools.import_graph_tool import CodeGraphImportGraphTool
 
 
 @pytest.fixture

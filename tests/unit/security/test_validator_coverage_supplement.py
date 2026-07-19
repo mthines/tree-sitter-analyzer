@@ -8,8 +8,8 @@ import os
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.security.boundary_manager import ProjectBoundaryManager
-from tree_sitter_analyzer.security.validator import SecurityValidator
+from codexray.security.boundary_manager import ProjectBoundaryManager
+from codexray.security.validator import SecurityValidator
 
 
 class TestValidatorUncovered:

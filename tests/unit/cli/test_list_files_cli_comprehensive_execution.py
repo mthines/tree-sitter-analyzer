@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.list_files_cli import _run, main
+from codexray.cli.commands.list_files_cli import _run, main
 
 
 def _make_args(**overrides: object) -> argparse.Namespace:
@@ -50,16 +50,16 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"
+                "codexray.cli.commands.list_files_cli.set_output_mode"
             ) as mock_set_output,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.output_data"
+                "codexray.cli.commands.list_files_cli.output_data"
             ) as mock_output,
         ):
             mock_detect.return_value = "/project/root"
@@ -83,16 +83,16 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"
+                "codexray.cli.commands.list_files_cli.set_output_mode"
             ) as mock_set_output,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.output_data"
+                "codexray.cli.commands.list_files_cli.output_data"
             ) as mock_output,
         ):
             mock_detect.return_value = "/custom/root"
@@ -130,13 +130,13 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_data"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.output_data"),
         ):
             mock_detect.return_value = "/project/root"
             mock_tool = AsyncMock()
@@ -170,14 +170,14 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.output_error"
+                "codexray.cli.commands.list_files_cli.output_error"
             ) as mock_error,
         ):
             mock_detect.return_value = "/project/root"
@@ -197,13 +197,13 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_data"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.output_data"),
         ):
             mock_detect.return_value = "/custom/path"
             mock_tool = AsyncMock()
@@ -222,13 +222,13 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_data"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.output_data"),
         ):
             mock_detect.return_value = "/project/root"
             mock_tool = AsyncMock()
@@ -250,13 +250,13 @@ class TestMainFunction:
         with (
             patch("sys.argv", ["list_files_cli.py"] + test_args),
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_data"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.output_data"),
             pytest.raises(SystemExit) as exc_info,
         ):
             mock_detect.return_value = "/project/root"
@@ -275,13 +275,13 @@ class TestMainFunction:
         with (
             patch("sys.argv", ["list_files_cli.py"] + test_args),
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_error"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.output_error"),
             pytest.raises(SystemExit) as exc_info,
         ):
             mock_detect.return_value = "/project/root"
@@ -300,12 +300,12 @@ class TestMainFunction:
         with (
             patch("sys.argv", ["list_files_cli.py"] + test_args),
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
             pytest.raises(SystemExit) as exc_info,
         ):
             mock_detect.return_value = "/project/root"
@@ -340,13 +340,13 @@ class TestEdgeCases:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_data"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.output_data"),
         ):
             mock_detect.return_value = "/project/root"
             mock_tool = AsyncMock()
@@ -365,13 +365,13 @@ class TestEdgeCases:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.output_data"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.output_data"),
         ):
             mock_detect.return_value = "/project/root"
             mock_tool = AsyncMock()
@@ -390,14 +390,14 @@ class TestEdgeCases:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.detect_project_root"
+                "codexray.cli.commands.list_files_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.ListFilesTool"
+                "codexray.cli.commands.list_files_cli.ListFilesTool"
             ) as mock_tool_class,
-            patch("tree_sitter_analyzer.cli.commands.list_files_cli.set_output_mode"),
+            patch("codexray.cli.commands.list_files_cli.set_output_mode"),
             patch(
-                "tree_sitter_analyzer.cli.commands.list_files_cli.output_data"
+                "codexray.cli.commands.list_files_cli.output_data"
             ) as mock_output,
         ):
             mock_detect.return_value = "/project/root"

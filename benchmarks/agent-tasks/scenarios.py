@@ -99,7 +99,7 @@ def _is_decidable(result: dict[str, Any]) -> bool:
 
 def cold_start_tsa(repo: str, **_: Any) -> dict[str, Any]:
     """TSA cold-start: 1 call to get_project_summary."""
-    from tree_sitter_analyzer.mcp.tools.get_project_summary_tool import (
+    from codexray.mcp.tools.get_project_summary_tool import (
         GetProjectSummaryTool,
     )
 
@@ -171,7 +171,7 @@ def cold_start_baseline(repo: str, **_: Any) -> dict[str, Any]:
 
 def find_callers_tsa(repo: str, symbol: str = "execute", **_: Any) -> dict[str, Any]:
     """TSA find-callers: 1 call to codegraph_call_graph mode=callers."""
-    from tree_sitter_analyzer.mcp.tools.call_graph_tool import CodeGraphCallTool
+    from codexray.mcp.tools.call_graph_tool import CodeGraphCallTool
 
     tool = CodeGraphCallTool(repo)
     result = asyncio.run(
@@ -247,7 +247,7 @@ def find_callers_baseline(
 
 def change_impact_tsa(repo: str, **_: Any) -> dict[str, Any]:
     """TSA change-impact: 1 call to analyze_change_impact mode=diff."""
-    from tree_sitter_analyzer.mcp.tools.change_impact_tool import ChangeImpactTool
+    from codexray.mcp.tools.change_impact_tool import ChangeImpactTool
 
     tool = ChangeImpactTool(repo)
     result = asyncio.run(
@@ -319,7 +319,7 @@ def change_impact_baseline(repo: str, **_: Any) -> dict[str, Any]:
 
 def refactor_suggest_tsa(repo: str, file: str = "", **_: Any) -> dict[str, Any]:
     """TSA refactor-suggest: 1 call to refactoring_suggestions."""
-    from tree_sitter_analyzer.mcp.tools.refactoring_suggestions_tool import (
+    from codexray.mcp.tools.refactoring_suggestions_tool import (
         RefactoringSuggestionsTool,
     )
 

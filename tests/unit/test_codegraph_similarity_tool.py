@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.code_similarity_tool import (
+from codexray.mcp.tools.code_similarity_tool import (
     CodeGraphSimilarityTool as CodeSimilarityTool,
 )
 
@@ -198,7 +198,7 @@ class TestFacadeIncludeBodiesSurvivesRouting:
 
     async def test_include_bodies_survives_facade_routing(self, tmp_path):
         """via the viz facade: include_bodies=True reaches the inner tool."""
-        from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+        from codexray.mcp.tools.viz_facade import build_viz_facade
 
         (tmp_path / "a.py").write_text(
             "def process(x):\n"
@@ -234,7 +234,7 @@ class TestFacadeIncludeBodiesSurvivesRouting:
 
     async def test_facade_default_no_bodies(self, tmp_path):
         """via the viz facade: default (no include_bodies) must strip snippets."""
-        from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+        from codexray.mcp.tools.viz_facade import build_viz_facade
 
         (tmp_path / "a.py").write_text(
             "def process(x):\n"
@@ -372,7 +372,7 @@ class TestFacadeSchemaExposesSimilarityParams801:
 
     def test_viz_facade_schema_exposes_max_groups(self):
         """max_groups must appear in the viz facade's public schema."""
-        from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+        from codexray.mcp.tools.viz_facade import build_viz_facade
 
         facade = build_viz_facade(project_root=None)
         schema = facade.get_tool_schema()
@@ -382,7 +382,7 @@ class TestFacadeSchemaExposesSimilarityParams801:
 
     def test_viz_facade_schema_exposes_min_lines(self):
         """min_lines must appear in the viz facade's public schema."""
-        from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+        from codexray.mcp.tools.viz_facade import build_viz_facade
 
         facade = build_viz_facade(project_root=None)
         schema = facade.get_tool_schema()
@@ -392,7 +392,7 @@ class TestFacadeSchemaExposesSimilarityParams801:
 
     def test_viz_facade_schema_exposes_min_group_size(self):
         """min_group_size must appear in the viz facade's public schema."""
-        from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+        from codexray.mcp.tools.viz_facade import build_viz_facade
 
         facade = build_viz_facade(project_root=None)
         schema = facade.get_tool_schema()
@@ -402,7 +402,7 @@ class TestFacadeSchemaExposesSimilarityParams801:
 
     def test_viz_facade_schema_exposes_path_filter(self):
         """path_filter must appear in the viz facade's public schema."""
-        from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+        from codexray.mcp.tools.viz_facade import build_viz_facade
 
         facade = build_viz_facade(project_root=None)
         schema = facade.get_tool_schema()
@@ -417,7 +417,7 @@ class TestFacadeRoutesSimilarityParams801:
 
     async def test_max_groups_via_facade(self, tmp_path):
         """max_groups=1 passed via viz facade must limit groups to exactly 1."""
-        from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+        from codexray.mcp.tools.viz_facade import build_viz_facade
 
         (tmp_path / "a.py").write_text(_large_group_fixture_body())
         facade = build_viz_facade(str(tmp_path))
@@ -429,7 +429,7 @@ class TestFacadeRoutesSimilarityParams801:
 
     async def test_path_filter_via_facade(self, tmp_path):
         """path_filter passed via viz facade must limit similarity scope."""
-        from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+        from codexray.mcp.tools.viz_facade import build_viz_facade
 
         tests_dir = tmp_path / "tests"
         src_dir = tmp_path / "src"

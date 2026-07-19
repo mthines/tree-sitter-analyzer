@@ -7,11 +7,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.javascript_plugin import (
+from codexray.languages.javascript_plugin import (
     JavaScriptElementExtractor,
     JavaScriptPlugin,
 )
-from tree_sitter_analyzer.models import Function
+from codexray.models import Function
 
 
 class TestJavaScriptPluginEdgeCases:
@@ -159,7 +159,7 @@ class TestJavaScriptPluginEdgeCases:
 
         # Test with encoding error
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.side_effect = UnicodeDecodeError(
                 "utf-8", b"", 0, 1, "test error"
@@ -181,7 +181,7 @@ class TestJavaScriptPluginEdgeCases:
 
         # Should handle index errors gracefully
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.side_effect = Exception("Test error")
 
@@ -482,7 +482,7 @@ class TestJavaScriptPluginEdgeCases:
                     extractor.content_lines = [f"test content {i}"]
 
                     with patch(
-                        "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+                        "codexray.languages.javascript_plugin.extractor.extract_text_slice"
                     ) as mock_extract:
                         mock_extract.return_value = f"text_{i}"
                         result = extractor._get_node_text_optimized(mock_node)
@@ -631,7 +631,7 @@ class TestJavaScriptPluginEdgeCases:
 
             # Should handle different encodings
             with patch(
-                "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+                "codexray.languages.javascript_plugin.extractor.extract_text_slice"
             ) as mock_extract:
                 mock_extract.return_value = "test"
                 result = extractor._get_node_text_optimized(mock_node)

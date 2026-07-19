@@ -1,6 +1,6 @@
 """Enhanced tests for CSS plugin — selectors, properties, rules, and media queries."""
 
-from tree_sitter_analyzer.languages.css_plugin import CssPlugin
+from codexray.languages.css_plugin import CssPlugin
 
 SELECTOR_CODE = """
 /* Simple selectors */

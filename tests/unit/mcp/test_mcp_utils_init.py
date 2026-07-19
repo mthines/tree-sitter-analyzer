@@ -1,9 +1,9 @@
-"""Tests for tree_sitter_analyzer.mcp.utils.__init__ module."""
+"""Tests for codexray.mcp.utils.__init__ module."""
 
 import importlib
 import sys
 
-from tree_sitter_analyzer.mcp.utils import (
+from codexray.mcp.utils import (
     MCP_UTILS_CAPABILITIES,
     get_cache_manager,
     get_performance_monitor,
@@ -37,7 +37,7 @@ class TestMcpUtilsCapabilities:
 
 class TestBackwardCompatibleCacheManager:
     def test_get_cache_manager_returns_object(self):
-        from tree_sitter_analyzer.mcp.utils import BackwardCompatibleCacheManager
+        from codexray.mcp.utils import BackwardCompatibleCacheManager
 
         mgr = get_cache_manager()
         assert isinstance(mgr, BackwardCompatibleCacheManager)
@@ -58,7 +58,7 @@ class TestBackwardCompatibleCacheManager:
 
 class TestGetPerformanceMonitor:
     def test_get_performance_monitor_returns_object(self):
-        from tree_sitter_analyzer.core.performance import PerformanceMonitor
+        from codexray.core.performance import PerformanceMonitor
 
         monitor = get_performance_monitor()
         assert isinstance(monitor, PerformanceMonitor)
@@ -67,10 +67,10 @@ class TestGetPerformanceMonitor:
 class TestImportErrorFallback:
     def test_fallback_get_cache_manager_returns_none(self):
         """Test that fallback returns None when core services unavailable."""
-        blocked = "tree_sitter_analyzer.core.cache_service"
+        blocked = "codexray.core.cache_service"
         saved = sys.modules.pop(blocked, None)
 
-        mcp_utils_snapshot = _snapshot_modules("tree_sitter_analyzer.mcp.utils")
+        mcp_utils_snapshot = _snapshot_modules("codexray.mcp.utils")
 
         block_list = {blocked}
 
@@ -84,25 +84,25 @@ class TestImportErrorFallback:
         sys.meta_path.insert(0, finder)
 
         for mod in list(sys.modules):
-            if mod.startswith("tree_sitter_analyzer.mcp.utils"):
+            if mod.startswith("codexray.mcp.utils"):
                 del sys.modules[mod]
 
         try:
-            mod = importlib.import_module("tree_sitter_analyzer.mcp.utils")
+            mod = importlib.import_module("codexray.mcp.utils")
             result = mod.get_cache_manager()
             assert result is None
         finally:
             sys.meta_path.remove(finder)
             if saved is not None:
                 sys.modules[blocked] = saved
-            _restore_modules("tree_sitter_analyzer.mcp.utils", mcp_utils_snapshot)
+            _restore_modules("codexray.mcp.utils", mcp_utils_snapshot)
 
     def test_fallback_get_performance_monitor_returns_none(self):
         """Test that fallback performance monitor returns None."""
-        blocked = "tree_sitter_analyzer.core.cache_service"
+        blocked = "codexray.core.cache_service"
         saved = sys.modules.pop(blocked, None)
 
-        mcp_utils_snapshot = _snapshot_modules("tree_sitter_analyzer.mcp.utils")
+        mcp_utils_snapshot = _snapshot_modules("codexray.mcp.utils")
 
         block_list = {blocked}
 
@@ -116,15 +116,15 @@ class TestImportErrorFallback:
         sys.meta_path.insert(0, finder)
 
         for mod in list(sys.modules):
-            if mod.startswith("tree_sitter_analyzer.mcp.utils"):
+            if mod.startswith("codexray.mcp.utils"):
                 del sys.modules[mod]
 
         try:
-            mod = importlib.import_module("tree_sitter_analyzer.mcp.utils")
+            mod = importlib.import_module("codexray.mcp.utils")
             result = mod.get_performance_monitor()
             assert result is None
         finally:
             sys.meta_path.remove(finder)
             if saved is not None:
                 sys.modules[blocked] = saved
-            _restore_modules("tree_sitter_analyzer.mcp.utils", mcp_utils_snapshot)
+            _restore_modules("codexray.mcp.utils", mcp_utils_snapshot)

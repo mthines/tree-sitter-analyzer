@@ -15,7 +15,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.utils.logging import (
+from codexray.utils.logging import (
     LoggingContext,
     QuietMode,
     SafeStreamHandler,
@@ -31,7 +31,7 @@ from tree_sitter_analyzer.utils.logging import (
     setup_performance_logger,
     suppress_output,
 )
-from tree_sitter_analyzer.utils.logging import (
+from codexray.utils.logging import (
     logger as global_logger,
 )
 
@@ -439,7 +439,7 @@ class TestSafePrint:
 
     def test_safe_print_info_level(self):
         """测试info级别打印"""
-        with patch("tree_sitter_analyzer.utils.logging.log_info") as mock_log_info:
+        with patch("codexray.utils.logging.log_info") as mock_log_info:
             safe_print("test message", level="info")
             mock_log_info.assert_called_once_with("test message")
             assert mock_log_info.call_count == 1
@@ -447,7 +447,7 @@ class TestSafePrint:
     def test_safe_print_warning_level(self):
         """测试warning级别打印"""
         with patch(
-            "tree_sitter_analyzer.utils.logging.log_warning"
+            "codexray.utils.logging.log_warning"
         ) as mock_log_warning:
             safe_print("test message", level="warning")
             mock_log_warning.assert_called_once_with("test message")
@@ -455,35 +455,35 @@ class TestSafePrint:
 
     def test_safe_print_error_level(self):
         """测试error级别打印"""
-        with patch("tree_sitter_analyzer.utils.logging.log_error") as mock_log_error:
+        with patch("codexray.utils.logging.log_error") as mock_log_error:
             safe_print("test message", level="error")
             mock_log_error.assert_called_once_with("test message")
             assert mock_log_error.call_count == 1
 
     def test_safe_print_debug_level(self):
         """测试debug级别打印"""
-        with patch("tree_sitter_analyzer.utils.logging.log_debug") as mock_log_debug:
+        with patch("codexray.utils.logging.log_debug") as mock_log_debug:
             safe_print("test message", level="debug")
             mock_log_debug.assert_called_once_with("test message")
             assert mock_log_debug.call_count == 1
 
     def test_safe_print_none_message(self):
         """测试None消息"""
-        with patch("tree_sitter_analyzer.utils.logging.log_info") as mock_log_info:
+        with patch("codexray.utils.logging.log_info") as mock_log_info:
             safe_print(None, level="info")
             mock_log_info.assert_called_once_with("None")
             assert mock_log_info.call_count == 1
 
     def test_safe_print_quiet(self):
         """测试安静模式"""
-        with patch("tree_sitter_analyzer.utils.logging.log_info") as mock_log_info:
+        with patch("codexray.utils.logging.log_info") as mock_log_info:
             safe_print("test message", quiet=True)
             mock_log_info.assert_not_called()
             assert not mock_log_info.called
 
     def test_safe_print_default_level(self):
         """测试默认级别"""
-        with patch("tree_sitter_analyzer.utils.logging.log_info") as mock_log_info:
+        with patch("codexray.utils.logging.log_info") as mock_log_info:
             safe_print("test message")
             mock_log_info.assert_called_once_with("test message")
             assert mock_log_info.call_count == 1

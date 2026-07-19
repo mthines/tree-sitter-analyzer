@@ -2,7 +2,7 @@
 """Cross-version format compatibility test.
 
 This script validates that the format output remains compatible
-across different versions of the tree-sitter-analyzer.
+across different versions of the codexray.
 """
 
 import sys

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Interactive PyPI Upload Script for tree-sitter-analyzer
+Interactive PyPI Upload Script for codexray
 Automatically detects version from package metadata
 """
 
@@ -34,8 +34,8 @@ def check_packages() -> bool:
         print("❌ dist/ directory not found. Please run 'uv build' first.")
         return False
 
-    wheel_file = dist_path / f"tree_sitter_analyzer-{version}-py3-none-any.whl"
-    tar_file = dist_path / f"tree_sitter_analyzer-{version}.tar.gz"
+    wheel_file = dist_path / f"codexray-{version}-py3-none-any.whl"
+    tar_file = dist_path / f"codexray-{version}.tar.gz"
 
     if not wheel_file.exists() or not tar_file.exists():
         print(
@@ -126,9 +126,9 @@ def test_installation() -> None:
     version = get_version()
     print("\n🧪 Testing installation from PyPI...")
     print("You can test the installation with:")
-    print(f"  pip install tree-sitter-analyzer=={version}")
+    print(f"  pip install codexray=={version}")
     print(
-        '  python -c "import tree_sitter_analyzer; print(tree_sitter_analyzer.__version__)"'
+        '  python -c "import codexray; print(codexray.__version__)"'
     )
 
 
@@ -138,7 +138,7 @@ def main() -> None:
     if not version:
         sys.exit(1)
 
-    print(f"=== Interactive PyPI Upload for tree-sitter-analyzer v{version} ===")
+    print(f"=== Interactive PyPI Upload for codexray v{version} ===")
     print()
 
     # Check packages
@@ -187,7 +187,7 @@ def main() -> None:
             print("  uv publish")
             print()
             print("Using twine:")
-            print(f"  uv run twine upload dist/tree_sitter_analyzer-{version}*")
+            print(f"  uv run twine upload dist/codexray-{version}*")
             print("  Username: __token__")
             print("  Password: pypi-your-token-here")
             break

@@ -6,14 +6,14 @@ from dataclasses import dataclass, field
 from typing import Any
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.languages.typescript_plugin._function import (
+from codexray.languages.typescript_plugin._function import (
     extract_arrow_function,
     extract_function,
     extract_generator_function,
     extract_method,
     extract_method_signature,
 )
-from tree_sitter_analyzer.languages.typescript_plugin._signature import (
+from codexray.languages.typescript_plugin._signature import (
     FunctionSignature,
     MethodSignature,
 )

@@ -13,11 +13,11 @@ import tempfile
 import threading
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.utils.file_output_factory import (
+from codexray.mcp.utils.file_output_factory import (
     FileOutputManagerFactory,
     get_file_output_manager,
 )
-from tree_sitter_analyzer.mcp.utils.file_output_manager import FileOutputManager
+from codexray.mcp.utils.file_output_manager import FileOutputManager
 
 
 class TestFileOutputManagerBackwardCompatibility:

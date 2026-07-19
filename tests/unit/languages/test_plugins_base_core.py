@@ -9,7 +9,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.plugins.base import (
+from codexray.plugins.base import (
     DefaultExtractor,
     DefaultLanguagePlugin,
     ElementExtractor,

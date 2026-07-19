@@ -9,12 +9,12 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.formatters.sql_formatters import (
+from codexray.formatters.sql_formatters import (
     SQLCompactFormatter,
     SQLCSVFormatter,
     SQLFullFormatter,
 )
-from tree_sitter_analyzer.models import (
+from codexray.models import (
     SQLColumn,
     SQLConstraint,
     SQLElement,

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.hyphae_select_tool import HyphaeSelectTool
+from codexray.mcp.tools.hyphae_select_tool import HyphaeSelectTool
 
 
 class _FakeCache:
@@ -171,8 +171,8 @@ async def test_next_step_includes_narrowing_hint_when_truncated():
 
 def test_exactly_max_results_not_truncated() -> None:
     """Exactly 100 unique matches is a COMPLETE result, not a capped one."""
-    from tree_sitter_analyzer.hyphae.evaluator import Evaluator
-    from tree_sitter_analyzer.hyphae.parser import parse
+    from codexray.hyphae.evaluator import Evaluator
+    from codexray.hyphae.parser import parse
 
     cache = _FakeCacheWithManyCallers(n=100)
     ev = Evaluator(cache, max_results=100)
@@ -184,8 +184,8 @@ def test_exactly_max_results_not_truncated() -> None:
 
 def test_not_pseudo_does_not_clobber_counters() -> None:
     """:not(...) re-enters eval(); outer counters must survive (reentrancy)."""
-    from tree_sitter_analyzer.hyphae.evaluator import Evaluator
-    from tree_sitter_analyzer.hyphae.parser import parse
+    from codexray.hyphae.evaluator import Evaluator
+    from codexray.hyphae.parser import parse
 
     cache = _FakeCacheWithManyCallers(n=150)
     ev = Evaluator(cache, max_results=100)
@@ -197,8 +197,8 @@ def test_not_pseudo_does_not_clobber_counters() -> None:
 
 def test_multi_selector_recount_covers_remaining_selectors() -> None:
     """Cap hit in selector 1 of a list — selector 2's matches still counted."""
-    from tree_sitter_analyzer.hyphae.evaluator import Evaluator
-    from tree_sitter_analyzer.hyphae.parser import parse
+    from codexray.hyphae.evaluator import Evaluator
+    from codexray.hyphae.parser import parse
 
     cache = _FakeCacheWithManyCallers(n=120)
     ev = Evaluator(cache, max_results=100)
@@ -212,8 +212,8 @@ def test_multi_selector_recount_covers_remaining_selectors() -> None:
 
 def test_duplicate_symbols_across_selectors_deduped() -> None:
     """The same symbol matched by two selectors counts once."""
-    from tree_sitter_analyzer.hyphae.evaluator import Evaluator
-    from tree_sitter_analyzer.hyphae.parser import parse
+    from codexray.hyphae.evaluator import Evaluator
+    from codexray.hyphae.parser import parse
 
     cache = _FakeCacheWithManyCallers(n=10)
     ev = Evaluator(cache, max_results=100)

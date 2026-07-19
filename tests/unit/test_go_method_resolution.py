@@ -21,15 +21,15 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.synapse_resolver import ResolvedCallee, resolve_callee
-from tree_sitter_analyzer.synapse_resolver import languages as _languages
-from tree_sitter_analyzer.synapse_resolver._context import ResolverContext
-from tree_sitter_analyzer.synapse_resolver._registry import (
+from codexray.ast_cache import ASTCache
+from codexray.synapse_resolver import ResolvedCallee, resolve_callee
+from codexray.synapse_resolver import languages as _languages
+from codexray.synapse_resolver._context import ResolverContext
+from codexray.synapse_resolver._registry import (
     get_language_resolver,
     registered_languages,
 )
-from tree_sitter_analyzer.synapse_resolver.languages.go import (
+from codexray.synapse_resolver.languages.go import (
     GoResolverContext,
     build_go_resolver_context,
     resolve_go_callee,
@@ -98,7 +98,7 @@ def _ctx(
         # stdlib-classification tests still see import evidence. Built from the
         # FULL canonical paths (``net/http`` …) — the import-evidence gate
         # validates the whole path, not the final segment (Codex P2 finding 3).
-        from tree_sitter_analyzer.synapse_resolver.languages._go_constants import (
+        from codexray.synapse_resolver.languages._go_constants import (
             STDLIB_IMPORT_PATHS_GO,
         )
 
@@ -208,7 +208,7 @@ def test_aliased_stdlib_import_resolves_under_alias() -> None:
 def test_line_comment_in_import_block_is_not_an_import() -> None:
     """A ``// "net/http"`` line comment inside a grouped import must NOT be
     parsed as a real import spec — only ``fmt`` is actually imported."""
-    from tree_sitter_analyzer.synapse_resolver.languages._go_constants import (
+    from codexray.synapse_resolver.languages._go_constants import (
         parse_go_import_block,
     )
 
@@ -219,7 +219,7 @@ def test_line_comment_in_import_block_is_not_an_import() -> None:
 def test_trailing_line_comment_after_spec_is_not_an_import() -> None:
     """A trailing ``// "net/http"`` after a real ``"fmt"`` import must be
     ignored — the commented path is not imported."""
-    from tree_sitter_analyzer.synapse_resolver.languages._go_constants import (
+    from codexray.synapse_resolver.languages._go_constants import (
         parse_go_import_block,
     )
 
@@ -230,7 +230,7 @@ def test_trailing_line_comment_after_spec_is_not_an_import() -> None:
 def test_block_comment_in_import_block_is_not_an_import() -> None:
     """A ``/* "net/http" */`` block comment must be stripped before matching —
     the commented stdlib path must not leak an ``http`` qualifier."""
-    from tree_sitter_analyzer.synapse_resolver.languages._go_constants import (
+    from codexray.synapse_resolver.languages._go_constants import (
         parse_go_import_block,
     )
 
@@ -260,7 +260,7 @@ def test_commented_import_does_not_enable_stdlib_qualifier() -> None:
 def test_third_party_path_ending_in_stdlib_name_is_not_import_evidence() -> None:
     """``import jsonx "github.com/acme/json"`` must NOT register ``json`` (nor
     the alias) as stdlib import evidence — the imported path is third-party."""
-    from tree_sitter_analyzer.synapse_resolver.languages._go_constants import (
+    from codexray.synapse_resolver.languages._go_constants import (
         parse_go_import_block,
     )
 
@@ -270,7 +270,7 @@ def test_third_party_path_ending_in_stdlib_name_is_not_import_evidence() -> None
 def test_third_party_plain_import_ending_in_stdlib_name_is_not_evidence() -> None:
     """A plain ``import "example.com/fmt"`` ends in ``fmt`` but is third-party —
     the full path is not the Go standard library, so no evidence is recorded."""
-    from tree_sitter_analyzer.synapse_resolver.languages._go_constants import (
+    from codexray.synapse_resolver.languages._go_constants import (
         parse_go_import_block,
     )
 
@@ -280,7 +280,7 @@ def test_third_party_plain_import_ending_in_stdlib_name_is_not_evidence() -> Non
 def test_canonical_stdlib_subpath_is_import_evidence() -> None:
     """Genuine multi-segment stdlib paths (``net/http``, ``encoding/json``,
     ``path/filepath``) ARE evidence and map their final segment qualifier."""
-    from tree_sitter_analyzer.synapse_resolver.languages._go_constants import (
+    from codexray.synapse_resolver.languages._go_constants import (
         parse_go_import_block,
     )
 

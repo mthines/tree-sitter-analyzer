@@ -7,7 +7,7 @@ Uses Hypothesis to verify CodeElement and AnalysisResult properties.
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.models import (
+from codexray.models import (
     AnalysisResult,
     Class,
     Function,

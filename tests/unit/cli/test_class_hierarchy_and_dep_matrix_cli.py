@@ -5,7 +5,7 @@ from __future__ import annotations
 from argparse import Namespace
 from typing import Any
 
-from tree_sitter_analyzer.cli.commands import mcp_commands
+from codexray.cli.commands import mcp_commands
 
 
 def _args(**overrides: Any) -> Namespace:

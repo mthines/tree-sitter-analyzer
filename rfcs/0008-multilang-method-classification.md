@@ -6,9 +6,9 @@
 - **Last updated**: 2026-06-07
 - **Tracking issue**: TBD
 - **Affected source paths**:
-  - `tree_sitter_analyzer/synapse_resolver/_constants.py` (per-language method tables)
-  - `tree_sitter_analyzer/synapse_resolver/_java_constants.py` (precedent: Java tables)
-  - `tree_sitter_analyzer/synapse_resolver/__init__.py` (cascade: language dispatch)
+  - `codexray/synapse_resolver/_constants.py` (per-language method tables)
+  - `codexray/synapse_resolver/_java_constants.py` (precedent: Java tables)
+  - `codexray/synapse_resolver/__init__.py` (cascade: language dispatch)
   - `tests/unit/`
 
 ## Summary

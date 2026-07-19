@@ -24,7 +24,7 @@ def _make_tree(src: str):
 
 
 def _extractor():
-    from tree_sitter_analyzer.languages.go_plugin import GoElementExtractor
+    from codexray.languages.go_plugin import GoElementExtractor
 
     return GoElementExtractor()
 

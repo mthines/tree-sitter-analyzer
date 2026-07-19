@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from tree_sitter_analyzer.callee_resolution import CalleeResolver
+from codexray.callee_resolution import CalleeResolver
 
 
 @dataclass(frozen=True)
@@ -165,7 +165,7 @@ def test_global_fallback_demotes_test_shadow_for_source_caller() -> None:
     }
     src_def = {
         "name": "fts_search",
-        "file": "tree_sitter_analyzer/ast_cache.py",
+        "file": "codexray/ast_cache.py",
         "language": "python",
         "line": 9,
     }
@@ -174,9 +174,9 @@ def test_global_fallback_demotes_test_shadow_for_source_caller() -> None:
         functions_by_file={},
         name_to_source={},
     )
-    files = resolver.resolve_files("fts_search", "tree_sitter_analyzer/mcp/tool.py")
+    files = resolver.resolve_files("fts_search", "codexray/mcp/tool.py")
     assert files, files
-    assert files[0][0] == "tree_sitter_analyzer/ast_cache.py", files
+    assert files[0][0] == "codexray/ast_cache.py", files
 
 
 def test_global_fallback_keeps_test_target_for_test_caller() -> None:

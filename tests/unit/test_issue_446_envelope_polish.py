@@ -15,8 +15,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import CodeGraphStatusTool
-from tree_sitter_analyzer.mcp.tools.project_overview_tool import ProjectOverviewTool
+from codexray.mcp.tools.codegraph_status_tool import CodeGraphStatusTool
+from codexray.mcp.tools.project_overview_tool import ProjectOverviewTool
 
 
 def _run(coro):
@@ -57,7 +57,7 @@ class TestStatusToolNullFields:
             mock_cache.get_stats.return_value = mock_stats
 
             with patch(
-                "tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache
+                "codexray.ast_cache.ASTCache", return_value=mock_cache
             ):
                 result = await tool.execute(
                     {"output_format": "json", "include_lag": False}
@@ -110,7 +110,7 @@ class TestStatusToolNullFields:
             mock_cache.get_stats.return_value = mock_stats
 
             with patch(
-                "tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache
+                "codexray.ast_cache.ASTCache", return_value=mock_cache
             ):
                 result = await tool.execute(
                     {"output_format": "json", "include_lag": False}
@@ -202,7 +202,7 @@ class TestSummaryLineShipping:
             mock_cache.get_stats.return_value = mock_stats
 
             with patch(
-                "tree_sitter_analyzer.ast_cache.ASTCache", return_value=mock_cache
+                "codexray.ast_cache.ASTCache", return_value=mock_cache
             ):
                 result = await tool.execute(
                     {"output_format": "json", "include_lag": False}
@@ -241,7 +241,7 @@ class TestSummaryLineShipping:
 
 
 def test_overview_risk_unknown_maps_to_info() -> None:
-    from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+    from codexray.mcp.tools.project_overview_tool import (
         _overview_risk_to_verdict,
     )
 
@@ -254,7 +254,7 @@ def test_status_stale_lag_next_step(tmp_path, monkeypatch) -> None:
     """lag > 300s → next_step suggests sync before nav/search."""
     import asyncio
 
-    from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import (
+    from codexray.mcp.tools.codegraph_status_tool import (
         CodeGraphStatusTool,
     )
 
@@ -279,7 +279,7 @@ def test_status_schema_version_included_when_present(tmp_path, monkeypatch) -> N
     """Non-None schema_version IS emitted (only None is omitted)."""
     import asyncio
 
-    from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import (
+    from codexray.mcp.tools.codegraph_status_tool import (
         CodeGraphStatusTool,
     )
 
@@ -304,7 +304,7 @@ def test_status_warn_branch_schema_version_included(tmp_path, monkeypatch) -> No
     """WARN (empty index) branch also emits non-None schema_version."""
     import asyncio
 
-    from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import (
+    from codexray.mcp.tools.codegraph_status_tool import (
         CodeGraphStatusTool,
     )
 
@@ -326,7 +326,7 @@ def test_overview_review_requires_real_signals() -> None:
     """REVIEW comes from observable signals (≥3 files ≥800 lines), never
     from \'health not run\' — the issue's premise is structurally impossible
     after F11 (_overview_risk never returns \'unknown\')."""
-    from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+    from codexray.mcp.tools.project_overview_tool import (
         _overview_risk,
     )
 

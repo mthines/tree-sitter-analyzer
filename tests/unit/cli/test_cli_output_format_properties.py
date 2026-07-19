@@ -17,7 +17,7 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.output_manager import (
+from codexray.output_manager import (
     OutputManager,
     output_data,
     output_json,

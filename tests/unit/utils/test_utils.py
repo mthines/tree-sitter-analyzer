@@ -20,7 +20,7 @@ sys.path.insert(0, ".")
 # Import LoggingContext - it should be available
 import contextlib
 
-from tree_sitter_analyzer.utils import (
+from codexray.utils import (
     LoggingContext,
     log_performance,
     setup_performance_logger,
@@ -33,7 +33,7 @@ LOGGING_CONTEXT_AVAILABLE = True
 def test_logger():
     """Set up test logger fixture"""
     # Set up test logger to capture output
-    logger = logging.getLogger("tree_sitter_analyzer_test")
+    logger = logging.getLogger("codexray_test")
     logger.handlers.clear()  # Clear existing handlers
 
     # Create string handler to capture logs using standard StreamHandler
@@ -72,7 +72,7 @@ def test_logger():
 def perf_logger():
     """Set up performance logger fixture"""
     # Set up performance logger to capture output
-    logger = logging.getLogger("tree_sitter_analyzer_test.performance")
+    logger = logging.getLogger("codexray_test.performance")
     logger.handlers.clear()
 
     log_capture = StringIO()
@@ -401,7 +401,7 @@ def test_logging_context_with_safe_print(test_logger):
 
 def test_performance_logging_integration():
     """Test performance logging integration"""
-    with patch("tree_sitter_analyzer.utils.logging.perf_logger") as mock_logger:
+    with patch("codexray.utils.logging.perf_logger") as mock_logger:
         log_performance("Test operation", execution_time=1.5, details={"items": 100})
 
     mock_logger.debug.assert_called_once_with("Test operation: 1.5000s - items: 100")

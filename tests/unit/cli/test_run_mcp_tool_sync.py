@@ -25,8 +25,8 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.cli import special_commands
-from tree_sitter_analyzer.cli.special_commands import (
+from codexray.cli import special_commands
+from codexray.cli.special_commands import (
     SpecialCommandContext,
     _run_mcp_tool_sync,
 )
@@ -142,7 +142,7 @@ class TestRunMcpToolSync:
 
         captured_toon: list[str] = []
         monkeypatch.setattr(
-            "tree_sitter_analyzer.output_manager.output_toon",
+            "codexray.output_manager.output_toon",
             lambda s: captured_toon.append(s),
         )
 

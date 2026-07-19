@@ -41,7 +41,7 @@ class CoverageMonitor:
             "uv",
             "run",
             "pytest",
-            "--cov=tree_sitter_analyzer",
+            "--cov=codexray",
             "--cov-report=term-missing",
             "--cov-report=json",
         ]

@@ -1,11 +1,11 @@
 """HTML plugin tests — tag and attribute recognition."""
 
+from codexray.languages.html_plugin import HtmlPlugin
 from tests.unit.languages._html_test_data import (
     ATTRIBUTE_CODE,
     TAG_CODE,
     get_tree_for_code,
 )
-from tree_sitter_analyzer.languages.html_plugin import HtmlPlugin
 
 
 class TestHtmlTagRecognition:

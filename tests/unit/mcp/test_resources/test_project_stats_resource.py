@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.resources.project_stats_resource import (
+from codexray.mcp.resources.project_stats_resource import (
     ProjectStatsResource,
 )
 

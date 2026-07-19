@@ -1,7 +1,7 @@
 import json
 from unittest.mock import patch
 
-from tree_sitter_analyzer.formatters.markdown_formatter import MarkdownFormatter
+from codexray.formatters.markdown_formatter import MarkdownFormatter
 
 
 class TestMarkdownFormatterInitialization:
@@ -10,7 +10,7 @@ class TestMarkdownFormatterInitialization:
         assert formatter.language == "markdown"
 
     def test_inherits_from_base(self):
-        from tree_sitter_analyzer.formatters.base_formatter import BaseFormatter
+        from codexray.formatters.base_formatter import BaseFormatter
 
         formatter = MarkdownFormatter()
         assert isinstance(formatter, BaseFormatter)

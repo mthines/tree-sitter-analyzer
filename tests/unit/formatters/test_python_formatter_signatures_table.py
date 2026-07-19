@@ -16,13 +16,13 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.formatters._python_formatter_signatures_table import (
+from codexray.formatters._python_formatter_signatures_table import (
     _method_sig_line,
     _shorten_return_type,
     format_python_signatures_table,
 )
-from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
-from tree_sitter_analyzer.formatters.python_formatter import PythonTableFormatter
+from codexray.formatters.formatter_registry import FormatterRegistry
+from codexray.formatters.python_formatter import PythonTableFormatter
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -199,7 +199,7 @@ def test_signatures_methods_count_line() -> None:
 
 def test_signatures_shorter_than_full() -> None:
     """signatures output should be shorter than full output."""
-    from tree_sitter_analyzer.formatters.python_formatter import PythonTableFormatter
+    from codexray.formatters.python_formatter import PythonTableFormatter
 
     data = _three_method_data()
     full_fmt = PythonTableFormatter(format_type="full")
@@ -294,7 +294,7 @@ def test_formatter_registry_python_signatures() -> None:
 
 def test_auto_detect_language_resolves_python_for_py_extension(tmp_path) -> None:
     """AnalyzeCodeStructureTool._resolve_language auto-detects 'python' for .py files."""
-    from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+    from codexray.mcp.tools.analyze_code_structure_tool import (
         AnalyzeCodeStructureTool,
     )
 
@@ -314,7 +314,7 @@ def test_auto_detect_language_resolves_python_for_py_extension(tmp_path) -> None
 
 def test_structure_facade_description_no_default_java() -> None:
     """'default java' must not appear in the signatures action description."""
-    from tree_sitter_analyzer.mcp.tools.structure_facade import _STRUCTURE_DESCRIPTION
+    from codexray.mcp.tools.structure_facade import _STRUCTURE_DESCRIPTION
 
     # The old text contained "(default java)" — must now be absent
     assert "default java" not in _STRUCTURE_DESCRIPTION
@@ -322,7 +322,7 @@ def test_structure_facade_description_no_default_java() -> None:
 
 def test_structure_facade_description_mentions_auto_detect() -> None:
     """Description should mention auto-detection for the signatures action."""
-    from tree_sitter_analyzer.mcp.tools.structure_facade import _STRUCTURE_DESCRIPTION
+    from codexray.mcp.tools.structure_facade import _STRUCTURE_DESCRIPTION
 
     assert (
         "auto-detect" in _STRUCTURE_DESCRIPTION
@@ -337,7 +337,7 @@ def test_structure_facade_description_mentions_auto_detect() -> None:
 
 def test_module_name_empty_file_path() -> None:
     """Empty file_path falls back to 'module'."""
-    from tree_sitter_analyzer.formatters._python_formatter_signatures_table import (
+    from codexray.formatters._python_formatter_signatures_table import (
         _module_name,
     )
 
@@ -346,7 +346,7 @@ def test_module_name_empty_file_path() -> None:
 
 def test_module_name_pyw_extension() -> None:
     """'.pyw' extension is stripped correctly."""
-    from tree_sitter_analyzer.formatters._python_formatter_signatures_table import (
+    from codexray.formatters._python_formatter_signatures_table import (
         _module_name,
     )
 
@@ -355,7 +355,7 @@ def test_module_name_pyw_extension() -> None:
 
 def test_module_name_pyi_extension() -> None:
     """'.pyi' stub extension is stripped correctly."""
-    from tree_sitter_analyzer.formatters._python_formatter_signatures_table import (
+    from codexray.formatters._python_formatter_signatures_table import (
         _module_name,
     )
 
@@ -364,7 +364,7 @@ def test_module_name_pyi_extension() -> None:
 
 def test_methods_in_range_zero_range_returns_empty() -> None:
     """A zero line_range (start=0, end=0) returns an empty list."""
-    from tree_sitter_analyzer.formatters._python_formatter_signatures_table import (
+    from codexray.formatters._python_formatter_signatures_table import (
         _methods_in_range,
     )
 
@@ -375,7 +375,7 @@ def test_methods_in_range_zero_range_returns_empty() -> None:
 
 def test_trim_trailing_blank_lines_removes_blanks() -> None:
     """_trim_trailing_blank_lines removes trailing empty strings."""
-    from tree_sitter_analyzer.formatters._python_formatter_signatures_table import (
+    from codexray.formatters._python_formatter_signatures_table import (
         _trim_trailing_blank_lines,
     )
 
@@ -411,7 +411,7 @@ def test_nested_class_methods_not_duplicated() -> None:
         ],
         "statistics": {"method_count": 2, "class_count": 2},
     }
-    from tree_sitter_analyzer.formatters.python_formatter import PythonTableFormatter
+    from codexray.formatters.python_formatter import PythonTableFormatter
 
     out = PythonTableFormatter(format_type="signatures").format_structure(data)
     assert out.count("inner_m") == 1

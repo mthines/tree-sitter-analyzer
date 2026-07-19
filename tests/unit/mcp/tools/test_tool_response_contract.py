@@ -24,7 +24,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.tool_response import validate_tool_response
+from codexray.mcp.tools.tool_response import validate_tool_response
 
 
 @pytest.fixture
@@ -43,7 +43,7 @@ class TestEnvelopeSuccess:
     """Tools that need no arguments and should succeed against a tiny project."""
 
     def test_project_overview_envelope(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+        from codexray.mcp.tools.project_overview_tool import (
             ProjectOverviewTool,
         )
 
@@ -54,7 +54,7 @@ class TestEnvelopeSuccess:
         assert "error" not in result  # successes don't carry error
 
     def test_detect_routes_summary_envelope(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.route_detector_tool import RouteDetectorTool
+        from codexray.mcp.tools.route_detector_tool import RouteDetectorTool
 
         tool = RouteDetectorTool(str(tiny_project))
         result = _run(tool.execute({"mode": "summary", "output_format": "json"}))
@@ -62,14 +62,14 @@ class TestEnvelopeSuccess:
         assert result["success"] is True
 
     def test_check_project_health_envelope(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.project_health_tool import ProjectHealthTool
+        from codexray.mcp.tools.project_health_tool import ProjectHealthTool
 
         tool = ProjectHealthTool(str(tiny_project))
         result = _run(tool.execute({"output_format": "json"}))
         validate_tool_response(result, "check_project_health")
 
     def test_ast_cache_stats_envelope(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
+        from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
 
         tool = ASTCacheTool(str(tiny_project))
         result = _run(tool.execute({"mode": "stats"}))
@@ -78,8 +78,8 @@ class TestEnvelopeSuccess:
     def test_codegraph_metrics_call_graph_is_read_only_on_cold_cache(
         self, tiny_project: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from tree_sitter_analyzer.mcp.tools import codegraph_metrics_tool
-        from tree_sitter_analyzer.mcp.tools.codegraph_metrics_tool import (
+        from codexray.mcp.tools import codegraph_metrics_tool
+        from codexray.mcp.tools.codegraph_metrics_tool import (
             CodeGraphMetricsTool,
         )
 
@@ -100,9 +100,9 @@ class TestEnvelopeSuccess:
     def test_codegraph_metrics_call_graph_uses_cached_graph(
         self, tiny_project: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from tree_sitter_analyzer import call_graph
-        from tree_sitter_analyzer.mcp.tools import codegraph_metrics_tool
-        from tree_sitter_analyzer.mcp.tools.codegraph_metrics_tool import (
+        from codexray import call_graph
+        from codexray.mcp.tools import codegraph_metrics_tool
+        from codexray.mcp.tools.codegraph_metrics_tool import (
             CodeGraphMetricsTool,
         )
 
@@ -160,7 +160,7 @@ class TestEnvelopeFailure:
         """SEC-3 / ARCH-A5 together: failures still produce a valid
         envelope, not a bare exception. The agent on the other end of
         the MCP transport relies on this to recover gracefully."""
-        from tree_sitter_analyzer.mcp.tools.route_detector_tool import RouteDetectorTool
+        from codexray.mcp.tools.route_detector_tool import RouteDetectorTool
 
         tool = RouteDetectorTool(str(tiny_project))
         # The MCP layer normally catches the ValueError and wraps it.
@@ -242,7 +242,7 @@ class TestExecuteAcrossAllTools:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", ResourceWarning)
             warnings.simplefilter("ignore")
-            from tree_sitter_analyzer.mcp.server import _create_tool_registry
+            from codexray.mcp.server import _create_tool_registry
 
             instances, _ = _create_tool_registry(str(tiny_project))
         return instances

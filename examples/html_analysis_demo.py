@@ -2,7 +2,7 @@
 """
 HTML解析デモンストレーション
 
-このスクリプトは、Tree-sitter AnalyzerのHTML解析機能を実際に使用する例を示します。
+このスクリプトは、CodeXrayのHTML解析機能を実際に使用する例を示します。
 comprehensive_sample.htmlファイルを解析し、HTML要素の抽出、分類、階層構造の分析を行います。
 """
 
@@ -10,15 +10,15 @@ import asyncio
 from pathlib import Path
 from typing import Any
 
-# Tree-sitter Analyzerのインポート
+# CodeXrayのインポート
 try:
-    from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
-    from tree_sitter_analyzer.formatters.html_formatter import HtmlFormatter
-    from tree_sitter_analyzer.languages.html_plugin import HtmlPlugin
+    from codexray.core.analysis_engine import get_analysis_engine
+    from codexray.formatters.html_formatter import HtmlFormatter
+    from codexray.languages.html_plugin import HtmlPlugin
 except ImportError as e:
-    print(f"エラー: Tree-sitter Analyzerがインストールされていません: {e}")
+    print(f"エラー: CodeXrayがインストールされていません: {e}")
     print("以下のコマンドでインストールしてください:")
-    print("uv add 'tree-sitter-analyzer[html]'")
+    print("uv add 'codexray[html]'")
     exit(1)
 
 
@@ -33,7 +33,7 @@ class HtmlAnalysisDemo:
 
     async def initialize(self):
         """解析エンジンの初期化"""
-        print("🔧 Tree-sitter Analyzer エンジンを初期化中...")
+        print("🔧 CodeXray エンジンを初期化中...")
         self.engine = await get_analysis_engine()
         print("✅ 初期化完了")
 
@@ -217,7 +217,7 @@ class HtmlAnalysisDemo:
 
     async def run_demo(self):
         """デモの実行"""
-        print("🌳 Tree-sitter Analyzer HTML解析デモ")
+        print("🌳 CodeXray HTML解析デモ")
         print("=" * 60)
 
         # 初期化

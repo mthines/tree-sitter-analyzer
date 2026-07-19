@@ -1,4 +1,4 @@
-from tree_sitter_analyzer.queries.markdown import (
+from codexray.queries.markdown import (
     ALL_QUERIES,
     MARKDOWN_QUERIES,
     QUERY_ALIASES,

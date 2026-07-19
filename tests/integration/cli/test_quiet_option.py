@@ -18,7 +18,7 @@ import pytest
 # Add the project root to the path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from tree_sitter_analyzer.cli.commands.base_command import BaseCommand
+from codexray.cli.commands.base_command import BaseCommand
 
 
 class MockCommand(BaseCommand):
@@ -65,7 +65,7 @@ public class Test {
         )
         command = MockCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_info") as mock_info:
+        with patch("codexray.output_manager.output_info") as mock_info:
             language = command.detect_language()
 
             assert language == "java"
@@ -93,11 +93,11 @@ public class Test {
 
         try:
             # Simulate --quiet in command line
-            sys.argv = ["tree_sitter_analyzer", self.test_java_file, "--quiet"]
+            sys.argv = ["codexray", self.test_java_file, "--quiet"]
 
             # Mock the argument parser and main execution to avoid full execution
             with patch(
-                "tree_sitter_analyzer.cli_main.create_argument_parser"
+                "codexray.cli_main.create_argument_parser"
             ) as mock_parser:
                 mock_args = Mock()
                 mock_args.quiet = True
@@ -110,19 +110,19 @@ public class Test {
                 mock_parser.return_value.parse_args.return_value = mock_args
 
                 with patch(
-                    "tree_sitter_analyzer.cli_main.CLICommandFactory.create_command"
+                    "codexray.cli_main.CLICommandFactory.create_command"
                 ) as mock_factory:
                     mock_command = Mock()
                     mock_command.execute.return_value = 0
                     mock_factory.return_value = mock_command
 
                     with patch(
-                        "tree_sitter_analyzer.cli_main.handle_special_commands"
+                        "codexray.cli_main.handle_special_commands"
                     ) as mock_special:
                         mock_special.return_value = None
 
                         # Import and call main to trigger environment variable setting
-                        from tree_sitter_analyzer.cli_main import main
+                        from codexray.cli_main import main
 
                         # The main function should set LOG_LEVEL=ERROR when --quiet is present
                         try:
@@ -156,8 +156,8 @@ public class Test {
             # This simulates the logging configuration in cli_main.py
             if hasattr(args, "quiet") and args.quiet:
                 logging.getLogger().setLevel(logging.ERROR)
-                logging.getLogger("tree_sitter_analyzer").setLevel(logging.ERROR)
-                logging.getLogger("tree_sitter_analyzer.performance").setLevel(
+                logging.getLogger("codexray").setLevel(logging.ERROR)
+                logging.getLogger("codexray.performance").setLevel(
                     logging.ERROR
                 )
 
@@ -174,7 +174,7 @@ public class Test {
         )
         command = MockCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_info") as mock_info:
+        with patch("codexray.output_manager.output_info") as mock_info:
             language = command.detect_language()
 
             assert language == "java"
@@ -204,7 +204,7 @@ public class Test {
 
         try:
             # Test the early check for quiet mode
-            sys.argv = ["tree_sitter_analyzer", "--quiet", self.test_java_file]
+            sys.argv = ["codexray", "--quiet", self.test_java_file]
 
             # This simulates the early check in cli_main.py
             if "--quiet" in sys.argv:
@@ -231,7 +231,7 @@ public class Test {
         )
         command = MockCommand(args)
 
-        with patch("tree_sitter_analyzer.output_manager.output_info") as mock_info:
+        with patch("codexray.output_manager.output_info") as mock_info:
             language = command.detect_language()
 
             assert language == "java"
@@ -257,7 +257,7 @@ public class Test {
 
     def test_quiet_option_help_text(self) -> None:
         """Test that --quiet option has correct help text."""
-        from tree_sitter_analyzer.cli_main import create_argument_parser
+        from codexray.cli_main import create_argument_parser
 
         parser = create_argument_parser()
 

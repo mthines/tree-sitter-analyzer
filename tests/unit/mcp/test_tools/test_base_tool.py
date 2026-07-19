@@ -11,9 +11,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.base_tool import BaseMCPTool, MCPTool
-from tree_sitter_analyzer.mcp.utils.path_resolver import PathResolver
-from tree_sitter_analyzer.security import SecurityValidator
+from codexray.mcp.tools.base_tool import BaseMCPTool, MCPTool
+from codexray.mcp.utils.path_resolver import PathResolver
+from codexray.security import SecurityValidator
 
 
 def _normalize_path(path: str) -> str:
@@ -94,7 +94,7 @@ class TestSetProjectPath:
         tool.set_project_path("/new/path")
         assert tool.path_resolver is not old_resolver
 
-    @patch("tree_sitter_analyzer.mcp.tools.base_tool.get_shared_cache")
+    @patch("codexray.mcp.tools.base_tool.get_shared_cache")
     def test_set_project_path_clears_cache(self, mock_get_cache):
         """Test that shared cache is cleared when project path changes"""
         mock_cache = MagicMock()
@@ -170,7 +170,7 @@ class TestResolveAndValidateFilePath:
         result = tool.resolve_and_validate_file_path(str(test_file.resolve()))
         assert _normalize_path(result) == _normalize_path(str(test_file))
 
-    @patch("tree_sitter_analyzer.mcp.tools.base_tool.get_shared_cache")
+    @patch("codexray.mcp.tools.base_tool.get_shared_cache")
     def test_resolve_uses_cache(self, mock_get_cache):
         """Test that shared cache is used for caching"""
         mock_cache = MagicMock()
@@ -192,7 +192,7 @@ class TestResolveAndValidateFilePath:
         result = tool.resolve_and_validate_file_path(str(test_file))
         assert "test file.txt" in result or "test file.txt" in Path(result).name
 
-    @patch("tree_sitter_analyzer.mcp.tools.base_tool.get_shared_cache")
+    @patch("codexray.mcp.tools.base_tool.get_shared_cache")
     def test_resolve_caches_validation(self, mock_get_cache):
         """Test that validation result is cached"""
         mock_cache = MagicMock()
@@ -213,7 +213,7 @@ class TestResolveAndValidateFilePath:
             (True, ""),
         ]
 
-    @patch("tree_sitter_analyzer.mcp.tools.base_tool.get_shared_cache")
+    @patch("codexray.mcp.tools.base_tool.get_shared_cache")
     def test_resolve_caches_resolved_path(self, mock_get_cache):
         """Test that resolved path is cached"""
         mock_cache = MagicMock()

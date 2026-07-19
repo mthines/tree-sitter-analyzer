@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.models.result import AnalysisResult
+from codexray.models.result import AnalysisResult
 
 
 def _failed_result() -> AnalysisResult:
@@ -32,7 +32,7 @@ def _failed_result() -> AnalysisResult:
 
 @pytest.mark.asyncio
 async def test_scale_tool_java_path_honors_parse_failure() -> None:
-    from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+    from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
     tool = AnalyzeScaleTool(project_root=".")
 
@@ -49,7 +49,7 @@ async def test_scale_tool_java_path_honors_parse_failure() -> None:
 
 @pytest.mark.asyncio
 async def test_universal_tool_advanced_path_honors_parse_failure() -> None:
-    from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+    from codexray.mcp.tools.universal_analyze_tool import (
         UniversalAnalyzeTool,
     )
 

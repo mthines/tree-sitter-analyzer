@@ -6,11 +6,11 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cache import build_state
-from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
-from tree_sitter_analyzer.graph import edge_store as edge_store_module
-from tree_sitter_analyzer.graph.edge_store import (
+from codexray.ast_cache import ASTCache
+from codexray.cache import build_state
+from codexray.class_hierarchy import ClassHierarchy
+from codexray.graph import edge_store as edge_store_module
+from codexray.graph.edge_store import (
     Edge,
     EdgeKind,
     EdgeStore,
@@ -18,7 +18,7 @@ from tree_sitter_analyzer.graph.edge_store import (
     file_node,
     symbol_node,
 )
-from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
 
 def _stub_hierarchy(names_with_parents: dict[str, list[str]]) -> ClassHierarchy:
@@ -28,7 +28,7 @@ def _stub_hierarchy(names_with_parents: dict[str, list[str]]) -> ClassHierarchy:
     empty), so existence-dependent behavior is tested against an injected
     hierarchy instead.
     """
-    from tree_sitter_analyzer.class_hierarchy import ClassInfo
+    from codexray.class_hierarchy import ClassInfo
 
     hierarchy = ClassHierarchy(cache=None)
     for name, parents in names_with_parents.items():
@@ -458,7 +458,7 @@ class TestSameNameDifferentBaseCollision:
     must each only appear under their actual base."""
 
     def test_same_name_children_different_bases_isolated(self, tmp_path):
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy, ClassInfo
+        from codexray.class_hierarchy import ClassHierarchy, ClassInfo
 
         h = ClassHierarchy.__new__(ClassHierarchy)
         # Minimal hand-built state (bypass index): two Worker classes, one
@@ -512,7 +512,7 @@ class TestAgentSummaryPresence:
 
     @pytest.fixture
     def tool_with_monkeypatched_hierarchy(self, tool, monkeypatch):
-        from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
+        from codexray.class_hierarchy import ClassHierarchy
 
         h = ClassHierarchy.__new__(ClassHierarchy)
         h._class_map = {

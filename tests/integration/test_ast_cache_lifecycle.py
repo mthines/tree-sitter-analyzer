@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray.ast_cache import ASTCache
 
 
 @pytest.fixture

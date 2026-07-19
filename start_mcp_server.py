@@ -13,9 +13,9 @@ from pathlib import Path
 # Add the current directory to Python path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.project_detector import detect_project_root
-from tree_sitter_analyzer.utils import setup_logger
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.project_detector import detect_project_root
+from codexray.utils import setup_logger
 
 # Configure logging
 logger = setup_logger(__name__)
@@ -24,7 +24,7 @@ logger = setup_logger(__name__)
 async def start_server_with_initialization_check() -> None:
     """Start the MCP server with proper initialization checking."""
     try:
-        logger.info("=== Tree-sitter Analyzer MCP Server Startup ===")
+        logger.info("=== CodeXray MCP Server Startup ===")
 
         # Detect project root
         project_root = detect_project_root()
@@ -32,7 +32,7 @@ async def start_server_with_initialization_check() -> None:
 
         # Create server instance
         logger.info("Creating MCP server instance...")
-        server = TreeSitterAnalyzerMCPServer(project_root)
+        server = CodeXrayMCPServer(project_root)
 
         # Wait for initialization to complete
         max_wait_time = 10  # seconds
@@ -113,7 +113,7 @@ def check_dependencies() -> bool:
 
 
 if __name__ == "__main__":
-    print("🌳 Tree-sitter Analyzer MCP Server")
+    print("🌳 CodeXray MCP Server")
     print("=" * 50)
 
     # Check dependencies

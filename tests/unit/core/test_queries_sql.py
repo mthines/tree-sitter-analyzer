@@ -9,8 +9,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.core.query_service import QueryService
-from tree_sitter_analyzer.queries.sql import (
+from codexray.core.query_service import QueryService
+from codexray.queries.sql import (
     SQL_QUERIES,
     SQL_QUERY_DESCRIPTIONS,
     get_all_queries,

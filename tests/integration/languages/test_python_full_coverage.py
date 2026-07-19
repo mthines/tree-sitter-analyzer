@@ -8,7 +8,7 @@ Uses the grammar_coverage validator with real tree-sitter parsing.
 
 import pytest
 
-from tree_sitter_analyzer.grammar_coverage.validator import (
+from codexray.grammar_coverage.validator import (
     validate_plugin_coverage_sync,
 )
 

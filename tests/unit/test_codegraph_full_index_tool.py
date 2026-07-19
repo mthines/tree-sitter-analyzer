@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.full_index_tool import CodeGraphFullIndexTool
+from codexray.mcp.tools.full_index_tool import CodeGraphFullIndexTool
 
 
 @pytest.fixture
@@ -77,7 +77,7 @@ class TestExecute:
         """#860: DB flush errors in incremental_sync must escalate verdict to WARN."""
         from unittest.mock import patch
 
-        from tree_sitter_analyzer.incremental_sync import SyncResult
+        from codexray.incremental_sync import SyncResult
 
         bad_result = SyncResult(
             scanned=5,
@@ -87,7 +87,7 @@ class TestExecute:
             unchanged_files=5,
             errors=1,
         )
-        with patch("tree_sitter_analyzer.incremental_sync.IncrementalSync") as MockSync:
+        with patch("codexray.incremental_sync.IncrementalSync") as MockSync:
             MockSync.return_value.sync.return_value = bad_result
             result = await tool_with_root.execute(
                 {"mode": "incremental", "output_format": "json"}

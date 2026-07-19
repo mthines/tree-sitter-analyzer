@@ -10,16 +10,16 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.formatters.formatter_registry import (
+from codexray.formatters.formatter_registry import (
     CompactFormatter,
     CsvFormatter,
     FormatterRegistry,
     FullFormatter,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
-from tree_sitter_analyzer.models import CodeElement
+from codexray.models import CodeElement
 
 from .golden_master import GoldenMasterManager
 
@@ -448,7 +448,7 @@ class TestFormatConsistency:
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 str(java_file),
                 "--table",
                 "full",

@@ -11,7 +11,7 @@ patches.
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.mcp.utils.format_helper import (
+from codexray.mcp.utils.format_helper import (
     apply_toon_format_to_response,
 )
 

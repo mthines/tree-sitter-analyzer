@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Comprehensive tests for tree_sitter_analyzer.cli.commands.summary_command module.
+Comprehensive tests for codexray.cli.commands.summary_command module.
 
 This module provides comprehensive test coverage for the SummaryCommand class.
 """
@@ -10,8 +10,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.summary_command import SummaryCommand
-from tree_sitter_analyzer.models import AnalysisResult
+from codexray.cli.commands.summary_command import SummaryCommand
+from codexray.models import AnalysisResult
 
 
 class TestSummaryCommandInitialization:
@@ -25,7 +25,7 @@ class TestSummaryCommandInitialization:
 
     def test_inherits_from_base_command(self):
         """Test that SummaryCommand inherits from BaseCommand."""
-        from tree_sitter_analyzer.cli.commands.base_command import BaseCommand
+        from codexray.cli.commands.base_command import BaseCommand
 
         assert issubclass(SummaryCommand, BaseCommand)
 
@@ -111,9 +111,9 @@ class TestOutputSummaryAnalysis:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+                "codexray.cli.commands.summary_command.is_element_of_type"
             ) as mock_is_type:
                 # Mock is_element_of_type to return appropriate values
                 def side_effect(element, element_type):
@@ -140,12 +140,12 @@ class TestOutputSummaryAnalysis:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+                "codexray.cli.commands.summary_command.is_element_of_type"
             ):
                 with patch(
-                    "tree_sitter_analyzer.cli.commands.summary_command.output_json"
+                    "codexray.cli.commands.summary_command.output_json"
                 ) as mock_json:
                     command._output_summary_analysis(mock_result)
 
@@ -176,9 +176,9 @@ class TestOutputSummaryAnalysis:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+                "codexray.cli.commands.summary_command.is_element_of_type"
             ) as mock_is_type:
 
                 def side_effect(element, element_type):
@@ -214,9 +214,9 @@ class TestOutputSummaryAnalysis:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+                "codexray.cli.commands.summary_command.is_element_of_type"
             ):
                 with patch.object(command, "_output_text_format") as mock_text_output:
                     command._output_summary_analysis(mock_result)
@@ -236,9 +236,9 @@ class TestOutputSummaryAnalysis:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+                "codexray.cli.commands.summary_command.is_element_of_type"
             ):
                 with patch.object(command, "_output_text_format") as mock_text_output:
                     command._output_summary_analysis(mock_result)
@@ -258,9 +258,9 @@ class TestOutputSummaryAnalysis:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+                "codexray.cli.commands.summary_command.is_element_of_type"
             ):
                 with patch.object(command, "_output_text_format") as mock_text_output:
                     command._output_summary_analysis(mock_result)
@@ -286,15 +286,15 @@ class TestOutputSummaryAnalysis:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             # Import constants to use real values
-            from tree_sitter_analyzer.constants import (
+            from codexray.constants import (
                 ELEMENT_TYPE_CLASS,
                 ELEMENT_TYPE_FUNCTION,
             )
 
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+                "codexray.cli.commands.summary_command.is_element_of_type"
             ) as mock_is_type:
                 # Only mock_class should match class type
                 def side_effect(element, element_type):
@@ -346,7 +346,7 @@ class TestOutputTextFormat:
         requested_types = ["classes"]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_output:
             command._output_text_format(summary_data, requested_types)
 
@@ -373,7 +373,7 @@ class TestOutputTextFormat:
         requested_types = ["methods"]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_output:
             command._output_text_format(summary_data, requested_types)
 
@@ -396,7 +396,7 @@ class TestOutputTextFormat:
         requested_types = ["fields"]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_output:
             command._output_text_format(summary_data, requested_types)
 
@@ -419,7 +419,7 @@ class TestOutputTextFormat:
         requested_types = ["imports"]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_output:
             command._output_text_format(summary_data, requested_types)
 
@@ -443,7 +443,7 @@ class TestOutputTextFormat:
         requested_types = ["classes", "methods", "fields", "imports"]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_output:
             command._output_text_format(summary_data, requested_types)
 
@@ -463,7 +463,7 @@ class TestOutputTextFormat:
         requested_types = ["classes"]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_output:
             command._output_text_format(summary_data, requested_types)
 
@@ -483,7 +483,7 @@ class TestOutputTextFormat:
         requested_types = ["unknown_type"]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_output:
             command._output_text_format(summary_data, requested_types)
 
@@ -507,7 +507,7 @@ class TestOutputTextFormat:
         requested_types = ["classes"]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.output_data"
+            "codexray.cli.commands.summary_command.output_data"
         ) as mock_output:
             command._output_text_format(summary_data, requested_types)
 
@@ -539,9 +539,9 @@ class TestEdgeCases:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type",
+                "codexray.cli.commands.summary_command.is_element_of_type",
                 return_value=True,
             ):
                 with patch.object(command, "_output_text_format") as mock_text_output:
@@ -565,9 +565,9 @@ class TestEdgeCases:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type",
+                "codexray.cli.commands.summary_command.is_element_of_type",
                 return_value=True,
             ):
                 with patch.object(command, "_output_text_format") as mock_text_output:
@@ -589,9 +589,9 @@ class TestEdgeCases:
         mock_result.file_path = "test.py"
         mock_result.language = "python"
 
-        with patch("tree_sitter_analyzer.cli.commands.summary_command.output_section"):
+        with patch("codexray.cli.commands.summary_command.output_section"):
             with patch(
-                "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type",
+                "codexray.cli.commands.summary_command.is_element_of_type",
                 return_value=True,
             ):
                 with patch.object(command, "_output_text_format") as mock_text_output:

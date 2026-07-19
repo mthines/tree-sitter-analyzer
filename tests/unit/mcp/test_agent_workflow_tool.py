@@ -21,8 +21,8 @@ import asyncio
 
 import pytest
 
-from tree_sitter_analyzer.cli import agent_workflow
-from tree_sitter_analyzer.mcp.tools.agent_workflow_tool import AgentWorkflowTool
+from codexray.cli import agent_workflow
+from codexray.mcp.tools.agent_workflow_tool import AgentWorkflowTool
 
 
 def _assert_envelope_holds(
@@ -37,7 +37,7 @@ def _assert_envelope_holds(
     assert isinstance(next_step, str) and next_step.strip(), (
         f"next_step empty for target={target_path!r} format={output_format}"
     )
-    assert next_step.startswith("uv run tree-sitter-analyzer")
+    assert next_step.startswith("uv run codexray")
     expected_phase = "analyze" if target_path else "set"
     assert agent_summary["current_phase"] == expected_phase
     assert result["current_phase"] == expected_phase
@@ -66,17 +66,17 @@ def _assert_agent_summary(result: dict) -> None:
     """Assert the agent_summary block of a full JSON workflow pack response."""
     summary = result["agent_summary"]
     assert summary["next_step"] == (
-        "uv run tree-sitter-analyzer safe-to-edit src/service.py --edit-type refactor --format json"
+        "uv run codexray safe-to-edit src/service.py --edit-type refactor --format json"
     )
     assert summary["current_phase"] == "analyze"
     assert summary["recommended_commands"] == [
-        "uv run tree-sitter-analyzer smart-context src/service.py --format json",
-        "uv run tree-sitter-analyzer file-health src/service.py --format json",
-        "uv run tree-sitter-analyzer safe-to-edit src/service.py --edit-type refactor --format json",
-        "uv run tree-sitter-analyzer refactor src/service.py --format json",
+        "uv run codexray smart-context src/service.py --format json",
+        "uv run codexray file-health src/service.py --format json",
+        "uv run codexray safe-to-edit src/service.py --edit-type refactor --format json",
+        "uv run codexray refactor src/service.py --format json",
     ]
     assert summary["queue_ledger_command"] == (
-        "uv run tree-sitter-analyzer change-impact "
+        "uv run codexray change-impact "
         "--change-impact-scope src/service.py --agent-summary-only --format json"
     )
     assert result["steps"][-1]["cli_commands"][-1] == summary["queue_ledger_command"]
@@ -147,9 +147,9 @@ async def test_agent_workflow_tool_defaults_to_compact_toon(tmp_path):
     assert result["current_phase"] == "set"
     assert result["current_step"]["step"] == "set"
     assert result["recommended_commands"] == [
-        "uv run tree-sitter-analyzer overview --format json",
-        "uv run tree-sitter-analyzer agent-skills --format json",
-        "uv run tree-sitter-analyzer parser-readiness --format json",
+        "uv run codexray overview --format json",
+        "uv run codexray agent-skills --format json",
+        "uv run codexray parser-readiness --format json",
     ]
     assert result["agent_summary"]["current_phase"] == "set"
     assert result["agent_summary"]["step_count"] == 5
@@ -181,11 +181,11 @@ async def test_agent_workflow_toon_surfaces_queue_ledger_command(tmp_path):
     )
 
     assert result["agent_summary"]["queue_ledger_command"] == (
-        "uv run tree-sitter-analyzer change-impact "
+        "uv run codexray change-impact "
         "--change-impact-scope src/service.py --agent-summary-only --format json"
     )
     assert (
-        "queue_ledger: uv run tree-sitter-analyzer change-impact"
+        "queue_ledger: uv run codexray change-impact"
         in result["toon_content"]
     )
     assert "handoffs:" in result["toon_content"]
@@ -306,23 +306,23 @@ async def test_agent_workflow_tool_quotes_target_with_spaces_in_cli_commands(tmp
     trace_step = next(step for step in result["steps"] if step["step"] == "trace")
 
     assert analyze_step["cli_commands"][0] == (
-        f"uv run tree-sitter-analyzer smart-context {safe_target} --format json"
+        f"uv run codexray smart-context {safe_target} --format json"
     )
     assert analyze_step["cli_commands"][1] == (
-        f"uv run tree-sitter-analyzer file-health {safe_target} --format json"
+        f"uv run codexray file-health {safe_target} --format json"
     )
     assert retrieve_step["cli_commands"][0] == (
-        f"uv run tree-sitter-analyzer {safe_target} --structure --output-format json"
+        f"uv run codexray {safe_target} --structure --output-format json"
     )
     assert trace_step["cli_commands"][0] == (
-        f"uv run tree-sitter-analyzer {safe_target} --dependencies file_deps --format json"
+        f"uv run codexray {safe_target} --dependencies file_deps --format json"
     )
     assert result["agent_summary"]["next_step"] == (
-        "uv run tree-sitter-analyzer safe-to-edit "
+        "uv run codexray safe-to-edit "
         f"{safe_target} --edit-type refactor --format json"
     )
     assert result["agent_summary"]["queue_ledger_command"] == (
-        "uv run tree-sitter-analyzer change-impact "
+        "uv run codexray change-impact "
         f"--change-impact-scope {safe_target} --agent-summary-only --format json"
     )
     assert (

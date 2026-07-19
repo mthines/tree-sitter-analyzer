@@ -2,13 +2,13 @@
 
 import pytest
 
-from tree_sitter_analyzer.grammar_coverage.auto_discovery import (
+from codexray.grammar_coverage.auto_discovery import (
     AutoDiscoveryEngine,
     CoverageGapReport,
     NodeStats,
     _score_wrapper_node,
 )
-from tree_sitter_analyzer.grammar_coverage.discovery_corpus import (
+from codexray.grammar_coverage.discovery_corpus import (
     BUILTIN_CORPUS,
 )
 

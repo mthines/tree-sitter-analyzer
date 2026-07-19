@@ -19,8 +19,8 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 # Skip the whole module on systems missing fd / rg — these are shell tools.
 _FD_AVAILABLE = shutil.which("fd") is not None

@@ -9,12 +9,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 from tests.unit.mcp.test_tools._test_analyze_scale_tool_execute_mixins import (
     AnalyzeScaleToolCreateJsonFileAnalysisMixin,
     AnalyzeScaleToolExecuteMetricsBatchMixin,
     AnalyzeScaleToolExecuteMixin,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
 
 @pytest.fixture
@@ -35,7 +35,7 @@ class TestAnalyzeScaleToolCalculateFileMetrics:
     def test_calculate_file_metrics_success(self, tool):
         """Test successful file metrics calculation."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_scale_helpers.compute_file_metrics"
+            "codexray.mcp.tools.analyze_scale_helpers.compute_file_metrics"
         ) as mock_compute:
             mock_compute.return_value = {
                 "total_lines": 100,
@@ -52,7 +52,7 @@ class TestAnalyzeScaleToolCalculateFileMetrics:
     def test_calculate_file_metrics_error_handling(self, tool):
         """Test error handling in file metrics calculation."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_scale_helpers.compute_file_metrics"
+            "codexray.mcp.tools.analyze_scale_helpers.compute_file_metrics"
         ) as mock_compute:
             mock_compute.side_effect = Exception("Test error")
             metrics = tool._calculate_file_metrics("test.py", "python")

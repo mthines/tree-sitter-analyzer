@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
 
 
 @pytest.mark.asyncio
@@ -34,11 +34,11 @@ async def test_list_files_with_output_file_and_suppress_output(monkeypatch, tmp_
         return (0, fd_output.encode(), b"")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
         mock_run_command,
     )
 
@@ -84,11 +84,11 @@ async def test_list_files_count_only_with_output_file(monkeypatch, tmp_path):
         return (0, fd_output.encode(), b"")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
         mock_run_command,
     )
 
@@ -134,11 +134,11 @@ async def test_list_files_output_file_without_suppress_output(monkeypatch, tmp_p
         return (0, fd_output.encode(), b"")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
         mock_run_command,
     )
 
@@ -177,11 +177,11 @@ async def test_list_files_large_results_token_optimization(monkeypatch, tmp_path
         return (0, fd_output.encode(), b"")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
         mock_run_command,
     )
 

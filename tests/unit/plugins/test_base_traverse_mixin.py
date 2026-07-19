@@ -5,11 +5,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.models import Class as ModelClass
-from tree_sitter_analyzer.models import Function as ModelFunction
-from tree_sitter_analyzer.models import Import as ModelImport
-from tree_sitter_analyzer.models import Variable as ModelVariable
-from tree_sitter_analyzer.plugins._base_traverse_mixin import (
+from codexray.models import Class as ModelClass
+from codexray.models import Function as ModelFunction
+from codexray.models import Import as ModelImport
+from codexray.models import Variable as ModelVariable
+from codexray.plugins._base_traverse_mixin import (
     CLASS_NODE_TYPES,
     FUNCTION_NODE_TYPES,
     IMPORT_NODE_TYPES,
@@ -363,7 +363,7 @@ class TestExtractNodeText:
         result = _extract_node_text(node, "hello")
         assert result == ""
 
-    @patch("tree_sitter_analyzer.plugins._base_traverse_mixin.log_debug")
+    @patch("codexray.plugins._base_traverse_mixin.log_debug")
     def test_exception_returns_empty(self, mock_log: MagicMock) -> None:
         node = MagicMock()
         node.start_byte = property(lambda s: (_ for _ in ()).throw(ValueError("boom")))

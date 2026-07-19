@@ -31,16 +31,16 @@ import re
 
 import pytest
 
-from tree_sitter_analyzer.mcp.facade_map import LEGACY_TOOL_MAP
-from tree_sitter_analyzer.mcp.server_utils import error_recovery as _er
-from tree_sitter_analyzer.mcp.server_utils import smart_prompts as _sp
-from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+from codexray.mcp.facade_map import LEGACY_TOOL_MAP
+from codexray.mcp.server_utils import error_recovery as _er
+from codexray.mcp.server_utils import smart_prompts as _sp
+from codexray.mcp.tools.project_overview_tool import (
     _build_smart_hint,
     _build_tool_routing,
     _health_opt_in_hint,
     _suggest_refactor_action,
 )
-from tree_sitter_analyzer.mcp.tools.symbol_search_tool import CodeGraphSymbolSearchTool
+from codexray.mcp.tools.symbol_search_tool import CodeGraphSymbolSearchTool
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -209,7 +209,7 @@ class TestSmartWorkflowHint:
 class TestErrorRecoverySuggestedTool:
     def test_file_not_found_suggested_tool_is_facade(self) -> None:
         """file_not_found recovery hint must suggest a facade name, not list_files."""
-        from tree_sitter_analyzer.mcp.server_utils.error_recovery import (
+        from codexray.mcp.server_utils.error_recovery import (
             build_agent_friendly_error,
         )
 
@@ -225,7 +225,7 @@ class TestErrorRecoverySuggestedTool:
 
     def test_no_such_file_suggested_tool_is_facade(self) -> None:
         """'no such file' recovery hint must suggest a facade name."""
-        from tree_sitter_analyzer.mcp.server_utils.error_recovery import (
+        from codexray.mcp.server_utils.error_recovery import (
             build_agent_friendly_error,
         )
 
@@ -308,7 +308,7 @@ class TestSearchSymbolNextStep:
 class TestProjectHealthToolGuidance:
     def test_recommended_mcp_command_facade_form(self) -> None:
         """_file_action() must return facade form commands."""
-        from tree_sitter_analyzer.mcp.tools.project_health_tool import _file_action
+        from codexray.mcp.tools.project_health_tool import _file_action
 
         class _Score:
             def __init__(self, grade, file_path, dims=None):
@@ -333,7 +333,7 @@ class TestProjectHealthToolGuidance:
 
     def test_safety_mcp_command_facade_form(self) -> None:
         """_build_agent_backlog_item() safety_mcp_command must use facade form."""
-        from tree_sitter_analyzer.mcp.tools.project_health_tool import (
+        from codexray.mcp.tools.project_health_tool import (
             _build_agent_backlog,
         )
 
@@ -444,7 +444,7 @@ class TestBuildSmartHintFacadeNames:
             encoding="utf-8",
         )
 
-        from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+        from codexray.mcp.tools.project_overview_tool import (
             ProjectOverviewTool,
         )
 
@@ -493,14 +493,14 @@ _OUTPUT_CONTROL_PARAMS: frozenset[str] = frozenset(
 # Facade names and their builders — imported lazily inside the test to avoid
 # paying the import cost at module load time.
 _FACADE_BUILDERS: dict[str, str] = {
-    "search": "tree_sitter_analyzer.mcp.tools.search_facade.build_search_facade",
-    "nav": "tree_sitter_analyzer.mcp.tools.nav_facade.build_nav_facade",
-    "structure": "tree_sitter_analyzer.mcp.tools.structure_facade.build_structure_facade",
-    "health": "tree_sitter_analyzer.mcp.tools.health_facade.build_health_facade",
-    "edit": "tree_sitter_analyzer.mcp.tools.edit_facade.build_edit_facade",
-    "project": "tree_sitter_analyzer.mcp.tools.project_facade.build_project_facade",
-    "index": "tree_sitter_analyzer.mcp.tools.index_facade.build_index_facade",
-    "viz": "tree_sitter_analyzer.mcp.tools.viz_facade.build_viz_facade",
+    "search": "codexray.mcp.tools.search_facade.build_search_facade",
+    "nav": "codexray.mcp.tools.nav_facade.build_nav_facade",
+    "structure": "codexray.mcp.tools.structure_facade.build_structure_facade",
+    "health": "codexray.mcp.tools.health_facade.build_health_facade",
+    "edit": "codexray.mcp.tools.edit_facade.build_edit_facade",
+    "project": "codexray.mcp.tools.project_facade.build_project_facade",
+    "index": "codexray.mcp.tools.index_facade.build_index_facade",
+    "viz": "codexray.mcp.tools.viz_facade.build_viz_facade",
 }
 
 _ACTION_FORM_RE = re.compile(
@@ -605,7 +605,7 @@ def test_file_action_c_grade_without_weakest_dimension() -> None:
     """C grade with no weakest dimension → bare health action=file form."""
     from types import SimpleNamespace
 
-    from tree_sitter_analyzer.mcp.tools.project_health_tool import _file_action
+    from codexray.mcp.tools.project_health_tool import _file_action
 
     score = SimpleNamespace(grade="C", dimensions={}, file_path="pkg/m.py")
     out = _file_action(score)

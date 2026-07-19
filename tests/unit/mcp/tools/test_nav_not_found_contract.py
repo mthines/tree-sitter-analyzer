@@ -25,11 +25,11 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools.callees_tool import CodeGraphCalleesTool
-from tree_sitter_analyzer.mcp.tools.callers_tool import CodeGraphCallersTool
-from tree_sitter_analyzer.mcp.tools.codegraph_impact_tool import CodeGraphImpactTool
-from tree_sitter_analyzer.mcp.tools.codegraph_navigate_tool import CodeGraphNavigateTool
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools.callees_tool import CodeGraphCalleesTool
+from codexray.mcp.tools.callers_tool import CodeGraphCallersTool
+from codexray.mcp.tools.codegraph_impact_tool import CodeGraphImpactTool
+from codexray.mcp.tools.codegraph_navigate_tool import CodeGraphNavigateTool
 
 # A name that is definitely absent from any project below.
 _MISSING = "zzz_definitely_absent_symbol_xyz"
@@ -125,7 +125,7 @@ async def test_edges_without_built_marker_no_empty_index_hint(
     The edge probe (has_call_edges) must override the cleared marker, so the
     hint never claims the index is empty.
     """
-    from tree_sitter_analyzer.cache import callgraph_state
+    from codexray.cache import callgraph_state
 
     (tmp_path / "sample.py").write_text(
         "def caller():\n    target()\n\ndef target():\n    return 1\n",

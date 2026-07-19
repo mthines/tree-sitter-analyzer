@@ -1,14 +1,14 @@
 """Unit tests for change-impact git helpers and verification planning."""
 
-from tree_sitter_analyzer.mcp.tools.change_impact_tool import ChangeImpactTool
-from tree_sitter_analyzer.mcp.tools.utils import (
+from codexray.mcp.tools.change_impact_tool import ChangeImpactTool
+from codexray.mcp.tools.utils import (
     change_impact_analysis as change_impact_tool,
 )
-from tree_sitter_analyzer.mcp.tools.utils import change_impact_git
-from tree_sitter_analyzer.mcp.tools.utils import (
+from codexray.mcp.tools.utils import change_impact_git
+from codexray.mcp.tools.utils import (
     change_impact_verification as verification_tool,
 )
-from tree_sitter_analyzer.mcp.tools.utils.verification_command import DefaultTestCommand
+from codexray.mcp.tools.utils.verification_command import DefaultTestCommand
 
 
 def test_change_impact_schema_accepts_resource_profile():
@@ -23,7 +23,7 @@ def test_change_impact_schema_accepts_resource_profile():
 
 def test_mcp_default_resource_profile_is_local_low_impact():
     """#731: MCP entrypoint defaults to local_low_impact without explicit arg."""
-    from tree_sitter_analyzer.mcp.tools.change_impact_tool import TOOL_SCHEMA
+    from codexray.mcp.tools.change_impact_tool import TOOL_SCHEMA
 
     assert (
         TOOL_SCHEMA["properties"]["resource_profile"]["default"] == "local_low_impact"
@@ -35,9 +35,9 @@ def test_diff_mode_includes_untracked_files(monkeypatch):
 
     def fake_run_git(args, cwd=None):
         if args == ["diff", "--name-only"]:
-            return 0, "tree_sitter_analyzer/health_scorer.py\n"
+            return 0, "codexray/health_scorer.py\n"
         if args == ["ls-files", "--others", "--exclude-standard"]:
-            return 0, "tree_sitter_analyzer/registry/health_scorer_helpers.py\n"
+            return 0, "codexray/registry/health_scorer_helpers.py\n"
         raise AssertionError(f"unexpected git args: {args}")
 
     monkeypatch.setattr(change_impact_git, "_run_git", fake_run_git)
@@ -45,8 +45,8 @@ def test_diff_mode_includes_untracked_files(monkeypatch):
     changed = change_impact_git._get_changed_files("diff", "/repo")
 
     assert changed == [
-        "tree_sitter_analyzer/health_scorer.py",
-        "tree_sitter_analyzer/registry/health_scorer_helpers.py",
+        "codexray/health_scorer.py",
+        "codexray/registry/health_scorer_helpers.py",
     ]
 
 
@@ -55,16 +55,16 @@ def test_diff_mode_deduplicates_untracked_paths(monkeypatch):
 
     def fake_run_git(args, cwd=None):
         if args == ["diff", "--name-only"]:
-            return 0, "tree_sitter_analyzer/new_tool.py\n"
+            return 0, "codexray/new_tool.py\n"
         if args == ["ls-files", "--others", "--exclude-standard"]:
-            return 0, "tree_sitter_analyzer/new_tool.py\n"
+            return 0, "codexray/new_tool.py\n"
         raise AssertionError(f"unexpected git args: {args}")
 
     monkeypatch.setattr(change_impact_git, "_run_git", fake_run_git)
 
     changed = change_impact_git._get_changed_files("diff", "/repo")
 
-    assert changed == ["tree_sitter_analyzer/new_tool.py"]
+    assert changed == ["codexray/new_tool.py"]
 
 
 def test_diff_mode_accepts_scope_pathspecs(monkeypatch):
@@ -77,17 +77,17 @@ def test_diff_mode_accepts_scope_pathspecs(monkeypatch):
             "diff",
             "--name-only",
             "--",
-            "tree_sitter_analyzer/mcp/tools",
+            "codexray/mcp/tools",
         ]:
-            return 0, "tree_sitter_analyzer/mcp/tools/change_impact_tool.py\n"
+            return 0, "codexray/mcp/tools/change_impact_tool.py\n"
         if args == [
             "ls-files",
             "--others",
             "--exclude-standard",
             "--",
-            "tree_sitter_analyzer/mcp/tools",
+            "codexray/mcp/tools",
         ]:
-            return 0, "tree_sitter_analyzer/mcp/tools/utils/change_impact_git.py\n"
+            return 0, "codexray/mcp/tools/utils/change_impact_git.py\n"
         raise AssertionError(f"unexpected git args: {args}")
 
     monkeypatch.setattr(change_impact_git, "_run_git", fake_run_git)
@@ -95,21 +95,21 @@ def test_diff_mode_accepts_scope_pathspecs(monkeypatch):
     changed = change_impact_git._get_changed_files(
         "diff",
         "/repo",
-        ["tree_sitter_analyzer/mcp/tools"],
+        ["codexray/mcp/tools"],
     )
 
     assert changed == [
-        "tree_sitter_analyzer/mcp/tools/change_impact_tool.py",
-        "tree_sitter_analyzer/mcp/tools/utils/change_impact_git.py",
+        "codexray/mcp/tools/change_impact_tool.py",
+        "codexray/mcp/tools/utils/change_impact_git.py",
     ]
     assert calls == [
-        ["diff", "--name-only", "--", "tree_sitter_analyzer/mcp/tools"],
+        ["diff", "--name-only", "--", "codexray/mcp/tools"],
         [
             "ls-files",
             "--others",
             "--exclude-standard",
             "--",
-            "tree_sitter_analyzer/mcp/tools",
+            "codexray/mcp/tools",
         ],
     ]
 
@@ -121,14 +121,14 @@ def test_staged_mode_keeps_staged_semantics(monkeypatch):
     def fake_run_git(args, cwd=None):
         calls.append(args)
         if args == ["diff", "--cached", "--name-only"]:
-            return 0, "tree_sitter_analyzer/cli_main.py\n"
+            return 0, "codexray/cli_main.py\n"
         raise AssertionError(f"unexpected git args: {args}")
 
     monkeypatch.setattr(change_impact_git, "_run_git", fake_run_git)
 
     changed = change_impact_git._get_changed_files("staged", "/repo")
 
-    assert changed == ["tree_sitter_analyzer/cli_main.py"]
+    assert changed == ["codexray/cli_main.py"]
     assert ["ls-files", "--others", "--exclude-standard"] not in calls
 
 
@@ -137,18 +137,18 @@ def test_diff_stat_mentions_untracked_files(monkeypatch):
 
     def fake_run_git(args, cwd=None):
         if args == ["diff", "--stat"]:
-            return 0, " tree_sitter_analyzer/health_scorer.py | 10 +++++-----"
+            return 0, " codexray/health_scorer.py | 10 +++++-----"
         if args == ["ls-files", "--others", "--exclude-standard"]:
-            return 0, "tree_sitter_analyzer/registry/health_scorer_helpers.py\n"
+            return 0, "codexray/registry/health_scorer_helpers.py\n"
         raise AssertionError(f"unexpected git args: {args}")
 
     monkeypatch.setattr(change_impact_git, "_run_git", fake_run_git)
 
     diff_stat = change_impact_git._get_diff_stat("diff", "/repo")
 
-    assert "tree_sitter_analyzer/health_scorer.py" in diff_stat
+    assert "codexray/health_scorer.py" in diff_stat
     assert "Untracked files:" in diff_stat
-    assert "tree_sitter_analyzer/registry/health_scorer_helpers.py" in diff_stat
+    assert "codexray/registry/health_scorer_helpers.py" in diff_stat
 
 
 def test_build_pytest_command_quotes_paths():
@@ -198,7 +198,7 @@ def test_requirements_txt_is_not_treated_as_docs_only():
 def test_code_change_verification_plan_uses_targeted_tests():
     """Code edits should recommend the narrow mapped pytest command."""
     plan = verification_tool._build_verification_plan(
-        ["tree_sitter_analyzer/cli_main.py"],
+        ["codexray/cli_main.py"],
         ["tests/unit/cli/test_cli_main_module.py"],
     )
 
@@ -217,13 +217,13 @@ def test_code_change_verification_plan_uses_targeted_tests():
 def test_code_change_with_runtime_fallback_uses_default_suite():
     """Unmapped runtime files should not be hidden by other targeted tests."""
     plan = verification_tool._build_verification_plan(
-        ["tree_sitter_analyzer/cli_main.py", "tree_sitter_analyzer/runtime.py"],
+        ["codexray/cli_main.py", "codexray/runtime.py"],
         ["tests/unit/cli/test_cli_main_module.py"],
         {
-            "tree_sitter_analyzer/cli_main.py": [
+            "codexray/cli_main.py": [
                 "tests/unit/cli/test_cli_main_module.py"
             ],
-            "tree_sitter_analyzer/runtime.py": [
+            "codexray/runtime.py": [
                 verification_tool.AUTO_DISCOVER_TEST_HINT
             ],
         },
@@ -244,13 +244,13 @@ def test_code_change_with_runtime_fallback_uses_default_suite():
 def test_verification_strategy_recommends_focused_then_default_for_dirty_worktree():
     """Agents should get an iteration command plus a queue-boundary command."""
     plan = verification_tool._build_verification_plan(
-        ["tree_sitter_analyzer/cli_main.py", "tree_sitter_analyzer/runtime.py"],
+        ["codexray/cli_main.py", "codexray/runtime.py"],
         ["tests/unit/cli/test_cli_main_module.py"],
         {
-            "tree_sitter_analyzer/cli_main.py": [
+            "codexray/cli_main.py": [
                 "tests/unit/cli/test_cli_main_module.py"
             ],
-            "tree_sitter_analyzer/runtime.py": [
+            "codexray/runtime.py": [
                 verification_tool.AUTO_DISCOVER_TEST_HINT
             ],
         },
@@ -282,13 +282,13 @@ def test_low_impact_profile_rewrites_focused_pytest_for_local_agents(monkeypatch
 
     monkeypatch.setattr(sys, "platform", "linux")
     plan = verification_tool._build_verification_plan(
-        ["tree_sitter_analyzer/cli_main.py", "tree_sitter_analyzer/runtime.py"],
+        ["codexray/cli_main.py", "codexray/runtime.py"],
         ["tests/unit/cli/test_cli_main_module.py"],
         {
-            "tree_sitter_analyzer/cli_main.py": [
+            "codexray/cli_main.py": [
                 "tests/unit/cli/test_cli_main_module.py"
             ],
-            "tree_sitter_analyzer/runtime.py": [
+            "codexray/runtime.py": [
                 verification_tool.AUTO_DISCOVER_TEST_HINT
             ],
         },
@@ -323,7 +323,7 @@ def test_low_impact_profile_caps_default_pytest_for_local_agents(monkeypatch):
 
     monkeypatch.setattr(sys, "platform", "linux")
     plan = verification_tool._build_verification_plan(
-        ["tree_sitter_analyzer/new_runtime.py"],
+        ["codexray/new_runtime.py"],
         [],
     )
 
@@ -425,7 +425,7 @@ def test_low_impact_pytest_command_replaces_existing_worker_flags(monkeypatch):
 def test_verification_strategy_avoids_huge_focused_commands():
     """Very broad diffs should not produce copy-paste hostile focused commands."""
     plan = verification_tool._build_verification_plan(
-        ["tree_sitter_analyzer/runtime.py"],
+        ["codexray/runtime.py"],
         [f"tests/unit/test_feature_{index:02d}.py" for index in range(25)],
     )
 
@@ -447,7 +447,7 @@ def test_verification_strategy_avoids_huge_focused_commands():
 def test_code_change_verification_plan_falls_back_to_default_suite():
     """Code edits without mapped tests should keep the default-suite contract."""
     plan = verification_tool._build_verification_plan(
-        ["tree_sitter_analyzer/new_runtime.py"],
+        ["codexray/new_runtime.py"],
         [],
     )
 
@@ -486,19 +486,19 @@ def test_non_pytest_default_verification_plan_uses_detected_runner():
 def test_build_file_impacts_without_graph_returns_fallback_rows():
     """Missing dependency graphs should still report each changed file."""
     affected, file_impacts = change_impact_tool._build_file_impacts(
-        ["tree_sitter_analyzer/cli_main.py"],
+        ["codexray/cli_main.py"],
         None,
     )
 
     assert affected == set()
-    assert file_impacts == [{"file": "tree_sitter_analyzer/cli_main.py"}]
+    assert file_impacts == [{"file": "codexray/cli_main.py"}]
 
 
 def test_no_changes_result_keeps_agent_scope_signal():
     """Empty scoped diffs should still return a useful compact summary."""
     result = change_impact_tool._build_no_changes_result(
         "diff",
-        ["tree_sitter_analyzer/mcp/tools"],
+        ["codexray/mcp/tools"],
     )
 
     # M5 (round-26): the no-changes shortcut also populates ``summary_line``
@@ -616,7 +616,7 @@ def test_build_file_impacts_with_graph_preserves_order_and_limits_dependents(
 def test_build_test_plan_skips_when_disabled():
     """Agents can request impact data without related test lookup."""
     test_mapping, tests_to_run = change_impact_tool._build_test_plan(
-        ["tree_sitter_analyzer/cli_main.py"],
+        ["codexray/cli_main.py"],
         graph=None,
         include_tests=False,
     )
@@ -633,19 +633,19 @@ def test_build_test_plan_returns_sorted_runnable_tests():
             return {
                 "tests/unit/mcp/test_change_impact_tool.py",
                 "tests/unit/cli/test_cli_main_module.py",
-                "tree_sitter_analyzer/cli_main.py",
+                "codexray/cli_main.py",
             }
 
     test_mapping, tests_to_run = change_impact_tool._build_test_plan(
         [
-            "tree_sitter_analyzer/cli_main.py",
-            "tree_sitter_analyzer/unknown_module.py",
+            "codexray/cli_main.py",
+            "codexray/unknown_module.py",
         ],
         FakeGraph(),
         include_tests=True,
     )
 
-    assert test_mapping["tree_sitter_analyzer/unknown_module.py"] == [
+    assert test_mapping["codexray/unknown_module.py"] == [
         verification_tool.AUTO_DISCOVER_TEST_HINT
     ]
     assert tests_to_run == ["tests/unit/cli/test_cli_main_module.py"]
@@ -655,7 +655,7 @@ def test_cli_path_always_passes_resource_profile_explicitly():
     """CLI builder must always set resource_profile so the MCP fallback never overrides it (#925 P2)."""
     from unittest.mock import MagicMock
 
-    from tree_sitter_analyzer.cli.commands.mcp_commands._builders import (
+    from codexray.cli.commands.mcp_commands._builders import (
         _build_change_impact_tool_args,
     )
 
@@ -680,7 +680,7 @@ def test_low_impact_pytest_command_portable_on_windows(monkeypatch):
     """#925 P2: _low_impact_pytest_command must not emit 'nice' on Windows."""
     import sys
 
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _low_impact_pytest_command,
     )
 

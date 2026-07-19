@@ -11,9 +11,9 @@ from __future__ import annotations
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.formatters.java_formatter import JavaTableFormatter
-from tree_sitter_analyzer.languages._java_element import _split_respecting_generics
-from tree_sitter_analyzer.languages.java_helpers import determine_visibility
+from codexray.formatters.java_formatter import JavaTableFormatter
+from codexray.languages._java_element import _split_respecting_generics
+from codexray.languages.java_helpers import determine_visibility
 
 # ---------------------------------------------------------------------------
 # Strategies

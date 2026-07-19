@@ -5,7 +5,7 @@ Tests cover signatures, type shortening, utilities, and edge cases.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.python_formatter import PythonTableFormatter
+from codexray.formatters.python_formatter import PythonTableFormatter
 
 
 class TestPythonTableFormatterSignatures:

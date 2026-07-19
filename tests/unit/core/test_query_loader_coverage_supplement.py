@@ -3,7 +3,7 @@
 
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.query_loader import QueryLoader
+from codexray.query_loader import QueryLoader
 
 
 class TestQueryLoaderUncovered:

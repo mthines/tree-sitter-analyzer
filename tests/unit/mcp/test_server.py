@@ -11,12 +11,12 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp import MCP_INFO
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer, parse_mcp_args
+from codexray.mcp import MCP_INFO
+from codexray.mcp.server import CodeXrayMCPServer, parse_mcp_args
 
 
 class TestServerInit:
-    """Test TreeSitterAnalyzerMCPServer initialization"""
+    """Test CodeXrayMCPServer initialization"""
 
     @pytest.fixture
     def tmp_path(self):
@@ -26,16 +26,16 @@ class TestServerInit:
 
     def test_initialization_with_project_root(self, tmp_path):
         """Test server initialization with project root"""
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
-        assert "tree-sitter-analyzer" in server.name
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
+        assert "codexray" in server.name
         assert server.is_initialized()
         # Note: project_root is not directly set on server object
         assert server.project_stats_resource.project_root == str(tmp_path)
 
     def test_initialization_without_project_root(self):
         """Test server initialization without project root"""
-        server = TreeSitterAnalyzerMCPServer()
-        assert "tree-sitter-analyzer" in server.name
+        server = CodeXrayMCPServer()
+        assert "codexray" in server.name
         assert server.is_initialized()
         # Note: project_root is not a direct attribute of server
         # It's managed by the security_validator.boundary_manager
@@ -43,7 +43,7 @@ class TestServerInit:
 
     def test_initialization_creates_tools(self, tmp_path):
         """Test that initialization creates all tools"""
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         assert server.query_tool.get_tool_definition()["name"] == "query_code"
         assert (
             server.read_partial_tool.get_tool_definition()["name"]
@@ -67,7 +67,7 @@ class TestServerInit:
 
     def test_initialization_creates_resources(self, tmp_path):
         """Test that initialization creates resources"""
-        server = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server = CodeXrayMCPServer(project_root=str(tmp_path))
         assert server.code_file_resource.get_resource_info()["name"] == "code_file"
         assert (
             server.project_stats_resource.get_resource_info()["name"] == "project_stats"
@@ -82,7 +82,7 @@ class TestIsInitialized:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_initialized_server(self, server):
         """Test initialized server returns True"""
@@ -91,7 +91,7 @@ class TestIsInitialized:
     def test_uninitialized_server(self):
         """Test uninitialized server returns False"""
         # Mock server that hasn't completed initialization
-        server = TreeSitterAnalyzerMCPServer.__new__(TreeSitterAnalyzerMCPServer)
+        server = CodeXrayMCPServer.__new__(CodeXrayMCPServer)
         server._initialization_complete = False
         assert server.is_initialized() is False
 
@@ -103,7 +103,7 @@ class TestEnsureInitialized:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_ensure_initialized_passes(self, server):
         """Test ensure_initialized passes when initialized"""
@@ -112,7 +112,7 @@ class TestEnsureInitialized:
 
     def test_ensure_initialized_raises_when_not_initialized(self):
         """Test ensure_initialized raises when not initialized"""
-        server = TreeSitterAnalyzerMCPServer.__new__(TreeSitterAnalyzerMCPServer)
+        server = CodeXrayMCPServer.__new__(CodeXrayMCPServer)
         server._initialization_complete = False
 
         with pytest.raises(RuntimeError, match="not fully initialized"):
@@ -126,7 +126,7 @@ class TestSetProjectPath:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     @pytest.fixture
     def tmp_path(self):
@@ -164,7 +164,7 @@ class TestReadResource:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     @pytest.mark.asyncio
     async def test_read_code_file_resource(self, server, tmp_path):
@@ -173,7 +173,7 @@ class TestReadResource:
         test_file.write_text("def test(): pass")
 
         # Create server with this tmp_path as project root
-        server_with_path = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server_with_path = CodeXrayMCPServer(project_root=str(tmp_path))
         result = await server_with_path._read_resource(f"code://file/{test_file}")
         assert "content" in result
         assert "def test():" in result["content"]
@@ -182,7 +182,7 @@ class TestReadResource:
     async def test_read_project_stats_resource(self, server, tmp_path):
         """Test reading project stats resource"""
         # Create a fresh server with valid project path
-        server_with_path = TreeSitterAnalyzerMCPServer(project_root=str(tmp_path))
+        server_with_path = CodeXrayMCPServer(project_root=str(tmp_path))
         result = await server_with_path._read_resource("code://stats/overview")
         assert "content" in result
 
@@ -214,12 +214,12 @@ class TestServerCreation:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_create_server_without_mcp_library(self, server):
         """Test create_server raises when MCP library not available"""
         # Patch the module-level constant
-        with patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", False):
+        with patch("codexray.mcp.server.MCP_AVAILABLE", False):
             with pytest.raises(RuntimeError, match="MCP library not available"):
                 server.create_server()
 
@@ -237,7 +237,7 @@ class TestRegistryDeferral:
     @pytest.fixture
     def server(self):
         with tempfile.TemporaryDirectory() as tmp:
-            yield TreeSitterAnalyzerMCPServer(project_root=str(tmp))
+            yield CodeXrayMCPServer(project_root=str(tmp))
 
     def test_registry_not_built_at_init(self, server):
         """Construction must not build the facade registry."""
@@ -286,7 +286,7 @@ class TestProjectStatsResource:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_project_stats_resource_initialized(self, server):
         """Test project stats resource is initialized"""
@@ -311,7 +311,7 @@ class TestCodeFileResource:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_code_file_resource_initialized(self, server):
         """Test code file resource is initialized"""
@@ -330,11 +330,11 @@ class TestVersionInfo:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_server_name(self, server):
         """Test server name"""
-        assert "tree-sitter-analyzer" in server.name
+        assert "codexray" in server.name
 
     def test_server_version(self, server):
         """Test server version"""
@@ -349,7 +349,7 @@ class TestAnalysisEngine:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_analysis_engine_initialized(self, server):
         """Test analysis engine is initialized"""
@@ -363,7 +363,7 @@ class TestSecurityValidator:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_security_validator_initialized(self, server):
         """Test security validator is initialized"""
@@ -377,7 +377,7 @@ class TestToolDefinitions:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_query_tool_definition(self, server):
         """Test query tool has definition"""
@@ -437,7 +437,7 @@ class TestUniversalTool:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_universal_tool_available(self, server):
         """Test universal tool is available if imported"""
@@ -453,7 +453,7 @@ class TestTableFormatTool:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_table_format_tool_is_alias(self, server):
         """Test table format tool is alias of analyze code structure"""
@@ -467,7 +467,7 @@ class TestResourceInfo:
     def server(self):
         """Create server instance"""
         with tempfile.TemporaryDirectory() as tmp:
-            return TreeSitterAnalyzerMCPServer(project_root=Path(tmp))
+            return CodeXrayMCPServer(project_root=Path(tmp))
 
     def test_code_file_resource_info(self, server):
         """Test code file resource info"""

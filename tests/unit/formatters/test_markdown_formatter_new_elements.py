@@ -14,7 +14,7 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.formatters.markdown_formatter import MarkdownFormatter
+from codexray.formatters.markdown_formatter import MarkdownFormatter
 
 
 class TestMarkdownFormatterNewElements:
@@ -701,7 +701,7 @@ if __name__ == "__main__":
         [
             __file__,
             "-v",
-            "--cov=tree_sitter_analyzer.formatters.markdown_formatter",
+            "--cov=codexray.formatters.markdown_formatter",
             "--cov-report=term-missing",
         ]
     )

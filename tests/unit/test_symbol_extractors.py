@@ -1,4 +1,4 @@
-"""Tests for ``tree_sitter_analyzer.symbol_extractors`` (PR-0.2).
+"""Tests for ``codexray.symbol_extractors`` (PR-0.2).
 
 Covers the Python top-level def/class extractor that feeds
 ``DependencyGraph._symbol_def_files`` and indirectly
@@ -22,7 +22,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.symbol_extractors import (
+from codexray.symbol_extractors import (
     extract_top_level_defs_from_file,
 )
 

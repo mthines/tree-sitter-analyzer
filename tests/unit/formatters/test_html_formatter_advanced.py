@@ -9,12 +9,12 @@ and other advanced edge cases.
 
 import json
 
-from tree_sitter_analyzer.formatters.html_formatter import (
+from codexray.formatters.html_formatter import (
     HtmlCompactFormatter,
     HtmlFormatter,
     HtmlJsonFormatter,
 )
-from tree_sitter_analyzer.models import MarkupElement
+from codexray.models import MarkupElement
 
 
 class TestHtmlFormatterFalsyAttributes:

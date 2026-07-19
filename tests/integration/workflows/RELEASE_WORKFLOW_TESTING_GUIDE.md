@@ -42,7 +42,7 @@ git push origin release/v0.0.0-test
 
 ### 3. Monitor Workflow Execution
 
-1. Go to GitHub Actions: `https://github.com/your-org/tree-sitter-analyzer/actions`
+1. Go to GitHub Actions: `https://github.com/your-org/codexray/actions`
 2. Find the "Release Branch Automation" workflow run
 3. Monitor the execution in real-time
 

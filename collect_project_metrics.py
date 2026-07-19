@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tree-sitter-analyzerプロジェクト固有のメトリクス収集スクリプト
+codexrayプロジェクト固有のメトリクス収集スクリプト
 """
 
 from collections import defaultdict
@@ -130,7 +130,7 @@ def analyze_project_structure():
     print("\n=== プロジェクト構造分析 ===")
 
     # メインパッケージのディレクトリ構造
-    main_package = Path("tree_sitter_analyzer")
+    main_package = Path("codexray")
     if main_package.exists():
         print(f"メインパッケージ: {main_package}")
         subdirs = [d for d in main_package.rglob("*") if d.is_dir()]
@@ -172,7 +172,7 @@ def check_dependencies():
 
 def main():
     """メイン関数"""
-    print("tree-sitter-analyzer プロジェクト固有メトリクス収集")
+    print("codexray プロジェクト固有メトリクス収集")
     print("=" * 60)
 
     # ファイルメトリクス収集

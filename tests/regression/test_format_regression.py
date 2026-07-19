@@ -9,7 +9,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
+from codexray.core.analysis_engine import UnifiedAnalysisEngine
 
 
 class TestFormatRegressionPython:

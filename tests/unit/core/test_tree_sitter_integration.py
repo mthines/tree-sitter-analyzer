@@ -12,9 +12,9 @@ import tempfile
 
 import pytest
 
-from tree_sitter_analyzer.core.query_service import QueryService
-from tree_sitter_analyzer.language_detector import detect_language_from_file
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+from codexray.core.query_service import QueryService
+from codexray.language_detector import detect_language_from_file
+from codexray.mcp.tools.query_tool import QueryTool
 
 
 class TestTreeSitterIntegration:

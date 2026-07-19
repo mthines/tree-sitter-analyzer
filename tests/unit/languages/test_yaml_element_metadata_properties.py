@@ -13,6 +13,10 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
+from codexray.languages.yaml_plugin import (
+    YAML_AVAILABLE,
+    YAMLElementExtractor,
+)
 from tests.unit.languages._test_yaml_element_metadata_properties_helpers import (
     assert_comment_elements,
     assert_consistent_mappings,
@@ -26,10 +30,6 @@ from tests.unit.languages._test_yaml_element_metadata_properties_helpers import 
     assert_scalar_raw_text_non_empty,
     assert_sequence_metadata,
     parse_yaml_elements_and_lines,
-)
-from tree_sitter_analyzer.languages.yaml_plugin import (
-    YAML_AVAILABLE,
-    YAMLElementExtractor,
 )
 
 # Skip all tests if YAML is not available

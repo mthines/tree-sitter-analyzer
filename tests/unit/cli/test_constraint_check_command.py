@@ -1,4 +1,4 @@
-"""Tests for tree_sitter_analyzer.cli.commands.constraint_check_command."""
+"""Tests for codexray.cli.commands.constraint_check_command."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.constraint_check_command import (
+from codexray.cli.commands.constraint_check_command import (
     _compute_verdict,
     _evaluate_with_explicit_file,
     _exit_code_for,
@@ -29,32 +29,32 @@ from tree_sitter_analyzer.cli.commands.constraint_check_command import (
 
 # Module-level patch targets
 _APPLY_TOON = (
-    "tree_sitter_analyzer.mcp.utils.format_helper.apply_toon_format_to_response"
+    "codexray.mcp.utils.format_helper.apply_toon_format_to_response"
 )
-_RESOLVE_FMT = "tree_sitter_analyzer.cli.output_format.resolve_mcp_tool_format"
+_RESOLVE_FMT = "codexray.cli.output_format.resolve_mcp_tool_format"
 _LOAD_CONSTRAINTS = (
-    "tree_sitter_analyzer.cli.commands.constraint_check_command.load_constraints"
+    "codexray.cli.commands.constraint_check_command.load_constraints"
 )
-_EVALUATE = "tree_sitter_analyzer.cli.commands.constraint_check_command.evaluate"
+_EVALUATE = "codexray.cli.commands.constraint_check_command.evaluate"
 _LOAD_EXPLICIT = (
-    "tree_sitter_analyzer.cli.commands.constraint_check_command._load_explicit"
+    "codexray.cli.commands.constraint_check_command._load_explicit"
 )
 _RUN_AND_PERSIST = (
-    "tree_sitter_analyzer.cli.commands.constraint_check_command._run_and_persist"
+    "codexray.cli.commands.constraint_check_command._run_and_persist"
 )
 _EVAL_EXPLICIT = (
-    "tree_sitter_analyzer.cli.commands.constraint_check_command"
+    "codexray.cli.commands.constraint_check_command"
     "._evaluate_with_explicit_file"
 )
-_ASYNCIO_RUN = "tree_sitter_analyzer.cli.commands.constraint_check_command.asyncio.run"
+_ASYNCIO_RUN = "codexray.cli.commands.constraint_check_command.asyncio.run"
 _PRINT_RESULT = (
-    "tree_sitter_analyzer.cli.commands.constraint_check_command._print_result"
+    "codexray.cli.commands.constraint_check_command._print_result"
 )
 _RESOLVE_OFMT = (
-    "tree_sitter_analyzer.cli.commands.constraint_check_command._resolve_output_format"
+    "codexray.cli.commands.constraint_check_command._resolve_output_format"
 )
 _CCT_CLS = (
-    "tree_sitter_analyzer.cli.commands.constraint_check_command.ConstraintCheckTool"
+    "codexray.cli.commands.constraint_check_command.ConstraintCheckTool"
 )
 
 
@@ -421,7 +421,7 @@ class TestRunAndPersist:
         return db
 
     def _db_with_edges(self, tmp_path: Path) -> Path:
-        from tree_sitter_analyzer.graph.edge_store import EDGE_STORE_SCHEMA
+        from codexray.graph.edge_store import EDGE_STORE_SCHEMA
 
         db = tmp_path / "index.db"
         conn = sqlite3.connect(str(db))
@@ -617,7 +617,7 @@ class TestEvaluateWithExplicitFile:
         assert "not found" in result["error"]
 
     def test_parse_error_returns_failure(self, tmp_path):
-        from tree_sitter_analyzer.constraints.parser import ConstraintParseError
+        from codexray.constraints.parser import ConstraintParseError
 
         yaml_file = tmp_path / "constraints.yml"
         yaml_file.write_text("")

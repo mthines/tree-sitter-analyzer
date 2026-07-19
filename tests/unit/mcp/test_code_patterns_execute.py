@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.code_patterns_tool import (
+from codexray.mcp.tools.code_patterns_tool import (
     _SEVERITY_ORDER,
     CodePatternsTool,
 )

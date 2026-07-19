@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-The following versions of Tree-sitter Analyzer are currently being supported with security updates:
+The following versions of CodeXray are currently being supported with security updates:
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -12,14 +12,14 @@ The following versions of Tree-sitter Analyzer are currently being supported wit
 
 ## Reporting a Vulnerability
 
-We take the security of Tree-sitter Analyzer seriously. If you discover a security vulnerability, please follow these steps:
+We take the security of CodeXray seriously. If you discover a security vulnerability, please follow these steps:
 
 ### How to Report
 
 1. **Do NOT create a public GitHub issue** for security vulnerabilities.
 
 2. **Email us directly** at: aimasteracc@gmail.com
-   - Use the subject line: `[SECURITY] tree-sitter-analyzer vulnerability report`
+   - Use the subject line: `[SECURITY] codexray vulnerability report`
    - Include as much detail as possible about the vulnerability
 
 3. **Alternatively**, use [GitHub's private vulnerability reporting](https://github.com/aimasteracc/tree-sitter-analyzer/security/advisories/new) to submit your report.
@@ -59,7 +59,7 @@ We will not pursue civil action or initiate a complaint to law enforcement for a
 
 ## Security Best Practices
 
-When using Tree-sitter Analyzer:
+When using CodeXray:
 
 1. **Keep Updated**: Always use the latest stable version
 2. **Environment Variables**: Use `TREE_SITTER_PROJECT_ROOT` to restrict file access
@@ -68,7 +68,7 @@ When using Tree-sitter Analyzer:
 
 ## Security Features
 
-Tree-sitter Analyzer includes built-in security measures:
+CodeXray includes built-in security measures:
 
 - **Path Traversal Protection**: Prevents access outside allowed directories
 - **File Size Limits**: Prevents denial of service from extremely large files
@@ -81,4 +81,4 @@ For general security inquiries, please contact: aimasteracc@gmail.com
 
 ---
 
-Thank you for helping keep Tree-sitter Analyzer and its users safe!
+Thank you for helping keep CodeXray and its users safe!

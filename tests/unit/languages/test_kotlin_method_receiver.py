@@ -30,7 +30,7 @@ from unittest.mock import MagicMock
 import tree_sitter
 import tree_sitter_kotlin
 
-from tree_sitter_analyzer.languages.kotlin_helpers import extract_kotlin_function
+from codexray.languages.kotlin_helpers import extract_kotlin_function
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -158,7 +158,7 @@ def test_extension_fun_receiver_type_and_is_method() -> None:
 def test_receiver_survives_api_serialization() -> None:
     """End-to-end Theme-A (Kotlin): the serializer allowlist must carry
     the receiver binding to API consumers."""
-    from tree_sitter_analyzer.internal_api.result_helpers import element_to_dict
+    from codexray.internal_api.result_helpers import element_to_dict
 
     funcs = _functions(_CLASS_SRC)
     feed = element_to_dict(funcs["feed"])
@@ -334,7 +334,7 @@ def test_extension_receiver_with_user_type_and_dot() -> None:
 
 def test_kotlin_owning_type_parent_none_depth_zero() -> None:
     """_kotlin_owning_type with node.parent = None → (None, False)."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     node.parent = None
@@ -344,7 +344,7 @@ def test_kotlin_owning_type_parent_none_depth_zero() -> None:
 
 def test_kotlin_owning_type_source_file_boundary() -> None:
     """_kotlin_owning_type stops at source_file → (None, False)."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     source_file = MagicMock()
@@ -358,7 +358,7 @@ def test_kotlin_owning_type_source_file_boundary() -> None:
 def test_kotlin_owning_type_local_function_boundary() -> None:
     """_kotlin_owning_type stops at function_declaration → (None, False).
     Local functions inside a method must not be attributed to the enclosing class."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     func_decl = MagicMock()
@@ -378,7 +378,7 @@ def test_kotlin_owning_type_local_function_boundary() -> None:
 def test_kotlin_owning_type_object_literal_boundary() -> None:
     """_kotlin_owning_type stops at object_literal → (None, False).
     Overrides inside anonymous objects must not be attributed to the enclosing class."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     obj_lit = MagicMock()
@@ -397,7 +397,7 @@ def test_kotlin_owning_type_object_literal_boundary() -> None:
 
 def test_kotlin_owning_type_class_declaration_with_name_field() -> None:
     """_kotlin_owning_type finds class owner via child_by_field_name('name')."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     class_decl = MagicMock()
@@ -416,7 +416,7 @@ def test_kotlin_owning_type_class_declaration_with_name_field() -> None:
 def test_kotlin_owning_type_class_declaration_name_via_identifier_scan() -> None:
     """_kotlin_owning_type falls back to scanning children for 'identifier'
     when child_by_field_name('name') returns None."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     class_decl = MagicMock()
@@ -439,7 +439,7 @@ def test_kotlin_owning_type_class_declaration_name_via_identifier_scan() -> None
 def test_kotlin_owning_type_class_declaration_no_name_found() -> None:
     """_kotlin_owning_type returns (None, False) when class has no name field
     and no identifier child."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     class_decl = MagicMock()
@@ -455,7 +455,7 @@ def test_kotlin_owning_type_class_declaration_no_name_found() -> None:
 
 def test_kotlin_owning_type_object_declaration_owner() -> None:
     """_kotlin_owning_type finds object owner."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     obj_decl = MagicMock()
@@ -473,7 +473,7 @@ def test_kotlin_owning_type_object_declaration_owner() -> None:
 def test_kotlin_owning_type_companion_object_walks_further() -> None:
     """_kotlin_owning_type marks in_companion=True and continues walking
     past companion_object to find the enclosing class."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     companion = MagicMock()
@@ -498,7 +498,7 @@ def test_kotlin_owning_type_companion_object_walks_further() -> None:
 def test_kotlin_owning_type_depth_cap() -> None:
     """_kotlin_owning_type is capped at 256 iterations to prevent unbounded loops
     on non-conforming node objects (e.g. circular parent chains or MagicMock)."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     current = node
@@ -517,7 +517,7 @@ def test_kotlin_owning_type_depth_cap() -> None:
 
 def test_kotlin_owning_type_unicode_name_handling() -> None:
     """_kotlin_owning_type safely decodes non-UTF8 bytes in name_node.text."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     class_decl = MagicMock()
@@ -536,7 +536,7 @@ def test_kotlin_owning_type_unicode_name_handling() -> None:
 def test_kotlin_owning_type_decode_attribute_error() -> None:
     """_kotlin_owning_type handles AttributeError when name_node.text
     doesn't have a decode method."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     class_decl = MagicMock()
@@ -556,7 +556,7 @@ def test_kotlin_owning_type_decode_attribute_error() -> None:
 def test_kotlin_owning_type_decode_unicode_error() -> None:
     """_kotlin_owning_type handles UnicodeDecodeError when name_node.text
     contains invalid UTF-8."""
-    from tree_sitter_analyzer.languages.kotlin_helpers import _kotlin_owning_type
+    from codexray.languages.kotlin_helpers import _kotlin_owning_type
 
     node = MagicMock()
     class_decl = MagicMock()

@@ -4,7 +4,7 @@ shlex.quote() wraps paths in single quotes which fail in Windows CMD.
 Double quotes work on Windows CMD, PowerShell, and Unix shells.
 """
 
-from tree_sitter_analyzer.cli.agent_workflow import _shell_safe_path
+from codexray.cli.agent_workflow import _shell_safe_path
 
 
 class TestShellSafePathWindowsCompat:

@@ -3,7 +3,7 @@
 - **Status**: accepted — console entrypoint + module + tests shipped (this PR); CLI subcommand + pre-seed + README surgery tracked below
 - **Author(s)**: TSA strategy team (4-lens panel + chair, 2026-06-08)
 - **Created**: 2026-06-08
-- **Affected surfaces**: new console entrypoint `miswire-audit`; `tree_sitter_analyzer/miswire_audit.py`; `tests/benchmarks/test_miswire_audit.py`
+- **Affected surfaces**: new console entrypoint `miswire-audit`; `codexray/miswire_audit.py`; `tests/benchmarks/test_miswire_audit.py`
 
 ## Summary
 
@@ -13,7 +13,7 @@ stark, personalized verdict: how many call edges a **name-only resolver** (the
 design CodeGraph and most code indexes use) *would* mis-wire across a language
 boundary, versus how many TSA actually does. No CodeGraph install required.
 
-    uvx --from tree-sitter-analyzer miswire-audit .
+    uvx --from codexray miswire-audit .
     # → "a name-only resolver would mis-wire 4,199 call edges in YOUR repo;
     #    TSA mis-wires 6 — 700× cleaner. Here are 5: Python sorted() → Swift func …"
 
@@ -63,7 +63,7 @@ exists to build.
 
 This is a **distribution/demo artifact**, not a code-intelligence query, so it
 ships first as a console entrypoint (`miswire-audit`). Parity follow-ups (below):
-a `tree-sitter-analyzer miswire-audit` CLI subcommand and, if demanded, a thin
+a `codexray miswire-audit` CLI subcommand and, if demanded, a thin
 MCP `viz action=miswire_audit` so an agent can self-audit a repo. The core
 resolution logic it reports on already has full CLI↔MCP parity (the resolver).
 
@@ -79,7 +79,7 @@ resolution logic it reports on already has full CLI↔MCP parity (the resolver).
 
 - [x] `miswire-audit <path>` console entrypoint; module under the package;
       ruff+mypy clean; 3 RED-first tests green.
-- [ ] `tree-sitter-analyzer miswire-audit` CLI subcommand (parity follow-up).
+- [ ] `codexray miswire-audit` CLI subcommand (parity follow-up).
 - [ ] Pre-seed `--card` results for 5 well-known repos under
       `benchmarks/codegraph_compare/MISWIRE-AUDIT-EXAMPLES.md` so the README shows
       results before anyone clones. *(path correction 2026-06-12: the 5-repo table

@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.encoding_utils import read_file_safe_streaming
+from codexray.encoding_utils import read_file_safe_streaming
 
 
 class TestStreamingFileReading:

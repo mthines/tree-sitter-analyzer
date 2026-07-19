@@ -14,13 +14,13 @@ import tempfile
 
 from tree_sitter import Parser
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.function_extraction import (
+from codexray.ast_cache import ASTCache
+from codexray.function_extraction import (
     _CALL_NODE_TYPES,
     _FUNC_DEF_TYPES,
     walk_tree,
 )
-from tree_sitter_analyzer.language_loader import load_language
+from codexray.language_loader import load_language
 
 _RUST_SRC = """
 fn helper() -> i32 { 42 }

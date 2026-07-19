@@ -4,7 +4,7 @@
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.constants import ELEMENT_TYPE_MAPPING
+from codexray.constants import ELEMENT_TYPE_MAPPING
 
 
 class TestElementTypeMappingProperty:

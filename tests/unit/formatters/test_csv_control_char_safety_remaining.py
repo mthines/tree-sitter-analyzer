@@ -23,10 +23,10 @@ import io
 
 import pytest
 
-from tree_sitter_analyzer.formatters.legacy.csv import (
+from codexray.formatters.legacy.csv import (
     format_csv as legacy_format_csv,
 )
-from tree_sitter_analyzer.formatters.python_formatter import PythonTableFormatter
+from codexray.formatters.python_formatter import PythonTableFormatter
 
 # Control chars that trip a no-escapechar csv.writer on Python 3.10.
 CONTROL_NAMES = ["\x00", "\x00abc", "a\x00b", "\x01\x02"]

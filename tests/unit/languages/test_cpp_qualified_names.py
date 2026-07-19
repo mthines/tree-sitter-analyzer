@@ -11,8 +11,8 @@ import pytest
 import tree_sitter
 import tree_sitter_cpp
 
-from tree_sitter_analyzer.formatters.cpp_formatter import CppTableFormatter
-from tree_sitter_analyzer.languages.cpp_plugin import CppElementExtractor
+from codexray.formatters.cpp_formatter import CppTableFormatter
+from codexray.languages.cpp_plugin import CppElementExtractor
 
 
 @pytest.fixture
@@ -164,7 +164,7 @@ def test_cpp17_nested_namespace_specifier(extractor):
 def test_namespace_name_accepts_str_text_nodes():
     # Defensive branch parity with _cpp_containing_class_name: node.text may
     # already be str on mocked/alternative node implementations.
-    from tree_sitter_analyzer.languages._cpp_element import _cpp_namespace_name
+    from codexray.languages._cpp_element import _cpp_namespace_name
 
     class _NameNode:
         type = "namespace_identifier"
@@ -228,7 +228,7 @@ def test_typed_namespace_same_name_fn_not_constructor(extractor):
 def test_outline_method_entry_carries_receiver_type(extractor):
     """The outline surface must not orphan out-of-class definitions: a
     receiver-bound Function outlines with its owner attached."""
-    from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import _method_entry
+    from codexray.mcp.tools.get_code_outline_tool import _method_entry
 
     code = "namespace math { class Foo { public: void bar(); }; }\nvoid math::Foo::bar() { }\n"
     funcs = list(_functions(extractor, code))
@@ -240,7 +240,7 @@ def test_outline_method_entry_carries_receiver_type(extractor):
 
 
 def test_outline_method_entry_omits_receiver_when_unbound(extractor):
-    from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import _method_entry
+    from codexray.mcp.tools.get_code_outline_tool import _method_entry
 
     funcs = list(_functions(extractor, "int plain() { return 1; }\n"))
     entry = _method_entry(_one(funcs, "plain"))

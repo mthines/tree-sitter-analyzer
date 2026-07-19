@@ -1,10 +1,10 @@
 import pytest
 
-from tree_sitter_analyzer.formatters.sql_formatters import (
+from codexray.formatters.sql_formatters import (
     SQLFormatterBase,
     SQLFullFormatter,
 )
-from tree_sitter_analyzer.models import (
+from codexray.models import (
     AnalysisResult,
     SQLColumn,
     SQLFunction,

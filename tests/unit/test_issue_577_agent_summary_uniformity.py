@@ -71,7 +71,7 @@ class TestSearchChainAgentSummary:
     """#577: search.chain (CodeGraphQueryTool) must emit agent_summary + verdict."""
 
     def _make_tool(self, tmp_path: Path) -> Any:
-        from tree_sitter_analyzer.mcp.tools.codegraph_query_tool import (
+        from codexray.mcp.tools.codegraph_query_tool import (
             CodeGraphQueryTool,
         )
 
@@ -88,7 +88,7 @@ class TestSearchChainAgentSummary:
     async def test_agent_summary_present_on_not_found(self, tmp_path):
         tool = self._make_tool(tmp_path)
         mc = self._mock_cache()
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mc):
+        with patch("codexray.ast_cache.ASTCache", return_value=mc):
             result = await tool.execute(
                 {"query": "NoSuchSymbol", "output_format": "json"}
             )
@@ -99,7 +99,7 @@ class TestSearchChainAgentSummary:
     async def test_agent_summary_verdict_in_canonical_vocab(self, tmp_path):
         tool = self._make_tool(tmp_path)
         mc = self._mock_cache()
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mc):
+        with patch("codexray.ast_cache.ASTCache", return_value=mc):
             result = await tool.execute(
                 {"query": "NoSuchSymbol", "output_format": "json"}
             )
@@ -112,7 +112,7 @@ class TestSearchChainAgentSummary:
     async def test_agent_summary_has_summary_line(self, tmp_path):
         tool = self._make_tool(tmp_path)
         mc = self._mock_cache()
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mc):
+        with patch("codexray.ast_cache.ASTCache", return_value=mc):
             result = await tool.execute(
                 {"query": "NoSuchSymbol", "output_format": "json"}
             )
@@ -128,7 +128,7 @@ class TestSearchChainAgentSummary:
     async def test_agent_summary_has_next_step(self, tmp_path):
         tool = self._make_tool(tmp_path)
         mc = self._mock_cache()
-        with patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mc):
+        with patch("codexray.ast_cache.ASTCache", return_value=mc):
             result = await tool.execute(
                 {"query": "NoSuchSymbol", "output_format": "json"}
             )
@@ -147,7 +147,7 @@ class TestSearchChainAgentSummary:
         mc = self._mock_cache()
         sym_def = _make_def(file="src/found.py", name="FoundSymbol", kind="function")
         with (
-            patch("tree_sitter_analyzer.ast_cache.ASTCache", return_value=mc),
+            patch("codexray.ast_cache.ASTCache", return_value=mc),
             _patch_resolver_with({"FoundSymbol": [sym_def]}),
         ):
             result = await tool.execute(
@@ -170,7 +170,7 @@ class TestNavNavigateAgentSummary:
     """#577: nav.navigate (CodeGraphNavigateTool) must emit agent_summary + verdict."""
 
     def _make_tool(self) -> Any:
-        from tree_sitter_analyzer.mcp.tools.codegraph_navigate_tool import (
+        from codexray.mcp.tools.codegraph_navigate_tool import (
             CodeGraphNavigateTool,
         )
 
@@ -233,7 +233,7 @@ class TestNavImpactAgentSummary:
     """#577: nav.impact (CodeGraphImpactTool) must emit agent_summary + verdict."""
 
     def _make_tool(self, tmp_path: Path) -> Any:
-        from tree_sitter_analyzer.mcp.tools.codegraph_impact_tool import (
+        from codexray.mcp.tools.codegraph_impact_tool import (
             CodeGraphImpactTool,
         )
 
@@ -284,7 +284,7 @@ class TestNavImpactAgentSummary:
         fan_in=5 (score+=20) + cross_file_callers=2 (score+=15) = 35
         → level='medium' → verdict='REVIEW' → the elif branch is taken.
         """
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         tool = self._make_tool(tmp_path)
 
@@ -339,7 +339,7 @@ class TestProjectMetricsAgentSummary:
     """#577: project.metrics (CodeGraphMetricsTool) must emit agent_summary + verdict."""
 
     def _make_tool(self, tmp_path: Path) -> Any:
-        from tree_sitter_analyzer.mcp.tools.codegraph_metrics_tool import (
+        from codexray.mcp.tools.codegraph_metrics_tool import (
             CodeGraphMetricsTool,
         )
 
@@ -394,7 +394,7 @@ class TestProjectDocSyncAgentSummary:
     """
 
     def _make_tool(self, tmp_path: Path) -> Any:
-        from tree_sitter_analyzer.mcp.tools.doc_sync_tool import DocSyncTool
+        from codexray.mcp.tools.doc_sync_tool import DocSyncTool
 
         return DocSyncTool(str(tmp_path))
 
@@ -472,7 +472,7 @@ class TestHealthImportsAgentSummary:
     """#577: health.imports (CodeGraphImportGraphTool) must emit agent_summary + verdict."""
 
     def _make_tool(self, tmp_path: Path) -> Any:
-        from tree_sitter_analyzer.mcp.tools.import_graph_tool import (
+        from codexray.mcp.tools.import_graph_tool import (
             CodeGraphImportGraphTool,
         )
 
@@ -527,7 +527,7 @@ class TestStructureAstPathAgentSummary:
     """#577: structure.ast_path (CodeGraphASTPathTool) must emit agent_summary + verdict."""
 
     def _make_tool(self, tmp_path: Path) -> Any:
-        from tree_sitter_analyzer.mcp.tools.ast_path_tool import CodeGraphASTPathTool
+        from codexray.mcp.tools.ast_path_tool import CodeGraphASTPathTool
 
         return CodeGraphASTPathTool(str(tmp_path))
 

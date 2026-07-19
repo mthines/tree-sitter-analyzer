@@ -2,7 +2,7 @@
 """
 キャッシュ管理ユーティリティ
 
-tree-sitter-analyzerの各種キャッシュを管理し、
+codexrayの各種キャッシュを管理し、
 テスト実行前にクリアする機能を提供します。
 """
 
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 class CacheManager:
     """
-    tree-sitter-analyzerのキャッシュを統合管理するクラス
+    codexrayのキャッシュを統合管理するクラス
     """
 
     def __init__(self, project_root: str | None = None):
@@ -81,7 +81,7 @@ class CacheManager:
         """UnifiedAnalysisEngine のキャッシュをクリア"""
         try:
             # UnifiedAnalysisEngineのインスタンスを取得してキャッシュクリア
-            from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
+            from codexray.core.analysis_engine import get_analysis_engine
 
             # 既存のインスタンスがあればクリア
             engine = get_analysis_engine(self.project_root)
@@ -89,7 +89,7 @@ class CacheManager:
                 engine.clear_cache()
 
             # シングルトンインスタンスもクリア
-            from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
+            from codexray.core.analysis_engine import UnifiedAnalysisEngine
 
             if hasattr(UnifiedAnalysisEngine, "_instances"):
                 for instance in UnifiedAnalysisEngine._instances.values():
@@ -106,7 +106,7 @@ class CacheManager:
         """SearchContentTool のキャッシュをクリア"""
         try:
             # SearchCache のグローバルインスタンスをクリア
-            from tree_sitter_analyzer.mcp.utils.search_cache import clear_cache
+            from codexray.mcp.utils.search_cache import clear_cache
 
             clear_cache()
 
@@ -138,7 +138,7 @@ class CacheManager:
 
         # UnifiedAnalysisEngine の統計
         try:
-            from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
+            from codexray.core.analysis_engine import get_analysis_engine
 
             engine = get_analysis_engine(self.project_root)
             if hasattr(engine, "get_cache_stats"):
@@ -148,7 +148,7 @@ class CacheManager:
 
         # SearchContentTool の統計
         try:
-            from tree_sitter_analyzer.mcp.utils.search_cache import get_default_cache
+            from codexray.mcp.utils.search_cache import get_default_cache
 
             cache = get_default_cache()
             if hasattr(cache, "get_stats"):
@@ -180,7 +180,7 @@ class CacheManager:
         try:
             # SearchContentTool のキャッシュを無効化
             # これは新しいインスタンス作成時にキャッシュを無効にする
-            from tree_sitter_analyzer.mcp.utils.search_cache import configure_cache
+            from codexray.mcp.utils.search_cache import configure_cache
 
             configure_cache(max_size=0, ttl_seconds=0)  # サイズ0でキャッシュ無効化
 

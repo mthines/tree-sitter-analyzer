@@ -3,8 +3,8 @@
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools.symbol_search_tool import CodeGraphSymbolSearchTool
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools.symbol_search_tool import CodeGraphSymbolSearchTool
 
 
 @pytest.fixture
@@ -543,7 +543,7 @@ class TestCodeGraphSymbolSearchRegistration:
     (bespoke, scope-discriminated)."""
 
     def test_tool_registered_in_server(self):
-        from tree_sitter_analyzer.mcp.server import _create_tool_registry
+        from codexray.mcp.server import _create_tool_registry
 
         _, tools = _create_tool_registry(None)
         assert "search" in tools
@@ -554,13 +554,13 @@ class TestCodeGraphSymbolSearchRegistration:
         )
 
     def test_callers_registered_in_server(self):
-        from tree_sitter_analyzer.mcp.server import _create_tool_registry
+        from codexray.mcp.server import _create_tool_registry
 
         _, tools = _create_tool_registry(None)
         assert "callers" in tools["nav"].bespoke_map
 
     def test_callees_registered_in_server(self):
-        from tree_sitter_analyzer.mcp.server import _create_tool_registry
+        from codexray.mcp.server import _create_tool_registry
 
         _, tools = _create_tool_registry(None)
         assert "callees" in tools["nav"].bespoke_map

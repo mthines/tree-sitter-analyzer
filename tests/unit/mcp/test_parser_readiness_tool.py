@@ -22,11 +22,11 @@ import asyncio
 
 import pytest
 
-from tree_sitter_analyzer.cli.parser_readiness import build_parser_readiness_advice
-from tree_sitter_analyzer.mcp.tools.parser_readiness_tool import ParserReadinessTool
+from codexray.cli.parser_readiness import build_parser_readiness_advice
+from codexray.mcp.tools.parser_readiness_tool import ParserReadinessTool
 
 # Legal verdict vocabulary — mirrored from
-# ``tree_sitter_analyzer.mcp.tools.base_tool._LEGAL_VERDICTS``.
+# ``codexray.mcp.tools.base_tool._LEGAL_VERDICTS``.
 _LEGAL_VERDICTS = frozenset(
     {"SAFE", "CAUTION", "REVIEW", "UNSAFE", "INFO", "WARN", "ERROR", "NOT_FOUND"}
 )
@@ -47,8 +47,8 @@ dependencies = ["tree-sitter-python>=0.23.0"]
 [project.optional-dependencies]
 fixturelang = ["tree-sitter-fixturelang>=0.1.0"]
 
-[project.entry-points."tree_sitter_analyzer.plugins"]
-python = "tree_sitter_analyzer.languages.python_plugin:PythonPlugin"
+[project.entry-points."codexray.plugins"]
+python = "codexray.languages.python_plugin:PythonPlugin"
 """,
     )
 
@@ -80,8 +80,8 @@ def test_parser_readiness_can_report_supported_language(tmp_path):
 [project]
 dependencies = ["tree-sitter-python>=0.23.0"]
 
-[project.entry-points."tree_sitter_analyzer.plugins"]
-python = "tree_sitter_analyzer.languages.python_plugin:PythonPlugin"
+[project.entry-points."codexray.plugins"]
+python = "codexray.languages.python_plugin:PythonPlugin"
 """,
     )
     tests_dir = tmp_path / "tests" / "unit" / "languages"
@@ -171,7 +171,7 @@ async def test_parser_readiness_tool_returns_json_installed(tmp_path, monkeypatc
     Monkeypatching the importlib_metadata alias forces this path deterministically
     without touching the real importlib.metadata module.
     """
-    import tree_sitter_analyzer.cli.parser_readiness_package as _pkg
+    import codexray.cli.parser_readiness_package as _pkg
 
     _write_pyproject(tmp_path, _SWIFT_PYPROJECT)
     monkeypatch.setattr(
@@ -200,7 +200,7 @@ async def test_parser_readiness_tool_returns_json_installed(tmp_path, monkeypatc
     assert signals["parser_maintenance_urls"]["releases"].endswith("/releases")
     assert signals["parser_maintenance_urls"]["actions"].endswith("/actions")
     assert result["agent_summary"]["verification_command"] == (
-        "uv run tree-sitter-analyzer parser-readiness swift --format json"
+        "uv run codexray parser-readiness swift --format json"
     )
 
 
@@ -213,7 +213,7 @@ async def test_parser_readiness_tool_returns_json_not_installed(tmp_path, monkey
     can distinguish "declared but absent" from "not declared".
     Monkeypatching the importlib_metadata alias forces this deterministically.
     """
-    import tree_sitter_analyzer.cli.parser_readiness_package as _pkg
+    import codexray.cli.parser_readiness_package as _pkg
 
     _write_pyproject(tmp_path, _SWIFT_PYPROJECT)
     monkeypatch.setattr(
@@ -237,7 +237,7 @@ async def test_parser_readiness_tool_returns_json_not_installed(tmp_path, monkey
     assert signals["parser_project_urls"] == {}
     assert signals["parser_maintenance_urls"] == {}
     assert result["agent_summary"]["verification_command"] == (
-        "uv run tree-sitter-analyzer parser-readiness swift --format json"
+        "uv run codexray parser-readiness swift --format json"
     )
 
 
@@ -268,7 +268,7 @@ async def test_parser_readiness_toon_installed_shows_version_and_url(
 
     P2: deterministic test for the installed path via monkeypatch.
     """
-    import tree_sitter_analyzer.cli.parser_readiness_package as _pkg
+    import codexray.cli.parser_readiness_package as _pkg
 
     _write_pyproject(tmp_path, _SWIFT_PYPROJECT)
     monkeypatch.setattr(
@@ -298,7 +298,7 @@ async def test_parser_readiness_toon_not_installed_shows_empty_version(
 
     P2: deterministic test for the not-installed path via monkeypatch.
     """
-    import tree_sitter_analyzer.cli.parser_readiness_package as _pkg
+    import codexray.cli.parser_readiness_package as _pkg
 
     _write_pyproject(tmp_path, _SWIFT_PYPROJECT)
     monkeypatch.setattr(
@@ -410,8 +410,8 @@ async def test_parser_readiness_partial_install_plugin_without_loader(tmp_path):
 [project]
 dependencies = []
 
-[project.entry-points."tree_sitter_analyzer.plugins"]
-fixturelang = "tree_sitter_analyzer.languages.fixturelang_plugin:FixturelangPlugin"
+[project.entry-points."codexray.plugins"]
+fixturelang = "codexray.languages.fixturelang_plugin:FixturelangPlugin"
 """,
     )
 

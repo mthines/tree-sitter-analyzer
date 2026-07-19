@@ -18,7 +18,7 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray.ast_cache import ASTCache
 
 
 def _index(tmp_path: Path, files: dict[str, str]) -> Path:
@@ -205,8 +205,8 @@ def test_lazy_context_construction_populates_external_methods(tmp_path: Path) ->
         },
     )
 
-    from tree_sitter_analyzer.ast_cache import ASTCache
-    from tree_sitter_analyzer.synapse_resolver import ResolverContext
+    from codexray.ast_cache import ASTCache
+    from codexray.synapse_resolver import ResolverContext
 
     cache = ASTCache(str(tmp_path))
     try:

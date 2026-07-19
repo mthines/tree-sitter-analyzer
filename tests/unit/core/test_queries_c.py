@@ -5,7 +5,7 @@ Tests for C queries module
 
 import pytest
 
-from tree_sitter_analyzer.queries.c import (
+from codexray.queries.c import (
     ALL_QUERIES,
     C_QUERIES,
     C_QUERY_DESCRIPTIONS,

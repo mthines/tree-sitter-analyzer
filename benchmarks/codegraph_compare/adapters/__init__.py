@@ -99,8 +99,8 @@ def get_adapter(arm_id: str) -> BenchmarkAdapter:
     """
     # Lazy imports keep module-level side effects out of this file.
     from .codegraph import CodeGraphAdapter
+    from .codexray import TSAAdapter
     from .native import NativeAdapter
-    from .tree_sitter_analyzer import TSAAdapter
 
     if arm_id == "native-only":
         return NativeAdapter()

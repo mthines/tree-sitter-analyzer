@@ -1,13 +1,13 @@
 <!-- HISTORICAL RECORD — file paths in this document reflect early project planning. Some paths may no longer exist. -->
 # New Language Support Checklist
 
-This document outlines the steps required to add support for a new programming language to Tree-sitter Analyzer.
+This document outlines the steps required to add support for a new programming language to CodeXray.
 
 ## 📋 Required Checklist
 
 ### 1. Implement Language Plugin
 
-- [ ] Create `tree_sitter_analyzer/languages/{language}_plugin.py`
+- [ ] Create `codexray/languages/{language}_plugin.py`
   - [ ] Inherit from `LanguagePlugin` class
   - [ ] Implement `get_language_name()`
   - [ ] Implement `get_file_extensions()`
@@ -24,12 +24,12 @@ This document outlines the steps required to add support for a new programming l
 
 ### 3. Define Queries
 
-- [ ] Create `tree_sitter_analyzer/queries/{language}.py`
+- [ ] Create `codexray/queries/{language}.py`
   - [ ] Define language-specific Tree-sitter queries
 
 ### 4. Implement Formatter (if needed)
 
-- [ ] If the language requires custom output formatting, create `tree_sitter_analyzer/formatters/{language}_formatter.py`
+- [ ] If the language requires custom output formatting, create `codexray/formatters/{language}_formatter.py`
   - [ ] Inherit from `BaseFormatter`
   - [ ] Implement `format_summary()`
   - [ ] Implement `format_structure()`
@@ -39,7 +39,7 @@ This document outlines the steps required to add support for a new programming l
 
 ### 5. Register Formatter (if created)
 
-- [ ] If a custom formatter was created, register it in `tree_sitter_analyzer/formatters/formatter_registry.py`
+- [ ] If a custom formatter was created, register it in `codexray/formatters/formatter_registry.py`
 
 ### 6. Create Sample File
 
@@ -96,7 +96,7 @@ This document outlines the steps required to add support for a new programming l
 ## 📁 File Structure Example
 
 ```
-tree_sitter_analyzer/
+codexray/
 ├── languages/
 │   └── {language}_plugin.py      # Language plugin
 ├── formatters/
@@ -138,11 +138,11 @@ uv run pytest tests/ -v
 
 Use these language implementations as references:
 
-- **Java**: `tree_sitter_analyzer/languages/java_plugin.py` - Most complete implementation
-- **Python**: `tree_sitter_analyzer/languages/python_plugin/` - Simple implementation
-- **SQL**: `tree_sitter_analyzer/languages/sql_plugin/` - With dedicated formatter
-- **YAML**: `tree_sitter_analyzer/languages/yaml_plugin.py` - Async parsing example
-- **HTML/CSS**: `tree_sitter_analyzer/languages/html_plugin.py` - Markup language example
+- **Java**: `codexray/languages/java_plugin.py` - Most complete implementation
+- **Python**: `codexray/languages/python_plugin/` - Simple implementation
+- **SQL**: `codexray/languages/sql_plugin/` - With dedicated formatter
+- **YAML**: `codexray/languages/yaml_plugin.py` - Async parsing example
+- **HTML/CSS**: `codexray/languages/html_plugin.py` - Markup language example
 
 ## ⚠️ Common Issues and Solutions
 
@@ -151,7 +151,7 @@ Use these language implementations as references:
 **Problem**: Language-specific formatter not called with `--table` command
 
 **Solution**: 
-- Register formatter in `tree_sitter_analyzer/formatters/formatter_registry.py`
+- Register formatter in `codexray/formatters/formatter_registry.py`
 - Add language to `LANGUAGE_FORMATTER_CONFIG` in `cli/commands/mcp_commands.py`
 
 ### 2. Golden Master Tests Failing

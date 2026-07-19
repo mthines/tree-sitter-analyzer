@@ -13,7 +13,7 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.languages.yaml_plugin import (
+from codexray.languages.yaml_plugin import (
     YAML_AVAILABLE,
     YAMLElementExtractor,
 )

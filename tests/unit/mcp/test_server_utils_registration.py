@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server_utils.prompt_registration import (
+from codexray.mcp.server_utils.prompt_registration import (
     register_prompts,
 )
 

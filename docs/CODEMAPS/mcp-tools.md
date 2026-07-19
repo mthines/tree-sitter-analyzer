@@ -1,11 +1,11 @@
 <!-- Generated: 2026-05-22; Wave C2 facade cutover: 2026-06-02; doc-code re-sync: 2026-06-17 -->
 # MCP Tools Codemap
 
-**8 facade tools** registered in [`mcp/_tool_registry.py`](../../tree_sitter_analyzer/mcp/_tool_registry.py)
+**8 facade tools** registered in [`mcp/_tool_registry.py`](../../codexray/mcp/_tool_registry.py)
 (v2.0 β cutover — was 66 discrete tools). Each facade fans an `action` parameter
 out to the unchanged inner tools; the 66 legacy names still work for one
 deprecation cycle via the legacy-name shim
-([`mcp/legacy_shim.py`](../../tree_sitter_analyzer/mcp/legacy_shim.py)).
+([`mcp/legacy_shim.py`](../../codexray/mcp/legacy_shim.py)).
 All tools default to **TOON output** (locked — see `CLAUDE.md`).
 Response-envelope semantics (verdict alphabet, truncation fields, `compact_only` control surface) are specified in the [Agent Envelope Contract](../agent-envelope-contract.md).
 
@@ -30,7 +30,7 @@ Response-envelope semantics (verdict alphabet, truncation fields, `compact_only`
 
 The table below documents the 66 legacy capabilities and their CLI flags. Each
 legacy MCP name is now reached via its facade (`old_name` →
-`facade action=<...>`); see [`mcp/facade_map.py`](../../tree_sitter_analyzer/mcp/facade_map.py).
+`facade action=<...>`); see [`mcp/facade_map.py`](../../codexray/mcp/facade_map.py).
 
 | MCP name | CLI flag / handler | Purpose |
 |---|---|---|
@@ -109,7 +109,7 @@ legacy MCP name is now reached via its facade (`old_name` →
 
 ## Adding a New MCP Tool
 
-1. Create `tree_sitter_analyzer/mcp/tools/<name>_tool.py` extending `BaseMCPTool`.
+1. Create `codexray/mcp/tools/<name>_tool.py` extending `BaseMCPTool`.
 2. Register it in `mcp/_tool_registry.py` (the canonical registry).
 3. Add a CLI equivalent in `cli_main.py` or `cli/commands/` — **REQUIRED** by parity contract.
 4. Add tests:

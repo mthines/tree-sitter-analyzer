@@ -1,8 +1,8 @@
-"""Tests for tree_sitter_analyzer.languages.shared.scope_tracker."""
+"""Tests for codexray.languages.shared.scope_tracker."""
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.languages.shared.scope_tracker import ScopeStack
+from codexray.languages.shared.scope_tracker import ScopeStack
 
 
 class TestScopeStack:

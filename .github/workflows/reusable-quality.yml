@@ -38,7 +38,7 @@ jobs:
       - name: Run MyPy
         run: |
           uv sync --all-extras
-          uv run mypy tree_sitter_analyzer/
+          uv run mypy codexray/
           echo "✅ MyPy type checking passed" >> $GITHUB_STEP_SUMMARY
 
   security:
@@ -62,7 +62,7 @@ jobs:
           uv sync --all-extras
 
           set +e
-          uv run --with bandit bandit -c pyproject.toml -r tree_sitter_analyzer/ -f json -o bandit-results.json
+          uv run --with bandit bandit -c pyproject.toml -r codexray/ -f json -o bandit-results.json
           BANDIT_STATUS=$?
           set -e
 

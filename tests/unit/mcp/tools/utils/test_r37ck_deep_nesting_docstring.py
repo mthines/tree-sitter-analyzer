@@ -8,7 +8,7 @@
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.mcp.tools.utils.file_health_locations import (
+from codexray.mcp.tools.utils.file_health_locations import (
     deepest_nesting_location,
 )
 

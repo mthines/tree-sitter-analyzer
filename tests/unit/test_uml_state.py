@@ -40,7 +40,7 @@ def _make_ts_node(
 
 def test_state_result_dataclass_exists() -> None:
     """StateResult dataclass is importable and has expected fields."""
-    from tree_sitter_analyzer.uml_state import StateResult
+    from codexray.uml_state import StateResult
 
     result = StateResult()
     assert result.states == []
@@ -51,7 +51,7 @@ def test_state_result_dataclass_exists() -> None:
 
 def test_state_transition_dataclass_exists() -> None:
     """StateTransition dataclass has source/target/label fields."""
-    from tree_sitter_analyzer.uml_state import StateTransition
+    from codexray.uml_state import StateTransition
 
     t = StateTransition(source="A", target="B", label="go")
     assert t.source == "A"
@@ -61,7 +61,7 @@ def test_state_transition_dataclass_exists() -> None:
 
 def test_state_transition_label_defaults_empty() -> None:
     """StateTransition label defaults to empty string."""
-    from tree_sitter_analyzer.uml_state import StateTransition
+    from codexray.uml_state import StateTransition
 
     t = StateTransition(source="X", target="Y")
     assert t.label == ""
@@ -74,7 +74,7 @@ def test_state_transition_label_defaults_empty() -> None:
 
 def test_parse_file_for_state_returns_none_for_missing_file(tmp_path: Path) -> None:
     """Returns None when the file does not exist."""
-    from tree_sitter_analyzer.uml_state import _parse_file_for_state
+    from codexray.uml_state import _parse_file_for_state
 
     result = _parse_file_for_state(str(tmp_path / "does_not_exist.py"))
     assert result is None
@@ -86,7 +86,7 @@ def test_parse_file_for_state_calls_parser_once(tmp_path: Path) -> None:
     Wrap _parse_file_for_state itself and count invocations to verify that
     build_state_result never calls it more than once per invocation.
     """
-    import tree_sitter_analyzer.uml_state as _state_module
+    import codexray.uml_state as _state_module
 
     src = tmp_path / "fsm.py"
     src.write_text(
@@ -118,7 +118,7 @@ def test_parse_file_for_state_calls_parser_once(tmp_path: Path) -> None:
 
 def test_build_state_result_missing_file_returns_not_found(tmp_path: Path) -> None:
     """build_state_result returns error='NOT_FOUND:file_missing' for absent file."""
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(tmp_path / "absent.py"),
@@ -135,7 +135,7 @@ def test_build_state_result_real_file_no_enum(tmp_path: Path) -> None:
     src = tmp_path / "plain.py"
     src.write_text("class Plain:\n    pass\n")
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -159,7 +159,7 @@ def test_build_state_result_finds_enum_members(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -184,7 +184,7 @@ def test_build_state_result_state_names_correct(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -211,7 +211,7 @@ def test_build_state_result_class_name_filter(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -234,7 +234,7 @@ def test_build_state_result_class_name_not_found(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -259,7 +259,7 @@ def test_build_state_result_max_nodes_truncates(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -293,7 +293,7 @@ def test_build_state_result_match_transitions_detected(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -325,7 +325,7 @@ def test_build_state_result_transition_sources_and_targets(tmp_path: Path) -> No
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -350,7 +350,7 @@ def test_build_state_result_no_match_zero_transitions(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -371,7 +371,7 @@ def test_build_state_result_no_match_zero_transitions(tmp_path: Path) -> None:
 
 def test_render_state_mermaid_starts_with_stateDiagram() -> None:
     """render_state_mermaid output starts with 'stateDiagram-v2'."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
+    from codexray.uml_export import render_state_mermaid
 
     mermaid = render_state_mermaid(["RED", "GREEN"], [])
     assert mermaid.startswith("stateDiagram-v2")
@@ -379,7 +379,7 @@ def test_render_state_mermaid_starts_with_stateDiagram() -> None:
 
 def test_render_state_mermaid_includes_states() -> None:
     """State names appear in the rendered Mermaid."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
+    from codexray.uml_export import render_state_mermaid
 
     mermaid = render_state_mermaid(["RED", "GREEN", "YELLOW"], [])
     assert "RED" in mermaid
@@ -389,7 +389,7 @@ def test_render_state_mermaid_includes_states() -> None:
 
 def test_render_state_mermaid_includes_initial_edges() -> None:
     """Each state gets a [*] --> StateName initial-state edge."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
+    from codexray.uml_export import render_state_mermaid
 
     mermaid = render_state_mermaid(["RED"], [])
     assert "[*] --> RED" in mermaid
@@ -397,8 +397,8 @@ def test_render_state_mermaid_includes_initial_edges() -> None:
 
 def test_render_state_mermaid_transition_edge() -> None:
     """Transitions appear as StateA --> StateB."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
-    from tree_sitter_analyzer.uml_state import StateTransition
+    from codexray.uml_export import render_state_mermaid
+    from codexray.uml_state import StateTransition
 
     transitions = [StateTransition(source="RED", target="GREEN")]
     mermaid = render_state_mermaid(["RED", "GREEN"], transitions)
@@ -407,8 +407,8 @@ def test_render_state_mermaid_transition_edge() -> None:
 
 def test_render_state_mermaid_transition_with_label() -> None:
     """Transition with label appears as StateA --> StateB : label."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
-    from tree_sitter_analyzer.uml_state import StateTransition
+    from codexray.uml_export import render_state_mermaid
+    from codexray.uml_state import StateTransition
 
     transitions = [StateTransition(source="IDLE", target="RUNNING", label="start")]
     mermaid = render_state_mermaid(["IDLE", "RUNNING"], transitions)
@@ -418,7 +418,7 @@ def test_render_state_mermaid_transition_with_label() -> None:
 
 def test_render_state_mermaid_approximation_note() -> None:
     """Mermaid output includes the RFC-mandated %% NOTE: state diagram comment."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
+    from codexray.uml_export import render_state_mermaid
 
     mermaid = render_state_mermaid(["A"], [])
     assert "%% NOTE: state diagram is a static approximation" in mermaid
@@ -426,7 +426,7 @@ def test_render_state_mermaid_approximation_note() -> None:
 
 def test_render_state_mermaid_empty_states() -> None:
     """Empty state list renders a sentinel node, not a crash."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
+    from codexray.uml_export import render_state_mermaid
 
     mermaid = render_state_mermaid([], [])
     # Deterministic sentinel render — exact pin (measured 2026-06-12)
@@ -457,7 +457,7 @@ def test_state_diagram_mermaid_type(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="Light", file_path=str(src))
@@ -476,7 +476,7 @@ def test_state_diagram_diagram_type(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="Light", file_path=str(src))
@@ -496,7 +496,7 @@ def test_state_diagram_analysis_kind_metadata(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="Light", file_path=str(src))
@@ -515,7 +515,7 @@ def test_state_diagram_note_in_metadata(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="Light", file_path=str(src))
@@ -545,7 +545,7 @@ def test_state_diagram_zero_transitions_info(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="Status", file_path=str(src))
@@ -556,7 +556,7 @@ def test_state_diagram_zero_transitions_info(tmp_path: Path) -> None:
 
 def test_state_diagram_missing_file_not_found(tmp_path: Path) -> None:
     """Missing file → verdict='NOT_FOUND' in metadata."""
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(
@@ -587,7 +587,7 @@ def test_state_diagram_mermaid_starts_stateDiagram_with_transitions(
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="Light", file_path=str(src))
@@ -608,7 +608,7 @@ def test_state_diagram_node_count_exact_no_transitions(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="AB", file_path=str(src))
@@ -639,7 +639,7 @@ def test_state_diagram_exact_node_count_with_transitions(tmp_path: Path) -> None
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="TrafficLight", file_path=str(src))
@@ -682,7 +682,7 @@ def test_assignment_transitions_detected_door_controller(tmp_path: Path) -> None
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -724,7 +724,7 @@ def test_assignment_transitions_combined_with_return(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -744,7 +744,7 @@ def test_assignment_transitions_combined_with_return(tmp_path: Path) -> None:
 
 def test_state_in_diagram_enum() -> None:
     """'state' appears in CodeGraphUMLTool schema diagram enum."""
-    from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+    from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
     tool = CodeGraphUMLTool()
     enum_vals = tool.get_tool_schema()["properties"]["diagram"]["enum"]
@@ -753,7 +753,7 @@ def test_state_in_diagram_enum() -> None:
 
 def test_uml_tool_schema_lists_diagrams_with_state() -> None:
     """Enum after P2-A + P2-B integration — exactly 6 members."""
-    from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+    from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
     tool = CodeGraphUMLTool()
     enum_vals = tool.get_tool_schema()["properties"]["diagram"]["enum"]
@@ -770,7 +770,7 @@ def test_uml_tool_schema_lists_diagrams_with_state() -> None:
 
 def test_state_diagram_validate_arguments_accepts_state() -> None:
     """validate_arguments accepts diagram='state' without error."""
-    from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+    from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
     tool = CodeGraphUMLTool()
     # Must not raise
@@ -779,7 +779,7 @@ def test_state_diagram_validate_arguments_accepts_state() -> None:
 
 def test_state_diagram_validate_arguments_rejects_unknown() -> None:
     """validate_arguments still rejects unknown diagram types."""
-    from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+    from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
     tool = CodeGraphUMLTool()
     with pytest.raises(ValueError, match="Unsupported UML diagram"):
@@ -793,7 +793,7 @@ def test_state_diagram_validate_arguments_rejects_unknown() -> None:
 
 def test_state_in_uml_cli_choices() -> None:
     """'state' is a valid choice for the --uml CLI flag."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     uml_action = next(a for a in parser._actions if "--uml" in (a.option_strings or []))
@@ -802,7 +802,7 @@ def test_state_in_uml_cli_choices() -> None:
 
 def test_uml_max_nodes_cli_flag_registered() -> None:
     """--uml-max-nodes is registered in the CLI parser."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     long_flags = {s for a in parser._actions for s in (a.option_strings or [])}
@@ -811,7 +811,7 @@ def test_uml_max_nodes_cli_flag_registered() -> None:
 
 def test_uml_max_nodes_cli_flag_default_50() -> None:
     """--uml-max-nodes default is 50 (matches RFC-0015 table)."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     action = next(
@@ -828,8 +828,8 @@ def test_uml_max_nodes_cli_flag_default_50() -> None:
 @pytest.mark.asyncio
 async def test_execute_state_diagram_not_found_missing_file(tmp_path: Path) -> None:
     """execute with diagram='state' and missing file returns verdict NOT_FOUND."""
-    from tree_sitter_analyzer.mcp.tools import uml_tool
-    from tree_sitter_analyzer.uml_export import UMLDiagram
+    from codexray.mcp.tools import uml_tool
+    from codexray.uml_export import UMLDiagram
 
     class FakeExporter:
         def state_diagram(
@@ -863,7 +863,7 @@ async def test_execute_state_diagram_not_found_missing_file(tmp_path: Path) -> N
     monkeypatch.setattr(uml_tool, "CodeGraphVisualizationHub", FakeHub)
 
     try:
-        from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+        from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
         tool = CodeGraphUMLTool("/repo")
         result = await tool.execute(
@@ -881,8 +881,8 @@ async def test_execute_state_diagram_not_found_missing_file(tmp_path: Path) -> N
 @pytest.mark.asyncio
 async def test_execute_state_diagram_success(tmp_path: Path) -> None:
     """execute with diagram='state' and a valid FakeExporter returns INFO verdict."""
-    from tree_sitter_analyzer.mcp.tools import uml_tool
-    from tree_sitter_analyzer.uml_export import UMLDiagram, UMLEdge
+    from codexray.mcp.tools import uml_tool
+    from codexray.uml_export import UMLDiagram, UMLEdge
 
     class FakeExporter:
         def state_diagram(
@@ -917,7 +917,7 @@ async def test_execute_state_diagram_success(tmp_path: Path) -> None:
     monkeypatch.setattr(uml_tool, "CodeGraphVisualizationHub", FakeHub)
 
     try:
-        from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+        from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
         tool = CodeGraphUMLTool("/repo")
         result = await tool.execute(
@@ -946,8 +946,8 @@ def test_uml_max_nodes_cli_mcp_default_parity() -> None:
 
     Both must be 50 (RFC-0015 table, P2b conformance).
     """
-    from tree_sitter_analyzer.cli_main import create_argument_parser
-    from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+    from codexray.cli_main import create_argument_parser
+    from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
     parser = create_argument_parser()
     cli_action = next(
@@ -989,7 +989,7 @@ def test_info_zero_transition_state_diagram_no_initial_edges(tmp_path: Path) -> 
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="Status", file_path=str(src))
@@ -1019,7 +1019,7 @@ def test_info_zero_transition_state_diagram_mermaid_starts_with_header(
         """)
     )
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(class_name="State", file_path=str(src))
@@ -1038,7 +1038,7 @@ def test_state_diagram_true_not_found_zero_states(tmp_path: Path) -> None:
     src = tmp_path / "no_enum.py"
     src.write_text("class Plain:\n    pass\n")
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(file_path=str(src))
@@ -1057,7 +1057,7 @@ def test_state_diagram_non_python_file_not_found_mentions_language(
     ts_file = tmp_path / "State.ts"
     ts_file.write_text("enum UserRole { Admin = 'admin', User = 'user' }\n")
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram(file_path=str(ts_file))
@@ -1090,7 +1090,7 @@ def test_extract_enum_members_includes_lowercase(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1146,7 +1146,7 @@ def test_second_enum_transitions_found_when_first_enum_has_none(
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1196,7 +1196,7 @@ def test_qualified_enum_base_states_and_transitions(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1241,7 +1241,7 @@ def test_enum_with_method_body_still_extracts_members(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1273,7 +1273,7 @@ def test_enum_with_docstring_skips_non_assignment_expressions(tmp_path: Path) ->
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1292,7 +1292,7 @@ def test_enum_with_docstring_skips_non_assignment_expressions(tmp_path: Path) ->
 
 def test_node_text_raw_none_returns_empty() -> None:
     """_node_text returns '' when node.text is None (line 92 branch)."""
-    from tree_sitter_analyzer.uml_state import _node_text
+    from codexray.uml_state import _node_text
 
     node = _make_ts_node("identifier", "")
     node.text = None  # override to None explicitly
@@ -1302,7 +1302,7 @@ def test_node_text_raw_none_returns_empty() -> None:
 
 def test_node_text_exception_returns_empty() -> None:
     """_node_text returns '' when node.text raises AttributeError (lines 95-96)."""
-    from tree_sitter_analyzer.uml_state import _node_text
+    from codexray.uml_state import _node_text
 
     class BadNode:
         @property
@@ -1315,7 +1315,7 @@ def test_node_text_exception_returns_empty() -> None:
 
 def test_node_text_long_string_truncated() -> None:
     """_node_text truncates at max_len (line 94 short-path covered)."""
-    from tree_sitter_analyzer.uml_state import _node_text
+    from codexray.uml_state import _node_text
 
     node = _make_ts_node("identifier", "A" * 80)
     result = _node_text(node, max_len=10)
@@ -1330,7 +1330,7 @@ def test_node_text_long_string_truncated() -> None:
 
 def test_build_state_result_parse_failed(tmp_path: Path) -> None:
     """build_state_result returns error='PARSE_FAILED' when parser returns None (line 332)."""
-    import tree_sitter_analyzer.uml_state as _state_module
+    import codexray.uml_state as _state_module
 
     src = tmp_path / "exists.py"
     src.write_text("class Foo(Enum):\n    A = 1\n")
@@ -1380,7 +1380,7 @@ def test_multi_enum_no_transitions_falls_back_to_all_members(tmp_path: Path) -> 
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1402,7 +1402,7 @@ def test_multi_enum_no_transitions_falls_back_to_all_members(tmp_path: Path) -> 
 
 def test_iter_case_clauses_direct_child_fallback() -> None:
     """_iter_case_clauses handles direct case_clause children (grammar fallback, line 262)."""
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # Build a minimal mock match_statement where case_clauses are direct children
     # (not inside a block). This exercises the line 260-262 fallback branch.
@@ -1424,7 +1424,7 @@ def test_extract_enum_members_with_empty_lhs_children_skipped() -> None:
     When an assignment mock has no children, lhs_children is empty ([]) and the
     `if lhs_children:` guard at line 153 is False — exercises the 153->150 branch.
     """
-    from tree_sitter_analyzer.uml_state import _extract_enum_members
+    from codexray.uml_state import _extract_enum_members
 
     # Create a class_definition node with a block containing an expression_statement
     # wrapping an assignment that has NO children.
@@ -1444,7 +1444,7 @@ def test_extract_enum_members_with_non_identifier_lhs_skipped() -> None:
     When the LHS child type is 'tuple' (e.g., `(a, b) = ...`), the `if lhs.type ==
     'identifier':` guard at line 155 is False — exercises the 155->150 branch.
     """
-    from tree_sitter_analyzer.uml_state import _extract_enum_members
+    from codexray.uml_state import _extract_enum_members
 
     tuple_lhs = _make_ts_node("tuple", "(A, B)")
     assignment = _make_ts_node("assignment", children=[tuple_lhs])
@@ -1463,7 +1463,7 @@ def test_iter_case_clauses_block_with_non_case_clause_child() -> None:
     When a block has a child that is NOT a case_clause (e.g. a comment or newline),
     the loop continues without appending it (258->257 branch).
     """
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # Block child is a comment node, not a case_clause
     comment_node = _make_ts_node("comment", "# comment")
@@ -1485,7 +1485,7 @@ def test_parse_enum_ref_no_match_returns_none() -> None:
     We invoke this indirectly via _extract_transitions with a case_pattern node
     whose text does NOT start with the class prefix.
     """
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # case_pattern with text "OtherClass.OPEN" — not matching "State." prefix
     non_matching = _make_ts_node("attribute", "OtherClass.OPEN")
@@ -1517,7 +1517,7 @@ def test_case_pattern_fallback_exercises_node_text_path() -> None:
     To trigger this: case_pattern's child is a non-matching attribute, but the
     case_pattern's own text is "State.A" — a matching enum ref.
     """
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # case_pattern child: text "other.X" — does NOT match "State." prefix
     non_match_child = _make_ts_node("attribute", "other.X")
@@ -1549,7 +1549,7 @@ def test_dotted_name_direct_source_member() -> None:
     this: when cc.type in ('dotted_name', 'attribute'), _parse_enum_ref is called
     directly on it.
     """
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # case_clause has a direct 'dotted_name' child with "State.A" text (source)
     # and a block child with return_statement (target)
@@ -1577,7 +1577,7 @@ def test_dotted_name_non_matching_source_skipped() -> None:
     _parse_enum_ref returns None → 286->271 branch fires (if m is not None: is False).
     source_member stays None and no transition is recorded.
     """
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # Direct dotted_name with non-matching text
     dotted_name = _make_ts_node("dotted_name", "Other.X")
@@ -1608,7 +1608,7 @@ def test_find_return_enum_ref_assignment_with_eq_first_reversed() -> None:
     the 216->215 branch (condition False → loop continues to next iteration).
     After skipping '=', the loop finds the enum ref and returns it.
     """
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # Assignment: children=[lhs, enum_ref, eq_token] — reversed: [eq_token, enum_ref, lhs]
     # First reversed child is '=' → condition False → skip → next is enum_ref → match → break
@@ -1636,7 +1636,7 @@ def test_find_return_enum_ref_assignment_non_matching_rhs_breaks() -> None:
     _parse_enum_ref returns None → `break` fires (line 220), exiting the reversed loop.
     No transition is recorded.
     """
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # Assignment: [lhs, =, non_enum_rhs] where rhs is a string literal, not an enum ref
     lhs_child = _make_ts_node("identifier", "x")
@@ -1665,7 +1665,7 @@ def test_find_return_enum_ref_assignment_no_children_no_crash() -> None:
     When the assignment node has an empty children list, the reversed loop exits
     immediately without finding any ref (exercises 215->221 back-edge = loop exits).
     """
-    from tree_sitter_analyzer.uml_state import _extract_transitions
+    from codexray.uml_state import _extract_transitions
 
     # Assignment with no children — reversed([]) yields nothing
     assignment = _make_ts_node("assignment", children=[])
@@ -1706,7 +1706,7 @@ def test_find_return_enum_ref_assignment_branch_via_integration(tmp_path: Path) 
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1739,7 +1739,7 @@ def test_build_state_result_ignores_underscore_prefixed_members(tmp_path: Path) 
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1777,7 +1777,7 @@ def test_multi_enum_dedup_members_preserves_unique(tmp_path: Path) -> None:
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),
@@ -1834,7 +1834,7 @@ def test_multi_enum_both_have_transitions_aggregated_and_deduped(
         """)
     )
 
-    from tree_sitter_analyzer.uml_state import build_state_result
+    from codexray.uml_state import build_state_result
 
     result = build_state_result(
         file_path=str(src),

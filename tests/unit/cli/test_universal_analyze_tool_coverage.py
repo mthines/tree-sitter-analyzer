@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Additional tests for tree_sitter_analyzer.mcp.tools.universal_analyze_tool module.
+Additional tests for codexray.mcp.tools.universal_analyze_tool module.
 
 This module provides additional test coverage for the UniversalAnalyzeTool
 focusing on analysis types, metrics extraction, and validation.
@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
+from codexray.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
 
 
 class TestUniversalAnalyzeToolAnalysisTypes:
@@ -399,7 +399,7 @@ class TestUniversalAnalyzeToolErrorHandling:
     @pytest.mark.asyncio
     async def test_execute_invalid_analysis_type(self, tool, temp_dir):
         """Test execute with invalid analysis_type."""
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         file_path = Path(temp_dir) / "test.py"
         file_path.write_text("def hello(): pass")
@@ -416,7 +416,7 @@ class TestUniversalAnalyzeToolErrorHandling:
     @pytest.mark.asyncio
     async def test_execute_unsupported_language(self, tool, temp_dir):
         """Test execute with unsupported language."""
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         file_path = Path(temp_dir) / "test.xyz"
         file_path.write_text("some content")
@@ -433,7 +433,7 @@ class TestUniversalAnalyzeToolErrorHandling:
     @pytest.mark.asyncio
     async def test_execute_unknown_file_extension(self, tool, temp_dir):
         """Test execute with unknown file extension."""
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         file_path = Path(temp_dir) / "test.unknown"
         file_path.write_text("some content")

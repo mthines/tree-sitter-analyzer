@@ -15,8 +15,8 @@ import pytest
 
 from tests.unit.grammar_coverage.conftest import _make_parser_mock
 
-_PM_PATCH = "tree_sitter_analyzer.plugins.manager.PluginManager"
-_PARSER_PATCH = "tree_sitter_analyzer.language_loader.loader.create_parser_safely"
+_PM_PATCH = "codexray.plugins.manager.PluginManager"
+_PARSER_PATCH = "codexray.language_loader.loader.create_parser_safely"
 
 
 def _make_plugin_mock(start_line: int, end_line: int) -> MagicMock:
@@ -43,7 +43,7 @@ class TestWrapperNodesFalsePositivesC:
     @pytest.mark.asyncio
     async def test_wrapper_with_multiple_children(self):
         """测试 wrapper 包含多个子节点"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -110,7 +110,7 @@ class TestWrapperNodesFalsePositivesC:
     @pytest.mark.asyncio
     async def test_no_wrapper_direct_extraction(self):
         """测试没有 wrapper 的直接提取（正常情况，无 false positive）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 
@@ -148,7 +148,7 @@ class TestWrapperNodesFalsePositivesC:
     @pytest.mark.asyncio
     async def test_adjacent_nodes_no_overlap(self):
         """测试相邻节点无重叠（应该正确区分）"""
-        from tree_sitter_analyzer.grammar_coverage.validator import (
+        from codexray.grammar_coverage.validator import (
             _get_covered_node_types_from_plugin,
         )
 

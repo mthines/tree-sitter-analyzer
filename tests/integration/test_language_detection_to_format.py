@@ -2,7 +2,7 @@
 
 import textwrap
 
-from tree_sitter_analyzer.api import analyze_file
+from codexray.api import analyze_file
 
 _PYTHON_SRC = textwrap.dedent("""\
     class Calculator:

@@ -5,11 +5,11 @@ import sqlite3
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools.symbol_resolve_tool import (
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools.symbol_resolve_tool import (
     CodeGraphSymbolResolveTool,
 )
-from tree_sitter_analyzer.symbol_resolver import SymbolResolver
+from codexray.symbol_resolver import SymbolResolver
 
 
 @pytest.fixture
@@ -193,7 +193,7 @@ class TestSymbolResolverEngine:
         cache.close()
 
     def test_definition_location_to_dict(self):
-        from tree_sitter_analyzer.symbol_resolver import DefinitionLocation
+        from codexray.symbol_resolver import DefinitionLocation
 
         loc = DefinitionLocation(
             file="app.py",
@@ -212,7 +212,7 @@ class TestSymbolResolverEngine:
         assert d["context"] == "class Foo:"
 
     def test_reference_location_to_dict(self):
-        from tree_sitter_analyzer.symbol_resolver import ReferenceLocation
+        from codexray.symbol_resolver import ReferenceLocation
 
         loc = ReferenceLocation(
             file="app.py",

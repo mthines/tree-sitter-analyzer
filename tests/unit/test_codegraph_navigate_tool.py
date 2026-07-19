@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_navigate_tool import (
+from codexray.mcp.tools.codegraph_navigate_tool import (
     CodeGraphNavigateTool,
     _transitive_callees,
     _transitive_callers,
@@ -77,7 +77,7 @@ class TestExecuteDefinition:
         with (
             patch.object(tool_with_root, "get_cache", return_value=mock_cache),
             patch(
-                "tree_sitter_analyzer.symbol_resolver.SymbolResolver",
+                "codexray.symbol_resolver.SymbolResolver",
                 return_value=mock_resolver,
             ),
         ):
@@ -162,7 +162,7 @@ class TestExecuteHierarchy:
     async def test_hierarchy_lists_capped_but_counts_full(self, tool):
         """Wave 1b (audit nav-08b): emitted caller/callee lists are capped so a
         hub does not overflow the token budget; counts stay accurate."""
-        from tree_sitter_analyzer.mcp.tools.codegraph_navigate_tool import _MAX_LISTED
+        from codexray.mcp.tools.codegraph_navigate_tool import _MAX_LISTED
 
         mock_graph = MagicMock()
         mock_graph.build.return_value = None
@@ -280,7 +280,7 @@ class TestDefinitionBodyInlining:
 
     @pytest.fixture
     def indexed(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         (tmp_path / "svc.py").write_text(
             "class UserService:\n"

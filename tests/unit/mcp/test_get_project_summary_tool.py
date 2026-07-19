@@ -14,10 +14,10 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.get_project_summary_tool import (
+from codexray.mcp.tools.get_project_summary_tool import (
     GetProjectSummaryTool,
 )
-from tree_sitter_analyzer.mcp.utils.project_index import ProjectIndexManager
+from codexray.mcp.utils.project_index import ProjectIndexManager
 
 
 @pytest.fixture

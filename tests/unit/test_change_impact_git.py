@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.mcp.tools.utils.change_impact_git import (
+from codexray.mcp.tools.utils.change_impact_git import (
     _get_changed_files,
     _get_diff_stat,
     _get_untracked_files,
@@ -17,20 +17,20 @@ from tree_sitter_analyzer.mcp.tools.utils.change_impact_git import (
 
 
 class TestRunGit:
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git.subprocess.run")
+    @patch("codexray.mcp.tools.utils.change_impact_git.subprocess.run")
     def test_success(self, mock_run):
         mock_run.return_value = MagicMock(returncode=0, stdout="M file.py\n")
         code, out = _run_git(["status", "--short"])
         assert code == 0
         assert "file.py" in out
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git.subprocess.run")
+    @patch("codexray.mcp.tools.utils.change_impact_git.subprocess.run")
     def test_failure(self, mock_run):
         mock_run.return_value = MagicMock(returncode=128, stdout="")
         code, out = _run_git(["status"])
         assert code == 128
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git.subprocess.run")
+    @patch("codexray.mcp.tools.utils.change_impact_git.subprocess.run")
     def test_timeout(self, mock_run):
         import subprocess
 
@@ -83,33 +83,33 @@ class TestWithPathspec:
 
 
 class TestGetUntrackedFiles:
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git._run_git")
+    @patch("codexray.mcp.tools.utils.change_impact_git._run_git")
     def test_returns_files(self, mock_git):
         mock_git.return_value = (0, "new_file.py\n")
         files = _get_untracked_files("/src", None)
         assert "new_file.py" in files
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git._run_git")
+    @patch("codexray.mcp.tools.utils.change_impact_git._run_git")
     def test_git_failure(self, mock_git):
         mock_git.return_value = (128, "")
         assert _get_untracked_files("/src", None) == []
 
 
 class TestGetChangedFiles:
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git._run_git")
+    @patch("codexray.mcp.tools.utils.change_impact_git._run_git")
     def test_default_mode(self, mock_git):
         # --name-only format: plain filenames, no status prefix
         mock_git.return_value = (0, "file.py\nnew.py\n")
         files = _get_changed_files("diff", "/src", None)
         assert "file.py" in files
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git._run_git")
+    @patch("codexray.mcp.tools.utils.change_impact_git._run_git")
     def test_staged_mode(self, mock_git):
         mock_git.return_value = (0, "staged.py\n")
         files = _get_changed_files("staged", "/src", None)
         assert "staged.py" in files
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git._run_git")
+    @patch("codexray.mcp.tools.utils.change_impact_git._run_git")
     def test_branch_mode(self, mock_git):
         mock_git.return_value = (0, "branch.py\n")
         files = _get_changed_files("branch", "/src", None)
@@ -117,7 +117,7 @@ class TestGetChangedFiles:
 
 
 class TestGetDiffStat:
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git._run_git")
+    @patch("codexray.mcp.tools.utils.change_impact_git._run_git")
     def test_returns_stat(self, mock_git):
         mock_git.return_value = (
             0,
@@ -126,7 +126,7 @@ class TestGetDiffStat:
         stat = _get_diff_stat("diff", "/src", None)
         assert "files changed" in stat
 
-    @patch("tree_sitter_analyzer.mcp.tools.utils.change_impact_git._run_git")
+    @patch("codexray.mcp.tools.utils.change_impact_git._run_git")
     def test_git_failure(self, mock_git):
         mock_git.return_value = (128, "")
         stat = _get_diff_stat("diff", "/src", None)

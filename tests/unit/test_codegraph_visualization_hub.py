@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.mcp.tools.codegraph_visualization_hub import (
+from codexray.mcp.tools.codegraph_visualization_hub import (
     CodeGraphVisualizationHub,
     query_flow_uml_facet,
     render_call_flowchart,

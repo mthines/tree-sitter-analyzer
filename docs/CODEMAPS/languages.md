@@ -1,8 +1,8 @@
 <!-- Generated: 2026-05-24; doc-code re-sync: 2026-06-17 -->
 # Languages Codemap
 
-22 language plugins under `tree_sitter_analyzer/languages/` (17 single-file + 5 subdir packages).
-Each implements the `LanguagePlugin` interface (`tree_sitter_analyzer/plugins/base.py`).
+22 language plugins under `codexray/languages/` (17 single-file + 5 subdir packages).
+Each implements the `LanguagePlugin` interface (`codexray/plugins/base.py`).
 
 ## Wiring tiers (canonical breakdown — see README "Supported Languages")
 
@@ -68,7 +68,7 @@ class LanguagePlugin(ABC):
 
 1. Add `tree_sitter_<lang>` to `pyproject.toml` dependencies.
 2. Create `languages/<lang>_plugin.py` extending `LanguagePlugin`.
-3. Register in `tree_sitter_analyzer/languages/` `_LANGUAGE_PLUGIN_PATHS`.
+3. Register in `codexray/languages/` `_LANGUAGE_PLUGIN_PATHS`.
 4. Add tree-sitter query file in `queries/<lang>/`.
 5. Generate golden corpus + expected.json in `tests/golden/`.
 6. Coverage validator (`grammar_coverage/validator.py`) auto-discovers the plugin.
@@ -96,6 +96,6 @@ class LanguagePlugin(ABC):
 
 - [`docs/grammar-coverage-framework.md`](../grammar-coverage-framework.md)
 - [`docs/new-language-support-checklist.md`](../new-language-support-checklist.md)
-- [`tree_sitter_analyzer/plugins/base.py`](../../tree_sitter_analyzer/plugins/base.py) — interface
-- [`tree_sitter_analyzer/languages/`](../../tree_sitter_analyzer/languages/) — language → plugin lookup (plugins were reorganised into the `languages/` subdirectory)
+- [`codexray/plugins/base.py`](../../codexray/plugins/base.py) — interface
+- [`codexray/languages/`](../../codexray/languages/) — language → plugin lookup (plugins were reorganised into the `languages/` subdirectory)
 - [`scripts/codemap-sync-check.sh`](../../scripts/codemap-sync-check.sh) — pre-commit gate that blocks new `languages/<lang>_plugin/` without a `languages.md` update

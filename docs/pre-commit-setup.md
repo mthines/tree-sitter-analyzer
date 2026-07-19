@@ -2,7 +2,7 @@
 
 ## 🎯 概要
 
-tree-sitter-analyzerプロジェクトでは、**パフォーマンス最適化された**包括的なpre-commit hooksを使用しています。修正したファイルのみをチェックすることで、高速な開発体験と高品質なコードベースの両立を実現しています。
+codexrayプロジェクトでは、**パフォーマンス最適化された**包括的なpre-commit hooksを使用しています。修正したファイルのみをチェックすることで、高速な開発体験と高品質なコードベースの両立を実現しています。
 
 ## ⚡ パフォーマンス最適化
 
@@ -104,7 +104,7 @@ uv run pre-commit run --all-files
 
 ```bash
 # コードを編集
-vim tree_sitter_analyzer/some_file.py
+vim codexray/some_file.py
 
 # 通常通りコミット（自動的にpre-commit hooksが実行される）
 git add .
@@ -126,7 +126,7 @@ uv run pre-commit run black
 uv run pre-commit run
 
 # 特定のファイルに対して実行
-uv run pre-commit run --files tree_sitter_analyzer/core.py
+uv run pre-commit run --files codexray/core.py
 ```
 
 #### **全ファイルチェック（包括的）**

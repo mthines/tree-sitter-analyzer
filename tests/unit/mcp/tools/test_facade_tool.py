@@ -25,8 +25,8 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.base_tool import BaseMCPTool
-from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
+from codexray.mcp.tools.base_tool import BaseMCPTool
+from codexray.mcp.tools.facade_tool import FacadeTool
 
 # --------------------------------------------------------------------------
 # INVARIANT DELEGATION NOTICE
@@ -445,7 +445,7 @@ def test_facade_schema_lists_action_and_core_params() -> None:
     # action is required
     assert "action" in schema.get("required", [])
     # Slim schema: only action + the 9 core params, never a per-inner union.
-    from tree_sitter_analyzer.mcp.tools.facade_tool import _CORE_FACADE_PARAMS
+    from codexray.mcp.tools.facade_tool import _CORE_FACADE_PARAMS
 
     assert set(props) == {"action"} | set(_CORE_FACADE_PARAMS)
     # Inner-specific param ``limit`` (declared by _FakeSymbolTool) IS a core
@@ -505,7 +505,7 @@ def test_facade_schema_not_strict_additional_properties() -> None:
 
 
 def test_search_facade_builds_and_routes() -> None:
-    from tree_sitter_analyzer.mcp.tools.search_facade import build_search_facade
+    from codexray.mcp.tools.search_facade import build_search_facade
 
     facade = build_search_facade(project_root=None)
     assert facade.facade_name == "search"
@@ -522,7 +522,7 @@ def test_search_facade_builds_and_routes() -> None:
 
 def test_search_facade_batch_description_documents_query_item_shape() -> None:
     """#569: schema-reading agents must see batch query items use pattern."""
-    from tree_sitter_analyzer.mcp.tools.search_facade import build_search_facade
+    from codexray.mcp.tools.search_facade import build_search_facade
 
     definition = build_search_facade(project_root=None).get_tool_definition()
     description = definition["description"]
@@ -541,7 +541,7 @@ def test_search_facade_symbol_action_does_not_raise_strict(tmp_path: Any) -> Non
     inner may still return its own NOT_FOUND/error envelope (e.g. no index in
     a fresh tmp dir) — that is correct behaviour, not a strict-param failure.
     """
-    from tree_sitter_analyzer.mcp.tools.search_facade import build_search_facade
+    from codexray.mcp.tools.search_facade import build_search_facade
 
     facade = build_search_facade(project_root=str(tmp_path))
     try:
@@ -563,8 +563,8 @@ def test_search_facade_schema_declares_kind_with_enum() -> None:
     not discover kind=constant filtering. The facade must declare ``kind``
     with the authoritative enum, sourced from the symbol-search inner tool so
     facade/inner/CLI can never drift apart."""
-    from tree_sitter_analyzer.mcp.tools.search_facade import build_search_facade
-    from tree_sitter_analyzer.mcp.tools.symbol_search_tool import SYMBOL_SEARCH_KINDS
+    from codexray.mcp.tools.search_facade import build_search_facade
+    from codexray.mcp.tools.symbol_search_tool import SYMBOL_SEARCH_KINDS
 
     # The authoritative enum: exactly the kinds _extract_symbols emits into
     # ast_symbol_rows (function/method/class/enum/variable/import/constant) plus

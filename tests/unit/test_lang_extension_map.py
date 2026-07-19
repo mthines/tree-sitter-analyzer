@@ -7,7 +7,7 @@ indexer boundary.
 
 Three invariants enforced here:
 
-1. Every language plugin under ``tree_sitter_analyzer/languages/`` that
+1. Every language plugin under ``codexray/languages/`` that
    advertises a ``self.language`` token MUST have at least one
    extension entry in ``EXT_TO_LANG`` — otherwise the plugin can never
    be reached via the indexer.
@@ -28,7 +28,7 @@ import pytest
 
 # -- helpers ------------------------------------------------------------
 
-PLUGIN_DIR = Path("tree_sitter_analyzer/languages")
+PLUGIN_DIR = Path("codexray/languages")
 
 # Plugins that intentionally have no extension wiring (yet). Listed
 # explicitly so adding a new scaffold plugin doesn't silently slip the
@@ -100,14 +100,14 @@ def _discover_plugin_languages() -> set[str]:
 
 def test_every_plugin_has_extension_wiring() -> None:
     """Every plugin must be reachable via at least one file extension."""
-    from tree_sitter_analyzer.languages.lang_extension_map import supported_languages
+    from codexray.languages.lang_extension_map import supported_languages
 
     plugin_langs = _discover_plugin_languages()
     mapped_langs = supported_languages()
     missing = sorted(plugin_langs - mapped_langs - SCAFFOLDS_WITHOUT_EXT)
     assert missing == [], (
         f"These language plugins exist but have NO extension entry in "
-        f"tree_sitter_analyzer/_lang_extension_map.py::EXT_TO_LANG: "
+        f"codexray/_lang_extension_map.py::EXT_TO_LANG: "
         f"{missing}. Either wire them (preferred) or add to "
         f"SCAFFOLDS_WITHOUT_EXT with a tracking note. This is the "
         f"same class of bug as the 2026-05-24 Swift/Kotlin/Ruby/PHP/"
@@ -119,8 +119,8 @@ def test_every_plugin_has_extension_wiring() -> None:
 
 
 def test_ast_cache_alias_matches_canonical() -> None:
-    from tree_sitter_analyzer.ast_cache import _EXT_TO_LANG
-    from tree_sitter_analyzer.languages.lang_extension_map import EXT_TO_LANG
+    from codexray.ast_cache import _EXT_TO_LANG
+    from codexray.languages.lang_extension_map import EXT_TO_LANG
 
     assert _EXT_TO_LANG is EXT_TO_LANG, (
         "ast_cache._EXT_TO_LANG must be the SAME object as "
@@ -130,8 +130,8 @@ def test_ast_cache_alias_matches_canonical() -> None:
 
 
 def test_project_graph_alias_resolves_via_canonical() -> None:
-    from tree_sitter_analyzer.languages.lang_extension_map import language_from_ext
-    from tree_sitter_analyzer.project_graph import _language_from_ext
+    from codexray.languages.lang_extension_map import language_from_ext
+    from codexray.project_graph import _language_from_ext
 
     for sample in (
         "foo.py",
@@ -161,7 +161,7 @@ def test_project_graph_alias_resolves_via_canonical() -> None:
     ],
 )
 def test_long_broken_extensions_stay_wired(ext: str, expected: str) -> None:
-    from tree_sitter_analyzer.languages.lang_extension_map import language_from_ext
+    from codexray.languages.lang_extension_map import language_from_ext
 
     assert language_from_ext(f"foo{ext}") == expected, (
         f"{ext} → {expected} regression. This wiring was missing for "
@@ -180,9 +180,9 @@ def test_swiftinterface_resolves_in_all_known_ext_maps() -> None:
     they cover different code paths). All of them must agree, or a
     file resolves as swift in one path and ``unknown`` in another.
     """
-    from tree_sitter_analyzer.file_handler import detect_language_from_extension
-    from tree_sitter_analyzer.language_detector import LanguageDetector
-    from tree_sitter_analyzer.languages.lang_extension_map import language_from_ext
+    from codexray.file_handler import detect_language_from_extension
+    from codexray.language_detector import LanguageDetector
+    from codexray.languages.lang_extension_map import language_from_ext
 
     sample = "Foundation.swiftinterface"
 

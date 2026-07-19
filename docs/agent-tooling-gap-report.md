@@ -23,7 +23,7 @@ No local Claude Code source-analysis artifact was found with `rg` during this pa
 
 ## Product Thesis
 
-Tree-sitter Analyzer should be the structural workbench for coding agents: local, bounded, reproducible code intelligence that every agent can call through MCP and every human or CI job can call through CLI.
+CodeXray should be the structural workbench for coding agents: local, bounded, reproducible code intelligence that every agent can call through MCP and every human or CI job can call through CLI.
 
 The distinctive value is not "another chat coding tool." It is agent-grade code context with hard contracts:
 

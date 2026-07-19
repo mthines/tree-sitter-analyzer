@@ -8,7 +8,7 @@ from io import StringIO
 from pathlib import Path
 from unittest.mock import patch
 
-from tree_sitter_analyzer.cli_main import main
+from codexray.cli_main import main
 
 
 class TestCLIAdvancedOptions:
@@ -130,9 +130,9 @@ class TestCLIAdvancedOptions:
         )
 
         with patch(
-            "tree_sitter_analyzer.core.analysis_engine.UnifiedAnalysisEngine.analyze"
+            "codexray.core.analysis_engine.UnifiedAnalysisEngine.analyze"
         ) as mock_analyze:
-            from tree_sitter_analyzer.models import AnalysisResult
+            from codexray.models import AnalysisResult
 
             failed_result = AnalysisResult(
                 file_path=sample_java_file,
@@ -330,9 +330,9 @@ class TestCLISummaryOption:
         )
 
         with patch(
-            "tree_sitter_analyzer.core.analysis_engine.UnifiedAnalysisEngine.analyze"
+            "codexray.core.analysis_engine.UnifiedAnalysisEngine.analyze"
         ) as mock_analyze:
-            from tree_sitter_analyzer.models import AnalysisResult
+            from codexray.models import AnalysisResult
 
             failed_result = AnalysisResult(
                 file_path=sample_java_file,
@@ -434,9 +434,9 @@ class TestCLIStructureOption:
         )
 
         with patch(
-            "tree_sitter_analyzer.core.analysis_engine.UnifiedAnalysisEngine.analyze"
+            "codexray.core.analysis_engine.UnifiedAnalysisEngine.analyze"
         ) as mock_analyze:
-            from tree_sitter_analyzer.models import AnalysisResult
+            from codexray.models import AnalysisResult
 
             failed_result = AnalysisResult(
                 file_path=sample_java_file,

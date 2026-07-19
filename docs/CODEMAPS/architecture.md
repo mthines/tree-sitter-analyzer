@@ -1,12 +1,12 @@
 <!-- Generated: 2026-05-22; doc-code re-sync: 2026-06-17 -->
 # Architecture Codemap
 
-High-level topology of the `tree-sitter-analyzer` Python package.
+High-level topology of the `codexray` Python package.
 
 ## Subsystem Layout
 
 ```
-tree_sitter_analyzer/
+codexray/
 ├── cli/              ← CLI entry points + commands           (cli.md)
 ├── mcp/              ← MCP server + 8 facade tools             (mcp-tools.md)
 │   ├── server.py     ← stdio transport, tool registration
@@ -79,8 +79,8 @@ contract violation.**
 
 | Surface | Module | Notes |
 |---|---|---|
-| `tree-sitter-analyzer` CLI | `cli_main.py` → `cli/` | Human-facing, JSON default |
-| `tree-sitter-analyzer-mcp` MCP stdio server | `mcp/server.py` | AI-agent-facing, TOON default |
+| `codexray` CLI | `cli_main.py` → `cli/` | Human-facing, JSON default |
+| `codexray-mcp` MCP stdio server | `mcp/server.py` | AI-agent-facing, TOON default |
 | `miswire-audit` | `miswire_audit.py` | Run-on-your-repo cross-language correctness demo |
 | `list-files` / `search-content` / `find-and-grep` | `cli/commands/*_cli.py` | fd / ripgrep / fd+rg standalone utilities |
 | Python API (no console script) | `api.py` | Embeddable library entry |

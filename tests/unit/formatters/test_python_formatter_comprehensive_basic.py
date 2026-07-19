@@ -5,7 +5,7 @@ Tests cover basic functionality, full format, compact format, and method formatt
 
 import pytest
 
-from tree_sitter_analyzer.formatters.python_formatter import PythonTableFormatter
+from codexray.formatters.python_formatter import PythonTableFormatter
 
 
 class TestPythonTableFormatterBasic:

@@ -3,8 +3,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-# tree_sitter_analyzer.utils.tree_sitter_compat をインポート
-from tree_sitter_analyzer.utils.tree_sitter_compat import (
+# codexray.utils.tree_sitter_compat をインポート
+from codexray.utils.tree_sitter_compat import (
     TreeSitterQueryCompat,
     create_query_safely,
     get_node_text_safe,
@@ -204,7 +204,7 @@ class TestTreeSitterCompatCoverage:
         """Test safe_execute_query wrapper"""
         # Success case
         with patch(
-            "tree_sitter_analyzer.utils.tree_sitter_compat.TreeSitterQueryCompat.execute_query"
+            "codexray.utils.tree_sitter_compat.TreeSitterQueryCompat.execute_query"
         ) as mock_exec:
             mock_exec.return_value = ["result"]
             result = TreeSitterQueryCompat.safe_execute_query(None, "q", None)
@@ -212,7 +212,7 @@ class TestTreeSitterCompatCoverage:
 
         # Failure case
         with patch(
-            "tree_sitter_analyzer.utils.tree_sitter_compat.TreeSitterQueryCompat.execute_query"
+            "codexray.utils.tree_sitter_compat.TreeSitterQueryCompat.execute_query"
         ) as mock_exec:
             mock_exec.side_effect = Exception("Fail")
             result = TreeSitterQueryCompat.safe_execute_query(

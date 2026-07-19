@@ -2,7 +2,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.queries.go import (
+from codexray.queries.go import (
     ALL_QUERIES,
     GO_QUERIES,
     GO_QUERY_DESCRIPTIONS,

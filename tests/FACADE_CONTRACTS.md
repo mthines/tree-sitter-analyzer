@@ -15,14 +15,14 @@ Last updated: 2026-06-21 (Queue 3)
 
 | Facade | Builder Function | Module |
 |--------|-----------------|--------|
-| Edit | `build_edit_facade` | `tree_sitter_analyzer.mcp.tools.edit_facade` |
-| Health | `build_health_facade` | `tree_sitter_analyzer.mcp.tools.health_facade` |
-| Index | `build_index_facade` | `tree_sitter_analyzer.mcp.tools.index_facade` |
-| Nav | `build_nav_facade` | `tree_sitter_analyzer.mcp.tools.nav_facade` |
-| Project | `build_project_facade` | `tree_sitter_analyzer.mcp.tools.project_facade` |
-| Search | `build_search_facade` | `tree_sitter_analyzer.mcp.tools.search_facade` |
-| Structure | `build_structure_facade` | `tree_sitter_analyzer.mcp.tools.structure_facade` |
-| Viz | `build_viz_facade` | `tree_sitter_analyzer.mcp.tools.viz_facade` |
+| Edit | `build_edit_facade` | `codexray.mcp.tools.edit_facade` |
+| Health | `build_health_facade` | `codexray.mcp.tools.health_facade` |
+| Index | `build_index_facade` | `codexray.mcp.tools.index_facade` |
+| Nav | `build_nav_facade` | `codexray.mcp.tools.nav_facade` |
+| Project | `build_project_facade` | `codexray.mcp.tools.project_facade` |
+| Search | `build_search_facade` | `codexray.mcp.tools.search_facade` |
+| Structure | `build_structure_facade` | `codexray.mcp.tools.structure_facade` |
+| Viz | `build_viz_facade` | `codexray.mcp.tools.viz_facade` |
 
 Note: `search` uses the standard FacadeTool action-map protocol (action=symbol/query/content/grep/batch)
 and is included in the parametrized contract tests. The `content` action is a bespoke F5 route

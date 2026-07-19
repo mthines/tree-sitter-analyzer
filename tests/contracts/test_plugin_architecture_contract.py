@@ -17,8 +17,8 @@ except ImportError:  # Python 3.10 — fall back to the tomli back-port
     import tomli as tomllib
 from hypothesis import settings as hypothesis_settings
 
-from tree_sitter_analyzer.cli_main import create_argument_parser
-from tree_sitter_analyzer.mcp.server import _create_tool_registry
+from codexray.cli_main import create_argument_parser
+from codexray.mcp.server import _create_tool_registry
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SKIPPED_SCAN_DIRS = {
@@ -30,7 +30,7 @@ SKIPPED_SCAN_DIRS = {
     ".uv-cache",
     ".venv",
 }
-PLUGINS_DIR = PROJECT_ROOT / "tree_sitter_analyzer" / "languages"
+PLUGINS_DIR = PROJECT_ROOT / "codexray" / "languages"
 
 
 def _discover_plugin_files() -> list[tuple[str, Path]]:

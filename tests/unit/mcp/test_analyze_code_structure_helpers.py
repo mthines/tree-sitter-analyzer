@@ -5,11 +5,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+from codexray.mcp.tools.analyze_code_structure_helpers import (
     _convert_class,
     extract_metadata,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     _build_next_steps,
     _format_table,
 )
@@ -57,7 +57,7 @@ class TestAnalyzeCodeStructureFormatting:
         formatter.format_structure.return_value = "line1\r\nline2\r\n"
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+            "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
             return_value=formatter,
         ) as get_formatter:
             output = _format_table({}, MagicMock(), "python", "full")
@@ -68,7 +68,7 @@ class TestAnalyzeCodeStructureFormatting:
     def test_format_table_raises_for_unsupported_format(self):
         """Unsupported formats should fail before formatter lookup."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.is_format_supported",
+            "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.is_format_supported",
             return_value=False,
         ):
             with pytest.raises(ValueError, match="Unsupported format type"):
@@ -271,7 +271,7 @@ class TestResolverMockLeakGuard:
     def test_bare_mock_extends_resolves_to_none(self):
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+        from codexray.mcp.tools.analyze_code_structure_helpers import (
             _resolve_class_extends,
         )
 
@@ -282,7 +282,7 @@ class TestResolverMockLeakGuard:
     def test_bare_mock_implements_resolves_to_empty(self):
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+        from codexray.mcp.tools.analyze_code_structure_helpers import (
             _resolve_class_implements,
         )
 
@@ -293,7 +293,7 @@ class TestResolverMockLeakGuard:
     def test_bare_mock_outline_resolvers_safe(self):
         from unittest.mock import MagicMock
 
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _resolve_extends,
             _resolve_implements,
         )

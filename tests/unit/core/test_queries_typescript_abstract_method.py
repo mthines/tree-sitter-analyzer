@@ -16,9 +16,9 @@ from __future__ import annotations
 import tree_sitter
 from tree_sitter_typescript import language_typescript
 
-from tree_sitter_analyzer.languages.typescript_plugin.plugin import TypeScriptPlugin
-from tree_sitter_analyzer.queries import typescript as ts_queries
-from tree_sitter_analyzer.utils.tree_sitter_compat import TreeSitterQueryCompat
+from codexray.languages.typescript_plugin.plugin import TypeScriptPlugin
+from codexray.queries import typescript as ts_queries
+from codexray.utils.tree_sitter_compat import TreeSitterQueryCompat
 
 # ---------------------------------------------------------------------------
 # Shared helpers

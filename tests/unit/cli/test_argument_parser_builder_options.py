@@ -5,8 +5,8 @@ import argparse
 
 import pytest
 
-from tree_sitter_analyzer import __version__
-from tree_sitter_analyzer.cli.argument_parser_builder import (
+from codexray import __version__
+from codexray.cli.argument_parser_builder import (
     CLI_EPILOG,
     _add_agent_skills_options,
     _add_agent_workflow_options,

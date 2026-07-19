@@ -16,8 +16,8 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.graph.edge_store import (
+from codexray.ast_cache import ASTCache
+from codexray.graph.edge_store import (
     Edge,
     EdgeKind,
     EdgeStore,

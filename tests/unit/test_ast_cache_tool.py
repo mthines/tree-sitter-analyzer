@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
+from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
 
 
 class TestASTCacheToolInit:
@@ -34,7 +34,7 @@ class TestGetCache:
             tool.get_cache()
 
     def test_creates_cache_with_project_root(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         tool = ASTCacheTool(project_root=str(tmp_path))
         cache = tool.get_cache()

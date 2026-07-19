@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import textwrap
 
-from tree_sitter_analyzer.call_graph import CallGraph
+from codexray.call_graph import CallGraph
 
 
 def _callee_names(cg: CallGraph, func: str) -> list[str]:

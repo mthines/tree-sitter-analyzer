@@ -21,16 +21,16 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+from codexray.mcp.server import CodeXrayMCPServer
 
 
-def _capture_call_tool_handler(server: TreeSitterAnalyzerMCPServer):
+def _capture_call_tool_handler(server: CodeXrayMCPServer):
     """Capture the ``handle_call_tool`` closure registered by ``create_server``.
 
     Mirrors ``test_nav_impact_boundary.py`` / ``test_toon_compact_only.py``.
     """
-    with patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True):
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+    with patch("codexray.mcp.server.MCP_AVAILABLE", True):
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured: dict = {}
 
@@ -94,17 +94,17 @@ async def _call(handler, output_format: str) -> dict[str, Any]:
     mock_graph.callers_of.return_value = [dict(c) for c in _CALLERS]
     with (
         patch(
-            "tree_sitter_analyzer.mcp.tools.callers_tool"
+            "codexray.mcp.tools.callers_tool"
             ".CodeGraphCallersTool._try_get_cache",
             return_value=None,
         ),
         patch(
-            "tree_sitter_analyzer.mcp.tools.callers_tool"
+            "codexray.mcp.tools.callers_tool"
             ".CodeGraphCallersTool._get_call_graph",
             return_value=mock_graph,
         ),
         patch(
-            "tree_sitter_analyzer.mcp.tools.symbol_body_inline.inline_neighbor_bodies",
+            "codexray.mcp.tools.symbol_body_inline.inline_neighbor_bodies",
             side_effect=_fake_inline_neighbor_bodies,
         ),
     ):
@@ -124,7 +124,7 @@ class TestToonLosslessnessInvariant:
 
     @pytest.mark.asyncio
     async def test_heterogeneous_rows_lossless_through_boundary(self, tmp_path) -> None:
-        server = TreeSitterAnalyzerMCPServer(str(tmp_path))
+        server = CodeXrayMCPServer(str(tmp_path))
         handler = _capture_call_tool_handler(server)
 
         json_body = await _call(handler, "json")

@@ -57,7 +57,7 @@ NAMED_MOD_SRC = (
 
 def test_named_mod_extracted_as_package() -> None:
     """A named mod block must yield exactly one Package-like container."""
-    from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+    from codexray.languages.rust_plugin import RustElementExtractor
 
     packages = RustElementExtractor().extract_packages(
         _parse(NAMED_MOD_SRC), NAMED_MOD_SRC
@@ -74,7 +74,7 @@ def test_named_mod_extracted_as_package() -> None:
 
 def test_nested_items_still_extracted() -> None:
     """Items inside the mod stay owned/extracted exactly as before."""
-    from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+    from codexray.languages.rust_plugin import RustElementExtractor
 
     extractor = RustElementExtractor()
     tree = _parse(NAMED_MOD_SRC)
@@ -90,7 +90,7 @@ def test_nested_items_still_extracted() -> None:
 
 def test_empty_mod_extracted() -> None:
     """``mod empty {}`` still emits its container."""
-    from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+    from codexray.languages.rust_plugin import RustElementExtractor
 
     src = "mod empty {}\n"
     packages = RustElementExtractor().extract_packages(_parse(src), src)
@@ -103,7 +103,7 @@ def test_empty_mod_extracted() -> None:
 
 def test_declaration_only_mod_emitted_with_declaration_span() -> None:
     """``mod tests;`` (body=None) is emitted; span == the declaration line."""
-    from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+    from codexray.languages.rust_plugin import RustElementExtractor
 
     src = "mod tests;\n"
     packages = RustElementExtractor().extract_packages(_parse(src), src)
@@ -116,7 +116,7 @@ def test_declaration_only_mod_emitted_with_declaration_span() -> None:
 
 def test_nested_mods_both_extracted() -> None:
     """Nested mod blocks each emit a container."""
-    from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+    from codexray.languages.rust_plugin import RustElementExtractor
 
     src = "mod outer {\n    mod inner {}\n}\n"
     packages = RustElementExtractor().extract_packages(_parse(src), src)
@@ -150,20 +150,20 @@ class _ExplodingModNode:
 
 
 def test_nameless_mod_node_yields_none() -> None:
-    from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+    from codexray.languages.rust_plugin import RustElementExtractor
 
     assert RustElementExtractor()._extract_mod_package(_NamelessModNode()) is None
 
 
 def test_exploding_mod_node_yields_none() -> None:
-    from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+    from codexray.languages.rust_plugin import RustElementExtractor
 
     assert RustElementExtractor()._extract_mod_package(_ExplodingModNode()) is None
 
 
 def test_plugin_extract_elements_carries_packages_key() -> None:
     """RustPlugin.extract_elements exposes the 'packages' group (go/kotlin parity)."""
-    from tree_sitter_analyzer.languages.rust_plugin import RustPlugin
+    from codexray.languages.rust_plugin import RustPlugin
 
     result = RustPlugin().extract_elements(_parse(NAMED_MOD_SRC), NAMED_MOD_SRC)
 
@@ -174,9 +174,9 @@ def test_plugin_extract_elements_carries_packages_key() -> None:
 
 def test_analyze_file_includes_package_element(tmp_path) -> None:
     """analyze_file surfaces the mod container in the flat element list."""
-    from tree_sitter_analyzer.core.request import AnalysisRequest
-    from tree_sitter_analyzer.languages.rust_plugin import RustPlugin
-    from tree_sitter_analyzer.models import Package
+    from codexray.core.request import AnalysisRequest
+    from codexray.languages.rust_plugin import RustPlugin
+    from codexray.models import Package
 
     rs_file = tmp_path / "lib.rs"
     rs_file.write_text(NAMED_MOD_SRC, encoding="utf-8", newline="\n")

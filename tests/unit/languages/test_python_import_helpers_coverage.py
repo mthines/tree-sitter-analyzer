@@ -2,7 +2,7 @@
 
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.languages.python_plugin._import import (
+from codexray.languages.python_plugin._import import (
     ClassBodyQueryRuntime,
     ImportExtractionRuntime,
     ImportNodeContext,

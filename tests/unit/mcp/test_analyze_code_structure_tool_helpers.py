@@ -10,10 +10,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+from codexray.mcp.tools.analyze_code_structure_helpers import (
     extract_metadata,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool,
     _attach_agent_summary,
     _build_next_steps,
@@ -23,7 +23,7 @@ from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
     _get_method_modifiers,
     _get_method_parameters,
 )
-from tree_sitter_analyzer.mcp.tools.tool_response import CANONICAL_VERDICTS
+from codexray.mcp.tools.tool_response import CANONICAL_VERDICTS
 
 
 @pytest.fixture
@@ -96,7 +96,7 @@ class TestAnalyzeCodeStructureFormatting:
         formatter.format_structure.return_value = "line1\r\nline2\r\n"
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
+            "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.get_formatter_for_language",
             return_value=formatter,
         ) as get_formatter:
             output = _format_table({}, MagicMock(), "python", "full")
@@ -107,7 +107,7 @@ class TestAnalyzeCodeStructureFormatting:
     def test_format_table_raises_for_unsupported_format(self):
         """Unsupported formats should fail before formatter lookup."""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool.FormatterRegistry.is_format_supported",
+            "codexray.mcp.tools.analyze_code_structure_tool.FormatterRegistry.is_format_supported",
             return_value=False,
         ):
             with pytest.raises(ValueError, match="Unsupported format type"):

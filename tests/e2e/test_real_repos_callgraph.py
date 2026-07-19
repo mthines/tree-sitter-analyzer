@@ -34,8 +34,8 @@ from pathlib import Path
 
 import pytest
 
-import tree_sitter_analyzer.call_graph as cg_mod
-from tree_sitter_analyzer.call_graph import CallGraph
+import codexray.call_graph as cg_mod
+from codexray.call_graph import CallGraph
 
 pytestmark = [pytest.mark.e2e, pytest.mark.network]
 

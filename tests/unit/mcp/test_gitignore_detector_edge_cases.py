@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.gitignore_detector import (
+from codexray.mcp.utils.gitignore_detector import (
     GitignoreDetector,
     get_default_detector,
 )

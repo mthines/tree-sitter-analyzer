@@ -1,4 +1,4 @@
-from tree_sitter_analyzer.formatters._ruby_formatter_helpers import (
+from codexray.formatters._ruby_formatter_helpers import (
     format_compact_signature,
     format_compact_table,
     format_csv,

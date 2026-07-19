@@ -77,7 +77,7 @@ def test_build_guided_context_keeps_only_agent_decision_surface():
 def test_format_markdown_reports_reduction():
     output = demo.format_markdown(_comparison())
 
-    assert "Without Tree-sitter Analyzer" in output
+    assert "Without CodeXray" in output
     assert "With SMART workflow context" in output
     assert "Reduction: 900 estimated tokens (90.0%)." in output
 

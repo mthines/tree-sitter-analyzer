@@ -221,7 +221,7 @@ except Exception as e:
 ### Step 1: Parse Corpus and Build AST Map
 
 ```python
-from tree_sitter_analyzer.language_loader import loader
+from codexray.language_loader import loader
 
 # 创建 parser
 parser = loader.create_parser_safely(language)
@@ -263,7 +263,7 @@ ast_node_identities = {
 ### Step 2: Run Plugin and Extract Elements
 
 ```python
-from tree_sitter_analyzer.plugins.manager import PluginManager
+from codexray.plugins.manager import PluginManager
 
 # 获取插件
 plugin_manager = PluginManager()
@@ -375,7 +375,7 @@ uncovered_types = sorted(all_node_types - covered_node_types)
 ### Example 1: Validate Single Language
 
 ```python
-from tree_sitter_analyzer.grammar_coverage.validator import validate_plugin_coverage_sync
+from codexray.grammar_coverage.validator import validate_plugin_coverage_sync
 
 # 验证 Python 插件覆盖率
 report = validate_plugin_coverage_sync("python")
@@ -403,7 +403,7 @@ All node types covered!
 ### Example 2: Validate All Languages
 
 ```python
-from tree_sitter_analyzer.grammar_coverage.validator import validate_plugin_coverage_sync
+from codexray.grammar_coverage.validator import validate_plugin_coverage_sync
 
 languages = [
     'python', 'javascript', 'typescript', 'java', 'c', 'cpp', 'go', 'rust',
@@ -446,7 +446,7 @@ jobs:
       - name: Validate Grammar Coverage
         run: |
           uv run python -c "
-          from tree_sitter_analyzer.grammar_coverage.validator import validate_plugin_coverage_sync
+          from codexray.grammar_coverage.validator import validate_plugin_coverage_sync
           languages = ['python', 'javascript', 'java', 'go']
           for lang in languages:
               report = validate_plugin_coverage_sync(lang)
@@ -567,7 +567,7 @@ uv run pytest tests/integration/grammar_coverage/ -v
 
 ```bash
 # 生成覆盖率报告
-uv run pytest tests/ --cov=tree_sitter_analyzer.grammar_coverage --cov-report=html
+uv run pytest tests/ --cov=codexray.grammar_coverage --cov-report=html
 ```
 
 ---
@@ -575,9 +575,9 @@ uv run pytest tests/ --cov=tree_sitter_analyzer.grammar_coverage --cov-report=ht
 ## References
 
 - **Issue #112**: Original decorator extraction bug that triggered this work
-- **Validator Source**: [tree_sitter_analyzer/grammar_coverage/validator.py](../tree_sitter_analyzer/grammar_coverage/validator.py)
+- **Validator Source**: [codexray/grammar_coverage/validator.py](../codexray/grammar_coverage/validator.py)
 - **Golden Corpus**: [tests/golden/](../tests/golden/)
-- **Phase 3 Reports**: [tree_sitter_analyzer/grammar_coverage/](../tree_sitter_analyzer/grammar_coverage/)
+- **Phase 3 Reports**: [codexray/grammar_coverage/](../codexray/grammar_coverage/)
 
 ---
 

@@ -69,7 +69,7 @@ def _patch_is_elem():
         return getattr(elem, "element_type", "") == type_const
 
     return patch(
-        "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.is_element_of_type",
+        "codexray.mcp.tools.get_code_outline_tool.is_element_of_type",
         side_effect=_mock,
     )
 
@@ -83,7 +83,7 @@ class TestNormalizeReceiverType:
     """_normalize_receiver_type helper."""
 
     def test_strips_pointer_prefix(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _normalize_receiver_type,
         )
 
@@ -91,14 +91,14 @@ class TestNormalizeReceiverType:
         assert _normalize_receiver_type("*Service") == "Service"
 
     def test_no_star_unchanged(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _normalize_receiver_type,
         )
 
         assert _normalize_receiver_type("Counter") == "Counter"
 
     def test_none_returns_none(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _normalize_receiver_type,
         )
 
@@ -110,7 +110,7 @@ class TestMethodOwnedByClass:
     """_method_owned_by_class helper."""
 
     def test_line_range_containment(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _method_owned_by_class,
         )
 
@@ -118,7 +118,7 @@ class TestMethodOwnedByClass:
         assert _method_owned_by_class(m, "Bar", 10, 80) is True
 
     def test_line_range_miss_no_receiver(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _method_owned_by_class,
         )
 
@@ -127,7 +127,7 @@ class TestMethodOwnedByClass:
 
     def test_receiver_type_match_pointer(self) -> None:
         """Go pointer receiver: receiver_type='*Service' → normalized 'Service' matches."""
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _method_owned_by_class,
         )
 
@@ -137,7 +137,7 @@ class TestMethodOwnedByClass:
 
     def test_receiver_type_match_no_pointer(self) -> None:
         """Go value receiver: receiver_type='Service' → matches."""
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _method_owned_by_class,
         )
 
@@ -145,7 +145,7 @@ class TestMethodOwnedByClass:
         assert _method_owned_by_class(m, "Service", 71, 77) is True
 
     def test_receiver_type_mismatch(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _method_owned_by_class,
         )
 
@@ -159,7 +159,7 @@ class TestInClassRanges:
 
     def test_old_signature_still_works(self) -> None:
         """No class_names → pure line-range check (backward compat)."""
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _in_class_ranges,
         )
 
@@ -168,7 +168,7 @@ class TestInClassRanges:
         assert _in_class_ranges(m, [(100, 200)]) is False
 
     def test_receiver_type_detected_with_class_names(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _in_class_ranges,
         )
 
@@ -177,7 +177,7 @@ class TestInClassRanges:
         assert _in_class_ranges(m, [(71, 77)], ["Service"]) is True
 
     def test_no_match_with_class_names(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             _in_class_ranges,
         )
 
@@ -196,7 +196,7 @@ class TestBuildOutlineGoReceiverAssociation:
     """End-to-end outline builder with mock Go elements."""
 
     def setup_method(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 
@@ -308,7 +308,7 @@ class TestSingleOwnershipInvariant:
     """
 
     def setup_method(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 
@@ -377,11 +377,11 @@ class TestGoSampleIntegration:
         import asyncio
         from pathlib import Path
 
-        from tree_sitter_analyzer.core.analysis_engine import (
+        from codexray.core.analysis_engine import (
             AnalysisRequest,
             get_analysis_engine,
         )
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 
@@ -485,7 +485,7 @@ class TestCrossFileScopes:
 
     def test_method_with_unknown_receiver_type_stays_top_level(self) -> None:
         """Method with receiver_type='Service' but NO Service class in result."""
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 
@@ -538,8 +538,8 @@ fn standalone() {}
         import tree_sitter
         import tree_sitter_rust
 
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.languages.rust_plugin import RustElementExtractor
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 

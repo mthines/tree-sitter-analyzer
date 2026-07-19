@@ -6,10 +6,10 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.middleware_detector_tool import (
+from codexray.mcp.tools.middleware_detector_tool import (
     MiddlewareDetectorTool,
 )
-from tree_sitter_analyzer.middleware_detector import (
+from codexray.middleware_detector import (
     MiddlewareDetector,
     MiddlewareInfo,
 )

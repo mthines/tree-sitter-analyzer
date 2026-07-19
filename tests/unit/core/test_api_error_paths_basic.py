@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Coverage boost tests for tree_sitter_analyzer.api module.
+Coverage boost tests for codexray.api module.
 
 Targets uncovered branches in:
 - analyze_file error path (lines 97-99, 170, 174, 177)
@@ -21,7 +21,7 @@ Targets uncovered branches in:
 
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer import api
+from codexray import api
 
 # ============================================================================
 # analyze_file error paths
@@ -41,7 +41,7 @@ class TestAnalyzeFileErrors:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_file("test.py")
             assert result["success"] is False
             assert result["error"] == "Parse error"
@@ -70,7 +70,7 @@ class TestAnalyzeFileErrors:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_file("test.py")
             assert result["success"] is True
             elem = result["elements"][0]
@@ -90,7 +90,7 @@ class TestAnalyzeFileErrors:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_file("test.java")
             assert result["success"] is False
             assert result["error"] == "Analysis failed"
@@ -116,7 +116,7 @@ class TestAnalyzeCode:
         mock_engine = MagicMock()
         mock_engine.analyze_code_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_code("invalid code", language="python")
             assert result["success"] is False
             assert result["error"] == "Syntax error"
@@ -147,7 +147,7 @@ class TestAnalyzeCode:
         mock_engine = MagicMock()
         mock_engine.analyze_code_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_code("class MyClass {}", language="java")
             assert result["success"] is True
             elem = result["elements"][0]
@@ -167,7 +167,7 @@ class TestAnalyzeCode:
         mock_engine = MagicMock()
         mock_engine.analyze_code_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_code("bad code", language="python")
             assert result["success"] is False
 
@@ -176,7 +176,7 @@ class TestAnalyzeCode:
         mock_engine = MagicMock()
         mock_engine.analyze_code_sync.side_effect = RuntimeError("Boom")
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_code("code", language="python")
             assert result["success"] is False
             assert "error" in result
@@ -195,7 +195,7 @@ class TestExceptionPaths:
         mock_engine = MagicMock()
         mock_engine.get_supported_languages.side_effect = RuntimeError("No langs")
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.get_supported_languages()
             assert result == []
 
@@ -204,7 +204,7 @@ class TestExceptionPaths:
         mock_engine = MagicMock()
         mock_engine.get_available_queries.side_effect = RuntimeError("No queries")
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.get_available_queries("python")
             assert result == []
 
@@ -213,7 +213,7 @@ class TestExceptionPaths:
         mock_engine = MagicMock()
         mock_engine.is_language_supported.side_effect = RuntimeError("Bad check")
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.is_language_supported("python")
             assert result is False
 
@@ -225,7 +225,7 @@ class TestExceptionPaths:
             "Bad"
         )
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.detect_language("test.py")
             assert result == "unknown"
 
@@ -234,18 +234,18 @@ class TestExceptionPaths:
         mock_engine = MagicMock()
         mock_engine.language_detector.side_effect = RuntimeError("Bad")
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.get_file_extensions("python")
             assert result == []
 
     def test_get_framework_info_exception(self) -> None:
         """Lines 537-539: get_framework_info exception."""
-        with patch("tree_sitter_analyzer.api.__version__", "1.0.0"):
+        with patch("codexray.api.__version__", "1.0.0"):
             with patch(
-                "tree_sitter_analyzer.api.get_engine", side_effect=RuntimeError("Boom")
+                "codexray.api.get_engine", side_effect=RuntimeError("Boom")
             ):
                 result = api.get_framework_info()
-                assert result["name"] == "tree-sitter-analyzer"
+                assert result["name"] == "codexray"
                 assert "error" in result
 
 
@@ -268,7 +268,7 @@ class TestDetectLanguageEdgeCases:
         mock_engine.language_detector = MagicMock()
         mock_engine.language_detector.detect_from_extension.return_value = ""
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.detect_language("/nonexistent/file")
             assert result == "unknown"
 
@@ -278,7 +278,7 @@ class TestDetectLanguageEdgeCases:
         mock_engine.language_detector = MagicMock()
         mock_engine.language_detector.detect_from_extension.return_value = "   "
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.detect_language("test.file")
             assert result == "unknown"
 
@@ -299,7 +299,7 @@ class TestGetFileExtensions:
         mock_engine = MagicMock()
         mock_engine.language_detector = mock_ld
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.get_file_extensions("python")
             assert result == []
 
@@ -311,7 +311,7 @@ class TestGetFileExtensions:
         mock_engine = MagicMock()
         mock_engine.language_detector = mock_ld
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.get_file_extensions("python")
             assert ".py" in result
 
@@ -323,7 +323,7 @@ class TestGetFileExtensions:
         mock_engine = MagicMock()
         mock_engine.language_detector = mock_ld
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.get_file_extensions("unknownlang")
             assert result == []
 
@@ -367,7 +367,7 @@ class TestExecuteQuery:
             "language_info": {"language": "java"},
         }
 
-        with patch("tree_sitter_analyzer.api.analyze_file", return_value=mock_result):
+        with patch("codexray.api.analyze_file", return_value=mock_result):
             result = api.execute_query("test.java", "class")
             assert isinstance(result, dict)
 
@@ -387,7 +387,7 @@ class TestExtractElements:
             "error": "Analysis failed",
         }
 
-        with patch("tree_sitter_analyzer.api.analyze_file", return_value=mock_result):
+        with patch("codexray.api.analyze_file", return_value=mock_result):
             result = api.extract_elements("test.py")
             assert result["success"] is False
             assert result["error"] == "Analysis failed"
@@ -395,7 +395,7 @@ class TestExtractElements:
     def test_extract_elements_exception(self) -> None:
         """Exception handler."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file", side_effect=RuntimeError("Boom")
+            "codexray.api.analyze_file", side_effect=RuntimeError("Boom")
         ):
             result = api.extract_elements("test.py")
             assert result["success"] is False
@@ -421,7 +421,7 @@ class TestConvenienceFunctions:
         mock_result.elements = []
         mock_engine.analyze_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze("test.py")
             assert result["success"] is True
 
@@ -430,7 +430,7 @@ class TestConvenienceFunctions:
         mock_engine = MagicMock()
         mock_engine.get_supported_languages.return_value = ["python", "java"]
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.get_languages()
             assert "python" in result
 
@@ -445,7 +445,7 @@ class TestGroupCaptures:
 
     def test_list_capture_path(self) -> None:
         """Lines 608-610: existing capture is a list (multiple sub-captures)."""
-        from tree_sitter_analyzer.api import _group_captures_by_main_node
+        from codexray.api import _group_captures_by_main_node
 
         captures = [
             {

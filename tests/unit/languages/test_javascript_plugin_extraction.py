@@ -7,11 +7,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.javascript_plugin import (
+from codexray.languages.javascript_plugin import (
     JavaScriptElementExtractor,
     JavaScriptPlugin,
 )
-from tree_sitter_analyzer.models import Function, Import, Variable
+from codexray.models import Function, Import, Variable
 
 
 @pytest.fixture
@@ -109,7 +109,7 @@ class TestIsReactComponent:
         extractor.content_lines = ["class MyComp extends React.Component {}"]
         extractor._file_encoding = "utf-8"
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "class MyComp extends React.Component {}"
             assert extractor._is_react_component(mock_node, "MyComp") is True
@@ -139,7 +139,7 @@ class TestExtractExportInfo:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "export default MyComponent;"
             result = extractor._extract_export_info(mock_node)
@@ -156,7 +156,7 @@ class TestExtractExportInfo:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "const x = 1;"
             result = extractor._extract_export_info(mock_node)
@@ -205,7 +205,7 @@ class TestExtractGeneratorFunction:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "function* gen() { yield 1; }"
             with patch.object(
@@ -283,7 +283,7 @@ class TestExtractPropertyOptimized:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.side_effect = lambda *a, **kw: {
                 (0, 4): "name",
@@ -329,7 +329,7 @@ class TestExtractImportInfoEnhanced:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "import React from 'react';"
             result = extractor._extract_import_info_enhanced(
@@ -349,7 +349,7 @@ class TestExtractImportInfoEnhanced:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "import ;"
             result = extractor._extract_import_info_enhanced(mock_node, "import ;")
@@ -448,7 +448,7 @@ class TestGetNodeTextMultiLine:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.side_effect = UnicodeDecodeError("utf-8", b"", 0, 1, "err")
             result = extractor._get_node_text_optimized(mock_node)

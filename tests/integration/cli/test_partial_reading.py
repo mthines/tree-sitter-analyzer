@@ -12,7 +12,7 @@ import pytest
 # Add project root to path
 sys.path.insert(0, ".")
 
-from tree_sitter_analyzer.file_handler import read_file_lines_range, read_file_partial
+from codexray.file_handler import read_file_lines_range, read_file_partial
 
 
 @pytest.fixture

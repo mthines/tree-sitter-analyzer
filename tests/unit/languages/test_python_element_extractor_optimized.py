@@ -4,8 +4,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.python_plugin import PythonElementExtractor
-from tree_sitter_analyzer.models import Class, Function, Import, Variable
+from codexray.languages.python_plugin import PythonElementExtractor
+from codexray.models import Class, Function, Import, Variable
 
 
 class TestPythonElementExtractor:

@@ -3,9 +3,9 @@ html,html,structure,2,524,lang=ja,2,html
 head,head,metadata,3,25,,9,html
 meta,meta,metadata,4,5,charset=UTF-8,0,html
 meta,meta,metadata,5,6,"name=viewport; content=width=device-width, initial-scale=1.0",0,html
-meta,meta,metadata,6,7,name=description; content=HTML5包括的サンプル - Tree-sitter Analyzerのテスト用,0,html
+meta,meta,metadata,6,7,name=description; content=HTML5包括的サンプル - CodeXrayのテスト用,0,html
 meta,meta,metadata,7,8,"name=keywords; content=HTML5, サンプル, テスト, tree-sitter",0,html
-meta,meta,metadata,8,9,name=author; content=Tree-sitter Analyzer Team,0,html
+meta,meta,metadata,8,9,name=author; content=CodeXray Team,0,html
 title,title,metadata,9,9,,0,html
 link,link,metadata,10,11,rel=stylesheet; href=comprehensive_sample.css,0,html
 link,link,metadata,11,12,rel=icon; type=image/x-icon; href=/favicon.ico,0,html
@@ -155,7 +155,7 @@ figure,figure,unknown,235,242,class=media-item,2,html
 picture,picture,media,236,240,,3,html
 source,source,media,237,238,media=(min-width: 800px); srcset=large-image.webp; type=image/webp,0,html
 source,source,media,238,239,media=(min-width: 400px); srcset=medium-image.webp; type=image/webp,0,html
-img,img,media,239,240,src=small-image.jpg; alt=Tree-sitter Analyzerのロゴ; loading=lazy,0,html
+img,img,media,239,240,src=small-image.jpg; alt=CodeXrayのロゴ; loading=lazy,0,html
 figcaption,figcaption,unknown,241,241,,0,html
 figure,figure,unknown,245,254,class=media-item,2,html
 video,video,media,246,252,controls; width=400; height=300; poster=video-poster.jpg,5,html
@@ -272,7 +272,7 @@ ul,ul,list,406,410,,3,html
 li,li,list,407,407,,1,html
 a,a,text,407,407,href=https://github.com/aimasteracc/tree-sitter-analyzer; target=_blank; rel=noopener,0,html
 li,li,list,408,408,,1,html
-a,a,text,408,408,href=https://pypi.org/project/tree-sitter-analyzer/; target=_blank; rel=noopener,0,html
+a,a,text,408,408,href=https://pypi.org/project/codexray/; target=_blank; rel=noopener,0,html
 li,li,list,409,409,,1,html
 a,a,text,409,409,href=https://tree-sitter.github.io/tree-sitter/; target=_blank; rel=noopener,0,html
 div,div,structure,414,420,class=widget,2,html

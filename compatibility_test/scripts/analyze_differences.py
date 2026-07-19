@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tree-sitter-analyzer 出力差分分析スクリプト
+codexray 出力差分分析スクリプト
 
 使用方法:
     python compatibility_test/scripts/analyze_differences.py --version-a 1.9.2 --version-b 1.9.3

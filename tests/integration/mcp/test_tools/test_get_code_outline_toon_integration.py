@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
+from codexray.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
 
 
 def _payload_text(result: dict) -> str:

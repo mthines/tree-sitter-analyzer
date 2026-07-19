@@ -3,7 +3,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.formatters.php_formatter import PHPTableFormatter
+from codexray.formatters.php_formatter import PHPTableFormatter
 
 
 class TestPHPTableFormatterFullTable:

@@ -38,7 +38,7 @@ _NON_ASCII_SOURCE = "# 日本語コメント\nmessage = 'こんにちは世界'\
 def test_non_ascii_file_fills_dimensions(tmp_path):
     """AC-1 / REQ-ENC-002 / REQ-ENC-005: a UTF-8 file with non-ASCII content
     must score with a populated breakdown (not the bogus empty/F result)."""
-    from tree_sitter_analyzer.health_scorer import HealthScorer
+    from codexray.health_scorer import HealthScorer
 
     source = tmp_path / "japanese.py"
     source.write_text(_NON_ASCII_SOURCE, encoding="utf-8")
@@ -63,7 +63,7 @@ def test_ascii_only_file_score_unchanged(tmp_path):
     """AC-2 / REQ-ENC-006: pure-ASCII content decodes identically under any
     default encoding, so the score must remain the expected baseline and be
     deterministic across repeated scoring."""
-    from tree_sitter_analyzer.health_scorer import HealthScorer
+    from codexray.health_scorer import HealthScorer
 
     source = tmp_path / "ascii.py"
     source.write_text("x = 1\n", encoding="utf-8")
@@ -87,7 +87,7 @@ def test_invalid_utf8_bytes_returns_str_no_exception(tmp_path):
     """AC-3 / REQ-ENC-003: a file containing bytes that are not valid UTF-8
     must NOT raise and must NOT return None — ``errors='replace'`` lets the
     decode succeed (lossy) so health scoring never falls over."""
-    from tree_sitter_analyzer.registry.health_scorer_helpers import read_source_file
+    from codexray.registry.health_scorer_helpers import read_source_file
 
     source = tmp_path / "invalid.py"
     source.write_bytes(b"x = 1  # \xff\xfe invalid utf8\n")
@@ -103,7 +103,7 @@ def test_invalid_utf8_bytes_returns_str_no_exception(tmp_path):
 def test_nonexistent_file_returns_none(tmp_path):
     """REQ-ENC-004: a missing path must still return None (existing behaviour
     preserved — the fix changes encoding handling, not I/O-failure handling)."""
-    from tree_sitter_analyzer.registry.health_scorer_helpers import read_source_file
+    from codexray.registry.health_scorer_helpers import read_source_file
 
     missing = tmp_path / "does_not_exist.py"
 
@@ -116,7 +116,7 @@ def test_non_ascii_roundtrips_host_independent(tmp_path):
     non-ASCII characters back through ``read_source_file`` on any host
     (locale / PYTHONUTF8 independent), i.e. they are preserved, not mangled
     into U+FFFD replacement characters."""
-    from tree_sitter_analyzer.registry.health_scorer_helpers import read_source_file
+    from codexray.registry.health_scorer_helpers import read_source_file
 
     source = tmp_path / "roundtrip.py"
     source.write_text(_NON_ASCII_SOURCE, encoding="utf-8")
@@ -149,7 +149,7 @@ def test_read_text_called_with_utf8_encoding(tmp_path, monkeypatch):
     content -> GREEN. This locks the requirement that UTF-8 is named
     explicitly, so dropping the encoding in future immediately re-fails here.
     """
-    from tree_sitter_analyzer.registry.health_scorer_helpers import read_source_file
+    from codexray.registry.health_scorer_helpers import read_source_file
 
     source = tmp_path / "locale_sensitive.py"
     source.write_text(_NON_ASCII_SOURCE, encoding="utf-8")
@@ -194,7 +194,7 @@ def test_score_file_non_ascii_not_false_f_on_windows(tmp_path):
     ``score_file`` path, not the false-F empty result. Skipped off-Windows
     because the original defect cannot be reproduced via the host locale on a
     UTF-8 platform; the monkeypatch guard above is the cross-platform check."""
-    from tree_sitter_analyzer.health_scorer import HealthScorer
+    from codexray.health_scorer import HealthScorer
 
     source = tmp_path / "windows_japanese.py"
     source.write_text(_NON_ASCII_SOURCE, encoding="utf-8")

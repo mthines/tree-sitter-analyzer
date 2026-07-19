@@ -1,8 +1,8 @@
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.platform_compat.compare import compare_profiles
-from tree_sitter_analyzer.platform_compat.profiles import (
+from codexray.platform_compat.compare import compare_profiles
+from codexray.platform_compat.profiles import (
     PROFILE_SCHEMA_VERSION,
     BehaviorProfile,
     ParsingBehavior,
@@ -78,8 +78,8 @@ class TestCompareProperties:
 
 
 def test_compare_missing_construct():
-    from tree_sitter_analyzer.platform_compat.compare import compare_profiles
-    from tree_sitter_analyzer.platform_compat.profiles import (
+    from codexray.platform_compat.compare import compare_profiles
+    from codexray.platform_compat.profiles import (
         BehaviorProfile,
         ParsingBehavior,
     )
@@ -94,11 +94,11 @@ def test_compare_missing_construct():
 
 
 def test_compare_no_differences():
-    from tree_sitter_analyzer.platform_compat.compare import (
+    from codexray.platform_compat.compare import (
         compare_profiles,
         generate_diff_report,
     )
-    from tree_sitter_analyzer.platform_compat.profiles import (
+    from codexray.platform_compat.profiles import (
         BehaviorProfile,
         ParsingBehavior,
     )
@@ -112,8 +112,8 @@ def test_compare_no_differences():
 
 
 def test_compare_count_mismatch():
-    from tree_sitter_analyzer.platform_compat.compare import compare_profiles
-    from tree_sitter_analyzer.platform_compat.profiles import (
+    from codexray.platform_compat.compare import compare_profiles
+    from codexray.platform_compat.profiles import (
         BehaviorProfile,
         ParsingBehavior,
     )
@@ -129,8 +129,8 @@ def test_compare_count_mismatch():
 
 
 def test_compare_error_mismatch():
-    from tree_sitter_analyzer.platform_compat.compare import compare_profiles
-    from tree_sitter_analyzer.platform_compat.profiles import (
+    from codexray.platform_compat.compare import compare_profiles
+    from codexray.platform_compat.profiles import (
         BehaviorProfile,
         ParsingBehavior,
     )

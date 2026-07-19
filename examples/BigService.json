@@ -1,6 +1,6 @@
 INFO: Language automatically detected from extension: java
-2025-07-23 14:53:01,315 - tree_sitter_analyzer - INFO - Successfully read file BigService.java with encoding: utf-8
-2025-07-23 14:53:01,336 - tree_sitter_analyzer.performance - INFO - file_analysis: 0.0494s - Extracted 72 elements
+2025-07-23 14:53:01,315 - codexray - INFO - Successfully read file BigService.java with encoding: utf-8
+2025-07-23 14:53:01,336 - codexray.performance - INFO - file_analysis: 0.0494s - Extracted 72 elements
 
 --- Advanced Analysis Results ---
 {

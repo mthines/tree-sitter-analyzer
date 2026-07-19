@@ -25,7 +25,7 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_scala
 
-from tree_sitter_analyzer.languages.scala_plugin import ScalaElementExtractor
+from codexray.languages.scala_plugin import ScalaElementExtractor
 
 # ---------------------------------------------------------------------------
 # Helpers

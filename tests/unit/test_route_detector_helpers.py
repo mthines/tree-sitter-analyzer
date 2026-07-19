@@ -2,7 +2,7 @@
 
 from unittest.mock import Mock
 
-from tree_sitter_analyzer.route_detector.helpers import (
+from codexray.route_detector.helpers import (
     extract_annotation_value,
     extract_django_handler,
     extract_js_handler,

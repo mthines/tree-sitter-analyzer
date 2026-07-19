@@ -17,13 +17,13 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.formatters._typescript_formatter_signatures_table import (
+from codexray.formatters._typescript_formatter_signatures_table import (
     _method_sig_line,
     _shorten_return_type,
     format_typescript_signatures_table,
 )
-from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
-from tree_sitter_analyzer.formatters.typescript_formatter import (
+from codexray.formatters.formatter_registry import FormatterRegistry
+from codexray.formatters.typescript_formatter import (
     TypeScriptTableFormatter,
 )
 
@@ -397,7 +397,7 @@ def test_unsupported_language_error_enumerates_languages() -> None:
     """When a formatter doesn't support signatures, the error must list which ones do."""
     from typing import Any
 
-    from tree_sitter_analyzer.formatters.base_formatter import BaseTableFormatter
+    from codexray.formatters.base_formatter import BaseTableFormatter
 
     class _UnsupportedFmt(BaseTableFormatter):
         def _format_full_table(self, data: dict[str, Any]) -> str:
@@ -434,7 +434,7 @@ def test_unsupported_language_error_includes_typescript() -> None:
     """After this fix, 'typescript' must appear in the supported list in the error."""
     from typing import Any
 
-    from tree_sitter_analyzer.formatters.base_formatter import BaseTableFormatter
+    from codexray.formatters.base_formatter import BaseTableFormatter
 
     class _UnsupportedFmt(BaseTableFormatter):
         def _format_full_table(self, data: dict[str, Any]) -> str:
@@ -553,7 +553,7 @@ def test_mixed_class_and_module_functions() -> None:
 
 def test_module_name_bare_extension_only_falls_back_to_module() -> None:
     """A file named just '.ts' strips to empty basename → falls back to 'module'."""
-    from tree_sitter_analyzer.formatters._typescript_formatter_signatures_table import (
+    from codexray.formatters._typescript_formatter_signatures_table import (
         _module_name,
     )
 
@@ -593,7 +593,7 @@ def test_nested_classes_innermost_wins() -> None:
 
 def test_trim_trailing_blank_lines() -> None:
     """_trim_trailing_blank_lines removes trailing empty strings — covers line 230."""
-    from tree_sitter_analyzer.formatters._typescript_formatter_signatures_table import (
+    from codexray.formatters._typescript_formatter_signatures_table import (
         _trim_trailing_blank_lines,
     )
 
@@ -604,7 +604,7 @@ def test_trim_trailing_blank_lines() -> None:
 
 def test_trim_trailing_blank_lines_no_trailing() -> None:
     """_trim_trailing_blank_lines does nothing when no trailing blanks."""
-    from tree_sitter_analyzer.formatters._typescript_formatter_signatures_table import (
+    from codexray.formatters._typescript_formatter_signatures_table import (
         _trim_trailing_blank_lines,
     )
 
@@ -615,7 +615,7 @@ def test_trim_trailing_blank_lines_no_trailing() -> None:
 
 def test_module_level_functions_excludes_class_members() -> None:
     """_module_level_functions correctly filters out methods inside a class range."""
-    from tree_sitter_analyzer.formatters._typescript_formatter_signatures_table import (
+    from codexray.formatters._typescript_formatter_signatures_table import (
         _module_level_functions,
     )
 

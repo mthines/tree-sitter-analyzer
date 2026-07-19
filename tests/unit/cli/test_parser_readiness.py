@@ -11,7 +11,7 @@ import re
 
 import pytest
 
-from tree_sitter_analyzer.cli.parser_readiness import (
+from codexray.cli.parser_readiness import (
     _LANG_NAME_RE,
     _ensure_no_gap_consistency,
     build_parser_readiness_advice,
@@ -343,7 +343,7 @@ class TestParserReadinessMatrixTruth:
 [project]
 dependencies = []
 
-[project.entry-points."tree_sitter_analyzer.plugins"]
+[project.entry-points."codexray.plugins"]
 fixture = "pkg:Plugin"
 """,
             encoding="utf-8",

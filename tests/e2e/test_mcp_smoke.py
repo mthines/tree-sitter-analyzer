@@ -33,7 +33,7 @@ class TestStartup:
         )
         result = response["result"]
         info = result["serverInfo"]
-        assert "tree-sitter-analyzer" in info["name"]
+        assert "codexray" in info["name"]
         # Version is a string in semver-ish form; we only assert it's
         # non-empty here. Specific version-bump tests live elsewhere.
         assert info["version"]
@@ -193,7 +193,7 @@ class TestStderrCleanlinessAtStartup:
 def test_framework_self_check_root_resolves() -> None:
     """Sanity: the framework's ``REPO_ROOT`` actually points to the repo."""
     assert (REPO_ROOT / "pyproject.toml").is_file()
-    assert (REPO_ROOT / "tree_sitter_analyzer").is_dir()
+    assert (REPO_ROOT / "codexray").is_dir()
 
 
 # ---------------------------------------------------------------------------
@@ -290,7 +290,7 @@ class TestToolLatencyBudgets:
         self._call_and_measure(
             mcp_server,
             "safe_to_edit",
-            {"file_path": "tree_sitter_analyzer/__init__.py"},
+            {"file_path": "codexray/__init__.py"},
             budget_sec=5.0 * _CI_FACTOR,
         )
 
@@ -316,7 +316,7 @@ class TestStderrNoiseBudget:
         initialized(mcp_server)
         mcp_server.call(
             "safe_to_edit",
-            {"file_path": "tree_sitter_analyzer/__init__.py"},
+            {"file_path": "codexray/__init__.py"},
             timeout=10.0 * _CI_FACTOR,
         )
         stderr = mcp_server.stderr_text()

@@ -2,7 +2,7 @@
 
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
+from codexray.mcp.tools.utils.element_extractor import (
     extract_elements,
     get_all_exports,
     get_classes,
@@ -11,7 +11,7 @@ from tree_sitter_analyzer.mcp.tools.utils.element_extractor import (
     get_imports,
     get_structure,
 )
-from tree_sitter_analyzer.models import AnalysisResult, CodeElement
+from codexray.models import AnalysisResult, CodeElement
 
 
 def _make_element(

@@ -7,8 +7,8 @@ from collections import Counter
 from pathlib import Path
 from types import SimpleNamespace
 
-from tree_sitter_analyzer.mcp.tools import project_health_tool
-from tree_sitter_analyzer.mcp.tools.project_health_tool import (
+from codexray.mcp.tools import project_health_tool
+from codexray.mcp.tools.project_health_tool import (
     ProjectHealthTool,
     _build_agent_backlog,
     _build_project_agent_summary,
@@ -57,13 +57,13 @@ def test_agent_backlog_orders_weakest_files_and_includes_cli_parity() -> None:
         "edit action=refactor file_path='src/awful.py'"
     )
     assert backlog[0]["recommended_cli_command"] == (
-        "uv run python -m tree_sitter_analyzer src/awful.py --refactor --format json"
+        "uv run python -m codexray src/awful.py --refactor --format json"
     )
     assert backlog[0]["safety_mcp_command"] == (
         "edit action=safe file_path='src/awful.py'"
     )
     assert backlog[0]["safety_cli_command"] == (
-        "uv run python -m tree_sitter_analyzer "
+        "uv run python -m codexray "
         "src/awful.py --safe-to-edit --format json"
     )
     assert backlog[0]["post_edit_commands"][-1] == "uv run pytest -q"
@@ -76,11 +76,11 @@ def test_agent_backlog_orders_weakest_files_and_includes_cli_parity() -> None:
     )
     assert "weak: complexity" in c_grade_item["recommended_mcp_command"]
     assert c_grade_item["recommended_cli_command"] == (
-        "uv run python -m tree_sitter_analyzer "
+        "uv run python -m codexray "
         "'src/needs work.py' --file-health --format json"
     )
     assert c_grade_item["post_edit_commands"][0] == (
-        "uv run python -m tree_sitter_analyzer "
+        "uv run python -m codexray "
         "'src/needs work.py' --file-health --format json"
     )
 
@@ -368,7 +368,7 @@ class TestF9DescriptionAndBudget:
     def test_estimate_seconds_scales_with_project_size(self) -> None:
         """The size-based estimate must be monotonic and align with the
         documented buckets so the description stays accurate."""
-        from tree_sitter_analyzer.mcp.tools.project_health_tool import (
+        from codexray.mcp.tools.project_health_tool import (
             _estimate_seconds,
         )
 
@@ -391,7 +391,7 @@ class TestQ4ProjectHealthExcludesNonCode:
         extensions that ``_EXT_TO_LANG`` actually maps to a language —
         otherwise the scorer falls back to ``language=None`` and grades
         documentation as if it were code."""
-        from tree_sitter_analyzer.health_scorer import (
+        from codexray.health_scorer import (
             _EXT_TO_LANG,
             PROJECT_HEALTH_SOURCE_EXTS,
         )
@@ -412,7 +412,7 @@ class TestQ4ProjectHealthExcludesNonCode:
         """Even when a ``.md`` file sits next to source code, the project
         walker must not enumerate it. The pre-filter happens before
         score_file is called."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         (tmp_path / "main.py").write_text("def f():\n    return 1\n")
         (tmp_path / "README.md").write_text("# docs\n\nsome paragraph\n")
@@ -435,7 +435,7 @@ class TestQ4ProjectHealthExcludesGoldenMasters:
     fixture tree so it never leaks into the C-grade bucket."""
 
     def test_walker_skips_golden_masters_directory(self, tmp_path) -> None:
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         # Real source file that should be scored.
         (tmp_path / "main.py").write_text("def f():\n    return 1\n")
@@ -456,7 +456,7 @@ class TestQ4ProjectHealthExcludesGoldenMasters:
         assert "java_bigservice_full.py" not in names
 
     def test_walker_skips_fixture_and_test_data_directories(self, tmp_path) -> None:
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         (tmp_path / "main.py").write_text("def f():\n    return 1\n")
         for sub in ("fixtures", "test_data", "golden"):
@@ -475,7 +475,7 @@ class TestQ4ProjectHealthExcludesGoldenMasters:
         must compute the exclusion relative to the scanned root so the
         fixture-self-test in ``test_health_scorer.py:test_score_project``
         keeps working."""
-        from tree_sitter_analyzer.health_scorer import HealthScorer
+        from codexray.health_scorer import HealthScorer
 
         fixture = (
             Path(__file__).parent.parent.parent
@@ -676,7 +676,7 @@ class TestBug785MatchingFileCount:
     """
 
     def test_bash_extensions_included(self) -> None:
-        from tree_sitter_analyzer.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
+        from codexray.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
 
         for ext in (".bash", ".sh", ".zsh"):
             assert ext in PROJECT_HEALTH_SOURCE_EXTS, (
@@ -684,21 +684,21 @@ class TestBug785MatchingFileCount:
             )
 
     def test_scala_extension_included(self) -> None:
-        from tree_sitter_analyzer.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
+        from codexray.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
 
         assert ".scala" in PROJECT_HEALTH_SOURCE_EXTS, (
             ".scala must be in PROJECT_HEALTH_SOURCE_EXTS"
         )
 
     def test_swiftinterface_extension_included(self) -> None:
-        from tree_sitter_analyzer.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
+        from codexray.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
 
         assert ".swiftinterface" in PROJECT_HEALTH_SOURCE_EXTS, (
             ".swiftinterface must be in PROJECT_HEALTH_SOURCE_EXTS"
         )
 
     def test_hxx_extension_included(self) -> None:
-        from tree_sitter_analyzer.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
+        from codexray.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
 
         assert ".hxx" in PROJECT_HEALTH_SOURCE_EXTS, (
             ".hxx must be in PROJECT_HEALTH_SOURCE_EXTS"
@@ -707,14 +707,14 @@ class TestBug785MatchingFileCount:
     def test_source_exts_equals_canonical_ext_to_lang_keys(self) -> None:
         """PROJECT_HEALTH_SOURCE_EXTS must equal EXT_TO_LANG.keys() exactly —
         no extensions missing, none added beyond what the indexer supports."""
-        from tree_sitter_analyzer.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
-        from tree_sitter_analyzer.languages.lang_extension_map import EXT_TO_LANG
+        from codexray.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
+        from codexray.languages.lang_extension_map import EXT_TO_LANG
 
         assert frozenset(PROJECT_HEALTH_SOURCE_EXTS) == frozenset(EXT_TO_LANG.keys())
 
     def test_non_code_extensions_excluded(self) -> None:
         """Markup/doc extensions not in EXT_TO_LANG must stay out."""
-        from tree_sitter_analyzer.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
+        from codexray.health_scorer import PROJECT_HEALTH_SOURCE_EXTS
 
         for ext in (".md", ".yaml", ".yml", ".html", ".css", ".sql", ".txt"):
             assert ext not in PROJECT_HEALTH_SOURCE_EXTS, (

@@ -14,6 +14,15 @@ from pathlib import Path
 
 import pytest
 
+from codexray.exceptions import SecurityError, ValidationError
+from codexray.mcp.tools.analyze_code_structure_tool import (
+    AnalyzeCodeStructureTool as TableFormatTool,
+)
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
+from codexray.security.validator import SecurityValidator
 from tests.unit.security._test_mcp_security_helpers import (
     assert_absolute_paths_restricted,
     assert_directory_paths_rejected,
@@ -24,15 +33,6 @@ from tests.unit.security._test_mcp_security_helpers import (
     assert_stack_trace_filtering,
     assert_symlink_traversal_prevention,
 )
-from tree_sitter_analyzer.exceptions import SecurityError, ValidationError
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
-    AnalyzeCodeStructureTool as TableFormatTool,
-)
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
-from tree_sitter_analyzer.security.validator import SecurityValidator
 
 
 @pytest.fixture

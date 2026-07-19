@@ -10,7 +10,7 @@ Each map under ~1k tokens — load only the one(s) you need.
 |---|---|
 | [architecture.md](./architecture.md) | High-level topology · data flow · cross-cutting concerns |
 | [mcp-tools.md](./mcp-tools.md) | 8 facade tools + set_project_path registered in `mcp/_tool_registry.py` |
-| [cli.md](./cli.md) | CLI flags / commands / `tree-sitter-analyzer` entry points |
+| [cli.md](./cli.md) | CLI flags / commands / `codexray` entry points |
 | [languages.md](./languages.md) | 21 language plugins + grammar coverage |
 | [formatters.md](./formatters.md) | Output formats (TOON / JSON / table / CSV / YAML) |
 | [security.md](./security.md) | Boundary enforcement · project root resolution · path validation |
@@ -36,5 +36,5 @@ Each map under ~1k tokens — load only the one(s) you need.
 1. Read AGENTS.md      → know the test/parity contracts
 2. Read CODEMAPS/architecture.md → know the subsystem layout
 3. Read CODEMAPS/<area>.md       → load only the area you're touching
-4. (only if needed) read full source under tree_sitter_analyzer/<area>/
+4. (only if needed) read full source under codexray/<area>/
 ```

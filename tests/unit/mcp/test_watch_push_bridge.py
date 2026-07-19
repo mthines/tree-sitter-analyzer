@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.mcp.subscription_registry import SubscriptionRegistry
-from tree_sitter_analyzer.mcp.watch_push_bridge import collect_changed_pairs
+from codexray.mcp.subscription_registry import SubscriptionRegistry
+from codexray.mcp.watch_push_bridge import collect_changed_pairs
 
 
 def _seed(registry: SubscriptionRegistry, session: str, selector: str, snap: list):

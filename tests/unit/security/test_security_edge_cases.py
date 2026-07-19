@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 
-from tree_sitter_analyzer.security.validator import SecurityValidator
+from codexray.security.validator import SecurityValidator
 
 
 class TestSecurityValidatorPathTraversal:

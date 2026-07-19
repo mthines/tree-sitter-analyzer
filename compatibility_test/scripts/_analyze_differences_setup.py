@@ -50,7 +50,7 @@ def initial_analysis_results() -> dict[str, list[Any]]:
 
 def build_argument_parser() -> argparse.ArgumentParser:
     """Build the CLI argument parser."""
-    parser = argparse.ArgumentParser(description="tree-sitter-analyzer 出力差分分析")
+    parser = argparse.ArgumentParser(description="codexray 出力差分分析")
     parser.add_argument(
         "--version-a", required=True, help="比較元バージョン (例: 1.9.2)"
     )

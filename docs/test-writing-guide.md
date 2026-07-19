@@ -1,6 +1,6 @@
 # 测试编写指南
 
-本文档为tree-sitter-analyzer项目提供全面的测试编写指南，帮助开发者编写高质量、可维护的测试用例。
+本文档为codexray项目提供全面的测试编写指南，帮助开发者编写高质量、可维护的测试用例。
 
 ## 📋 目录
 
@@ -209,7 +209,7 @@ from unittest.mock import patch, AsyncMock
 
 def test_with_mock():
     """使用mock的测试。"""
-    with patch('tree_sitter_analyzer.core.load_parser') as mock_load:
+    with patch('codexray.core.load_parser') as mock_load:
         mock_load.return_value = mock_parser
 
         result = analyze_file(Path("test.py"))
@@ -220,7 +220,7 @@ def test_with_mock():
 @pytest.mark.asyncio
 async def test_with_async_mock():
     """使用async mock的测试。"""
-    with patch('tree_sitter_analyzer.core.async_load_parser') as mock_load:
+    with patch('codexray.core.async_load_parser') as mock_load:
         mock_load.return_value = AsyncMock()
 
         result = await analyze_file_async(Path("test.py"))
@@ -265,7 +265,7 @@ def test_with_factory():
 """测试性能监控模块。"""
 
 import pytest
-from tree_sitter_analyzer.core.performance import PerformanceMonitor
+from codexray.core.performance import PerformanceMonitor
 
 class TestPerformanceMonitor:
     """PerformanceMonitor类的测试套件。"""
@@ -306,7 +306,7 @@ class TestPerformanceMonitor:
 """测试MCP工具集成。"""
 
 import pytest
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool,
 )
 
@@ -372,7 +372,7 @@ class TestFormatRegression:
 
 import pytest
 from hypothesis import given, strategies as st
-from tree_sitter_analyzer.core.language_detection import detect_language
+from codexray.core.language_detection import detect_language
 
 class TestLanguageDetectionProperties:
     """语言检测属性测试。"""
@@ -538,7 +538,7 @@ uv run pytest tests/unit/core/test_performance.py
 uv run pytest tests/unit/core/test_performance.py::TestPerformanceMonitor::test_initialization
 
 # 运行带覆盖率的测试
-uv run pytest tests/ --cov=tree_sitter_analyzer --cov-report=term-missing
+uv run pytest tests/ --cov=codexray --cov-report=term-missing
 
 # 运行回归测试
 uv run pytest tests/ -m regression
@@ -550,7 +550,7 @@ uv run pytest tests/benchmarks/ -m benchmark --benchmark-enable --benchmark-only
 uv run pytest tests/property/
 
 # 查看测试覆盖率
-uv run pytest --cov=tree_sitter_analyzer --cov-report=html
+uv run pytest --cov=codexray --cov-report=html
 open htmlcov/index.html
 ```
 

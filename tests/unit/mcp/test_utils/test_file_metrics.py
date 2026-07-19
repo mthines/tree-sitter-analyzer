@@ -10,7 +10,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.file_metrics import (
+from codexray.mcp.utils.file_metrics import (
     FileMetrics,
     _compute_line_metrics,
     _compute_max_nesting_depth,
@@ -320,8 +320,8 @@ class TestComputeMaxNestingDepth:
 class TestComputeFileMetrics:
     """Tests for compute_file_metrics function."""
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_max_nesting_depth(
         self, mock_get_cache, mock_read_file
     ):
@@ -343,8 +343,8 @@ class TestComputeFileMetrics:
 
         assert result["max_nesting_depth"] == 5
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_success(self, mock_get_cache, mock_read_file):
         """Test compute_file_metrics with successful file read."""
         mock_read_file.return_value = ("def hello():\n    print('world')", "utf-8")
@@ -365,8 +365,8 @@ class TestComputeFileMetrics:
         assert result["total_lines"] == 2
         assert result["code_lines"] == 2
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_cached(self, mock_get_cache, mock_read_file):
         """Test compute_file_metrics with cached result."""
         mock_read_file.return_value = ("def hello():\n    print('world')", "utf-8")
@@ -389,8 +389,8 @@ class TestComputeFileMetrics:
         # Should not call set_metrics when cache hit
         mock_cache.set_metrics.assert_not_called()
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_cache_miss(self, mock_get_cache, mock_read_file):
         """Test compute_file_metrics with cache miss."""
         content = "def hello():\n    print('world')"
@@ -408,7 +408,7 @@ class TestComputeFileMetrics:
         assert "/test/file.py" in cache_key
         assert "::" in cache_key  # Cache key uses double colon separator
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
     def test_compute_file_metrics_file_not_found(self, mock_read_file):
         """Test compute_file_metrics with FileNotFoundError."""
         mock_read_file.side_effect = FileNotFoundError("File not found")
@@ -424,7 +424,7 @@ class TestComputeFileMetrics:
         assert result["file_size_bytes"] == 0
         assert result["content_hash"] == ""
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
     def test_compute_file_metrics_os_error(self, mock_read_file):
         """Test compute_file_metrics with OSError."""
         mock_read_file.side_effect = OSError("Permission denied")
@@ -440,8 +440,8 @@ class TestComputeFileMetrics:
         assert result["file_size_bytes"] == 0
         assert result["content_hash"] == ""
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_content_hash(self, mock_get_cache, mock_read_file):
         """Test compute_file_metrics computes content hash correctly."""
         content = "def hello():\n    print('world')"
@@ -455,8 +455,8 @@ class TestComputeFileMetrics:
         expected_hash = hashlib.sha256(content.encode("utf-8")).hexdigest()
         assert result["content_hash"] == expected_hash
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_file_size(self, mock_get_cache, mock_read_file):
         """Test compute_file_metrics computes file size correctly."""
         content = "def hello():\n    print('world')"
@@ -470,8 +470,8 @@ class TestComputeFileMetrics:
         expected_size = len(content.encode("utf-8"))
         assert result["file_size_bytes"] == expected_size
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_with_language(self, mock_get_cache, mock_read_file):
         """Test compute_file_metrics with language parameter."""
         content = "# Comment\ndef hello():\n    print('world')"
@@ -486,8 +486,8 @@ class TestComputeFileMetrics:
         assert result["comment_lines"] == 1
         assert result["code_lines"] == 2
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_without_language(
         self, mock_get_cache, mock_read_file
     ):
@@ -504,8 +504,8 @@ class TestComputeFileMetrics:
         assert "total_lines" in result
         assert "code_lines" in result
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_with_project_root(
         self, mock_get_cache, mock_read_file
     ):
@@ -525,8 +525,8 @@ class TestComputeFileMetrics:
         call_kwargs = mock_cache.get_metrics.call_args[1]
         assert call_kwargs["project_root"] == "/project"
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_unicode_content(self, mock_get_cache, mock_read_file):
         """Test compute_file_metrics with Unicode content."""
         content = "# 日本語コメント\ndef hello():\n    print('世界')"
@@ -544,8 +544,8 @@ class TestComputeFileMetrics:
             result["code_lines"] == 2
         )  # Adjustment logic makes code_lines = total - comment - blank
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_compute_file_metrics_estimated_tokens(
         self, mock_get_cache, mock_read_file
     ):
@@ -565,8 +565,8 @@ class TestComputeFileMetrics:
 class TestIntegration:
     """Integration tests for file_metrics module."""
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_full_metrics_workflow(self, mock_get_cache, mock_read_file):
         """Test complete metrics computation workflow."""
         content = """# Module docstring
@@ -603,8 +603,8 @@ def main():
         assert result["file_size_bytes"] == 153
         assert len(result["content_hash"]) == 64  # SHA256 hex length
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_cache_key_includes_content_hash(self, mock_get_cache, mock_read_file):
         """Test cache key includes content hash."""
         content = "def hello():\n    print('world')"
@@ -620,8 +620,8 @@ def main():
         assert expected_hash in cache_key_arg
         assert "/test/file.py" in cache_key_arg
 
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.read_file_safe")
-    @patch("tree_sitter_analyzer.mcp.utils.file_metrics.get_shared_cache")
+    @patch("codexray.mcp.utils.file_metrics.read_file_safe")
+    @patch("codexray.mcp.utils.file_metrics.get_shared_cache")
     def test_different_content_different_hash(self, mock_get_cache, mock_read_file):
         """Test different content produces different hash."""
         content1 = "def hello():\n    print('world')"

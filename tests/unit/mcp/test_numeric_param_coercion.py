@@ -25,7 +25,7 @@ class TestAstCacheIndexMaxFilesCoercion:
 
     @pytest.mark.asyncio
     async def test_mode_index_max_files_string_does_not_crash(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
+        from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
 
         tool = ASTCacheTool(project_root="/fake/root")
 
@@ -73,7 +73,7 @@ class TestAstCacheSyncMaxFilesCoercion:
     async def test_mode_sync_max_files_string_does_not_crash(
         self, tmp_path: Any
     ) -> None:
-        from tree_sitter_analyzer.mcp.tools.ast_cache_tool import ASTCacheTool
+        from codexray.mcp.tools.ast_cache_tool import ASTCacheTool
 
         tool = ASTCacheTool(project_root=str(tmp_path))
 
@@ -117,7 +117,7 @@ class TestAstPathMaxDepthCoercion:
     async def test_mode_outline_max_depth_string_does_not_crash(
         self, tmp_path: Any
     ) -> None:
-        from tree_sitter_analyzer.mcp.tools.ast_path_tool import CodeGraphASTPathTool
+        from codexray.mcp.tools.ast_path_tool import CodeGraphASTPathTool
 
         src = tmp_path / "foo.py"
         src.write_text("def foo(): pass\n")
@@ -158,7 +158,7 @@ class TestClassHierarchyMaxDepthCoercion:
 
     @pytest.mark.asyncio
     async def test_max_depth_string_does_not_crash(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import (
+        from codexray.mcp.tools.class_hierarchy_tool import (
             ClassHierarchyTool,
         )
 
@@ -166,7 +166,7 @@ class TestClassHierarchyMaxDepthCoercion:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.class_hierarchy_tool.is_index_rebuilding",
+                "codexray.mcp.tools.class_hierarchy_tool.is_index_rebuilding",
                 return_value=False,
             ),
             patch.object(tool, "_get_hierarchy") as mock_hier_factory,
@@ -202,7 +202,7 @@ class TestCodegraphSitemapMaxFilesCoercion:
 
     @pytest.mark.asyncio
     async def test_max_files_string_does_not_crash(self, tmp_path: Any) -> None:
-        from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+        from codexray.mcp.tools.codegraph_sitemap_tool import (
             CodeGraphSitemapTool,
         )
 
@@ -234,7 +234,7 @@ class TestDependencyMatrixTopKCoercion:
 
     @pytest.mark.asyncio
     async def test_top_k_string_does_not_crash(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.dependency_matrix_tool import (
+        from codexray.mcp.tools.dependency_matrix_tool import (
             CodeGraphDependencyMatrixTool,
         )
 
@@ -270,7 +270,7 @@ class TestFullIndexMaxFilesCoercion:
 
     @pytest.mark.asyncio
     async def test_max_files_string_does_not_crash(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.full_index_tool import (
+        from codexray.mcp.tools.full_index_tool import (
             CodeGraphFullIndexTool,
         )
 
@@ -311,7 +311,7 @@ class TestImportGraphMaxDepthCoercion:
     async def test_blast_radius_max_depth_string_does_not_crash(
         self, tmp_path: Any
     ) -> None:
-        from tree_sitter_analyzer.mcp.tools.import_graph_tool import (
+        from codexray.mcp.tools.import_graph_tool import (
             CodeGraphImportGraphTool,
         )
 
@@ -353,7 +353,7 @@ class TestProjectOverviewMaxDepthCoercion:
 
     @pytest.mark.asyncio
     async def test_max_depth_string_does_not_crash(self, tmp_path: Any) -> None:
-        from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+        from codexray.mcp.tools.project_overview_tool import (
             ProjectOverviewTool,
         )
 
@@ -361,11 +361,11 @@ class TestProjectOverviewMaxDepthCoercion:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.project_overview_tool._scan_project",
+                "codexray.mcp.tools.project_overview_tool._scan_project",
                 return_value={},
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.project_overview_tool._build_result",
+                "codexray.mcp.tools.project_overview_tool._build_result",
                 return_value={"success": True},
             ),
         ):
@@ -389,7 +389,7 @@ class TestTestGapMaxFilesMaxGapsCoercion:
 
     @pytest.mark.asyncio
     async def test_max_files_and_max_gaps_string_does_not_crash(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.test_gap_tool import CodeGraphTestGapTool
+        from codexray.mcp.tools.test_gap_tool import CodeGraphTestGapTool
 
         tool = CodeGraphTestGapTool(project_root="/fake/root")
 
@@ -401,7 +401,7 @@ class TestTestGapMaxFilesMaxGapsCoercion:
         fake_result.coverage_percentage = 100.0
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.test_gap_tool.analyze_coverage_gaps",
+            "codexray.mcp.tools.test_gap_tool.analyze_coverage_gaps",
             return_value=fake_result,
         ) as mock_analyze:
             resp = await tool.execute(
@@ -433,7 +433,7 @@ class TestTraceImpactMaxResultsCoercion:
 
     @pytest.mark.asyncio
     async def test_max_results_string_does_not_crash(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import TraceImpactTool
+        from codexray.mcp.tools.trace_impact_tool import TraceImpactTool
 
         tool = TraceImpactTool(project_root="/fake/root")
 
@@ -444,11 +444,11 @@ class TestTraceImpactMaxResultsCoercion:
                 return_value=["/fake/root"],
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.trace_impact_tool.build_rg_command",
+                "codexray.mcp.tools.trace_impact_tool.build_rg_command",
                 return_value=["rg", "--json", "my_func"],
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture",
+                "codexray.mcp.tools.trace_impact_tool.run_command_capture",
                 return_value=(1, b"", b""),  # rc=1 → zero matches (NOT_FOUND path)
             ),
         ):
@@ -475,14 +475,14 @@ class TestUnreachableCodeMaxFilesCoercion:
 
     @pytest.mark.asyncio
     async def test_max_files_string_does_not_crash(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.unreachable_code_tool import (
+        from codexray.mcp.tools.unreachable_code_tool import (
             UnreachableCodeTool,
         )
 
         tool = UnreachableCodeTool(project_root="/fake/root")
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.unreachable_code_tool.analyze_project_unreachable",
+            "codexray.mcp.tools.unreachable_code_tool.analyze_project_unreachable",
             return_value=[],
         ) as mock_analyze:
             resp = await tool.execute(

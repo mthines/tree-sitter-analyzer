@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import (
+from codexray.mcp.tools.search_content_tool import (
     SearchContentTool,
 )
 
@@ -35,7 +35,7 @@ class TestExecute:
         tool = SearchContentTool(project_root=str(tmp_path))
         (tmp_path / "src").mkdir()
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=False,
         ):
             arguments = {"roots": [str(tmp_path)], "query": "test"}
@@ -46,17 +46,17 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_total_only_mode(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b"42", b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_count_output",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_count_output",
                     return_value={"__total__": 42},
                 ):
                     arguments = {
@@ -73,17 +73,17 @@ class TestExecute:
         self, tool, sample_project_structure
     ):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b"10\n5\n", b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_count_output",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_count_output",
                     return_value={"__total__": 15, "file1.py": 10, "file2.py": 5},
                 ):
                     arguments = {
@@ -102,21 +102,21 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_summary_only_mode(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b'{"path": "file1.py"}\n', b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py"}],
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.summarize_search_results",
+                        "codexray.mcp.tools.search_content_tool.fd_rg_utils.summarize_search_results",
                         return_value={"top_files": ["file1.py"]},
                     ):
                         arguments = {
@@ -133,21 +133,21 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_group_by_file_mode(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b'{"path": "file1.py"}\n', b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py"}],
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.group_matches_by_file",
+                        "codexray.mcp.tools.search_content_tool.fd_rg_utils.group_matches_by_file",
                         return_value={
                             "success": True,
                             "count": 1,
@@ -168,17 +168,17 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_file_output(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b'{"path": "file1.py"}\n', b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py"}],
                 ):
                     with patch.object(
@@ -200,17 +200,17 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_suppress_output(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b'{"path": "file1.py"}\n', b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py"}],
                 ):
                     with patch.object(
@@ -235,21 +235,21 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_toon_format(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b'{"path": "file1.py"}\n', b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py"}],
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.search_content_tool.apply_toon_format_to_response"
+                        "codexray.mcp.tools.search_content_tool.apply_toon_format_to_response"
                     ) as mock_toon:
                         mock_toon.return_value = {"toon": "formatted"}
 
@@ -267,11 +267,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_rg_failure(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (2, b"", b"ripgrep: error")
@@ -293,7 +293,7 @@ class TestExecute:
         tool.cache.create_cache_key.return_value = "cache_key"
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             arguments = {
@@ -310,11 +310,11 @@ class TestExecute:
         tool_no_cache = SearchContentTool(enable_cache=False)
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b"", b"")
@@ -332,15 +332,15 @@ class TestExecute:
         self, tool, sample_project_structure
     ):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.split_roots_for_parallel_processing",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.split_roots_for_parallel_processing",
                 return_value=[["root1"], ["root2"]],
             ):
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_parallel_rg_searches",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_parallel_rg_searches",
                     new_callable=AsyncMock,
                 ) as mock_parallel:
                     mock_parallel.return_value = (
@@ -349,7 +349,7 @@ class TestExecute:
                     )
 
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.merge_rg_results",
+                        "codexray.mcp.tools.search_content_tool.fd_rg_utils.merge_rg_results",
                         return_value=(0, b"", b""),
                     ):
                         arguments = {
@@ -367,11 +367,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_files_parameter(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b"", b"")
@@ -387,11 +387,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_optimize_paths(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -401,11 +401,11 @@ class TestExecute:
                 )
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "/very/long/path/to/file1.py"}],
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.optimize_match_paths",
+                        "codexray.mcp.tools.search_content_tool.fd_rg_utils.optimize_match_paths",
                         return_value=[{"path": "file1.py"}],
                     ):
                         arguments = {
@@ -420,17 +420,17 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_file_save_error(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b'{"path": "file1.py"}\n', b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
+                    "codexray.mcp.tools.search_content_tool.fd_rg_utils.parse_rg_json_lines_to_matches",
                     return_value=[{"path": "file1.py"}],
                 ):
                     with patch.object(
@@ -453,11 +453,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_timeout(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b"", b"")
@@ -474,11 +474,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_max_count(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, b"", b"")

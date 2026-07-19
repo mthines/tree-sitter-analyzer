@@ -14,11 +14,11 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cache.extraction import _extract_call_edges
-from tree_sitter_analyzer.core.parser import Parser
-from tree_sitter_analyzer.mcp.tools.callees_tool import CodeGraphCalleesTool
-from tree_sitter_analyzer.mcp.tools.callers_tool import CodeGraphCallersTool
+from codexray.ast_cache import ASTCache
+from codexray.cache.extraction import _extract_call_edges
+from codexray.core.parser import Parser
+from codexray.mcp.tools.callees_tool import CodeGraphCalleesTool
+from codexray.mcp.tools.callers_tool import CodeGraphCallersTool
 
 # ---------------------------------------------------------------------------
 # Helpers

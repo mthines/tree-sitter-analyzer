@@ -34,7 +34,7 @@ def _description() -> str:
 
 def _registry_tool_count() -> int:
     sys.path.insert(0, str(PROJECT_ROOT))
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+    from codexray.mcp._tool_registry import create_tool_registry
 
     tools, _ = create_tool_registry(str(PROJECT_ROOT))
     return len(tools)

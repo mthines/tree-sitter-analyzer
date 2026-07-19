@@ -16,8 +16,8 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.formatters.java_formatter import JavaTableFormatter
-from tree_sitter_analyzer.models import (
+from codexray.formatters.java_formatter import JavaTableFormatter
+from codexray.models import (
     AnalysisResult,
     Class,
     Function,

@@ -181,7 +181,7 @@ jobs:
 
           # Quality gates — the same ones the brief told the agent to run.
           uv run pytest -q tests/regression/test_plugin_golden_masters.py
-          uv run python -m tree_sitter_analyzer --change-impact --format json > /tmp/impact.json
+          uv run python -m codexray --change-impact --format json > /tmp/impact.json
 
           branch="auto-sprint/$(date -u +%Y%m%d-%H%M)-item${{ github.event.inputs.work_item_index }}"
           git config user.name "auto-sprint[bot]"

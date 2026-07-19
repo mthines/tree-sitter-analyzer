@@ -9,7 +9,7 @@ analyze_file, and MarkdownElement attributes.
 
 from unittest.mock import MagicMock, Mock, patch
 
-from tree_sitter_analyzer.languages.markdown_plugin import (
+from codexray.languages.markdown_plugin import (
     MarkdownElement,
     MarkdownElementExtractor,
     MarkdownPlugin,

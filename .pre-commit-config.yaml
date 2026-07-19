@@ -1,4 +1,4 @@
-# Pre-commit hooks for Tree-sitter Analyzer
+# Pre-commit hooks for CodeXray
 # Install: uv add --dev pre-commit && uv run pre-commit install
 
 repos:
@@ -58,7 +58,7 @@ repos:
       - id: bandit
         # pass_filenames defaults to true, so bandit only scans the files
         # pre-commit hands it (staged files). Do NOT add a blanket
-        # `-r tree_sitter_analyzer` arg — that scans the whole tree and
+        # `-r codexray` arg — that scans the whole tree and
         # blocks commits on pre-existing untracked-file violations.
         exclude: ^tests/|^openspec/changes/archive/|^scripts/|^build_standalone\.py$|^check_quality\.py$|^run_regression_tests\.py$|^test_fixes\.py$|^upload_interactive\.py$|^upload_to_pypi\.py$|^examples/
         args: [--format, json, -c, pyproject.toml]

@@ -16,7 +16,7 @@ from unittest.mock import MagicMock, patch
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.utils.tree_sitter_compat import (
+from codexray.utils.tree_sitter_compat import (
     TreeSitterQueryCompat,
     create_query_safely,
     get_node_text_safe,

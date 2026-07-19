@@ -6,10 +6,10 @@
 - **Last updated**: 2026-06-04
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/test_gap_analyzer.py`
-  - `tree_sitter_analyzer/mcp/tools/test_gap_tool.py`
-  - `tree_sitter_analyzer/mcp/tools/health_facade.py` (wire the orphaned tool in)
-  - `tree_sitter_analyzer/cli/` (add the parity flag)
+  - `codexray/test_gap_analyzer.py`
+  - `codexray/mcp/tools/test_gap_tool.py`
+  - `codexray/mcp/tools/health_facade.py` (wire the orphaned tool in)
+  - `codexray/cli/` (add the parity flag)
   - `tests/unit/test_test_gap_analyzer.py`, `tests/unit/test_test_gap_tool.py`
 
 ## Summary

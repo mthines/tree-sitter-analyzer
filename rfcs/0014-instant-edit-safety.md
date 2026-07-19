@@ -6,12 +6,12 @@
 - **Last updated**: 2026-06-11 — adversarial review round 1
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/mcp/tools/codegraph_impact_tool.py` (`_compute_risk_score`, `_compute_transitive_callers`, `_compute_transitive_callees`)
-  - `tree_sitter_analyzer/mcp/tools/nav_facade.py` (`build_nav_facade`, `_NAV_DESCRIPTION`)
-  - `tree_sitter_analyzer/mcp/tools/callers_tool.py` (callers list output)
-  - `tree_sitter_analyzer/utils/test_detection.py` (`is_test_file` — read-only)
-  - `tree_sitter_analyzer/graph/edge_store.py` (`EDGE_STORE_SCHEMA` — read-only; `file_path` column is the caller's file)
-  - `tree_sitter_analyzer/mcp/tools/utils/change_impact_git.py` (`_run_git` — model for co_change subprocess)
+  - `codexray/mcp/tools/codegraph_impact_tool.py` (`_compute_risk_score`, `_compute_transitive_callers`, `_compute_transitive_callees`)
+  - `codexray/mcp/tools/nav_facade.py` (`build_nav_facade`, `_NAV_DESCRIPTION`)
+  - `codexray/mcp/tools/callers_tool.py` (callers list output)
+  - `codexray/utils/test_detection.py` (`is_test_file` — read-only)
+  - `codexray/graph/edge_store.py` (`EDGE_STORE_SCHEMA` — read-only; `file_path` column is the caller's file)
+  - `codexray/mcp/tools/utils/change_impact_git.py` (`_run_git` — model for co_change subprocess)
   - `tests/unit/test_codegraph_impact_tool.py` (new class `TestImpactTestPartition`)
   - `tests/unit/mcp/tools/test_nav_facade_test_map.py` (new file)
   - `tests/unit/mcp/tools/test_co_change.py` (new file)
@@ -49,7 +49,7 @@ From the dogfood round 2026-06-11 (`.recon/dogfood-2026-06-11.md`, DF-16):
 > score built on noise**
 
 `_compute_risk_score` in
-`tree_sitter_analyzer/mcp/tools/codegraph_impact_tool.py:94–160` computes
+`codexray/mcp/tools/codegraph_impact_tool.py:94–160` computes
 `fan_in = len(direct_callers)` (line 106) and `fan_out = len(direct_callees)`
 (line 107) with no test-file filter. `graph.caller_refs_of(target)` and
 `graph.callee_refs_of(target)` (implemented at `call_graph.py:496, 485`) return
@@ -227,7 +227,7 @@ New helper, placed in `codegraph_impact_tool.py` alongside the existing
 `_compute_risk_score`:
 
 ```python
-from tree_sitter_analyzer.utils.test_detection import is_test_file
+from codexray.utils.test_detection import is_test_file
 
 def _partition_refs(
     refs: list[FunctionRef],
@@ -887,7 +887,7 @@ class TestNavImpactPartition:
         the execute-vs-boundary trap (Codex P2 pattern: execute() bypasses
         _project_args so a stripped include_tests would not be detected).
         """
-        from tree_sitter_analyzer.mcp.server import build_mcp_server
+        from codexray.mcp.server import build_mcp_server
         server = build_mcp_server(real_project_root)
         response = await server.handle_call_tool("nav", {
             "action": "impact",

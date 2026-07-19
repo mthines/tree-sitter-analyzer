@@ -31,7 +31,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
+from codexray.mcp.server import CodeXrayMCPServer
 
 
 class SemanticComparator:
@@ -285,7 +285,7 @@ class GoldenMasterMCPTester:
 @pytest.fixture(scope="session")
 def mcp_server():
     """Session-scoped MCP server"""
-    return TreeSitterAnalyzerMCPServer()
+    return CodeXrayMCPServer()
 
 
 @pytest.fixture(scope="session")

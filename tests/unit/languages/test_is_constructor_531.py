@@ -16,17 +16,17 @@ from __future__ import annotations
 import pytest
 import tree_sitter
 
-from tree_sitter_analyzer.languages._cpp_plugin_analysis import (
+from codexray.languages._cpp_plugin_analysis import (
     create_cpp_parser,
 )
-from tree_sitter_analyzer.languages.cpp_plugin import CppPlugin
-from tree_sitter_analyzer.languages.php_plugin import PHPPlugin
-from tree_sitter_analyzer.languages.python_plugin.plugin import (
+from codexray.languages.cpp_plugin import CppPlugin
+from codexray.languages.php_plugin import PHPPlugin
+from codexray.languages.python_plugin.plugin import (
     PythonElementExtractor,
     PythonPlugin,
 )
-from tree_sitter_analyzer.languages.ruby_plugin import RubyPlugin
-from tree_sitter_analyzer.languages.scala_plugin import (
+from codexray.languages.ruby_plugin import RubyPlugin
+from codexray.languages.scala_plugin import (
     ScalaPlugin,
 )
 
@@ -254,7 +254,7 @@ class TestDecoratedPythonConstructor:
         import tree_sitter
         import tree_sitter_python
 
-        from tree_sitter_analyzer.languages.python_plugin import (
+        from codexray.languages.python_plugin import (
             PythonElementExtractor,
         )
 
@@ -283,7 +283,7 @@ class TestCppHeaderConstructorDeclaration:
         import tree_sitter
         import tree_sitter_cpp
 
-        from tree_sitter_analyzer.languages.cpp_plugin import CppElementExtractor
+        from codexray.languages.cpp_plugin import CppElementExtractor
 
         code = b"""
 class Rectangle {

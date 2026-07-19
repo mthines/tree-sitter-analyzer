@@ -7,18 +7,18 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import (
-    TreeSitterAnalyzerMCPServer,
+from codexray.mcp.server import (
+    CodeXrayMCPServer,
 )
-from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+from codexray.mcp.utils.error_handler import AnalysisError
 
 
-class TestTreeSitterAnalyzerMCPServerInitialization:
+class TestCodeXrayMCPServerInitialization:
     """Test MCP server initialization and setup."""
 
     def test_server_initialization_success(self, temp_project_dir):
         """Test successful server initialization."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         assert server.is_initialized()
         # Check project root through security validator
@@ -28,14 +28,14 @@ class TestTreeSitterAnalyzerMCPServerInitialization:
             None,
         )
         assert actual_project_root == str(temp_project_dir)
-        assert server.name == "tree-sitter-analyzer-mcp"
+        assert server.name == "codexray-mcp"
         assert server.version is not None
         assert hasattr(server, "analysis_engine")
         assert hasattr(server, "security_validator")
 
     def test_server_initialization_with_tools(self, temp_project_dir):
         """Test server initialization includes all required tools."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Check core tools
         assert hasattr(server, "query_tool")
@@ -48,18 +48,18 @@ class TestTreeSitterAnalyzerMCPServerInitialization:
 
     def test_server_initialization_with_resources(self, temp_project_dir):
         """Test server initialization includes required resources."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         assert hasattr(server, "code_file_resource")
         assert hasattr(server, "project_stats_resource")
 
     def test_server_initialization_with_universal_tool(self, temp_project_dir):
         """Test server initialization with optional universal tool."""
-        with patch("tree_sitter_analyzer.mcp.server.UniversalAnalyzeTool") as mock_tool:
+        with patch("codexray.mcp.server.UniversalAnalyzeTool") as mock_tool:
             mock_instance = Mock()
             mock_tool.return_value = mock_instance
 
-            server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+            server = CodeXrayMCPServer(temp_project_dir)
 
             assert hasattr(server, "universal_analyze_tool")
             assert server.universal_analyze_tool == mock_instance
@@ -67,30 +67,30 @@ class TestTreeSitterAnalyzerMCPServerInitialization:
     def test_server_initialization_without_universal_tool(self, temp_project_dir):
         """Test server initialization when universal tool is not available."""
         with patch(
-            "tree_sitter_analyzer.mcp.server.UniversalAnalyzeTool",
+            "codexray.mcp.server.UniversalAnalyzeTool",
             side_effect=ImportError,
         ):
-            server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+            server = CodeXrayMCPServer(temp_project_dir)
 
             assert server.universal_analyze_tool is None
 
     def test_ensure_initialized_success(self, temp_project_dir):
         """Test _ensure_initialized when server is initialized."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Should not raise any exception
         server._ensure_initialized()
 
     def test_ensure_initialized_failure(self, temp_project_dir):
         """Test _ensure_initialized when server is not initialized."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
         server._initialization_complete = False
 
         with pytest.raises(RuntimeError, match="Server not fully initialized"):
             server._ensure_initialized()
 
 
-class TestTreeSitterAnalyzerMCPServerCodeAnalysis:
+class TestCodeXrayMCPServerCodeAnalysis:
     """Test MCP server code analysis functionality."""
 
     @pytest.fixture
@@ -124,7 +124,7 @@ x = 42
         self, temp_project_dir, sample_python_file
     ):
         """Test successful code scale analysis."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         arguments = {
             "file_path": sample_python_file,
@@ -152,7 +152,7 @@ x = 42
         self, temp_project_dir, sample_python_file
     ):
         """Test code scale analysis with detailed elements."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         arguments = {
             "file_path": sample_python_file,
@@ -168,7 +168,7 @@ x = 42
     @pytest.mark.asyncio
     async def test_analyze_code_scale_missing_file_path(self, temp_project_dir):
         """Test code scale analysis with missing file_path."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         arguments = {}
 
@@ -181,7 +181,7 @@ x = 42
     @pytest.mark.asyncio
     async def test_analyze_code_scale_file_not_found(self, temp_project_dir):
         """Test code scale analysis with non-existent file."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         arguments = {"file_path": "non_existent_file.py"}
 
@@ -191,7 +191,7 @@ x = 42
     @pytest.mark.asyncio
     async def test_analyze_code_scale_not_initialized(self, temp_project_dir):
         """Test code scale analysis when server is not initialized."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
         server._initialization_complete = False
 
         arguments = {"file_path": "test.py"}
@@ -213,7 +213,7 @@ x = 42
         mock_universal_tool = AsyncMock()
         mock_universal_tool.execute.return_value = {"result": "from_universal_tool"}
 
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
         server.universal_analyze_tool = mock_universal_tool
 
         arguments = {}  # No file_path to trigger universal tool
@@ -224,12 +224,12 @@ x = 42
         mock_universal_tool.execute.assert_called_once_with(arguments)
 
 
-class TestTreeSitterAnalyzerMCPServerFileMetrics:
+class TestCodeXrayMCPServerFileMetrics:
     """Test MCP server file metrics calculation."""
 
     def test_calculate_file_metrics_python(self, temp_project_dir):
         """Test file metrics calculation for Python file."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         test_file = Path(temp_project_dir) / "test.py"
         content = '''# This is a comment
@@ -252,7 +252,7 @@ x = 42
 
     def test_calculate_file_metrics_javascript(self, temp_project_dir):
         """Test file metrics calculation for JavaScript file."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         test_file = Path(temp_project_dir) / "test.js"
         content = """// Single line comment
@@ -275,7 +275,7 @@ const x = 42;
 
     def test_calculate_file_metrics_java(self, temp_project_dir):
         """Test file metrics calculation for Java file."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         test_file = Path(temp_project_dir) / "Test.java"
         content = """/**
@@ -298,7 +298,7 @@ public class Test {
 
     def test_calculate_file_metrics_multiline_comments(self, temp_project_dir):
         """Test file metrics with complex multiline comments."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         test_file = Path(temp_project_dir) / "test.js"
         content = """/*
@@ -317,7 +317,7 @@ function test() {
 
     def test_calculate_file_metrics_error_handling(self, temp_project_dir):
         """Test file metrics calculation error handling."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         metrics = server._calculate_file_metrics("non_existent.py", "python")
 
@@ -327,38 +327,38 @@ function test() {
         assert metrics["blank_lines"] == 0
 
 
-class TestTreeSitterAnalyzerMCPServerCreation:
+class TestCodeXrayMCPServerCreation:
     """Test MCP server creation and configuration."""
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     def test_create_server_success(self, temp_project_dir):
         """Test successful server creation."""
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             mock_server_class.return_value = mock_server
 
-            server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+            server = CodeXrayMCPServer(temp_project_dir)
             result = server.create_server()
 
             assert result == mock_server
             mock_server_class.assert_called_once_with(server.name)
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", False)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", False)
     def test_create_server_mcp_unavailable(self, temp_project_dir):
         """Test server creation when MCP is unavailable."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         with pytest.raises(RuntimeError, match="MCP library not available"):
             server.create_server()
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     def test_create_server_tool_registration(self, temp_project_dir):
         """Test that tools are properly registered."""
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             mock_server_class.return_value = mock_server
 
-            server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+            server = CodeXrayMCPServer(temp_project_dir)
             server.create_server()
 
             # Verify decorators were called
@@ -367,11 +367,11 @@ class TestTreeSitterAnalyzerMCPServerCreation:
             assert mock_server.list_resources.called
             assert mock_server.read_resource.called
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_list_tools(self, temp_project_dir):
         """Test tool listing functionality."""
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured_handlers = {}
 
@@ -385,7 +385,7 @@ class TestTreeSitterAnalyzerMCPServerCreation:
             mock_server.list_tools.return_value = capture_decorator("list_tools")
             mock_server_class.return_value = mock_server
 
-            server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+            server = CodeXrayMCPServer(temp_project_dir)
             server.create_server()
 
             assert "list_tools" in captured_handlers, (
@@ -410,11 +410,11 @@ class TestTreeSitterAnalyzerMCPServerCreation:
                 assert facade in tool_names, facade
             assert "set_project_path" in tool_names
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_handle_list_resources(self, temp_project_dir):
         """Test resource listing functionality."""
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             captured_handlers = {}
 
@@ -430,7 +430,7 @@ class TestTreeSitterAnalyzerMCPServerCreation:
             )
             mock_server_class.return_value = mock_server
 
-            server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+            server = CodeXrayMCPServer(temp_project_dir)
             server.create_server()
 
             assert "list_resources" in captured_handlers, (

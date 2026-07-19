@@ -27,11 +27,11 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool,
 )
-from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
-from tree_sitter_analyzer.models.result import AnalysisResult
+from codexray.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
+from codexray.models.result import AnalysisResult
 
 # ---------------------------------------------------------------------------
 # C++ content in .py (issue #707): tree-sitter parses via the Python grammar
@@ -108,17 +108,17 @@ async def test_structure_boundary_classifies_as_language_unsupported() -> None:
     envelope normalizers), so it catches both the masking regression AND any
     error_type misclassification the per-tool ``pytest.raises`` checks miss.
     """
-    from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-    from tree_sitter_analyzer.mcp.server_utils.error_recovery import (
+    from codexray.mcp.server import CodeXrayMCPServer
+    from codexray.mcp.server_utils.error_recovery import (
         build_agent_friendly_error,
         ensure_canonical_error_envelope,
         ensure_canonical_success_envelope,
     )
-    from tree_sitter_analyzer.mcp.server_utils.tool_registration import (
+    from codexray.mcp.server_utils.tool_registration import (
         _dispatch_tool,
     )
 
-    server = TreeSitterAnalyzerMCPServer(project_root=".")
+    server = CodeXrayMCPServer(project_root=".")
     server._ensure_registry()
     server._initialization_complete = True
 

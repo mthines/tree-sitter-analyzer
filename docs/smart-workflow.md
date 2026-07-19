@@ -1,6 +1,6 @@
 # SMART Workflow Guide
 
-The SMART workflow is the recommended process for analyzing code using AI assistants with Tree-sitter Analyzer.
+The SMART workflow is the recommended process for analyzing code using AI assistants with CodeXray.
 
 ## What is SMART?
 
@@ -31,10 +31,10 @@ If you want the workflow as a structured, copy-pasteable command pack, ask the
 CLI before opening a new queue item:
 
 ```bash
-uv run tree-sitter-analyzer agent-skills --format json
-uv run tree-sitter-analyzer parser-readiness --format json
-uv run tree-sitter-analyzer agent-workflow --format json
-uv run tree-sitter-analyzer agent-workflow examples/BigService.java --format json
+uv run codexray agent-skills --format json
+uv run codexray parser-readiness --format json
+uv run codexray agent-workflow --format json
+uv run codexray agent-workflow examples/BigService.java --format json
 ```
 
 The pack includes `current_phase`, `phase_order`, `current_step`, and

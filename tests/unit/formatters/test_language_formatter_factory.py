@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Unit tests for tree_sitter_analyzer.formatters.language_formatter_factory module.
+Unit tests for codexray.formatters.language_formatter_factory module.
 
 This module tests LanguageFormatterFactory class.
 """
 
 import pytest
 
-from tree_sitter_analyzer.formatters.base_formatter import BaseFormatter
-from tree_sitter_analyzer.formatters.language_formatter_factory import (
+from codexray.formatters.base_formatter import BaseFormatter
+from codexray.formatters.language_formatter_factory import (
     LanguageFormatterFactory,
     create_language_formatter,
 )
@@ -126,7 +126,7 @@ class TestLanguageFormatterFactoryRegisterFormatter:
         assert isinstance(formatter, MockFormatter)
 
         # Restore original
-        from tree_sitter_analyzer.formatters.python_formatter import (
+        from codexray.formatters.python_formatter import (
             PythonTableFormatter,
         )
 

@@ -1,5 +1,5 @@
 """
-Benchmark: tree-sitter-analyzer vs CodeGraph comparison.
+Benchmark: codexray vs CodeGraph comparison.
 
 CodeGraph claims: 92% fewer tool calls, 71% faster exploration.
 Their methodology: Same query to Claude Explore agent, measure tool calls + time + tokens.
@@ -9,7 +9,7 @@ Our benchmark: Run the SAME queries through our MCP tools, measure:
 2. Wall-clock time
 3. Tokens in response (approximate)
 
-Test target: tree-sitter-analyzer's own codebase (~425 files, 92K lines)
+Test target: codexray's own codebase (~425 files, 92K lines)
 """
 
 import time
@@ -70,7 +70,7 @@ BENCHMARK_QUERIES = [
         "id": "mcp-tools",
         "query": "How are MCP tools registered and dispatched?",
         "expected_symbols": [
-            "TreeSitterAnalyzerMCPServer",
+            "CodeXrayMCPServer",
             "_create_tool_registry",
             "handle_call_tool",
             "analyze_code_structure",
@@ -110,7 +110,7 @@ BENCHMARK_QUERIES = [
 
 def benchmark_search_symbol(query_text: str, expected: list[str]) -> BenchmarkResult:
     """Simulate what an agent would do with our tools to answer a question."""
-    from tree_sitter_analyzer.core.engine import AnalysisEngine
+    from codexray.core.engine import AnalysisEngine
 
     result = BenchmarkResult(query=query_text, expected_symbols=expected)
     engine = AnalysisEngine(project_root=str(PROJECT_ROOT))
@@ -120,7 +120,7 @@ def benchmark_search_symbol(query_text: str, expected: list[str]) -> BenchmarkRe
     # Step 1: smart_context or analyze_code_structure (1 tool call)
     result.tool_calls += 1
     ctx = engine.analyze_file(
-        file_path=str(PROJECT_ROOT / "tree_sitter_analyzer" / "cli" / "cli_main.py"),
+        file_path=str(PROJECT_ROOT / "codexray" / "cli" / "cli_main.py"),
         language="python",
     )
     result.found_symbols.extend(
@@ -156,11 +156,11 @@ def run_synthetic_benchmark():
 
         # Time our analysis pipeline
         try:
-            from tree_sitter_analyzer.core.engine import AnalysisEngine
+            from codexray.core.engine import AnalysisEngine
 
             engine = AnalysisEngine(project_root=str(PROJECT_ROOT))
             t0 = time.perf_counter()
-            for py_file in list(PROJECT_ROOT.glob("tree_sitter_analyzer/**/*.py"))[:5]:
+            for py_file in list(PROJECT_ROOT.glob("codexray/**/*.py"))[:5]:
                 engine.analyze_file(str(py_file), "python")
             analysis_time = time.perf_counter() - t0
         except Exception:
@@ -184,7 +184,7 @@ def run_synthetic_benchmark():
 
 
 def run_capability_comparison():
-    """Compare feature parity between CodeGraph and tree-sitter-analyzer."""
+    """Compare feature parity between CodeGraph and codexray."""
     return [
         ComparisonRow(
             "Pre-indexed knowledge graph",
@@ -236,8 +236,8 @@ def run_capability_comparison():
 
 def generate_report():
     print("=" * 80)
-    print("BENCHMARK: tree-sitter-analyzer vs CodeGraph")
-    print(f"Target: tree-sitter-analyzer codebase ({PROJECT_ROOT})")
+    print("BENCHMARK: codexray vs CodeGraph")
+    print(f"Target: codexray codebase ({PROJECT_ROOT})")
     print("=" * 80)
 
     print("\n## 1. Feature Parity Comparison\n")

@@ -11,8 +11,8 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import (
-    TreeSitterAnalyzerMCPServer,
+from codexray.mcp.server import (
+    CodeXrayMCPServer,
     main,
     parse_mcp_args,
 )
@@ -24,8 +24,8 @@ class TestMCPServerInitializationEdgeCases:
     def test_initialization_with_invalid_project_root(self):
         """Test initialization with invalid project root."""
         # Server should not raise exception but fallback to current directory
-        server = TreeSitterAnalyzerMCPServer("/non/existent/path")
-        assert isinstance(server, TreeSitterAnalyzerMCPServer)
+        server = CodeXrayMCPServer("/non/existent/path")
+        assert isinstance(server, CodeXrayMCPServer)
         assert server.is_initialized()
         # boundary_manager should be None for invalid project root
         assert server.security_validator.boundary_manager is None
@@ -37,8 +37,8 @@ class TestMCPServerInitializationEdgeCases:
         test_file.write_text("test")
 
         # Server should not raise exception but fallback to current directory
-        server = TreeSitterAnalyzerMCPServer(str(test_file))
-        assert isinstance(server, TreeSitterAnalyzerMCPServer)
+        server = CodeXrayMCPServer(str(test_file))
+        assert isinstance(server, CodeXrayMCPServer)
         assert server.is_initialized()
         # boundary_manager should be None for file path (not directory)
         assert server.security_validator.boundary_manager is None
@@ -58,8 +58,8 @@ class TestMCPServerInitializationEdgeCases:
 
             # This might not raise an exception on all systems
             # but we test the behavior
-            server = TreeSitterAnalyzerMCPServer(str(restricted_dir))
-            assert isinstance(server, TreeSitterAnalyzerMCPServer)
+            server = CodeXrayMCPServer(str(restricted_dir))
+            assert isinstance(server, CodeXrayMCPServer)
         finally:
             # Restore permissions for cleanup
             restricted_dir.chmod(0o755)
@@ -69,7 +69,7 @@ class TestMCPServerInitializationEdgeCases:
         unicode_dir = Path(temp_project_dir) / "测试目录"
         unicode_dir.mkdir()
 
-        server = TreeSitterAnalyzerMCPServer(str(unicode_dir))
+        server = CodeXrayMCPServer(str(unicode_dir))
         assert server.is_initialized()
 
     def test_initialization_with_very_long_path(self, temp_project_dir):
@@ -81,7 +81,7 @@ class TestMCPServerInitializationEdgeCases:
 
         try:
             long_path.mkdir(parents=True)
-            server = TreeSitterAnalyzerMCPServer(str(long_path))
+            server = CodeXrayMCPServer(str(long_path))
             assert server.is_initialized()
         except OSError:
             # Path too long on some systems
@@ -116,7 +116,7 @@ class TestMCPServerCodeAnalysisEdgeCases:
     @pytest.mark.asyncio
     async def test_analyze_empty_file(self, temp_project_dir, empty_file):
         """Test analyzing an empty file."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         arguments = {"file_path": empty_file}
         result = await server._analyze_code_scale(arguments)
@@ -127,7 +127,7 @@ class TestMCPServerCodeAnalysisEdgeCases:
     @pytest.mark.asyncio
     async def test_analyze_binary_file(self, temp_project_dir, binary_file):
         """Test analyzing a binary file."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         arguments = {"file_path": binary_file}
 
@@ -139,7 +139,7 @@ class TestMCPServerCodeAnalysisEdgeCases:
     @pytest.mark.asyncio
     async def test_analyze_large_file(self, temp_project_dir, large_file):
         """Test analyzing a large file."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         arguments = {"file_path": large_file}
         result = await server._analyze_code_scale(arguments)
@@ -150,7 +150,7 @@ class TestMCPServerCodeAnalysisEdgeCases:
     @pytest.mark.asyncio
     async def test_analyze_with_invalid_language(self, temp_project_dir):
         """Test analyzing with invalid language specification."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Create a test file
         test_file = Path(temp_project_dir) / "test.unknown"
@@ -166,7 +166,7 @@ class TestMCPServerCodeAnalysisEdgeCases:
     @pytest.mark.asyncio
     async def test_analyze_with_malformed_code(self, temp_project_dir):
         """Test analyzing file with malformed code."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Create a file with syntax errors
         test_file = Path(temp_project_dir) / "malformed.py"
@@ -195,7 +195,7 @@ if True
     @pytest.mark.asyncio
     async def test_analyze_with_encoding_issues(self, temp_project_dir):
         """Test analyzing file with encoding issues."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Create a file with non-UTF-8 content
         test_file = Path(temp_project_dir) / "encoding_test.py"
@@ -220,7 +220,7 @@ if True
     @pytest.mark.asyncio
     async def test_analyze_with_very_long_lines(self, temp_project_dir):
         """Test analyzing file with very long lines."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Create a file with extremely long lines
         test_file = Path(temp_project_dir) / "long_lines.py"
@@ -240,7 +240,7 @@ class TestMCPServerFileMetricsEdgeCases:
 
     def test_calculate_metrics_with_mixed_line_endings(self, temp_project_dir):
         """Test file metrics with mixed line endings."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Create file with mixed line endings
         test_file = Path(temp_project_dir) / "mixed_endings.py"
@@ -254,7 +254,7 @@ class TestMCPServerFileMetricsEdgeCases:
 
     def test_calculate_metrics_with_only_comments(self, temp_project_dir):
         """Test file metrics with only comments."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         test_file = Path(temp_project_dir) / "only_comments.py"
         content = """# Comment 1
@@ -270,7 +270,7 @@ class TestMCPServerFileMetricsEdgeCases:
 
     def test_calculate_metrics_with_only_blank_lines(self, temp_project_dir):
         """Test file metrics with only blank lines."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         test_file = Path(temp_project_dir) / "only_blanks.py"
         content = "\n\n\n\n\n"
@@ -284,7 +284,7 @@ class TestMCPServerFileMetricsEdgeCases:
 
     def test_calculate_metrics_with_complex_comments(self, temp_project_dir):
         """Test file metrics with complex comment patterns."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         test_file = Path(temp_project_dir) / "complex_comments.js"
         content = """// Single line comment
@@ -307,7 +307,7 @@ function test() {
 
     def test_calculate_metrics_with_nested_comments(self, temp_project_dir):
         """Test file metrics with nested comment patterns."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         test_file = Path(temp_project_dir) / "nested_comments.js"
         content = """/*
@@ -333,7 +333,7 @@ class TestMCPServerToolHandlingEdgeCases:
     @pytest.fixture
     def server_with_failing_tools(self, temp_project_dir):
         """Create a server with tools that fail."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Mock tools to fail
         server.table_format_tool = AsyncMock()
@@ -353,7 +353,7 @@ class TestMCPServerToolHandlingEdgeCases:
     @pytest.mark.asyncio
     async def test_tool_call_with_missing_required_params(self, temp_project_dir):
         """Test tool calls with missing required parameters."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Test missing file_path for check_code_scale directly
         try:
@@ -365,7 +365,7 @@ class TestMCPServerToolHandlingEdgeCases:
     @pytest.mark.asyncio
     async def test_tool_call_with_invalid_params(self, temp_project_dir):
         """Test tool calls with invalid parameters."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Test invalid project_path for set_project_path directly
         try:
@@ -374,11 +374,11 @@ class TestMCPServerToolHandlingEdgeCases:
         except Exception as e:
             assert "project_path" in str(e) or "invalid" in str(e).lower()
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_tool_call_with_non_existent_project_path(self, temp_project_dir):
         """Test set_project_path with non-existent path."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Test non-existent path - should not raise exception but fallback
         server.set_project_path("/non/existent/path")
@@ -401,14 +401,14 @@ class TestMCPServerToolHandlingEdgeCases:
                 or "not found" in str(e).lower()
             )
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_tool_call_server_not_initialized(self, temp_project_dir):
         """Test tool calls when server is not initialized."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
         server._initialization_complete = False
 
-        with patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+        with patch("codexray.mcp.server.Server") as mock_server_class:
             mock_server = Mock()
             # Set up the mock to capture the handler function when call_tool() is called as decorator
             captured_handlers = {}
@@ -445,7 +445,7 @@ class TestMCPServerResourceHandlingEdgeCases:
     @pytest.mark.asyncio
     async def test_read_resource_invalid_uri(self, temp_project_dir):
         """Test reading resource with invalid URI."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Test invalid URI directly
         with pytest.raises(Exception) as exc_info:
@@ -460,7 +460,7 @@ class TestMCPServerResourceHandlingEdgeCases:
     @pytest.mark.asyncio
     async def test_read_resource_with_failing_resource(self, temp_project_dir):
         """Test reading resource when resource fails."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         # Mock resource to fail
         with patch.object(server.code_file_resource, "matches_uri", return_value=True):
@@ -481,23 +481,23 @@ class TestMCPServerResourceHandlingEdgeCases:
 class TestMCPServerRuntimeEdgeCases:
     """Test MCP server runtime edge cases."""
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_run_with_stdio_failure(self, temp_project_dir):
         """Test server run when stdio fails."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
-        with patch("tree_sitter_analyzer.mcp.server.stdio_server") as mock_stdio:
+        with patch("codexray.mcp.server.stdio_server") as mock_stdio:
             mock_stdio.side_effect = OSError("Stdio failed")
 
             with pytest.raises(OSError, match="Stdio failed"):
                 await server.run()
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_run_with_server_creation_failure(self, temp_project_dir):
         """Test server run when server creation fails."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         with patch.object(server, "create_server") as mock_create:
             mock_create.side_effect = RuntimeError("Server creation failed")
@@ -505,14 +505,14 @@ class TestMCPServerRuntimeEdgeCases:
             with pytest.raises(RuntimeError, match="Server creation failed"):
                 await server.run()
 
-    @patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True)
+    @patch("codexray.mcp.server.MCP_AVAILABLE", True)
     @pytest.mark.asyncio
     async def test_run_with_initialization_options_failure(self, temp_project_dir):
         """Test server run when initialization options fail."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
         with patch(
-            "tree_sitter_analyzer.mcp.server.InitializationOptions"
+            "codexray.mcp.server.InitializationOptions"
         ) as mock_options:
             mock_options.side_effect = Exception("Options failed")
 
@@ -536,7 +536,7 @@ class TestMCPServerUtilityEdgeCases:
     async def test_main_with_keyboard_interrupt(self):
         """Test main function handling keyboard interrupt."""
         with patch(
-            "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+            "codexray.mcp.server.CodeXrayMCPServer"
         ) as mock_server_class:
             mock_server = AsyncMock()
             mock_server_class.return_value = mock_server
@@ -553,7 +553,7 @@ class TestMCPServerUtilityEdgeCases:
     async def test_main_with_general_exception(self):
         """Test main function handling general exceptions."""
         with patch(
-            "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+            "codexray.mcp.server.CodeXrayMCPServer"
         ) as mock_server_class:
             mock_server_class.side_effect = Exception("General error")
 
@@ -563,13 +563,13 @@ class TestMCPServerUtilityEdgeCases:
     @pytest.mark.asyncio
     async def test_main_with_project_root_detection_failure(self):
         """Test main function when project root detection fails."""
-        with patch("tree_sitter_analyzer.mcp.server.parse_mcp_args") as mock_parse:
+        with patch("codexray.mcp.server.parse_mcp_args") as mock_parse:
             mock_args = Mock()
             mock_args.project_root = None
             mock_parse.return_value = mock_args
 
             with patch(
-                "tree_sitter_analyzer.mcp.server.detect_project_root"
+                "codexray.mcp.server.detect_project_root"
             ) as mock_detect:
                 mock_detect.side_effect = Exception("Detection failed")
 
@@ -581,18 +581,18 @@ class TestMCPServerUtilityEdgeCases:
     async def test_main_with_environment_variable_issues(self):
         """Test main function with problematic environment variables."""
         with patch.dict(os.environ, {"TREE_SITTER_PROJECT_ROOT": "${invalid}"}):
-            with patch("tree_sitter_analyzer.mcp.server.parse_mcp_args") as mock_parse:
+            with patch("codexray.mcp.server.parse_mcp_args") as mock_parse:
                 mock_args = Mock()
                 mock_args.project_root = None
                 mock_parse.return_value = mock_args
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.server.detect_project_root"
+                    "codexray.mcp.server.detect_project_root"
                 ) as mock_detect:
                     mock_detect.return_value = "/fallback/path"
 
                     with patch(
-                        "tree_sitter_analyzer.mcp.server.TreeSitterAnalyzerMCPServer"
+                        "codexray.mcp.server.CodeXrayMCPServer"
                     ) as mock_server_class:
                         mock_server = AsyncMock()
                         mock_server_class.return_value = mock_server
@@ -610,12 +610,12 @@ class TestMCPServerUtilityEdgeCases:
 
     def test_main_sync_with_exception(self):
         """Test synchronous main function with exception."""
-        with patch("tree_sitter_analyzer.mcp.server.asyncio.run") as mock_run:
+        with patch("codexray.mcp.server.asyncio.run") as mock_run:
             mock_run.side_effect = Exception("Async run failed")
 
             with patch("sys.stdin"), patch("sys.stdout"), patch("sys.stderr"):
                 with pytest.raises(Exception, match="Async run failed"):
-                    from tree_sitter_analyzer.mcp.server import main_sync
+                    from codexray.mcp.server import main_sync
 
                     try:
                         main_sync()
@@ -634,22 +634,22 @@ class TestMCPServerLoggingEdgeCases:
 
     def test_server_with_logging_disabled(self, temp_project_dir):
         """Test server behavior when logging is disabled or fails."""
-        with patch("tree_sitter_analyzer.mcp.server.logger") as mock_logger:
+        with patch("codexray.mcp.server.logger") as mock_logger:
             mock_logger.info.side_effect = OSError("Logging failed")
             mock_logger.error.side_effect = OSError("Logging failed")
             mock_logger.warning.side_effect = OSError("Logging failed")
 
             with patch("sys.stdin"), patch("sys.stdout"), patch("sys.stderr"):
                 # Should not raise exception even if logging fails
-                server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+                server = CodeXrayMCPServer(temp_project_dir)
                 assert server.is_initialized()
 
     @pytest.mark.asyncio
     async def test_tool_call_with_logging_failure(self, temp_project_dir):
         """Test tool calls when logging fails."""
-        server = TreeSitterAnalyzerMCPServer(temp_project_dir)
+        server = CodeXrayMCPServer(temp_project_dir)
 
-        with patch("tree_sitter_analyzer.mcp.server.logger") as mock_logger:
+        with patch("codexray.mcp.server.logger") as mock_logger:
             mock_logger.info.side_effect = ValueError("Logging failed")
             mock_logger.error.side_effect = ValueError("Logging failed")
 

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray.ast_cache import ASTCache
 
 
 @pytest.fixture
@@ -45,7 +45,7 @@ def test_codegraph_context_registered() -> None:
     # fix 0f3f07d7: context became a BESPOKE route (symbol/query -> task
     # normalization), so it lives in bespoke_map, not action_map. The closure
     # delegates to a held CodeGraphContextTool instance after normalizing args.
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+    from codexray.mcp._tool_registry import create_tool_registry
 
     _, lookup = create_tool_registry(project_root=None)
     assert "nav" in lookup
@@ -57,7 +57,7 @@ def test_codegraph_context_registered() -> None:
 
 
 def test_extract_symbol_candidates_handles_identifiers() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -72,7 +72,7 @@ def test_extract_symbol_candidates_handles_identifiers() -> None:
 
 
 def test_schema_requires_task() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -82,7 +82,7 @@ def test_schema_requires_task() -> None:
 
 
 def test_tool_accessors_require_project_root() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -97,7 +97,7 @@ def test_tool_accessors_require_project_root() -> None:
 
 
 def test_edge_store_accessor_degrades_without_cache_connection() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -110,8 +110,8 @@ def test_edge_store_accessor_degrades_without_cache_connection() -> None:
 def test_call_graph_falls_back_when_edgestore_probe_fails(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    import tree_sitter_analyzer.call_graph as call_graph
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    import codexray.call_graph as call_graph
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -147,7 +147,7 @@ def test_call_graph_falls_back_when_edgestore_probe_fails(
 
 
 def test_resolve_entry_points_degrades_and_dedupes() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -174,7 +174,7 @@ def test_resolve_entry_points_degrades_and_dedupes() -> None:
 
 
 def test_resolve_entry_points_handles_cache_and_search_errors() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -194,7 +194,7 @@ def test_resolve_entry_points_handles_cache_and_search_errors() -> None:
 
 
 def test_resolve_entry_points_stops_at_limit() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -223,7 +223,7 @@ def test_resolve_entry_points_ranks_multiword_name_match_first() -> None:
     names below are chosen so the OLD alphabetical tie-break would pick the
     wrong symbol — only name-match weighting yields the correct order.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -255,7 +255,7 @@ def test_resolve_entry_points_ranks_multiword_name_match_first() -> None:
 
 
 def test_name_match_score_counts_distinct_task_words() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _name_match_score,
     )
 
@@ -267,7 +267,7 @@ def test_name_match_score_counts_distinct_task_words() -> None:
 
 
 def test_is_test_file_detects_cross_language_test_paths() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import _is_test_file
+    from codexray.mcp.tools.codegraph_context_tool import _is_test_file
 
     # Test files across languages → 1
     assert _is_test_file("response_writer_test.go") == 1  # Go
@@ -287,7 +287,7 @@ def test_is_test_file_detects_cross_language_test_paths() -> None:
     assert _is_test_file("contest.py") == 0
     assert _is_test_file("") == 0
     # DF-19: production tool with test_ prefix must not be mis-detected
-    assert _is_test_file("tree_sitter_analyzer/mcp/tools/test_gap_tool.py") == 0
+    assert _is_test_file("codexray/mcp/tools/test_gap_tool.py") == 0
 
 
 def test_entry_rank_v2_sinks_test_file_below_impl() -> None:
@@ -297,7 +297,7 @@ def test_entry_rank_v2_sinks_test_file_below_impl() -> None:
     ``*.spec.ts`` etc.) used to surface ``TestResponseWriterWrite`` above the
     real ``ResponseWriter`` because is_test only matched ``/tests/`` paths.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -330,7 +330,7 @@ def test_entry_rank_v2_sinks_test_file_below_impl() -> None:
 
 
 def test_task_wants_tests_detects_test_intent() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _task_wants_tests,
     )
 
@@ -352,7 +352,7 @@ def test_resolve_entry_points_keeps_tests_when_task_wants_tests() -> None:
     'response writer tests'. With wants_tests set, the stronger name match
     wins and the test symbol ranks first.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -388,7 +388,7 @@ def test_resolve_entry_points_keeps_tests_when_task_wants_tests() -> None:
 
 
 def test_compound_candidates_builds_camelcase_word_pairs() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _compound_candidates,
     )
 
@@ -412,7 +412,7 @@ def test_resolve_entry_points_uses_compound_recall_for_multiword() -> None:
     compound 'applyIndex' recalls the real write method. The resolver must
     merge both and rank the multi-word method first.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -462,7 +462,7 @@ def test_resolve_entry_points_single_word_falls_back_to_substring_cascade() -> N
     resolver must run the substring cascade for any single word that FTS
     cannot resolve, so ``route`` recalls {addRoute, updateRouteTree, ...}.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -505,7 +505,7 @@ def test_resolve_entry_points_skips_cascade_when_fts_has_hits() -> None:
     common exact-match path: an exact symbol word that FTS resolves should
     return the FTS hit without invoking the cascade at all.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -547,7 +547,7 @@ def test_resolve_entry_points_falls_back_when_fts_only_returns_imports() -> None
     suppressed and the query still ends NOT_FOUND, missing camelCase symbols.
     The fallback must trigger on zero USABLE hits, not zero raw rows.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -581,7 +581,7 @@ def test_resolve_entry_points_falls_back_when_fts_only_returns_imports() -> None
 
 
 def test_expand_nodes_handles_graph_limits_and_trace_chain() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
         _node_id,
     )
@@ -652,7 +652,7 @@ def test_expand_nodes_handles_graph_limits_and_trace_chain() -> None:
 
 
 def test_expand_nodes_handles_edgestore_query_errors() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
         _node_id,
     )
@@ -680,7 +680,7 @@ def test_expand_nodes_handles_edgestore_query_errors() -> None:
 
 
 def test_build_edges_handles_fallback_targets_and_duplicates() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
         _node_id,
     )
@@ -729,7 +729,7 @@ def test_build_edges_handles_fallback_targets_and_duplicates() -> None:
 
 
 def test_build_edges_handles_edgestore_targets_and_duplicates() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
         _node_id,
     )
@@ -778,7 +778,7 @@ def test_build_edges_handles_edgestore_targets_and_duplicates() -> None:
 
 
 def test_small_helpers_cover_bounds_and_fallbacks(tmp_path: Path) -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _bounded_int,
         _build_code_blocks,
         _extract_symbol_candidates,
@@ -884,7 +884,7 @@ def test_small_helpers_cover_bounds_and_fallbacks(tmp_path: Path) -> None:
 def test_build_code_blocks_skips_empty_snippets(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    import tree_sitter_analyzer.mcp.tools.codegraph_context_tool as context_tool
+    import codexray.mcp.tools.codegraph_context_tool as context_tool
 
     source = tmp_path / "source.py"
     source.write_text("def empty():\n    pass\n", encoding="utf-8")
@@ -913,7 +913,7 @@ def test_build_code_blocks_truncates_long_bodies(tmp_path: Path) -> None:
     Full 40-line bodies made nav context 2-4x larger than peer tools for no
     added value. The block keeps the signature + head and points at the rest.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _MAX_BLOCK_LINES,
         _build_code_blocks,
         _node_id,
@@ -956,7 +956,7 @@ def test_build_code_blocks_hints_when_end_unknown(tmp_path: Path) -> None:
     were silently dropped. Now an explicit hint is added when the snippet is
     capped before EOF with an unknown end.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _build_code_blocks,
         _node_id,
     )
@@ -988,7 +988,7 @@ def test_build_code_blocks_hints_when_end_unknown(tmp_path: Path) -> None:
 
 
 def test_build_code_blocks_keeps_short_bodies_untruncated(tmp_path: Path) -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _build_code_blocks,
         _node_id,
     )
@@ -1022,7 +1022,7 @@ async def test_context_caps_inline_edges(indexed_project: Path) -> None:
 
     RFC-0006: edges are only present in the full-graph path (include_graph=true).
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _MAX_INLINE_EDGES,
         CodeGraphContextTool,
     )
@@ -1046,7 +1046,7 @@ async def test_context_returns_entry_points_graph_and_source(
     indexed_project: Path,
 ) -> None:
     """include_graph=true returns entry points, nodes, edges, and source blocks."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1074,9 +1074,9 @@ async def test_context_returns_entry_points_graph_and_source(
 async def test_context_uses_edgestore_without_lazy_callgraph_parse(
     indexed_project: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from tree_sitter_analyzer import call_graph
-    from tree_sitter_analyzer.graph.edge_store import EdgeStore
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray import call_graph
+    from codexray.graph.edge_store import EdgeStore
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1098,9 +1098,9 @@ async def test_context_uses_edgestore_without_lazy_callgraph_parse(
 
 
 def test_context_ignores_edgestore_when_only_non_call_edges(tmp_path: Path) -> None:
-    from tree_sitter_analyzer.call_graph import CachedCallGraph
-    from tree_sitter_analyzer.graph.edge_store import EdgeKind, EdgeStore
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.call_graph import CachedCallGraph
+    from codexray.graph.edge_store import EdgeKind, EdgeStore
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1127,7 +1127,7 @@ def test_context_ignores_edgestore_when_only_non_call_edges(tmp_path: Path) -> N
 async def test_context_not_found_is_a_successful_stop_signal(
     indexed_project: Path,
 ) -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1156,7 +1156,7 @@ async def test_context_lean_default_omits_nodes_edges(
     RED on current code — current code always returns nodes and edges keys.
     After RFC-0006 implementation: default omits the verbose adjacency dump.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1215,7 +1215,7 @@ async def test_context_include_graph_true_returns_full_nodes_edges(
     indexed_project: Path,
 ) -> None:
     """include_graph=true must return the full nodes + edges (back-compat)."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1245,7 +1245,7 @@ async def test_context_include_graph_string_false_stays_lean(
 ) -> None:
     """Codex P2 #320: include_graph='false' / '0' (JS-style string) must stay
     lean, not take the full-graph path (bool('false') is True)."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1284,7 +1284,7 @@ async def test_context_lean_stats_advertise_graph_totals(
     re-request with include_graph=true — totals are the progressive-disclosure
     contract.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1314,7 +1314,7 @@ async def test_context_related_symbols_grouped_by_file(
     indexed_project: Path,
 ) -> None:
     """related_symbols must be a list of {file, symbols:[name:line]} dicts."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1345,7 +1345,7 @@ async def test_context_related_symbols_grouped_by_file(
 
 def test_build_related_symbols_groups_by_file() -> None:
     """Unit test for _build_related_symbols pure function."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _build_related_symbols,
         _node_id,
     )
@@ -1392,7 +1392,7 @@ def test_entry_point_body_inlines_full_under_budget(tmp_path: Path) -> None:
     """RFC-0009 A: an entry-point symbol whose body fits the entry budget inlines
     in FULL — no '… more lines' truncation marker — so the agent answers in one
     call. The old blanket 16-line cap truncated it (RED)."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _build_code_blocks,
         _node_id,
     )
@@ -1423,7 +1423,7 @@ def test_entry_point_ranked_before_high_degree_noise(tmp_path: Path) -> None:
     """RFC-0009 B: a task's named entry point gets a code block BEFORE a
     high-edge-degree non-entry hub (e.g. a cache accessor). The old degree-only
     ranking put the hub first and could starve the entry of a slot (RED)."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _build_code_blocks,
         _node_id,
     )
@@ -1462,7 +1462,7 @@ def test_generic_verbs_dropped_when_specific_candidate_present() -> None:
     when the task also names a specific snake_case/CamelCase symbol — it only
     matches unrelated event dispatchers and wastes entry-point slots. The old
     tokeniser kept it (RED)."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1480,7 +1480,7 @@ def test_english_connectives_filtered_from_candidates() -> None:
     'the', 'per' must not become symbol candidates — they SUBSTRING-match real
     symbols (`like` -> `_looks_like_*` / `_like_rows`) and spend entry-point slots
     on noise. The specific symbols are preserved. (RED before the stop-word add.)"""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1501,7 +1501,7 @@ def test_generic_verb_kept_when_sole_signal() -> None:
     """RFC-0009 C is conservative: when a generic verb is the ONLY signal (no
     specific symbol named), it is KEPT so 'find the dispatch function' still
     resolves to the dispatch symbol."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1513,7 +1513,7 @@ def test_quoted_generic_verb_is_kept_as_explicit_symbol() -> None:
     """RFC-0009 C / Codex P2 #333: a generic verb the user QUOTED (`` `dispatch` ``)
     is an explicit symbol name and must survive the generic-verb filter even when
     a snake_case symbol co-occurs — only BARE generic verbs are dropped."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1527,7 +1527,7 @@ def test_qualified_generic_method_is_kept() -> None:
     of a qualified symbol (``UserService.handle``, ``Database.fetch``) is named
     deliberately and must survive the filter — the tokenizer splits the qualified
     token, so the method part must count as explicit, not bare."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1543,7 +1543,7 @@ def test_non_dot_qualified_generic_methods_are_kept() -> None:
     method explicitly and must survive the generic-verb filter, just like dot
     qualifiers and quotes. One post-hoc check against the task text covers all
     qualifier syntaxes."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1567,7 +1567,7 @@ def test_lowercase_qualified_anchor_still_drops_bare_verb() -> None:
     explicitly-named ALL-LOWERCASE symbol (``pkg/parser/parse``), the filter must
     still run and drop a co-occurring bare prose verb. The guard counts
     explicitly-named tokens as anchors, not just snake_case/CamelCase ones."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1583,7 +1583,7 @@ def test_file_path_does_not_anchor_filter() -> None:
     the task ('… in src/parser/utils.py') must NOT count as a symbol anchor — '/'
     is a path separator, not a qualifier — so a bare verb that is the user's real
     request is preserved (sole-signal behaviour)."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1595,15 +1595,15 @@ def test_file_path_does_not_anchor_filter() -> None:
 
 def test_snake_or_camel_path_components_do_not_anchor_filter() -> None:
     """RFC-0009 C / Codex P2 #333 (7th round): a file path whose components are
-    snake_case/CamelCase ('tree_sitter_analyzer/mcp_tools.py', 'src/UserService.py')
+    snake_case/CamelCase ('codexray/mcp_tools.py', 'src/UserService.py')
     must NOT count those components as symbol anchors — they are scope/location —
     so a bare verb that is the user's real request survives."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
     assert "dispatch" in _extract_symbol_candidates(
-        "find dispatch in tree_sitter_analyzer/mcp_tools.py"
+        "find dispatch in codexray/mcp_tools.py"
     )
     assert "dispatch" in _extract_symbol_candidates(
         "find dispatch in src/UserService.py"
@@ -1618,12 +1618,12 @@ def test_windows_path_components_do_not_anchor_filter() -> None:
     """RFC-0009 C / Codex P2 #333 (8th round): Windows-style paths (backslash
     separators, drive letters) must be recognised as paths too, so their
     snake_case/CamelCase directory components don't anchor the filter."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
     assert "dispatch" in _extract_symbol_candidates(
-        r"find dispatch in src\tree_sitter_analyzer\mcp_tools.py"
+        r"find dispatch in src\codexray\mcp_tools.py"
     )
     assert "dispatch" in _extract_symbol_candidates(
         r"find dispatch in C:\repo\src\UserService\handler.py"
@@ -1644,7 +1644,7 @@ def test_generic_nouns_and_stop_words_not_candidates() -> None:
     ['MCP', 'server', 'tool', 'right', 'facade', 'action'] for the issue repro
     task — noise terms that waste entry-point slots on unrelated symbols.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1670,7 +1670,7 @@ def test_examples_and_scripts_ranked_below_production() -> None:
     Before fix: examples/file_output_factory_demo.py dominated because
     _entry_rank_v2 only demoted test files, not examples/scripts/corpus.
     """
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1694,7 +1694,7 @@ def test_examples_and_scripts_ranked_below_production() -> None:
                 {
                     "name": "route_tool_call",
                     "kind": "function",
-                    "file": "tree_sitter_analyzer/mcp/server.py",
+                    "file": "codexray/mcp/server.py",
                     "line": 200,
                 },
             ]
@@ -1706,7 +1706,7 @@ def test_examples_and_scripts_ranked_below_production() -> None:
     files = [h["file"] for h in hits]
 
     # Production file must appear before examples/ and scripts/
-    prod_idx = files.index("tree_sitter_analyzer/mcp/server.py")
+    prod_idx = files.index("codexray/mcp/server.py")
     examples_idx = files.index("examples/demo.py")
     scripts_idx = files.index("scripts/sync_version.py")
     assert prod_idx < examples_idx, (
@@ -1729,7 +1729,7 @@ def test_next_step_honest_when_only_non_prod_matches(tmp_path: Path) -> None:
     """
     import asyncio
 
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1739,7 +1739,7 @@ def test_next_step_honest_when_only_non_prod_matches(tmp_path: Path) -> None:
     (ex_dir / "demo.py").write_text(
         "def route_tool_call():\n    return 'demo'\n", encoding="utf-8"
     )
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     cache = ASTCache(str(tmp_path))
     cache.index_project(max_files=20)
@@ -1772,7 +1772,7 @@ def test_next_step_references_top_symbol_when_production_match_found(
     """
     import asyncio
 
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         CodeGraphContextTool,
     )
 
@@ -1804,7 +1804,7 @@ def test_next_step_references_top_symbol_when_production_match_found(
 
 def test_quoted_stop_word_token_kept_as_candidate() -> None:
     """`Request`/`Response` in backticks are explicit symbol refs."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1814,7 +1814,7 @@ def test_quoted_stop_word_token_kept_as_candidate() -> None:
 
 def test_capitalized_stop_word_kept_unquoted() -> None:
     """Capitalised Server is symbol-shaped even unquoted."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1824,7 +1824,7 @@ def test_capitalized_stop_word_kept_unquoted() -> None:
 
 
 def test_plain_lowercase_stop_word_still_filtered() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _extract_symbol_candidates,
     )
 
@@ -1835,7 +1835,7 @@ def test_plain_lowercase_stop_word_still_filtered() -> None:
 
 def test_wants_tests_skips_non_prod_demotion() -> None:
     """Codex P2: test-intent queries must not demote tests/ via non_prod_tier."""
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import _entry_rank_v2
+    from codexray.mcp.tools.codegraph_context_tool import _entry_rank_v2
 
     test_entry = {
         "hit": {
@@ -1869,7 +1869,7 @@ def test_wants_tests_skips_non_prod_demotion() -> None:
 
 
 def test_is_non_prod_file_branches() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _is_non_prod_file,
     )
 
@@ -1881,7 +1881,7 @@ def test_is_non_prod_file_branches() -> None:
 
 
 def test_next_step_lean_non_prod_only_warns() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _next_step_lean,
     )
 
@@ -1892,7 +1892,7 @@ def test_next_step_lean_non_prod_only_warns() -> None:
 
 
 def test_next_step_lean_entry_points_without_code() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _next_step_lean,
     )
 
@@ -1901,7 +1901,7 @@ def test_next_step_lean_entry_points_without_code() -> None:
 
 
 def test_next_step_lean_production_anchor() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_context_tool import (
+    from codexray.mcp.tools.codegraph_context_tool import (
         _next_step_lean,
     )
 
