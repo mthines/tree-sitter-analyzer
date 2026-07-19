@@ -48,7 +48,7 @@ _FUNC_DEF_TYPES = {
 # Per-language function-name extractors
 # ---------------------------------------------------------------------------
 
-_IDENT_TYPES_JS = ("identifier", "property_identifier")
+_IDENT_TYPES_JS = ("identifier", "property_identifier", "private_property_identifier")
 _IDENT_TYPES_GO = ("identifier", "field_identifier")
 _IDENT_TYPES_C = ("identifier", "field_identifier", "destructor_name")
 
@@ -62,11 +62,47 @@ def _func_name_identifier(node: Any) -> str | None:
 
 
 def _func_name_js(node: Any) -> str | None:
-    """JavaScript / TypeScript: identifier or property_identifier child."""
+    """JavaScript / TypeScript: identifier or property_identifier child.
+
+    Arrow functions and function expressions are anonymous — the name lives on
+    the enclosing binding, not on the function node. ``const compute = () => …``
+    parses as ``variable_declarator(name: identifier, value: arrow_function)``,
+    so the arrow node has no identifier child. Fall back to the binding's name
+    for those, leaving genuinely anonymous callbacks (``arr.map(x => …)``, whose
+    parent is an ``arguments`` node) unnamed and therefore unregistered.
+    """
+    # Arrow functions are always anonymous: any identifier child is a *parameter*
+    # (``x => …`` exposes ``x`` as a direct ``identifier`` child), never a name.
+    # Naming them from that child mis-registers the callback under its parameter
+    # (``arr.map(x => …)`` → a bogus ``x`` node) and steals call-edge
+    # attribution from the enclosing function. Name arrows only from the binding.
+    if node.type == "arrow_function":
+        return _js_name_from_binding(node)
     for child in node.children:
         if child.type in _IDENT_TYPES_JS:
             return _node_text_value(child)
-    return None
+    return _js_name_from_binding(node)
+
+
+#: Parent node types that name an otherwise-anonymous JS/TS function expression.
+#: ``variable_declarator`` covers ``const compute = () => …``; the field
+#: definitions cover class-field arrow methods ``fetch = () => …`` (the
+#: ``public_field_definition`` grammar node, with ``field_definition`` as the
+#: JS/looser-grammar spelling).
+_JS_NAME_BEARING_PARENTS = (
+    "variable_declarator",
+    "public_field_definition",
+    "field_definition",
+)
+
+
+def _js_name_from_binding(node: Any) -> str | None:
+    """Name an anonymous arrow/function expression from its enclosing binding."""
+    parent = getattr(node, "parent", None)
+    if parent is None or parent.type not in _JS_NAME_BEARING_PARENTS:
+        return None
+    name_node = parent.child_by_field_name("name")
+    return _node_text_value(name_node) if name_node is not None else None
 
 
 def _func_name_go(node: Any) -> str | None:
