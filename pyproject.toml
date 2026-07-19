@@ -350,7 +350,7 @@ Issues = "https://github.com/mthines/codexray/issues"
 Changelog = "https://github.com/mthines/codexray/blob/main/CHANGELOG.md"
 "Bug Reports" = "https://github.com/mthines/codexray/issues"
 "Source Code" = "https://github.com/mthines/codexray"
-Upstream = "https://github.com/aimasteracc/codexray"
+Upstream = "https://github.com/aimasteracc/tree-sitter-analyzer"
 
 [tool.hatch.build.targets.wheel]
 packages = ["codexray"]

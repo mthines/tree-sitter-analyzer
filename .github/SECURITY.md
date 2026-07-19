@@ -14,7 +14,7 @@ We take security seriously. If you discover a security vulnerability in CodeXray
 ### How to Report
 
 1. **DO NOT** create a public GitHub issue for security vulnerabilities
-2. Email the maintainers directly or use [GitHub's private vulnerability reporting](https://github.com/aimasteracc/codexray/security/advisories/new)
+2. Email the maintainers directly or use [GitHub's private vulnerability reporting](https://github.com/aimasteracc/tree-sitter-analyzer/security/advisories/new)
 3. Include as much detail as possible:
    - Description of the vulnerability
    - Steps to reproduce

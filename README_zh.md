@@ -1,10 +1,10 @@
-# 🌳 CodeXray
+# 🌳 Tree-sitter Analyzer
 
 **[English](README.md)** | **[日本語](README_ja.md)** | **简体中文**
 
-> **Fork.** This is [`mthines/codexray`](https://github.com/mthines/codexray), a fork of [`aimasteracc/codexray`](https://github.com/aimasteracc/codexray) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache. These changes are **not on PyPI** — install from git. See the English [What this fork adds](README.md#what-this-fork-adds) and [Install this fork](README.md#install-this-fork-from-git). *(This translated README documents the upstream package; fork-specific notes are English-only for now.)*
+> **Fork.** This is [`mthines/codexray`](https://github.com/mthines/codexray), a fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache. These changes are **not on PyPI** — install from git. See the English [What this fork adds](README.md#what-this-fork-adds) and [Install this fork](README.md#install). *(This translated README documents the upstream package; fork-specific notes are English-only for now.)*
 
-[![PyPI](https://img.shields.io/pypi/v/codexray.svg)](https://pypi.org/project/codexray/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/codexray.svg?style=social)](https://github.com/mthines/codexray) [![适配 Claude Code · Cursor · MCP](https://img.shields.io/badge/适配-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
+[![PyPI](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/codexray.svg?style=social)](https://github.com/mthines/codexray) [![适配 Claude Code · Cursor · MCP](https://img.shields.io/badge/适配-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
 
 **AI agent 可以信赖的代码情报** — 跨 20+ 语言的正确结构分析，为 agent 原生设计（MCP + CLI）。
 
@@ -15,7 +15,7 @@ TSA 使用 tree-sitter 索引你的代码库，向 AI 编程 agent 提供正确�
 * **为 agent 原生设计。** 8 个 MCP 工具，TOON 输出（bulk 响应比 JSON 小约 50-70%），verdict 信封，13 个精选 Skills — 专为 Claude Code、Cursor 和任何 MCP 客户端设计。
 * **广度与正确性兼备。** 13 种语言全量调用图索引（Python · Go · Rust · Java · JS · TS · C · C++ · C# · Swift · Kotlin · Ruby · PHP），另有 8 种语言符号索引或 CLI 可达。
 
-> **数据证明：** 在 HuggingFace `tokenizers`（Rust+Python+JS+TS）上，名称匹配式解析器会错连 **1,259** 条调用边 — TSA：**0**。在你自己的仓库上运行：`uvx --from codexray miswire-audit .`
+> **数据证明：** 在 HuggingFace `tokenizers`（Rust+Python+JS+TS）上，名称匹配式解析器会错连 **1,259** 条调用边 — TSA：**0**。在你自己的仓库上运行：`uvx --from tree-sitter-analyzer miswire-audit .`
 
 > 从 v1.x 升级？见 [docs/MIGRATION.md](docs/MIGRATION.md)。
 
@@ -28,24 +28,24 @@ TSA 使用 tree-sitter 索引你的代码库，向 AI 编程 agent 提供正确�
 ### 自动安装（推荐）
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aimasteracc/codexray/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/aimasteracc/tree-sitter-analyzer/main/install.sh | bash
 ```
 
-`install.sh` 会检测 `uv` 是否已安装（未安装则自动安装），并自动检测 Claude Desktop / Claude Code / Cursor / VS Code 的配置文件，写入 MCP 配置项。安装完成后可运行 `codexray --doctor` 验证配置。
+`install.sh` 会检测 `uv` 是否已安装（未安装则自动安装），并自动检测 Claude Desktop / Claude Code / Cursor / VS Code 的配置文件，写入 MCP 配置项。安装完成后可运行 `tree-sitter-analyzer --doctor` 验证配置。
 
 为 **Claude Code** 一行安装：
 
 ```bash
-claude mcp add codexray \
+claude mcp add tree-sitter-analyzer \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "codexray[mcp]" codexray-mcp
+  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
 ```
 
 重启 agent，对它说："用 `index` 工具调用 action=status。"
 
 > **PyPI / uvx 用户 — 安装 skills：** 13 个 `tsa-*` skills 已打包在 wheel 中。执行一次即可安装：
 > ```bash
-> codexray --install-skills
+> tree-sitter-analyzer --install-skills
 > ```
 > git clone 用户已在 `.claude/skills/` 下有这些文件，无需操作。
 
@@ -65,13 +65,13 @@ brew install fd ripgrep                                # macOS
 winget install sharkdp.fd BurntSushi.ripgrep.MSVC      # Windows
 ```
 
-#### 2. 安装 CodeXray
+#### 2. 安装 Tree-sitter Analyzer
 
 ```bash
 # 独立安装(持久 CLI 命令):
-uv tool install "codexray[all,mcp]"
+uv tool install "tree-sitter-analyzer[all,mcp]"
 # — 也可完全不安装:下方 MCP 配置通过 uvx 按需运行。
-# 在 uv 管理的 Python 项目内则用: uv add "codexray[all,mcp]"
+# 在 uv 管理的 Python 项目内则用: uv add "tree-sitter-analyzer[all,mcp]"
 ```
 
 #### 3. 接入你的 agent
@@ -81,9 +81,9 @@ uv tool install "codexray[all,mcp]"
 ```json
 {
   "mcpServers": {
-    "codexray": {
+    "tree-sitter-analyzer": {
       "command": "uvx",
-      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/绝对路径/项目目录" }
     }
   }
@@ -95,14 +95,14 @@ uv tool install "codexray[all,mcp]"
 **用一条命令在你自己的仓库上验证 correctness 优势**（无需安装、无需 CodeGraph，会先重建索引）：
 
 ```bash
-uvx --from codexray miswire-audit .
+uvx --from tree-sitter-analyzer miswire-audit .
 ```
 
 它会显示一个 name-only 代码索引（多数工具的设计）会把多少调用跨语言错连（例如 Python 的 `sorted()` → Swift 的 func），对比 TSA 的数量。实测：[HuggingFace `tokenizers`](benchmarks/codegraph_compare/MISWIRE-AUDIT-EXAMPLES.md) 上 name-only 为 **1,259 处**（含 JS `tokenize()` → Rust），TSA 为 **0**。ruff **7557×**、polars **9016×**。单语言仓库（gin/Go）两者均为 **0**，无误报。
 
 ---
 
-## 为什么选择 CodeXray
+## 为什么选择 Tree-sitter Analyzer
 
 * **默认就省 token**。所有 MCP 工具响应使用 **TOON** — 一种表格式 JSON 变体，比原始 JSON 节省约 50-70% 字节（[可执行不变量](tests/unit/mcp/test_output_cost_invariants.py)；RFC-0012 实测比值 0.52×）。
 * **结论信封 (verdict envelope)**。每个响应都带 `verdict: SAFE | CAUTION | UNSAFE | INFO | WARN | ERROR | NOT_FOUND`，orchestrator 直接分支决策，无需二次提示。
@@ -128,7 +128,7 @@ uvx --from codexray miswire-audit .
 | 预建调用图缓存 | `index` action=auto / action=full / action=sync | 对位 |
 | 受变更影响的测试（CLI） | `--affected FILE...` | 对位 |
 
-### CodeXray 独占
+### Tree-sitter Analyzer 独占
 
 | 能力 | TSA 工具 | 说明 |
 |---|---|---|
@@ -167,17 +167,17 @@ CodeGraph 没有 skill 系统。我们在 `.claude/skills/tsa-*/` 下提供 13 �
 CodeGraph CLI 的严格超集。亮点：
 
 ```bash
-codexray --table full <file>          # 方法/签名/复杂度表
-codexray --partial-read --start-line N --end-line M <file>
-codexray --project-health             # 项目 A-F 评级
+tree-sitter-analyzer --table full <file>          # 方法/签名/复杂度表
+tree-sitter-analyzer --partial-read --start-line N --end-line M <file>
+tree-sitter-analyzer --project-health             # 项目 A-F 评级
 # 注意：--callers / --callees 需要调用图索引 — 请先运行 --full-index
-codexray --full-index                 # 构建调用图索引（只需运行一次）
-codexray --callers <symbol>           # 谁调用
-codexray --codegraph-impact <fn>      # blast radius + 风险
-codexray --affected <file...>         # 受影响的测试
-codexray --dead-code                  # 传递不可达
-codexray --check-constraints          # 架构规则
-codexray --safe-to-edit <file>        # 风险时拒绝
+tree-sitter-analyzer --full-index                 # 构建调用图索引（只需运行一次）
+tree-sitter-analyzer --callers <symbol>           # 谁调用
+tree-sitter-analyzer --codegraph-impact <fn>      # blast radius + 风险
+tree-sitter-analyzer --affected <file...>         # 受影响的测试
+tree-sitter-analyzer --dead-code                  # 传递不可达
+tree-sitter-analyzer --check-constraints          # 架构规则
+tree-sitter-analyzer --safe-to-edit <file>        # 风险时拒绝
 ```
 
 完整接口见 [`docs/CODEMAPS/cli.md`](docs/CODEMAPS/cli.md)。
@@ -195,13 +195,13 @@ token 成本只是一个维度；代码情报工具的**首要**职责是**正�
 | 工具 | 跨语言错连 | 总调用边 | 比率 |
 |---|---|---|---|
 | CodeGraph | **745** | 38,103 | 1.96 % |
-| **CodeXray** | **6** | 114,160 | **0.005 %** |
+| **Tree-sitter Analyzer** | **6** | 114,160 | **0.005 %** |
 
 **跨语言正确性约 390× 更干净，同时解析出 3× 更多调用边。** CodeGraph 的错连跨越 19+ 语言对（python→swift **408**，python→typescript 195，python→ruby 81，……）；TSA 的 6 处全是单词 Java 方法名导致的 `java→python/php`。
 
 > **别轻信这张表 — 在你自己的仓库上跑（无需安装 CodeGraph）：**
 > ```bash
-> uvx --from codexray miswire-audit .
+> uvx --from tree-sitter-analyzer miswire-audit .
 > ```
 > 它会对你的代码建索引，并打印 name-only 解析器（多数索引的设计）会把多少调用边跨语言错连，对比 TSA 的数量 — 附有问题边列表（`Python sorted() → Swift func at file:line`）。添加 `--card` 可生成可分享的评分卡。
 >
@@ -240,7 +240,7 @@ TSA 的 per-language 解析器对 **13 种语言**（Python · Java · Go · JS 
 
 ### 关于 token 成本 —— 我们更正的 benchmark
 
-> **更正（2026-06）。** 此前本节声称「中位数成本 −11% 胜过 CodeGraph」。那次 benchmark 有 harness bug：TSA arm 的 MCP server 启动时未指定项目根，分析的是 **codexray 自身的源码**而非目标仓库，数据无意义。该 bug 已修复（harness 现在传 `--project-root`），夸大的结论予以撤回，下面是诚实的对比。
+> **更正（2026-06）。** 此前本节声称「中位数成本 −11% 胜过 CodeGraph」。那次 benchmark 有 harness bug：TSA arm 的 MCP server 启动时未指定项目根，分析的是 **tree-sitter-analyzer 自身的源码**而非目标仓库，数据无意义。该 bug 已修复（harness 现在传 `--project-root`），夸大的结论予以撤回，下面是诚实的对比。
 
 token 成本曾是 CodeGraph 唯一领先的维度。[RFC-0006](rfcs/0006-context-progressive-disclosure.md) 渐进式披露从源头弥合了大部分差距：`nav context` 现在返回**精简默认值** — 入口点 + 紧凑的 `related_symbols` 列表 + 代码块 — 并将扁平节点/边图移至可选 `include_graph=true` 之后。在本仓库上的实测（4 个代表性查询，TOON）：
 
@@ -258,7 +258,7 @@ token 成本曾是 CodeGraph 唯一领先的维度。[RFC-0006](rfcs/0006-contex
 | arm | 中位数成本（RFC-0006 前） | tool calls | file reads |
 |---|---|---|---|
 | CodeGraph MCP | **约 $0.27** | 7 | 2 |
-| CodeXray MCP | 约 $0.44 | 7 | 1 |
+| Tree-sitter Analyzer MCP | 约 $0.44 | 7 | 1 |
 | 无 MCP（grep/read） | 约 $0.34 | 14 | 7 |
 
 ### Reactive push + edge-kind 细分 — CodeGraph 没有的两项能力
@@ -274,7 +274,7 @@ CodeGraph 及多数一次性索引器只响应轮询。TSA 提供两项填补这
 # CodeGraph：返回跨语言 / test-shadow 的 callee
 #   （如 `sorted` → corpus_swift.swift，`fts_search` → 测试 mock）
 # 解析器修复后的 TSA：语言正确、优先源码
-codexray --callees _resolve_entry_points --format json
+tree-sitter-analyzer --callees _resolve_entry_points --format json
 ```
 
 > 复现成本数值：`uv run python benchmarks/codegraph_compare/run.py phase full-warm --repos gin,django`。原始 envelope 与 harness 修复在该目录。
@@ -304,16 +304,16 @@ codexray --callees _resolve_entry_points --format json
 <summary><b>📘 Claude Code</b>（推荐）</summary>
 
 ```bash
-claude mcp add codexray \
+claude mcp add tree-sitter-analyzer \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "codexray[mcp]" codexray-mcp
+  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
 ```
 
 验证：`claude mcp list`。13 个 `tsa-*` skills 会从 `.claude/skills/` 自动发现。
 
 **PyPI / uvx 用户** — 安装一次内置 skills：
 ```bash
-codexray --install-skills
+tree-sitter-analyzer --install-skills
 ```
 git clone 用户已有，无需操作。
 </details>
@@ -326,9 +326,9 @@ git clone 用户已有，无需操作。
 ```json
 {
   "mcpServers": {
-    "codexray": {
+    "tree-sitter-analyzer": {
       "command": "uvx",
-      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/绝对路径/项目目录" }
     }
   }
@@ -344,10 +344,10 @@ git clone 用户已有，无需操作。
 ```json
 {
   "servers": {
-    "codexray": {
+    "tree-sitter-analyzer": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "${workspaceFolder}" }
     }
   }
@@ -416,9 +416,9 @@ uv run python check_quality.py --new-code-only  # 质量闸门
 
 | 症状 | 修复 |
 |---|---|
-| `.swift / .kt / .rb / .php / .cs` 显示 `unsupported language` | 升级到 ≥ 1.12.x — 5 语言 gap 已在 commit `50e99a8f` 中修复。extras 门控语言的语法模块不随基础安装捆绑;运行 `pip install "codexray[swift]"`(或 `kotlin`、`ruby`、`php`、`csharp`)补装 |
+| `.swift / .kt / .rb / .php / .cs` 显示 `unsupported language` | 升级到 ≥ 1.12.x — 5 语言 gap 已在 commit `50e99a8f` 中修复。extras 门控语言的语法模块不随基础安装捆绑;运行 `pip install "tree-sitter-analyzer[swift]"`(或 `kotlin`、`ruby`、`php`、`csharp`)补装 |
 | MCP 服务在客户端中不出现 | `TREE_SITTER_PROJECT_ROOT` 必须是**绝对路径**；编辑配置后重启客户端。另见 [TREE\_SITTER\_PROJECT\_ROOT 使用了相对路径](#tree_sitter_project_root-使用了相对路径) |
-| `database is locked` | 关闭其他占用 `.ast-cache/index.db` 的进程；持续存在则 `rm -rf .ast-cache && codexray --autoindex` |
+| `database is locked` | 关闭其他占用 `.ast-cache/index.db` 的进程；持续存在则 `rm -rf .ast-cache && tree-sitter-analyzer --autoindex` |
 | 首次调用慢 | 首次调用会建索引。后续亚秒。预先跑 `--full-index` 即可分摊 |
 | Agent 选错工具 | 使用 `tsa-*` skill（`/tsa-graph`、`/tsa-find` 等）— 每个 skill 把可见工具限定到一个工作流 |
 
@@ -442,7 +442,7 @@ uv run python check_quality.py --new-code-only  # 质量闸门
 "TREE_SITTER_PROJECT_ROOT": "myproject"
 ```
 
-运行 `codexray --doctor` 可验证你的配置。
+运行 `tree-sitter-analyzer --doctor` 可验证你的配置。
 
 ---
 
@@ -450,7 +450,7 @@ uv run python check_quality.py --new-code-only  # 质量闸门
 
 ```bash
 git clone https://github.com/mthines/codexray.git
-cd codexray
+cd tree-sitter-analyzer
 uv sync --extra all --extra mcp
 uv run pytest -q
 ```

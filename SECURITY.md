@@ -22,7 +22,7 @@ We take the security of CodeXray seriously. If you discover a security vulnerabi
    - Use the subject line: `[SECURITY] codexray vulnerability report`
    - Include as much detail as possible about the vulnerability
 
-3. **Alternatively**, use [GitHub's private vulnerability reporting](https://github.com/aimasteracc/codexray/security/advisories/new) to submit your report.
+3. **Alternatively**, use [GitHub's private vulnerability reporting](https://github.com/aimasteracc/tree-sitter-analyzer/security/advisories/new) to submit your report.
 
 ### What to Include
 

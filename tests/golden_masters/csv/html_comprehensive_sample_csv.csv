@@ -270,7 +270,7 @@ h3,h3,heading,404,404,,0,html
 nav,nav,structure,405,411,,1,html
 ul,ul,list,406,410,,3,html
 li,li,list,407,407,,1,html
-a,a,text,407,407,href=https://github.com/aimasteracc/codexray; target=_blank; rel=noopener,0,html
+a,a,text,407,407,href=https://github.com/aimasteracc/tree-sitter-analyzer; target=_blank; rel=noopener,0,html
 li,li,list,408,408,,1,html
 a,a,text,408,408,href=https://pypi.org/project/codexray/; target=_blank; rel=noopener,0,html
 li,li,list,409,409,,1,html

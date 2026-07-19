@@ -2,9 +2,9 @@
 
 **English** | **[日本語](README_ja.md)** | **[简体中文](README_zh.md)**
 
-[![PyPI (upstream)](https://img.shields.io/pypi/v/codexray.svg)](https://pypi.org/project/codexray/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/codexray.svg?style=social)](https://github.com/mthines/codexray) [![Works with Claude Code · Cursor · MCP](https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
+[![PyPI (upstream)](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/codexray.svg?style=social)](https://github.com/mthines/codexray) [![Works with Claude Code · Cursor · MCP](https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
 
-> **Fork.** [`mthines/codexray`](https://github.com/mthines/codexray) extends [`aimasteracc/codexray`](https://github.com/aimasteracc/codexray) (© its authors, MIT) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache — see [What this fork adds](#what-this-fork-adds). These changes are **not on PyPI**; [install from git](#install-this-fork-from-git) to get them.
+> **Fork.** [`mthines/codexray`](https://github.com/mthines/codexray) (CodeXray) is a fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) (© its authors, MIT) — a shorter, more memorable name and a CLI-first (JSON + `jq`) workflow, plus stronger TypeScript/JavaScript call-graph resolution and a global extraction cache. See [What this fork adds](#what-this-fork-adds).
 
 **Code intelligence AI agents can trust** — correct cross-language structure across 20+ languages, agent-native (MCP + CLI).
 
@@ -35,24 +35,23 @@ This fork extends upstream **v1.29.0** with call-graph improvements focused on m
 
 > **Requires Python 3.10+** (check: `python3 --version`). Install from [python.org](https://www.python.org/downloads/) if needed.
 
-### Install this fork (from git)
-
-This fork's changes are **not published to PyPI** — install from git to get them:
+### Install
 
 ```bash
 # run on demand with uvx
-uvx --from "git+https://github.com/mthines/codexray" codexray --help
+uvx --from "codexray[all,mcp]" codexray --help
 
 # or install into an environment (all languages + MCP)
-pip install "codexray[all,mcp] @ git+https://github.com/mthines/codexray.git"
+pip install "codexray[all,mcp]"
 ```
 
-> The automated installer and the `uvx --from codexray` / `pip install codexray` commands below install the **upstream published package**, which does *not* include this fork's changes. Use the git commands above for the fork.
+> Want the latest unreleased changes? Install from git instead:
+> `pip install "codexray[all,mcp] @ git+https://github.com/mthines/codexray.git"`
 
-### Automated install (upstream package)
+### Automated install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aimasteracc/codexray/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mthines/codexray/main/install.sh | bash
 ```
 
 Auto-installs `uv` if missing, detects Claude Desktop / Claude Code / Cursor / VS Code, and writes the MCP entry. Run `codexray --doctor` to verify.

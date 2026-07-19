@@ -22,7 +22,7 @@
    - 邮件主题请使用：`[SECURITY] codexray vulnerability report`
    - 请尽可能详细地包含有关漏洞的信息
 
-3. **或者**，使用 [GitHub 的私有漏洞报告功能](https://github.com/aimasteracc/codexray/security/advisories/new) 提交您的报告。
+3. **或者**，使用 [GitHub 的私有漏洞报告功能](https://github.com/aimasteracc/tree-sitter-analyzer/security/advisories/new) 提交您的报告。
 
 ### 应包含的内容
 

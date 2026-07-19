@@ -324,7 +324,7 @@ assertion_helpers.assert_performance_acceptable(
 
 ### Coverage Reporting
 
-Coverage is automatically reported to [Codecov](https://codecov.io/gh/aimasteracc/codexray) on every PR and push to main/develop branches.
+Coverage is automatically reported to [Codecov](https://codecov.io/gh/aimasteracc/tree-sitter-analyzer) on every PR and push to main/develop branches.
 
 View coverage locally:
 

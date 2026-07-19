@@ -22,7 +22,7 @@
    - 件名: `[SECURITY] codexray vulnerability report`
    - 脆弱性に関する詳細をできる限り含めてください
 
-3. **あるいは**、[GitHub のプライベート脆弱性報告](https://github.com/aimasteracc/codexray/security/advisories/new) を使用して報告を送信してください。
+3. **あるいは**、[GitHub のプライベート脆弱性報告](https://github.com/aimasteracc/tree-sitter-analyzer/security/advisories/new) を使用して報告を送信してください。
 
 ### 含めるべき内容
 

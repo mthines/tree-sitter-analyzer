@@ -2,7 +2,7 @@
 """
 Regression test for Issue #112: Python decorated methods detection
 
-https://github.com/aimasteracc/codexray/issues/112
+https://github.com/aimasteracc/tree-sitter-analyzer/issues/112
 
 Bug: get_code_outline silently drops all @classmethod and @staticmethod methods.
 Root cause: _traverse_and_extract_iterative didn't include decorated_definition

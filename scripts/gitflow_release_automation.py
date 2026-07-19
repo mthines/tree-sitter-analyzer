@@ -256,7 +256,7 @@ class GitFlowReleaseAutomation:
         """Wait for CI/CD completion and provide status"""
         print("Waiting for CI/CD completion...")
         print("Check GitHub Actions status:")
-        print("   https://github.com/aimasteracc/codexray/actions")
+        print("   https://github.com/aimasteracc/tree-sitter-analyzer/actions")
         print("\nCI/CD Jobs to monitor:")
         print("   1. test - Should complete successfully")
         print("   2. build-and-deploy - Should complete successfully")

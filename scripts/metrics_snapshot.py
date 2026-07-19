@@ -20,7 +20,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-REPO = "aimasteracc/codexray"
+REPO = "aimasteracc/tree-sitter-analyzer"
 PACKAGE = "codexray"
 OUT_DIR = Path(__file__).resolve().parent.parent / ".recon" / "metrics"
 

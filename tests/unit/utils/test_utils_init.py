@@ -154,12 +154,12 @@ class TestLoggerInstances:
     def test_logger_has_name(self) -> None:
         """Test logger has a name."""
         assert logger.name is not None
-        assert len(logger.name) == 20
+        assert len(logger.name) == 8
 
     def test_perf_logger_has_name(self) -> None:
         """Test perf_logger has a name."""
         assert perf_logger.name is not None
-        assert len(perf_logger.name) == 32
+        assert len(perf_logger.name) == 20
 
 
 class TestModuleAttributes:
@@ -231,7 +231,7 @@ class TestModuleDocstring:
         from codexray import utils
 
         assert utils.__doc__ is not None
-        assert len(utils.__doc__) == 163
+        assert len(utils.__doc__) == 151
 
     def test_docstring_describes_purpose(self) -> None:
         """Test docstring describes module purpose."""

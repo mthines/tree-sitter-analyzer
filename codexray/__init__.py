@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 """
-Tree-sitter Multi-Language Code Analyzer
+CodeXray — Tree-sitter Multi-Language Code Analyzer
 
 A comprehensive Python library for analyzing code across multiple programming languages
 using Tree-sitter. Features a plugin-based architecture for extensible language support.
+
+Upstream / credits:
+    CodeXray is a fork of the ``tree-sitter-analyzer`` project by aisheng.yu
+    (https://github.com/aimasteracc/tree-sitter-analyzer, MIT). It repackages that
+    work under a shorter, more memorable name with a CLI-first (JSON + ``jq``)
+    workflow for easier day-to-day use, and adds stronger TypeScript/JavaScript
+    call-graph resolution plus a global extraction cache. All upstream authorship
+    is retained (see ``__author__`` below and the ``Upstream`` link in pyproject).
 
 Architecture:
 - Core Engine: UniversalCodeAnalyzer, LanguageDetector, QueryLoader

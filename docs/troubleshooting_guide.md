@@ -351,4 +351,4 @@ A: 部分読み取り機能を使用するか、ファイルを分割して処�
 - [デバッグガイド](debugging_guide.md) - 詳細なデバッグ手順
 - [README.md](../README.md) - 基本的な使用方法
 - [CONTRIBUTING.md](CONTRIBUTING.md) - 開発者向けガイド
-- [GitHub Issues](https://github.com/aimasteracc/codexray/issues) - 問題報告とサポート
+- [GitHub Issues](https://github.com/aimasteracc/tree-sitter-analyzer/issues) - 問題報告とサポート

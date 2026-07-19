@@ -584,8 +584,8 @@ uv run pytest tests/ --cov=codexray.grammar_coverage --cov-report=html
 ## Contact
 
 For questions or issues:
-- **Repository**: https://github.com/aimasteracc/codexray
-- **Issue Tracker**: https://github.com/aimasteracc/codexray/issues
+- **Repository**: https://github.com/aimasteracc/tree-sitter-analyzer
+- **Issue Tracker**: https://github.com/aimasteracc/tree-sitter-analyzer/issues
 - **Email**: aimasteracc@gmail.com
 
 ---
