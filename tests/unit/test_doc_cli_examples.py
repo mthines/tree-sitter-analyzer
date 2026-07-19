@@ -38,8 +38,13 @@ DOCS_REQUIRING_CLI_EXAMPLES = [
 # Capture the rest of the line so we can extract long-form flags.
 # Require trailing whitespace or end-of-line so we don't match
 # ``codexray[mcp]`` (a package extra, not a CLI invocation).
+# The negative lookbehind keeps ``codexray`` a *command* match only: it must
+# not be preceded by ``=`` / word char / path separators, so a package
+# reference like ``pytest --cov=codexray --cov-report=...`` is not mistaken
+# for a CLI invocation (the package name and the CLI command are both
+# ``codexray`` post-rename).
 _CLI_LINE = re.compile(
-    r"(?:uv\s+run\s+)?codexray(?:\s+|$)([^\n`]*)",
+    r"(?:uv\s+run\s+)?(?<![=\w/.-])codexray(?:\s+|$)([^\n`]*)",
 )
 # Long-form flag (``--foo`` or ``--foo-bar``).
 _FLAG = re.compile(r"--[a-z][a-z0-9-]*")
