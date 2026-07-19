@@ -21,13 +21,22 @@ on:
     branches: [main, develop]
     paths:
       - "tree_sitter_analyzer/mcp/**"
+      - "tree_sitter_analyzer/call_graph.py"
+      - "tree_sitter_analyzer/callee_resolution.py"
+      - "tree_sitter_analyzer/function_extraction.py"
+      - "tree_sitter_analyzer/graph_extraction_cache.py"
       - "tests/e2e/**"
       - ".github/workflows/e2e-real-repos.yml"
   pull_request:
     branches: [main, develop]
     paths:
       - "tree_sitter_analyzer/mcp/**"
+      - "tree_sitter_analyzer/call_graph.py"
+      - "tree_sitter_analyzer/callee_resolution.py"
+      - "tree_sitter_analyzer/function_extraction.py"
+      - "tree_sitter_analyzer/graph_extraction_cache.py"
       - "tests/e2e/test_real_repos.py"
+      - "tests/e2e/test_real_repos_callgraph.py"
       - "tests/e2e/conftest.py"
   schedule:
     # Weekly on Tuesday 03:00 UTC (offset from Monday health-monitor)
@@ -79,12 +88,21 @@ jobs:
           git clone --depth 1 --quiet https://github.com/psf/requests.git /tmp/real-repos/requests
           echo "Cloned requests: $(find /tmp/real-repos/requests -name '*.py' | wc -l) Python files"
 
+      # Call-graph fixture repos (TS / Python / Go) for test_real_repos_callgraph.py.
+      - name: Clone call-graph fixture repos
+        run: |
+          for r in "honojs/hono" "nestjs/nest" "pallets/flask" "gin-gonic/gin"; do
+            name="${r##*/}"
+            git clone --depth 1 --quiet "https://github.com/${r}.git" "/tmp/real-repos/${name}"
+            echo "Cloned ${name} @ $(git -C /tmp/real-repos/${name} rev-parse --short HEAD)"
+          done
+
       - name: Run real-repo E2E tests
         run: |
           echo "### E2E Real Repo Results" >> $GITHUB_STEP_SUMMARY
-          uv run pytest tests/e2e/test_real_repos.py -m "e2e and network" \
+          uv run pytest tests/e2e/test_real_repos.py tests/e2e/test_real_repos_callgraph.py -m "e2e and network" \
             --override-ini="addopts=--strict-markers --verbose --tb=short" \
-            --timeout=60 --tb=short -v > e2e-real-output.txt 2>&1 || touch e2e_failed
+            --timeout=120 --tb=short -v > e2e-real-output.txt 2>&1 || touch e2e_failed
           cat e2e-real-output.txt
           echo '```text' >> $GITHUB_STEP_SUMMARY
           tail -n 30 e2e-real-output.txt >> $GITHUB_STEP_SUMMARY
@@ -100,3 +118,7 @@ jobs:
           # Tell clone_repo_factory where we pre-cloned the repos.
           E2E_REAL_REPO_CLICK: /tmp/real-repos/click
           E2E_REAL_REPO_REQUESTS: /tmp/real-repos/requests
+          E2E_REAL_REPO_HONO: /tmp/real-repos/hono
+          E2E_REAL_REPO_NEST: /tmp/real-repos/nest
+          E2E_REAL_REPO_FLASK: /tmp/real-repos/flask
+          E2E_REAL_REPO_GIN: /tmp/real-repos/gin
