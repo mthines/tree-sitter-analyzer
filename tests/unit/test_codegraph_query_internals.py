@@ -6,7 +6,6 @@ from unittest.mock import ANY, MagicMock, patch
 
 import pytest
 
-from tests.unit._codegraph_query_helpers import _make_def, _patch_resolver_with
 from codexray.mcp.tools import _codegraph_query_concepts as concepts
 from codexray.mcp.tools import _codegraph_query_filters as filters
 from codexray.mcp.tools._codegraph_query_dsl import _ChainStep
@@ -18,6 +17,7 @@ from codexray.mcp.tools.codegraph_query_tool import (
     _resolve_query,
     _uml_facet,
 )
+from tests.unit._codegraph_query_helpers import _make_def, _patch_resolver_with
 
 
 class TestCodeGraphQueryInternals:

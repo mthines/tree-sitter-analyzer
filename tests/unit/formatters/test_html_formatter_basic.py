@@ -9,12 +9,6 @@ dict conversion, and CSV formatter coverage.
 
 import json
 
-from tests.unit.formatters._test_html_formatter_mixin import (
-    TestHtmlCompactFormatterMixin,
-    TestHtmlFormatterMixin,
-    TestHtmlFormatterRegistrationMixin,
-    TestHtmlJsonFormatterMixin,
-)
 from codexray.formatters.formatter_registry import IFormatter
 from codexray.formatters.html_formatter import (
     HtmlCompactFormatter,
@@ -23,6 +17,12 @@ from codexray.formatters.html_formatter import (
     HtmlJsonFormatter,
 )
 from codexray.models import Function, MarkupElement, StyleElement
+from tests.unit.formatters._test_html_formatter_mixin import (
+    TestHtmlCompactFormatterMixin,
+    TestHtmlFormatterMixin,
+    TestHtmlFormatterRegistrationMixin,
+    TestHtmlJsonFormatterMixin,
+)
 
 
 class TestHtmlFormatter(TestHtmlFormatterMixin):

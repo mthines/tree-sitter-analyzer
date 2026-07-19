@@ -6,12 +6,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tests.unit._codegraph_query_helpers import _make_def, _patch_resolver_with
 from codexray.mcp.tools._codegraph_query_dsl import _ChainStep
 from codexray.mcp.tools.codegraph_query_tool import (
     CodeGraphQueryTool,
     _QueryState,
 )
+from tests.unit._codegraph_query_helpers import _make_def, _patch_resolver_with
 
 
 class TestCodeGraphQueryToolHas:

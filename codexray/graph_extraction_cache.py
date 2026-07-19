@@ -60,7 +60,7 @@ def _grammar_fingerprint() -> str:
         # collapse the whole fingerprint (and, via lru_cache, disable grammar
         # invalidation for the process). Skip the bad one, keep the rest.
         try:
-            name = (dist.metadata.get("Name") or "").lower()
+            name = (dist.name or "").lower()
             if name.startswith(("tree-sitter", "tree_sitter")):
                 parts.append(f"{name}=={dist.version}")
         except Exception:  # pragma: no cover - defensive per-distribution skip

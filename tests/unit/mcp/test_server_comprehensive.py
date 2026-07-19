@@ -7,8 +7,8 @@ from test_server_comprehensive_init import (  # noqa: F401
     TestCodeXrayMCPServerInitialization,
 )
 from test_server_comprehensive_tools import (  # noqa: F401
-    TestMCPServerUtilities,
     TestCodeXrayMCPServerProjectPath,
     TestCodeXrayMCPServerRuntime,
     TestCodeXrayMCPServerToolHandling,
+    TestMCPServerUtilities,
 )

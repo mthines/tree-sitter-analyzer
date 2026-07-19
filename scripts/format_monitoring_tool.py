@@ -23,11 +23,11 @@ from typing import Any
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from tests.integration.formatters.golden_master import GoldenMasterManager  # noqa: E402
-from tests.integration.formatters.schema_validation import validate_format  # noqa: E402
 from codexray.mcp.tools.analyze_code_structure_tool import (  # noqa: E402
     AnalyzeCodeStructureTool,
 )
+from tests.integration.formatters.golden_master import GoldenMasterManager  # noqa: E402
+from tests.integration.formatters.schema_validation import validate_format  # noqa: E402
 
 
 class FormatMonitoringDatabase:

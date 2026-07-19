@@ -9,12 +9,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 from tests.unit.mcp.test_tools._test_analyze_scale_tool_execute_mixins import (
     AnalyzeScaleToolCreateJsonFileAnalysisMixin,
     AnalyzeScaleToolExecuteMetricsBatchMixin,
     AnalyzeScaleToolExecuteMixin,
 )
-from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
 
 @pytest.fixture

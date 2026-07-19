@@ -9,6 +9,7 @@ smaller private modules.
 
 from .core import (
     AnalysisError,
+    CodeXrayError,
     ConfigurationError,
     FileHandlingError,
     LanguageNotSupportedError,
@@ -16,7 +17,6 @@ from .core import (
     ParseError,
     PluginError,
     QueryError,
-    CodeXrayError,
     ValidationError,
 )
 from .execution import (

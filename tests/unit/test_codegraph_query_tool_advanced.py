@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tests.unit._codegraph_query_helpers import _make_def, _patch_resolver_with
 from codexray.mcp.tools.codegraph_query_tool import (
     CodeGraphQueryTool,
 )
+from tests.unit._codegraph_query_helpers import _make_def, _patch_resolver_with
 
 
 class TestCodeGraphQueryToolAdvanced:

@@ -10,6 +10,7 @@ import pytest
 
 from codexray.exceptions import (
     AnalysisError,
+    CodeXrayError,
     ConfigurationError,
     FileHandlingError,
     FileRestrictionError,
@@ -25,7 +26,6 @@ from codexray.exceptions import (
     QueryError,
     RegexSecurityError,
     SecurityError,
-    CodeXrayError,
     ValidationError,
     _sanitize_error_context,
     create_error_response,

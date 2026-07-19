@@ -4,6 +4,7 @@ import pytest
 
 from codexray.exceptions.core import (
     AnalysisError,
+    CodeXrayError,
     ConfigurationError,
     FileHandlingError,
     LanguageNotSupportedError,
@@ -11,7 +12,6 @@ from codexray.exceptions.core import (
     ParseError,
     PluginError,
     QueryError,
-    CodeXrayError,
     ValidationError,
 )
 

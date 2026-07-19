@@ -10,6 +10,12 @@ from unittest.mock import Mock, patch
 
 import pytest
 
+from codexray.cli_main import (
+    CLICommandFactory,
+    create_argument_parser,
+    handle_special_commands,
+    main,
+)
 from tests.unit.cli._test_cli_main_module_handle_special_commands_mixin import (
     TestHandleSpecialCommandsTestMixin,
 )
@@ -18,12 +24,6 @@ from tests.unit.cli._test_cli_main_module_parser_mixin import (
 )
 from tests.unit.cli._test_cli_main_module_test_mixin import (
     TestCLICommandFactoryTestMixin,
-)
-from codexray.cli_main import (
-    CLICommandFactory,
-    create_argument_parser,
-    handle_special_commands,
-    main,
 )
 
 

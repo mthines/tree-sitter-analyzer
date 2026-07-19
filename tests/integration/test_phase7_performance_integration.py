@@ -17,12 +17,6 @@ from pathlib import Path
 import psutil
 import pytest
 
-from tests.integration._test_phase7_performance_integration_helpers import (
-    PerformanceProfiler,
-    create_large_scale_structure,
-    nonnegative_float_from_env,
-    positive_int_from_env,
-)
 from codexray.mcp.server import CodeXrayMCPServer
 from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
@@ -30,6 +24,12 @@ from codexray.mcp.tools.analyze_code_structure_tool import (
 from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 from codexray.mcp.tools.list_files_tool import ListFilesTool
 from codexray.mcp.tools.search_content_tool import SearchContentTool
+from tests.integration._test_phase7_performance_integration_helpers import (
+    PerformanceProfiler,
+    create_large_scale_structure,
+    nonnegative_float_from_env,
+    positive_int_from_env,
+)
 
 DEFAULT_SUSTAINED_LOAD_ITERATIONS = 12
 DEFAULT_SUSTAINED_LOAD_INTERVAL_SECONDS = 0.05

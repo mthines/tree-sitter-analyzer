@@ -16,12 +16,12 @@ from hypothesis import strategies as st
 
 from codexray.exceptions import (
     AnalysisError,
+    CodeXrayError,
     LanguageNotSupportedError,
     MCPError,
     MCPResourceError,
     MCPTimeoutError,
     QueryError,
-    CodeXrayError,
     ValidationError,
     create_error_response,
     create_mcp_error_response,
