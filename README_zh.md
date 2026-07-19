@@ -2,7 +2,7 @@
 
 **[English](README.md)** | **[日本語](README_ja.md)** | **简体中文**
 
-> **Fork.** This is [`mthines/codexray`](https://github.com/mthines/codexray), a fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache. These changes are **not on PyPI** — install from git. See the English [What this fork adds](README.md#what-this-fork-adds) and [Install this fork](README.md#install). *(This translated README documents the upstream package; fork-specific notes are English-only for now.)*
+> **Fork.** This is [`mthines/codexray`](https://github.com/mthines/codexray), a fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) — a shorter, more memorable name and a CLI-first (JSON + `jq`) workflow, plus stronger TypeScript/JavaScript call-graph resolution and a global extraction cache. See the English [What this fork adds](README.md#what-this-fork-adds) and [Install](README.md#install). *(This translated README documents the upstream package; fork-specific notes are English-only for now.)*
 
 [![PyPI](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/codexray.svg?style=social)](https://github.com/mthines/codexray) [![适配 Claude Code · Cursor · MCP](https://img.shields.io/badge/适配-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
 
@@ -450,7 +450,7 @@ uv run python check_quality.py --new-code-only  # 质量闸门
 
 ```bash
 git clone https://github.com/mthines/codexray.git
-cd tree-sitter-analyzer
+cd codexray
 uv sync --extra all --extra mcp
 uv run pytest -q
 ```
