@@ -16,6 +16,7 @@ from __future__ import annotations
 import textwrap
 
 import tree_sitter_analyzer.call_graph as cg_mod
+import tree_sitter_analyzer.graph_extraction_cache as gec_mod
 from tree_sitter_analyzer.call_graph import CallGraph
 
 _TWO_FUNCS = "export const a = () => 1\nexport const b = () => a()\n"
@@ -98,3 +99,22 @@ def test_same_content_reused_across_project_roots(tmp_path, monkeypatch):
     CallGraph(str(root_b)).build()
 
     assert counter["n"] == 0
+
+
+def test_grammar_version_change_busts_the_cache(tmp_path, monkeypatch):
+    """A tree-sitter grammar upgrade must invalidate cached extraction, even
+    though the file content is byte-identical — the grammar fingerprint is part
+    of the key."""
+    monkeypatch.setenv("TSA_CACHE_DIR", str(tmp_path / "cache"))
+    proj = tmp_path / "proj"
+    proj.mkdir()
+    (proj / "app.ts").write_text(_TWO_FUNCS)
+
+    monkeypatch.setattr(gec_mod, "_grammar_fingerprint", lambda: "grammar-v1")
+    CallGraph(str(proj)).build()  # populates the cache under the v1 fingerprint
+
+    monkeypatch.setattr(gec_mod, "_grammar_fingerprint", lambda: "grammar-v2")
+    counter = _count_parses(monkeypatch)
+    CallGraph(str(proj)).build()  # different fingerprint -> miss -> re-parse
+
+    assert counter["n"] == 1

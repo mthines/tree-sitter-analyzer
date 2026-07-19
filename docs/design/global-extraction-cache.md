@@ -31,13 +31,22 @@ Parsing dominates cost. So: **cache extraction, always re-run resolution.**
 
 ### Content addressing
 
-Cache key = `blake2b(file_bytes + language + EXTRACTOR_VERSION)`. Because the key
-is the *content*, not the path, the same file hits the same entry regardless of
-which root it was reached from — this is what delivers monorepo / nested reuse
-for free. Renames and moves with identical content also hit.
+Cache key = `blake2b(file_bytes + language + EXTRACTOR_VERSION + grammar_fingerprint)`.
+Because the key is the *content*, not the path, the same file hits the same entry
+regardless of which root it was reached from — this is what delivers monorepo /
+nested reuse for free. Renames and moves with identical content also hit.
 
-`EXTRACTOR_VERSION` in the key means a tool upgrade that changes extraction output
-invalidates every entry automatically. No stale parses after an upgrade.
+Two version components guard correctness across upgrades:
+
+- `EXTRACTOR_VERSION` — this project's extractor. Bump it when `walk_tree` /
+  `walk_imports` output shape changes.
+- `grammar_fingerprint` — a digest of the installed `tree-sitter*` package
+  versions. The grammars are independently versioned deps with open ranges, so a
+  `pip install -U` within range can change the parse tree with no code change
+  here. Folding the versions in invalidates the cache automatically on any
+  grammar upgrade (conservative: any grammar bump invalidates all languages).
+
+Together they mean no stale parses after any upgrade — ours or a grammar's.
 
 ### Why not byte-size (the original idea)
 

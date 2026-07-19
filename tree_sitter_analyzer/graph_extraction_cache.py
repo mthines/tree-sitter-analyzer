@@ -9,9 +9,11 @@ is what makes repeat runs and monorepo / nested invocations cheap.
 
 Design notes live in ``docs/design/global-extraction-cache.md``. Key points:
 
-- The key is ``blake2b(bytes + language + version)`` — content, not path.
-- ``_EXTRACT_VERSION`` is in the key, so a change to extraction output
-  invalidates every entry after an upgrade.
+- The key is ``blake2b(bytes + language + version + grammar_fingerprint)`` —
+  content, not path.
+- ``_EXTRACT_VERSION`` (this project's extractor) AND the installed
+  ``tree-sitter*`` package versions are in the key, so any upgrade that can
+  change extraction output — ours or a grammar's — invalidates every entry.
 - The cache is best-effort: any I/O or decode failure falls back to a live parse.
   A broken cache can never fail a build or return a stale answer.
 - Objects are immutable, written temp-then-atomic-rename, so concurrent
@@ -20,16 +22,47 @@ Design notes live in ``docs/design/global-extraction-cache.md``. Key points:
 
 from __future__ import annotations
 
+import functools
 import hashlib
 import json
 import os
 import tempfile
+from importlib import metadata as _metadata
 from pathlib import Path
 from typing import Any
 
 #: Bump when the shape of ``walk_tree`` / ``walk_imports`` output changes, so an
 #: upgraded extractor never reads entries written by an older one.
 _EXTRACT_VERSION = 1
+
+
+@functools.lru_cache(maxsize=1)
+def _grammar_fingerprint() -> str:
+    """Digest of installed ``tree-sitter*`` package versions (computed once).
+
+    Extraction output depends on the tree-sitter core and grammar libraries,
+    which are versioned independently with open ranges (``tree-sitter-typescript
+    >=0.23.2,<0.25.0`` etc.). A grammar upgrade within range can change the parse
+    tree with no change to this project's code and no ``_EXTRACT_VERSION`` bump —
+    so identical content would otherwise hit a stale entry. Folding the installed
+    versions into the key invalidates the cache whenever any tree-sitter package
+    changes: conservative (any grammar bump invalidates all languages) but always
+    correct, and entries are cheap to rebuild. Best-effort — an unreadable
+    environment yields a constant, degrading to content+version keying only.
+    """
+    try:
+        parts = [
+            f"{name}=={dist.version}"
+            for dist in _metadata.distributions()
+            if (name := (dist.metadata.get("Name") or "").lower()).startswith(
+                ("tree-sitter", "tree_sitter")
+            )
+        ]
+    except Exception:  # pragma: no cover - defensive: never let metadata break the cache
+        return "unknown"
+    return hashlib.blake2b(
+        "\n".join(sorted(parts)).encode("utf-8"), digest_size=8
+    ).hexdigest()
 
 #: Extraction record: (definitions, calls, imports).
 Extraction = tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]
@@ -57,10 +90,15 @@ class GraphExtractionCache:
         self._dir = cache_dir if cache_dir is not None else resolve_cache_dir()
 
     def _object_path(self, content: bytes, language: str) -> Path:
-        digest = hashlib.blake2b(
-            content + b"\0" + language.encode("utf-8") + b"\0" + str(_EXTRACT_VERSION).encode("ascii"),
-            digest_size=20,
-        ).hexdigest()
+        key_material = b"\0".join(
+            (
+                content,
+                language.encode("utf-8"),
+                str(_EXTRACT_VERSION).encode("ascii"),
+                _grammar_fingerprint().encode("ascii"),
+            )
+        )
+        digest = hashlib.blake2b(key_material, digest_size=20).hexdigest()
         return self._dir / "objects" / digest[:2] / f"{digest}.json"
 
     def load(self, content: bytes, language: str) -> Extraction | None:
