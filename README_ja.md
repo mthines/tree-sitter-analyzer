@@ -15,7 +15,7 @@ TSA は tree-sitter でコードベースをインデックスし、正確なコ
 * **エージェントネイティブ。** **8 MCP ツール**、TOON 出力（bulk レスポンスが JSON より ~50-70% 小さい）、verdict エンベロープ、13 のキュレーテッド Skills — Claude Code・Cursor・任意の MCP クライアント向け設計。
 * **広くかつ正確に分類。** 13 言語のフルコールグラフ インデックス（Python · Go · Rust · Java · JS · TS · C · C++ · C# · Swift · Kotlin · Ruby · PHP）、他 8 言語はシンボル インデックスまたは CLI 経由でアクセス可。
 
-> **実測値：** HuggingFace `tokenizers`（Rust+Python+JS+TS）において名前照合リゾルバは **1,259** コール エッジを誤結線 — TSA は **0**。自分のリポジトリで確認: `uvx --from tree-sitter-analyzer miswire-audit .`
+> **実測値：** HuggingFace `tokenizers`（Rust+Python+JS+TS）において名前照合リゾルバは **1,259** コール エッジを誤結線 — TSA は **0**。自分のリポジトリで確認: `uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .`
 
 > v1.x からの移行は [docs/MIGRATION.md](docs/MIGRATION.md) を参照。
 
@@ -28,7 +28,7 @@ TSA は tree-sitter でコードベースをインデックスし、正確なコ
 ### 自動インストール（推奨）
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aimasteracc/tree-sitter-analyzer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mthines/tree-sitter-analyzer/main/install.sh | bash
 ```
 
 `install.sh` は `uv` の有無を確認して未インストールなら自動導入し、Claude Desktop / Claude Code / Cursor / VS Code の設定ファイルを検出して MCP エントリを自動書き込みします。セットアップ後は `tree-sitter-analyzer --doctor` で設定を確認できます。
@@ -38,7 +38,7 @@ curl -fsSL https://raw.githubusercontent.com/aimasteracc/tree-sitter-analyzer/ma
 ```bash
 claude mcp add tree-sitter-analyzer \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
+  -- uvx --from "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git" tree-sitter-analyzer-mcp
 ```
 
 エージェントを再起動し、こう伝える: 「`index` ツールを action=status で呼んでください。」
@@ -69,9 +69,9 @@ winget install sharkdp.fd BurntSushi.ripgrep.MSVC      # Windows
 
 ```bash
 # スタンドアロンインストール(永続 CLI コマンド):
-uv tool install "tree-sitter-analyzer[all,mcp]"
+uv tool install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
 # — インストール不要でも可:下の MCP エントリは uvx でオンデマンド実行されます。
-# uv 管理の Python プロジェクト内では: uv add "tree-sitter-analyzer[all,mcp]"
+# uv 管理の Python プロジェクト内では: uv add "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
 ```
 
 #### 3. エージェントへ接続
@@ -83,7 +83,7 @@ uv tool install "tree-sitter-analyzer[all,mcp]"
   "mcpServers": {
     "tree-sitter-analyzer": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/絶対パス/プロジェクト" }
     }
   }
@@ -95,7 +95,7 @@ uv tool install "tree-sitter-analyzer[all,mcp]"
 **自分のリポジトリで correctness の差を 1 コマンドで確認**(インストール不要・CodeGraph 不要、最初に再インデックスします):
 
 ```bash
-uvx --from tree-sitter-analyzer miswire-audit .
+uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .
 ```
 
 name-only な code index(多くのツールが採る設計)なら、何件の呼び出しを言語をまたいで誤結線するか(例: Python の `sorted()` → Swift の func)vs TSA が何件かを表示します。実証: [HuggingFace `tokenizers`](benchmarks/codegraph_compare/MISWIRE-AUDIT-EXAMPLES.md) で name-only は **1,259 件**(JS `tokenize()` → Rust 等)、TSA は **0**。ruff **7557×**、polars **9016×**。単一言語リポ(gin/Go)は両方 **0** で誤検知なし。
@@ -201,7 +201,7 @@ tree-sitter-analyzer --safe-to-edit <file>        # リスク時に拒否
 
 > **この表を信じないで — 自分のリポジトリで実行してください (CodeGraph インストール不要):**
 > ```bash
-> uvx --from tree-sitter-analyzer miswire-audit .
+> uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .
 > ```
 > コードをインデックスし、name-only リゾルバ(多くのインデックスが採用する設計)なら何件のコール エッジを言語をまたいで誤結線するか vs TSA が何件かを表示します — 問題のあるエッジ一覧付き(`Python sorted() → Swift func at file:line`)。`--card` でシェア可能なスコアカードを出力。
 >
@@ -304,7 +304,7 @@ tree-sitter-analyzer --callees _resolve_entry_points --format json
 ```bash
 claude mcp add tree-sitter-analyzer \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
+  -- uvx --from "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git" tree-sitter-analyzer-mcp
 ```
 
 検証: `claude mcp list`。13 の `tsa-*` skills は `.claude/skills/` から自動検出される。
@@ -326,7 +326,7 @@ git clone ユーザーはすでに含まれているため不要です。
   "mcpServers": {
     "tree-sitter-analyzer": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/絶対パス/プロジェクト" }
     }
   }
@@ -345,7 +345,7 @@ git clone ユーザーはすでに含まれているため不要です。
     "tree-sitter-analyzer": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "${workspaceFolder}" }
     }
   }
@@ -414,7 +414,7 @@ uv run python check_quality.py --new-code-only  # 品質ゲート
 
 | 症状 | 修正 |
 |---|---|
-| `.swift / .kt / .rb / .php / .cs` で `unsupported language` | ≥ 1.12.x へ更新 — 5 言語 gap は commit `50e99a8f` で修正済み。extras 区分の文法モジュールはベースインストールに同梱されません。`pip install "tree-sitter-analyzer[swift]"`(または `kotlin`、`ruby`、`php`、`csharp`)で追加してください |
+| `.swift / .kt / .rb / .php / .cs` で `unsupported language` | ≥ 1.12.x へ更新 — 5 言語 gap は commit `50e99a8f` で修正済み。extras 区分の文法モジュールはベースインストールに同梱されません。`pip install "tree-sitter-analyzer[swift] @ git+https://github.com/mthines/tree-sitter-analyzer.git"`(または `kotlin`、`ruby`、`php`、`csharp`)で追加してください |
 | MCP サーバーがクライアントに表示されない | `TREE_SITTER_PROJECT_ROOT` は**絶対パス**必須; 設定編集後にクライアント再起動。[TREE\_SITTER\_PROJECT\_ROOT に相対パスを指定した場合](#tree_sitter_project_root-に相対パスを指定した場合)も参照 |
 | `database is locked` | `.ast-cache/index.db` を保持する他プロセスを停止; 継続する場合は `rm -rf .ast-cache && tree-sitter-analyzer --autoindex` |
 | 初回呼び出しが遅い | 初回はインデックスを構築。後続はサブ秒。事前に `--full-index` を実行すれば償却可能 |

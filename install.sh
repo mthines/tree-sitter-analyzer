@@ -141,7 +141,7 @@ if "mcpServers" not in data:
 # Merge TSA entry (preserves existing entries)
 data["mcpServers"]["tree-sitter-analyzer"] = {
     "command": "uvx",
-    "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+    "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
     "env": {"TREE_SITTER_PROJECT_ROOT": project_root},
 }
 

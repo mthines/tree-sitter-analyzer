@@ -2,7 +2,7 @@
 
 **English** | **[日本語](README_ja.md)** | **[简体中文](README_zh.md)**
 
-[![PyPI (upstream)](https://img.shields.io/pypi/v/tree-sitter-analyzer.svg)](https://pypi.org/project/tree-sitter-analyzer/) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/tree-sitter-analyzer.svg?style=social)](https://github.com/mthines/tree-sitter-analyzer) [![Works with Claude Code · Cursor · MCP](https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Stars](https://img.shields.io/github/stars/mthines/tree-sitter-analyzer.svg?style=social)](https://github.com/mthines/tree-sitter-analyzer) [![Works with Claude Code · Cursor · MCP](https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Cursor%20%C2%B7%20MCP-6f42c1.svg)](#supported-agents)
 
 > **Fork.** [`mthines/tree-sitter-analyzer`](https://github.com/mthines/tree-sitter-analyzer) extends [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree-sitter-analyzer) (© its authors, MIT) with stronger TypeScript/JavaScript call-graph resolution and a global extraction cache — see [What this fork adds](#what-this-fork-adds). These changes are **not on PyPI**; [install from git](#install-this-fork-from-git) to get them.
 
@@ -15,7 +15,7 @@ TSA indexes your codebase with tree-sitter and serves correct call graphs, symbo
 * **Built agent-native.** 8 MCP tools, TOON output (~half the size of JSON on bulk/tabular responses), verdict envelopes, and 13 curated Skills — designed for Claude Code, Cursor, and any MCP client.
 * **Broad and correctly classified.** 13 languages with full call-graph indexing (Python · Go · Rust · Java · JS · TS · C · C++ · C# · Swift · Kotlin · Ruby · PHP), 8 more symbol-indexed or CLI-reachable.
 
-> **Proof:** on HuggingFace `tokenizers` (Rust+Python+JS+TS), a name-only resolver mis-wires **1,259** call edges — TSA: **0**. Run it on your repo in seconds: `uvx --from tree-sitter-analyzer miswire-audit .`
+> **Proof:** on HuggingFace `tokenizers` (Rust+Python+JS+TS), a name-only resolver mis-wires **1,259** call edges — TSA: **0**. Run it on your repo in seconds: `uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .`
 
 > Upgrading from v1.x? See [docs/MIGRATION.md](docs/MIGRATION.md).
 
@@ -47,12 +47,10 @@ uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" tree-sitter-ana
 pip install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
 ```
 
-> The automated installer and the `uvx --from tree-sitter-analyzer` / `pip install tree-sitter-analyzer` commands below install the **upstream published package**, which does *not* include this fork's changes. Use the git commands above for the fork.
-
-### Automated install (upstream package)
+### Automated install (recommended)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aimasteracc/tree-sitter-analyzer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mthines/tree-sitter-analyzer/main/install.sh | bash
 ```
 
 Auto-installs `uv` if missing, detects Claude Desktop / Claude Code / Cursor / VS Code, and writes the MCP entry. Run `tree-sitter-analyzer --doctor` to verify.
@@ -61,7 +59,7 @@ One-line install for **Claude Code**:
 ```bash
 claude mcp add tree-sitter-analyzer \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
+  -- uvx --from "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git" tree-sitter-analyzer-mcp
 ```
 
 Restart your agent, then say: *"Run the `index` tool with action=status."*
@@ -94,9 +92,9 @@ winget install sharkdp.fd BurntSushi.ripgrep.MSVC      # Windows
 
 ```bash
 # Standalone install (persistent CLI command):
-uv tool install "tree-sitter-analyzer[all,mcp]"
+uv tool install "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
 # — or skip installing entirely: the MCP entry below runs via uvx on demand.
-# Inside a uv-managed Python project, use: uv add "tree-sitter-analyzer[all,mcp]"
+# Inside a uv-managed Python project, use: uv add "tree-sitter-analyzer[all,mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git"
 ```
 
 #### 3. Hook it into your agent
@@ -108,7 +106,7 @@ See **[Supported Agents](#supported-agents)**. Most clients want this MCP server
   "mcpServers": {
     "tree-sitter-analyzer": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/absolute/path/to/your/project" }
     }
   }
@@ -121,7 +119,7 @@ CLI equivalent (no agent needed): `tree-sitter-analyzer --codegraph-status`
 **See the correctness edge on your own repo** — no install, no CodeGraph (it re-indexes first; seconds on a small repo, a minute or two on a large one):
 
 ```bash
-uvx --from tree-sitter-analyzer miswire-audit .
+uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .
 ```
 
 It prints how many call edges a name-only code index (the design most tools use) *would* mis-wire across a language boundary — e.g. a Python `sorted()` wired to a Swift `func sorted` — versus how many TSA does (≈0). On [HuggingFace `tokenizers`](benchmarks/codegraph_compare/MISWIRE-AUDIT-EXAMPLES.md): **1,259 → 0**.
@@ -237,7 +235,7 @@ Token cost is one axis; a code-intelligence tool's *first* job is a **correct gr
 
 > **Don't trust this table — run it on your own repo (no CodeGraph install needed):**
 > ```bash
-> uvx --from tree-sitter-analyzer miswire-audit .
+> uvx --from "git+https://github.com/mthines/tree-sitter-analyzer" miswire-audit .
 > ```
 > It indexes your code and prints how many call edges a name-only resolver (the design most indexes use) *would* mis-wire across a language boundary vs how many TSA does — with the offending edges listed (`Python sorted() → Swift func at file:line`). Add `--card` for a shareable scorecard.
 >
@@ -347,7 +345,7 @@ The index is built lazily on first query, refreshed on file change via a content
 ```bash
 claude mcp add tree-sitter-analyzer \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "tree-sitter-analyzer[mcp]" tree-sitter-analyzer-mcp
+  -- uvx --from "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git" tree-sitter-analyzer-mcp
 ```
 
 Verify: `claude mcp list`. The 13 `tsa-*` skills auto-discover from `.claude/skills/`.
@@ -370,7 +368,7 @@ Edit `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/
   "mcpServers": {
     "tree-sitter-analyzer": {
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/absolute/path/to/your/project" }
     }
   }
@@ -389,7 +387,7 @@ Create `.vscode/mcp.json` (note: `servers`, not `mcpServers`):
     "tree-sitter-analyzer": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["--from", "tree-sitter-analyzer[mcp]", "tree-sitter-analyzer-mcp"],
+      "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "${workspaceFolder}" }
     }
   }
@@ -494,7 +492,7 @@ uv run python check_quality.py --new-code-only  # quality gate
 
 | Symptom | Fix |
 |---|---|
-| `unsupported language` on `.swift / .kt / .rb / .php / .cs` | Update to ≥ 1.12.x — the 5-language gap was patched in commit `50e99a8f`. Grammar modules for extras-gated languages are not bundled in the base install; run `pip install "tree-sitter-analyzer[swift]"` (or `kotlin`, `ruby`, `php`, `csharp`) to add them. |
+| `unsupported language` on `.swift / .kt / .rb / .php / .cs` | Update to ≥ 1.12.x — the 5-language gap was patched in commit `50e99a8f`. Grammar modules for extras-gated languages are not bundled in the base install; run `pip install "tree-sitter-analyzer[swift] @ git+https://github.com/mthines/tree-sitter-analyzer.git"` (or `kotlin`, `ruby`, `php`, `csharp`) to add them. |
 | MCP server doesn't appear in client | `TREE_SITTER_PROJECT_ROOT` must be an **absolute path** (e.g. `$(pwd)` or `/home/user/project`); a relative path causes the server to resolve against the wrong directory. Restart the client after editing. Run `tree-sitter-analyzer --doctor` to verify. |
 | `database is locked` | Stop any other process holding `.ast-cache/index.db`; if persistent, `rm -rf .ast-cache && tree-sitter-analyzer --full-index`. |
 | Slow first call | First call builds the index. Subsequent calls are sub-second. Run `--full-index` upfront to amortise. |
