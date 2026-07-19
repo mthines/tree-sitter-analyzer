@@ -98,6 +98,31 @@ class FunctionRef:
         return d
 
 
+#: Confidence CalleeResolver assigns to global-fallback (bare-name, project-wide)
+#: matches. Local same-file matches score 1.0 and imported matches 0.9; only this
+#: last-resort tier can fan a single call site out to every same-named definition.
+_GLOBAL_FALLBACK_CONFIDENCE = 0.5
+
+
+def _is_ambiguous_method_fanout(
+    call: dict[str, Any],
+    resolved: list[tuple[Any, float]],
+) -> bool:
+    """True when a qualified method call resolves only by low-confidence guesses.
+
+    A call like ``reg.get(...)`` on a receiver whose type is unknown must not
+    bind to every same-named method in the project. Without receiver-type
+    inference the resolver cannot pick the owner, so multiple global-fallback
+    matches are ambiguous — emit no edge rather than a wrong one. Bare
+    (unqualified) calls and single matches are never suppressed.
+    """
+    if not call.get("receiver"):
+        return False
+    if len(resolved) <= 1:
+        return False
+    return all(conf <= _GLOBAL_FALLBACK_CONFIDENCE for _item, conf in resolved)
+
+
 class CallGraph:
     """
     Project-level function call graph.
@@ -354,13 +379,10 @@ class CallGraph:
                 functions_by_file=self._func_by_file,
                 name_to_source=self._imported_names,
             )
-        return [
-            ref
-            for ref, _confidence in self._callee_resolver.resolve_items(
-                name,
-                source_rel,
-            )
-        ]
+        resolved = self._callee_resolver.resolve_items(name, source_rel)
+        if _is_ambiguous_method_fanout(call, resolved):
+            return []
+        return [ref for ref, _confidence in resolved]
 
     def callers_of(
         self, func_name: str, file_path: str | None = None
