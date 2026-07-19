@@ -141,7 +141,7 @@ if "mcpServers" not in data:
 # Merge TSA entry (preserves existing entries)
 data["mcpServers"]["codexray"] = {
     "command": "uvx",
-    "args": ["--from", "codexray[mcp]", "codexray-mcp"],
+    "args": ["--from", "codexray-cli[mcp]", "codexray-mcp"],
     "env": {"TREE_SITTER_PROJECT_ROOT": project_root},
 }
 

@@ -8,7 +8,7 @@
 ```bash
 claude mcp add codexray \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "codexray[mcp]" codexray-mcp
+  -- uvx --from "codexray-cli[mcp]" codexray-mcp
 ```
 
 Verify: `claude mcp list`. The 13 `tsa-*` skills auto-discover from `.claude/skills/`.
@@ -31,7 +31,7 @@ Edit `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/
   "mcpServers": {
     "codexray": {
       "command": "uvx",
-      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
+      "args": ["--from", "codexray-cli[mcp]", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/absolute/path/to/your/project" }
     }
   }
@@ -50,7 +50,7 @@ Create `.vscode/mcp.json` (note: `servers`, not `mcpServers`):
     "codexray": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
+      "args": ["--from", "codexray-cli[mcp]", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "${workspaceFolder}" }
     }
   }

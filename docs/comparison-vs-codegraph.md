@@ -17,7 +17,7 @@ Token cost is one axis; a code-intelligence tool's *first* job is a **correct gr
 
 > **Don't trust this table — run it on your own repo (no CodeGraph install needed):**
 > ```bash
-> uvx --from codexray miswire-audit .
+> uvx --from codexray-cli miswire-audit .
 > ```
 > It indexes your code and prints how many call edges a name-only resolver (the design most indexes use) *would* mis-wire across a language boundary vs how many TSA does — with the offending edges listed (`Python sorted() → Swift func at file:line`). Add `--card` for a shareable scorecard.
 >

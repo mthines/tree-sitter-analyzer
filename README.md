@@ -15,7 +15,7 @@ TSA indexes your codebase with tree-sitter and serves correct call graphs, symbo
 * **Built agent-native.** 8 MCP tools, TOON output (~half the size of JSON on bulk/tabular responses), verdict envelopes, and 13 curated Skills — designed for Claude Code, Cursor, and any MCP client.
 * **Broad and correctly classified.** 13 languages with full call-graph indexing (Python · Go · Rust · Java · JS · TS · C · C++ · C# · Swift · Kotlin · Ruby · PHP), 8 more symbol-indexed or CLI-reachable.
 
-> **Proof:** on HuggingFace `tokenizers` (Rust+Python+JS+TS), a name-only resolver mis-wires **1,259** call edges — TSA: **0**. Run it on your repo in seconds: `uvx --from codexray miswire-audit .`
+> **Proof:** on HuggingFace `tokenizers` (Rust+Python+JS+TS), a name-only resolver mis-wires **1,259** call edges — TSA: **0**. Run it on your repo in seconds: `uvx --from codexray-cli miswire-audit .`
 
 > Upgrading from v1.x? See [docs/MIGRATION.md](docs/MIGRATION.md).
 
@@ -138,14 +138,14 @@ Use `--format json` for `jq`; use `--format toon` (≈ half the size) when feedi
 
 ```bash
 # run on demand with uvx
-uvx --from "codexray[all,mcp]" codexray --help
+uvx --from "codexray-cli[all,mcp]" codexray --help
 
 # or install into an environment (all languages + MCP)
-pip install "codexray[all,mcp]"
+pip install "codexray-cli[all,mcp]"
 ```
 
 > Want the latest unreleased changes? Install from git instead:
-> `pip install "codexray[all,mcp] @ git+https://github.com/mthines/codexray.git"`
+> `pip install "codexray-cli[all,mcp] @ git+https://github.com/mthines/codexray.git"`
 
 ### Automated install
 
@@ -159,7 +159,7 @@ One-line install for **Claude Code**:
 ```bash
 claude mcp add codexray \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "codexray[mcp]" codexray-mcp
+  -- uvx --from "codexray-cli[mcp]" codexray-mcp
 ```
 
 Restart your agent, then say: *"Run the `index` tool with action=status."*
@@ -192,9 +192,9 @@ winget install sharkdp.fd BurntSushi.ripgrep.MSVC      # Windows
 
 ```bash
 # Standalone install (persistent CLI command):
-uv tool install "codexray[all,mcp]"
+uv tool install "codexray-cli[all,mcp]"
 # — or skip installing entirely: the MCP entry below runs via uvx on demand.
-# Inside a uv-managed Python project, use: uv add "codexray[all,mcp]"
+# Inside a uv-managed Python project, use: uv add "codexray-cli[all,mcp]"
 ```
 
 #### 3. Hook it into your agent
@@ -206,7 +206,7 @@ See **[Supported Agents](#supported-agents)**. Most clients want this MCP server
   "mcpServers": {
     "codexray": {
       "command": "uvx",
-      "args": ["--from", "codexray[mcp]", "codexray-mcp"],
+      "args": ["--from", "codexray-cli[mcp]", "codexray-mcp"],
       "env": { "TREE_SITTER_PROJECT_ROOT": "/absolute/path/to/your/project" }
     }
   }
@@ -219,7 +219,7 @@ CLI equivalent (no agent needed): `codexray --codegraph-status`
 **See the correctness edge on your own repo** — no install, no CodeGraph (it re-indexes first; seconds on a small repo, a minute or two on a large one):
 
 ```bash
-uvx --from codexray miswire-audit .
+uvx --from codexray-cli miswire-audit .
 ```
 
 It prints how many call edges a name-only code index (the design most tools use) *would* mis-wire across a language boundary — e.g. a Python `sorted()` wired to a Swift `func sorted` — versus how many TSA does (≈0). On [HuggingFace `tokenizers`](benchmarks/codegraph_compare/MISWIRE-AUDIT-EXAMPLES.md): **1,259 → 0**.
@@ -322,7 +322,7 @@ See [`docs/CODEMAPS/cli.md`](docs/CODEMAPS/cli.md) for the full surface.
 
 CodeXray is a **strict CLI superset of CodeGraph** with far cleaner cross-language call-graph resolution (~390× fewer cross-language mis-wires on this repo), faster indexing, reactive push, and an honest token-cost comparison. Full head-to-head numbers, the resolver cascade, and the reproducible audit live in **[docs/comparison-vs-codegraph.md](docs/comparison-vs-codegraph.md)**.
 
-Run it on your own repo (no CodeGraph install needed): `uvx --from codexray miswire-audit .`
+Run it on your own repo (no CodeGraph install needed): `uvx --from codexray-cli miswire-audit .`
 
 ---
 
@@ -351,7 +351,7 @@ CodeXray speaks MCP over stdio and works with Claude Code, Claude Desktop, Curso
 ```bash
 claude mcp add codexray \
   --env TREE_SITTER_PROJECT_ROOT="$PWD" \
-  -- uvx --from "codexray[mcp]" codexray-mcp
+  -- uvx --from "codexray-cli[mcp]" codexray-mcp
 ```
 
 Per-client config (Claude Desktop, Cursor, Copilot, Docker, …) and the skills-install steps are in **[docs/mcp-client-setup.md](docs/mcp-client-setup.md)**.
@@ -410,7 +410,7 @@ uv run python check_quality.py --new-code-only  # quality gate
 
 | Symptom | Fix |
 |---|---|
-| `unsupported language` on `.swift / .kt / .rb / .php / .cs` | Update to ≥ 1.12.x — the 5-language gap was patched in commit `50e99a8f`. Grammar modules for extras-gated languages are not bundled in the base install; run `pip install "codexray[swift]"` (or `kotlin`, `ruby`, `php`, `csharp`) to add them. |
+| `unsupported language` on `.swift / .kt / .rb / .php / .cs` | Update to ≥ 1.12.x — the 5-language gap was patched in commit `50e99a8f`. Grammar modules for extras-gated languages are not bundled in the base install; run `pip install "codexray-cli[swift]"` (or `kotlin`, `ruby`, `php`, `csharp`) to add them. |
 | MCP server doesn't appear in client | `TREE_SITTER_PROJECT_ROOT` must be an **absolute path** (e.g. `$(pwd)` or `/home/user/project`); a relative path causes the server to resolve against the wrong directory. Restart the client after editing. Run `codexray --doctor` to verify. |
 | `database is locked` | Stop any other process holding `.ast-cache/index.db`; if persistent, `rm -rf .ast-cache && codexray --full-index`. |
 | Slow first call | First call builds the index. Subsequent calls are sub-second. Run `--full-index` upfront to amortise. |
