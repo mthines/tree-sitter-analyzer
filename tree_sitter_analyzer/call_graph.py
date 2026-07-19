@@ -16,7 +16,7 @@ from collections import defaultdict, deque
 from pathlib import Path
 from typing import Any
 
-from .callee_resolution import CalleeResolver
+from .callee_resolution import GLOBAL_FALLBACK_CONFIDENCE, CalleeResolver
 from .core.parser import Parser, ParseResult
 from .graph_extraction_cache import GraphExtractionCache, is_disabled
 from .function_extraction import (
@@ -99,12 +99,6 @@ class FunctionRef:
         return d
 
 
-#: Confidence CalleeResolver assigns to global-fallback (bare-name, project-wide)
-#: matches. Local same-file matches score 1.0 and imported matches 0.9; only this
-#: last-resort tier can fan a single call site out to every same-named definition.
-_GLOBAL_FALLBACK_CONFIDENCE = 0.5
-
-
 def _is_ambiguous_method_fanout(
     call: dict[str, Any],
     resolved: list[tuple[Any, float]],
@@ -121,7 +115,7 @@ def _is_ambiguous_method_fanout(
         return False
     if len(resolved) <= 1:
         return False
-    return all(conf <= _GLOBAL_FALLBACK_CONFIDENCE for _item, conf in resolved)
+    return all(conf <= GLOBAL_FALLBACK_CONFIDENCE for _item, conf in resolved)
 
 
 class CallGraph:

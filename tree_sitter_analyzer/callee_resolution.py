@@ -8,6 +8,14 @@ from typing import Any
 from .languages.language_family import language_from_path, languages_compatible
 from .utils.test_detection import is_test_file
 
+#: Confidence assigned to a global-fallback match — a bare-name hit found only by
+#: scanning the whole project, with no local or import evidence. Local matches
+#: score 1.0 and imported matches 0.9; this last-resort tier is the one that can
+#: fan a single call site out to every same-named definition. Exported so callers
+#: (e.g. the CallGraph ambiguity gate) can detect the fallback tier without
+#: re-hardcoding the value.
+GLOBAL_FALLBACK_CONFIDENCE = 0.5
+
 
 @dataclass(frozen=True)
 class CalleeResolution:
@@ -77,7 +85,7 @@ class CalleeResolver:
         if include_global:
             candidates = self._functions_by_name.get(base_name, [])
             if candidates:
-                return candidates[0], 0.5
+                return candidates[0], GLOBAL_FALLBACK_CONFIDENCE
 
         return None
 
@@ -201,7 +209,9 @@ class CalleeResolver:
                 if non_test:
                     globals_ = non_test
             for func in globals_:
-                _append_resolution(results, seen, func, 0.5, keep_items=keep_items)
+                _append_resolution(
+                    results, seen, func, GLOBAL_FALLBACK_CONFIDENCE, keep_items=keep_items
+                )
 
         return results
 
