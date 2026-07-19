@@ -6,7 +6,7 @@
 - **Last updated**: YYYY-MM-DD
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/...`
+  - `codexray/...`
   - `tests/...`
 
 ## Summary

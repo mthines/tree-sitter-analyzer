@@ -1,11 +1,11 @@
-"""Tests for tree_sitter_analyzer.languages.shared.import_extractor."""
+"""Tests for codexray.languages.shared.import_extractor."""
 
 from __future__ import annotations
 
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.languages.shared.import_extractor import (
+from codexray.languages.shared.import_extractor import (
     ImportRecord,
     extract_from_import,
     extract_namespace_import,
@@ -90,7 +90,7 @@ class TestExtractQualifiedImport:
 class TestExtractFromImport:
     def test_python_from_import(self):
         """Python ``from os.path import join`` → module='os.path', names include 'join'."""
-        from tree_sitter_analyzer.core.parser import Parser
+        from codexray.core.parser import Parser
 
         src = "from os.path import join\n"
         result = Parser().parse_code(src, "python")
@@ -109,7 +109,7 @@ class TestExtractFromImport:
 
     def test_record_line_is_set(self):
         """Line number is populated from node.start_point."""
-        from tree_sitter_analyzer.core.parser import Parser
+        from codexray.core.parser import Parser
 
         src = "\n\nfrom sys import argv\n"
         result = Parser().parse_code(src, "python")
@@ -124,7 +124,7 @@ class TestExtractFromImport:
 class TestExtractNamespaceImport:
     def test_rust_use_declaration(self):
         """Rust ``use std::collections::HashMap`` → module contains the path."""
-        from tree_sitter_analyzer.core.parser import Parser
+        from codexray.core.parser import Parser
 
         src = "use std::collections::HashMap;\n"
         result = Parser().parse_code(src, "rust")

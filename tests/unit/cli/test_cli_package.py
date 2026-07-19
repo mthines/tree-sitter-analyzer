@@ -8,9 +8,9 @@ import pytest
 
 def test_cli_imports() -> None:
     """Test that CLI package can be imported."""
-    import tree_sitter_analyzer.cli
+    import codexray.cli
 
-    assert tree_sitter_analyzer.cli.__name__ == "tree_sitter_analyzer.cli"
+    assert codexray.cli.__name__ == "codexray.cli"
 
 
 def test_cli_exports() -> None:
@@ -26,7 +26,7 @@ def test_cli_exports() -> None:
     # Re-run cli/__init__.py without invalidating already-collected modules.
     # Deleting cli_main or command modules makes later patch("...") calls hit
     # freshly imported modules while tests still hold old function objects.
-    cli = importlib.import_module("tree_sitter_analyzer.cli")
+    cli = importlib.import_module("codexray.cli")
     cli = importlib.reload(cli)
 
     assert isinstance(cli.DescribeQueryCommand, type)
@@ -41,7 +41,7 @@ def test_cli_exports() -> None:
 
 def test_cli_all_attribute() -> None:
     """Test that CLI __all__ contains expected attributes."""
-    from tree_sitter_analyzer.cli import __all__ as cli_all
+    from codexray.cli import __all__ as cli_all
 
     assert "InfoCommand" in cli_all
     assert "ListQueriesCommand" in cli_all
@@ -55,7 +55,7 @@ def test_cli_all_attribute() -> None:
 
 def test_cli_info_commands_imported() -> None:
     """Test that CLI info commands are properly imported."""
-    from tree_sitter_analyzer.cli import (
+    from codexray.cli import (
         DescribeQueryCommand,
         InfoCommand,
         ListQueriesCommand,
@@ -73,10 +73,10 @@ def test_cli_info_commands_imported() -> None:
 
 def test_cli_has_dir() -> None:
     """Test that CLI package has expected directory structure."""
-    import tree_sitter_analyzer.cli
+    import codexray.cli
 
-    assert hasattr(tree_sitter_analyzer.cli, "__all__")
-    assert hasattr(tree_sitter_analyzer.cli, "__doc__")
+    assert hasattr(codexray.cli, "__all__")
+    assert hasattr(codexray.cli, "__doc__")
 
 
 @pytest.mark.skip(
@@ -93,9 +93,9 @@ def test_cli_import_error_fallback() -> None:
     import sys
 
     block_list = {
-        "tree_sitter_analyzer.cli_main",
-        "tree_sitter_analyzer.core.analysis_engine",
-        "tree_sitter_analyzer.query_loader",
+        "codexray.cli_main",
+        "codexray.core.analysis_engine",
+        "codexray.query_loader",
     }
 
     class BlockFinder:
@@ -109,10 +109,10 @@ def test_cli_import_error_fallback() -> None:
 
     try:
         for mod in list(sys.modules):
-            if mod.startswith("tree_sitter_analyzer.cli"):
+            if mod.startswith("codexray.cli"):
                 del sys.modules[mod]
 
-        cli = importlib.import_module("tree_sitter_analyzer.cli")
+        cli = importlib.import_module("codexray.cli")
         assert cli.main is None, f"Expected main=None, got {cli.main}"
         assert cli.get_analysis_engine is None, (
             f"Expected get_analysis_engine=None, got {cli.get_analysis_engine}"
@@ -128,12 +128,12 @@ def test_cli_import_error_fallback() -> None:
         # because the snapshot was often empty on xdist workers and
         # because `cli_main` could be cached in a None-resolved state.
         polluted = (
-            "tree_sitter_analyzer.cli",
-            "tree_sitter_analyzer.cli_main",
-            "tree_sitter_analyzer.core.analysis_engine",
-            "tree_sitter_analyzer.query_loader",
+            "codexray.cli",
+            "codexray.cli_main",
+            "codexray.core.analysis_engine",
+            "codexray.query_loader",
         )
         for mod in list(sys.modules):
-            if mod.startswith("tree_sitter_analyzer.cli") or mod in polluted:
+            if mod.startswith("codexray.cli") or mod in polluted:
                 del sys.modules[mod]
-        importlib.import_module("tree_sitter_analyzer.cli")
+        importlib.import_module("codexray.cli")

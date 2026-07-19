@@ -24,7 +24,7 @@ pytestmark = pytest.mark.skipif(
 
 @pytest.fixture
 def tool():
-    from tree_sitter_analyzer.mcp.tools.trace_impact_tool import TraceImpactTool
+    from codexray.mcp.tools.trace_impact_tool import TraceImpactTool
 
     return TraceImpactTool(str(SPRING_BASE))
 
@@ -77,7 +77,7 @@ class TestTraceImpactCountAccuracy:
         """Unit test without external dependency."""
         import asyncio
 
-        from tree_sitter_analyzer.mcp.tools.trace_impact_tool import TraceImpactTool
+        from codexray.mcp.tools.trace_impact_tool import TraceImpactTool
 
         # Build 100 fake matches
         fake_stdout = b"\n".join(
@@ -87,7 +87,7 @@ class TestTraceImpactCountAccuracy:
         )
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.trace_impact_tool.run_command_capture",
+            "codexray.mcp.tools.trace_impact_tool.run_command_capture",
             new=AsyncMock(return_value=(0, fake_stdout, b"")),
         ):
             tool = TraceImpactTool("/tmp")

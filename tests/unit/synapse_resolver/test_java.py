@@ -9,8 +9,8 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.synapse_resolver._imports import ImportEntry
-from tree_sitter_analyzer.synapse_resolver._java import (
+from codexray.synapse_resolver._imports import ImportEntry
+from codexray.synapse_resolver._java import (
     JavaResolverContext,
     build_java_context,
     parse_java_imports,

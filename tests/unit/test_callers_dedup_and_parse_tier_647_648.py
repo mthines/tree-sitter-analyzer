@@ -24,9 +24,9 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.call_graph import CallGraph
-from tree_sitter_analyzer.mcp.tools.callers_tool import CodeGraphCallersTool
+from codexray.ast_cache import ASTCache
+from codexray.call_graph import CallGraph
+from codexray.mcp.tools.callers_tool import CodeGraphCallersTool
 
 # ---------------------------------------------------------------------------
 # Shared fixture source — two same-named execute methods + one module-level call

@@ -6,8 +6,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from tree_sitter_analyzer import uml_export
-from tree_sitter_analyzer.uml_export import (
+from codexray import uml_export
+from codexray.uml_export import (
     UMLEdge,
     UMLExporter,
     _clamp_edges,
@@ -93,7 +93,7 @@ def test_render_sequence_mermaid_skips_incomplete_hops() -> None:
     [
         ("", "root"),
         ("main.py", "root"),
-        ("tree_sitter_analyzer/cli/main.py", "tree_sitter_analyzer.cli"),
+        ("codexray/cli/main.py", "codexray.cli"),
         ("src/pkg/module.py", "src.pkg"),
     ],
 )
@@ -106,8 +106,8 @@ def test_package_name_groups_file_paths(path: str, expected: str) -> None:
     [
         ("", "root"),
         ("main.py", "root"),
-        ("tree_sitter_analyzer/api.py", "tree_sitter_analyzer.root"),
-        ("tree_sitter_analyzer/mcp/tools/uml_tool.py", "mcp"),
+        ("codexray/api.py", "codexray.root"),
+        ("codexray/mcp/tools/uml_tool.py", "mcp"),
         ("tests/unit/test_uml_export.py", "tests"),
     ],
 )
@@ -179,7 +179,7 @@ def test_class_diagram_closes_owned_cache_and_falls_back_to_nodes(monkeypatch) -
             ]
 
     monkeypatch.setattr(uml_export, "ClassHierarchy", FakeHierarchy)
-    monkeypatch.setattr("tree_sitter_analyzer.ast_cache.ASTCache", FakeCache)
+    monkeypatch.setattr("codexray.ast_cache.ASTCache", FakeCache)
 
     diagram = UMLExporter("/repo").class_diagram(
         max_edges=10, include_external_bases=False
@@ -233,12 +233,12 @@ def test_component_diagram_aggregates_top_level_components(monkeypatch) -> None:
             return SimpleNamespace(
                 edges=[
                     SimpleNamespace(
-                        source_file="tree_sitter_analyzer/cli/main.py",
-                        target_file="tree_sitter_analyzer/mcp/tools/uml_tool.py",
+                        source_file="codexray/cli/main.py",
+                        target_file="codexray/mcp/tools/uml_tool.py",
                     ),
                     SimpleNamespace(
-                        source_file="tree_sitter_analyzer/api.py",
-                        target_file="tree_sitter_analyzer/api.py",
+                        source_file="codexray/api.py",
+                        target_file="codexray/api.py",
                     ),
                 ]
             )

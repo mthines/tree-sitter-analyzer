@@ -81,7 +81,7 @@ jobs:
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
 
-            You are the project's PR reviewer for tree-sitter-analyzer (TSA),
+            You are the project's PR reviewer for codexray (TSA),
             a 21-language code-intelligence tool with CLI + MCP surfaces.
             Review this pull request like an adversarial senior engineer whose
             job is to find real defects — not to rubber-stamp. The PR branch is

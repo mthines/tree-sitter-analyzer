@@ -380,7 +380,7 @@ tests/debug_artifacts/
 /test_mcp_suppress_output.toon
 
 # Internal design documents (not for public)
-docs/designs/tree-sitter-analyzer-*.md
+docs/designs/codexray-*.md
 
 # gstack compiled binaries
 .claude/skills/gstack/bin/*.exe

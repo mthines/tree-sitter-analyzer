@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.table_command import TableCommand
+from codexray.cli.commands.table_command import TableCommand
 
 pytestmark = pytest.mark.full_language
 

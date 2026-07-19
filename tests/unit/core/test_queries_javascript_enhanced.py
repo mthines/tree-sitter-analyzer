@@ -8,7 +8,7 @@ classes, modules, JSX, and framework-specific patterns.
 
 import pytest
 
-from tree_sitter_analyzer.queries.javascript import (
+from codexray.queries.javascript import (
     ALL_QUERIES,
     JAVASCRIPT_QUERIES,
     JAVASCRIPT_QUERY_DESCRIPTIONS,

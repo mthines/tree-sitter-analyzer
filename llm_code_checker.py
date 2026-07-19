@@ -3,7 +3,7 @@
 LLM Code Quality Checker
 
 This script provides specialized quality checks for AI/LLM-generated code
-to ensure it meets the Tree-sitter Analyzer project standards.
+to ensure it meets the CodeXray project standards.
 
 Usage:
     python llm_code_checker.py [file_or_directory]
@@ -266,7 +266,7 @@ class LLMCodeChecker:
     ) -> None:
         """Check for project-specific patterns."""
         # Check for proper exception usage
-        if "tree_sitter_analyzer" in str(file_path):
+        if "codexray" in str(file_path):
             for node in ast.walk(tree):
                 if isinstance(node, ast.Raise):
                     if isinstance(node.exc, ast.Call) and isinstance(

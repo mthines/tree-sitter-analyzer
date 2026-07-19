@@ -2,13 +2,13 @@
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -92,7 +92,7 @@ async def test_fd_01_simple_search(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result1 = await tool.execute(
@@ -129,7 +129,7 @@ async def test_fd_16_empty_pattern(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -170,7 +170,7 @@ async def test_fd_17_regex_searches(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -213,7 +213,7 @@ async def test_fd_18_smart_case_search(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result1 = await tool.execute(

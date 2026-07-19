@@ -27,7 +27,7 @@ from pathlib import Path
 import pytest
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-TARGET = PROJECT_ROOT / "tree_sitter_analyzer" / "cli" / "special_commands.py"
+TARGET = PROJECT_ROOT / "codexray" / "cli" / "special_commands.py"
 
 
 @pytest.fixture(scope="module")
@@ -36,7 +36,7 @@ def code_patterns_result() -> dict[str, object]:
     cmd = [
         sys.executable,
         "-m",
-        "tree_sitter_analyzer",
+        "codexray",
         "--code-patterns",
         str(TARGET),
         "--format",

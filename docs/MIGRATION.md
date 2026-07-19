@@ -2,7 +2,7 @@
 
 ## Why 66 → 8?
 
-Tree-sitter Analyzer v1.x registered **66 discrete MCP tools** into every connected client.
+CodeXray v1.x registered **66 discrete MCP tools** into every connected client.
 That worked on the CLI and in curl-style clients, but it created two real problems:
 
 **Token cost.** Every MCP client (Roo Code, Cline, Copilot, Cursor) injects all tool
@@ -29,8 +29,8 @@ Comparison (tool count in eager MCP surface):
 |---|---|
 | CodeGraph | ~12 |
 | Rhizome / mycelium | 1 (unified) |
-| **Tree-sitter Analyzer v2.0** | **8 (rich-output: verdict + TOON)** |
-| Tree-sitter Analyzer v1.x | 66 |
+| **CodeXray v2.0** | **8 (rich-output: verdict + TOON)** |
+| CodeXray v1.x | 66 |
 
 ---
 
@@ -58,14 +58,14 @@ The shim is present in **v2.0 and v2.1** and will be removed in **v2.2**.
 If you need uninterrupted v1.x behaviour while your tooling migrates, pin:
 
 ```bash
-pip install "tree-sitter-analyzer<2"
+pip install "codexray<2"
 ```
 
 Or in `pyproject.toml`:
 
 ```toml
 [tool.uv.sources]
-tree-sitter-analyzer = { version = "<2" }
+codexray = { version = "<2" }
 ```
 
 ---
@@ -73,7 +73,7 @@ tree-sitter-analyzer = { version = "<2" }
 ## Old → New crosswalk (all 66 legacy tools)
 
 The table below is the canonical mapping maintained in
-`tree_sitter_analyzer/mcp/facade_map.py`. The shim is derived from this same table.
+`codexray/mcp/facade_map.py`. The shim is derived from this same table.
 
 ### search facade
 
@@ -216,19 +216,19 @@ no inner tool can reach, so it stays as a standalone entry in v2.0. No migration
 ## Agent skill allowlists
 
 If you maintain custom agent skills that list
-`mcp__tree-sitter-analyzer__<legacy_tool>` in their `allowed-tools` frontmatter, update
+`mcp__codexray__<legacy_tool>` in their `allowed-tools` frontmatter, update
 each entry to reference the facade:
 
 ```yaml
 # before
 allowed-tools:
-  - mcp__tree-sitter-analyzer__codegraph_callers
-  - mcp__tree-sitter-analyzer__codegraph_symbol_search
+  - mcp__codexray__codegraph_callers
+  - mcp__codexray__codegraph_symbol_search
 
 # after
 allowed-tools:
-  - mcp__tree-sitter-analyzer__nav
-  - mcp__tree-sitter-analyzer__search
+  - mcp__codexray__nav
+  - mcp__codexray__search
 ```
 
 The bundled `tsa-*` skills are updated in v2.0 as part of Wave D / G1.
@@ -248,6 +248,6 @@ The bundled `tsa-*` skills are updated in v2.0 as part of Wave D / G1.
 
 ## See also
 
-- `tree_sitter_analyzer/mcp/facade_map.py` — machine-readable crosswalk (single source of truth)
+- `codexray/mcp/facade_map.py` — machine-readable crosswalk (single source of truth)
 - `docs/CODEMAPS/mcp-tools.md` — agent-facing codemap (facades + legacy names)
 - `AGENTS.md` — onboarding guide for AI agents

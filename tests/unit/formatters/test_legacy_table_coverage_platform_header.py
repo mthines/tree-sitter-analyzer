@@ -21,7 +21,7 @@ Targets uncovered branches in:
 from typing import Any
 from unittest.mock import patch
 
-from tree_sitter_analyzer.legacy_table_formatter import LegacyTableFormatter
+from codexray.legacy_table_formatter import LegacyTableFormatter
 
 
 class TestPlatformNewlineWindows:

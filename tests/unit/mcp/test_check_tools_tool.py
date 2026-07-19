@@ -13,7 +13,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.check_tools_tool import CheckToolsTool
+from codexray.mcp.tools.check_tools_tool import CheckToolsTool
 
 
 @pytest.fixture
@@ -84,7 +84,7 @@ class TestCheckToolsToolExecution:
             return mock_rg_proc
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})
@@ -107,7 +107,7 @@ class TestCheckToolsToolExecution:
             return mock_rg_proc
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})
@@ -130,7 +130,7 @@ class TestCheckToolsToolExecution:
             return mock_fd_proc
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})
@@ -148,7 +148,7 @@ class TestCheckToolsToolExecution:
             raise FileNotFoundError("command not found")
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})
@@ -182,7 +182,7 @@ class TestCheckToolsToolExecution:
             return mock_rg_proc
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})
@@ -210,7 +210,7 @@ class TestCheckToolsToolExecution:
             return mock_rg_proc
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})
@@ -235,11 +235,11 @@ class TestCheckToolsToolExecution:
             return mock_rg_proc
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.wait_for",
+                "codexray.mcp.tools.check_tools_tool.asyncio.wait_for",
                 side_effect=asyncio.TimeoutError(),
             ):
                 result = await tool.execute({})
@@ -266,7 +266,7 @@ class TestCheckToolsFailureModes:
             raise FileNotFoundError(f"{args[0]} not found")
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})
@@ -305,11 +305,11 @@ class TestCheckToolsFailureModes:
             return mock_proc
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.wait_for",
+                "codexray.mcp.tools.check_tools_tool.asyncio.wait_for",
                 side_effect=asyncio.TimeoutError(),
             ):
                 result = await tool.execute({})
@@ -335,7 +335,7 @@ class TestCheckToolsFailureModes:
             raise PermissionError(f"permission denied: {args[0]}")
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})
@@ -372,7 +372,7 @@ class TestCheckToolsFailureModes:
             return mock_rg_proc
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
+            "codexray.mcp.tools.check_tools_tool.asyncio.create_subprocess_exec",
             side_effect=fake_subprocess,
         ):
             result = await tool.execute({})

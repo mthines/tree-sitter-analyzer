@@ -6,7 +6,7 @@ Performance Monitor 单元测试
 import time
 from unittest.mock import patch
 
-from tree_sitter_analyzer.core.performance import (
+from codexray.core.performance import (
     PerformanceContext,
     PerformanceMonitor,
 )
@@ -55,14 +55,14 @@ class TestPerformanceMonitor:
         monitor.stop_monitoring()
         assert monitor._monitoring_active is False
 
-    @patch("tree_sitter_analyzer.core.performance.log_info")
+    @patch("codexray.core.performance.log_info")
     def test_start_monitoring_logs(self, mock_log):
         """测试start_monitoring日志输出"""
         monitor = PerformanceMonitor()
         monitor.start_monitoring()
         mock_log.assert_called_once_with("Performance monitoring started")
 
-    @patch("tree_sitter_analyzer.core.performance.log_info")
+    @patch("codexray.core.performance.log_info")
     def test_stop_monitoring_logs(self, mock_log):
         """测试stop_monitoring日志输出"""
         monitor = PerformanceMonitor()
@@ -138,7 +138,7 @@ class TestPerformanceMonitor:
         assert monitor._total_operations == 0
         assert monitor._last_duration == 0.0
 
-    @patch("tree_sitter_analyzer.core.performance.log_info")
+    @patch("codexray.core.performance.log_info")
     def test_clear_metrics_logs(self, mock_log):
         """测试clear_metrics日志输出"""
         monitor = PerformanceMonitor()
@@ -179,7 +179,7 @@ class TestPerformanceContext:
         )  # ratchet: nondeterministic wall-clock timing
         assert monitor._total_operations == 1
 
-    @patch("tree_sitter_analyzer.core.performance.log_performance")
+    @patch("codexray.core.performance.log_performance")
     def test_context_manager_exit_logs(self, mock_log):
         """测试上下文管理器__exit__日志输出"""
         monitor = PerformanceMonitor()

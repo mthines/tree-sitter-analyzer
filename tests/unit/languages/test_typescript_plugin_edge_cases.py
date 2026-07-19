@@ -12,8 +12,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
-from tree_sitter_analyzer.languages.typescript_plugin import (
+from codexray.core.analysis_engine import AnalysisRequest
+from codexray.languages.typescript_plugin import (
     TypeScriptElementExtractor,
     TypeScriptPlugin,
 )
@@ -571,11 +571,11 @@ class TestTypeScriptPluginEdgeCases:
 
         try:
             with patch(
-                "tree_sitter_analyzer.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
+                "codexray.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
                 True,
             ):
                 with patch(
-                    "tree_sitter_analyzer.languages.typescript_plugin.extractor.loader.load_language",
+                    "codexray.languages.typescript_plugin.extractor.loader.load_language",
                     return_value=Mock(),
                 ):
                     request = AnalysisRequest(file_path=temp_file)
@@ -597,11 +597,11 @@ class TestTypeScriptPluginEdgeCases:
         non_existent_file = "/root/non_existent_file.ts"
 
         with patch(
-            "tree_sitter_analyzer.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
+            "codexray.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
             True,
         ):
             with patch(
-                "tree_sitter_analyzer.languages.typescript_plugin.extractor.loader.load_language",
+                "codexray.languages.typescript_plugin.extractor.loader.load_language",
                 return_value=Mock(),
             ):
                 request = AnalysisRequest(file_path=non_existent_file)
@@ -614,11 +614,11 @@ class TestTypeScriptPluginEdgeCases:
                 assert result.error_message is not None
 
     @patch(
-        "tree_sitter_analyzer.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
+        "codexray.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
         True,
     )
     @patch(
-        "tree_sitter_analyzer.languages.typescript_plugin.extractor.loader.load_language"
+        "codexray.languages.typescript_plugin.extractor.loader.load_language"
     )
     def test_analyze_file_parser_creation_error(self, mock_load_language, plugin):
         """Test file analysis with parser creation error"""
@@ -632,7 +632,7 @@ class TestTypeScriptPluginEdgeCases:
         try:
             # Mock Parser to raise exception
             with patch(
-                "tree_sitter_analyzer.languages.typescript_plugin.extractor.tree_sitter.Parser",
+                "codexray.languages.typescript_plugin.extractor.tree_sitter.Parser",
                 side_effect=Exception("Parser error"),
             ):
                 request = AnalysisRequest(file_path=temp_file)
@@ -650,11 +650,11 @@ class TestTypeScriptPluginEdgeCases:
     def test_get_tree_sitter_language_exception(self, plugin):
         """Test tree-sitter language getter with exception"""
         with patch(
-            "tree_sitter_analyzer.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
+            "codexray.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
             True,
         ):
             with patch(
-                "tree_sitter_analyzer.languages.typescript_plugin.extractor.loader.load_language",
+                "codexray.languages.typescript_plugin.extractor.loader.load_language",
                 side_effect=Exception("Load error"),
             ):
                 result = plugin.get_tree_sitter_language()

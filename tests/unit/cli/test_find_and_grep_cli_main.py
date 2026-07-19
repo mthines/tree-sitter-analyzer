@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.find_and_grep_cli import (
+from codexray.cli.commands.find_and_grep_cli import (
     _build_parser,
     _run,
     main,
@@ -25,15 +25,15 @@ class TestMainFunction:
         with (
             patch("sys.argv", ["find_and_grep_cli.py"] + test_args),
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.detect_project_root"
+                "codexray.cli.commands.find_and_grep_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.FindAndGrepTool"
+                "codexray.cli.commands.find_and_grep_cli.FindAndGrepTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.set_output_mode"
+                "codexray.cli.commands.find_and_grep_cli.set_output_mode"
             ),
-            patch("tree_sitter_analyzer.cli.commands.find_and_grep_cli.output_data"),
+            patch("codexray.cli.commands.find_and_grep_cli.output_data"),
             pytest.raises(SystemExit) as exc_info,
         ):
             mock_detect.return_value = "/project/root"
@@ -52,15 +52,15 @@ class TestMainFunction:
         with (
             patch("sys.argv", ["find_and_grep_cli.py"] + test_args),
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.detect_project_root"
+                "codexray.cli.commands.find_and_grep_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.FindAndGrepTool"
+                "codexray.cli.commands.find_and_grep_cli.FindAndGrepTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.set_output_mode"
+                "codexray.cli.commands.find_and_grep_cli.set_output_mode"
             ),
-            patch("tree_sitter_analyzer.cli.commands.find_and_grep_cli.output_error"),
+            patch("codexray.cli.commands.find_and_grep_cli.output_error"),
             pytest.raises(SystemExit) as exc_info,
         ):
             mock_detect.return_value = "/project/root"
@@ -79,13 +79,13 @@ class TestMainFunction:
         with (
             patch("sys.argv", ["find_and_grep_cli.py"] + test_args),
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.detect_project_root"
+                "codexray.cli.commands.find_and_grep_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.FindAndGrepTool"
+                "codexray.cli.commands.find_and_grep_cli.FindAndGrepTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.set_output_mode"
+                "codexray.cli.commands.find_and_grep_cli.set_output_mode"
             ),
             pytest.raises(SystemExit) as exc_info,
         ):
@@ -159,15 +159,15 @@ class TestEdgeCases:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.detect_project_root"
+                "codexray.cli.commands.find_and_grep_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.FindAndGrepTool"
+                "codexray.cli.commands.find_and_grep_cli.FindAndGrepTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.set_output_mode"
+                "codexray.cli.commands.find_and_grep_cli.set_output_mode"
             ),
-            patch("tree_sitter_analyzer.cli.commands.find_and_grep_cli.output_data"),
+            patch("codexray.cli.commands.find_and_grep_cli.output_data"),
         ):
             mock_detect.return_value = "/project/root"
             mock_tool = AsyncMock()
@@ -224,15 +224,15 @@ class TestEdgeCases:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.detect_project_root"
+                "codexray.cli.commands.find_and_grep_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.FindAndGrepTool"
+                "codexray.cli.commands.find_and_grep_cli.FindAndGrepTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.set_output_mode"
+                "codexray.cli.commands.find_and_grep_cli.set_output_mode"
             ),
-            patch("tree_sitter_analyzer.cli.commands.find_and_grep_cli.output_data"),
+            patch("codexray.cli.commands.find_and_grep_cli.output_data"),
         ):
             mock_detect.return_value = "/project/root"
             mock_tool = AsyncMock()
@@ -290,16 +290,16 @@ class TestEdgeCases:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.detect_project_root"
+                "codexray.cli.commands.find_and_grep_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.FindAndGrepTool"
+                "codexray.cli.commands.find_and_grep_cli.FindAndGrepTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.set_output_mode"
+                "codexray.cli.commands.find_and_grep_cli.set_output_mode"
             ),
             patch(
-                "tree_sitter_analyzer.cli.commands.find_and_grep_cli.output_data"
+                "codexray.cli.commands.find_and_grep_cli.output_data"
             ) as mock_output,
         ):
             mock_detect.return_value = "/project/root"

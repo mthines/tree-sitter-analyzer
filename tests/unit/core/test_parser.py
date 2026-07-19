@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unit tests for tree_sitter_analyzer.core.parser module.
+Unit tests for codexray.core.parser module.
 
 This module tests the Parser class and ParseResult NamedTuple.
 """
@@ -13,7 +13,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from tree_sitter import Tree
 
-from tree_sitter_analyzer.core.parser import Parser, ParseResult
+from codexray.core.parser import Parser, ParseResult
 
 
 class TestParseResult:
@@ -73,8 +73,8 @@ class TestParserInit:
 
     def test_parser_init(self) -> None:
         """Test Parser initialization."""
-        from tree_sitter_analyzer.encoding_utils import EncodingManager
-        from tree_sitter_analyzer.language_loader import LanguageLoader
+        from codexray.encoding_utils import EncodingManager
+        from codexray.language_loader import LanguageLoader
 
         parser = Parser()
         assert isinstance(parser._loader, LanguageLoader)

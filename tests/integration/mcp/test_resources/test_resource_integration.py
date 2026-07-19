@@ -14,8 +14,8 @@ from pathlib import Path
 # Mock functionality now provided by pytest-mock
 import pytest
 
-from tree_sitter_analyzer.mcp.resources.code_file_resource import CodeFileResource
-from tree_sitter_analyzer.mcp.resources.project_stats_resource import (
+from codexray.mcp.resources.code_file_resource import CodeFileResource
+from codexray.mcp.resources.project_stats_resource import (
     ProjectStatsResource,
 )
 

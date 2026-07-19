@@ -2,12 +2,12 @@
 
 import pytest
 
-from tree_sitter_analyzer.exceptions.core import (
+from codexray.exceptions.core import (
+    CodeXrayError,
     MCPError,
-    TreeSitterAnalyzerError,
     ValidationError,
 )
-from tree_sitter_analyzer.exceptions.mcp_types import (
+from codexray.exceptions.mcp_types import (
     MCPResourceError,
     MCPTimeoutError,
     MCPToolError,
@@ -80,7 +80,7 @@ class TestMCPToolError:
 
     def test_inherits_from_tree_sitter_error(self):
         exc = MCPToolError("msg")
-        assert isinstance(exc, TreeSitterAnalyzerError)
+        assert isinstance(exc, CodeXrayError)
 
     def test_to_dict_includes_context(self):
         exc = MCPToolError("fail", tool_name="my_tool", execution_stage="run")
@@ -137,7 +137,7 @@ class TestMCPResourceError:
 
     def test_inherits_from_tree_sitter_error(self):
         exc = MCPResourceError("msg")
-        assert isinstance(exc, TreeSitterAnalyzerError)
+        assert isinstance(exc, CodeXrayError)
 
     def test_resource_type_none_not_in_context(self):
         exc = MCPResourceError("msg", resource_type=None)
@@ -236,7 +236,7 @@ class TestMCPValidationError:
 
     def test_inherits_from_tree_sitter_error(self):
         exc = MCPValidationError("bad")
-        assert isinstance(exc, TreeSitterAnalyzerError)
+        assert isinstance(exc, CodeXrayError)
 
     def test_validation_type_is_mcp_parameter(self):
         exc = MCPValidationError("bad")

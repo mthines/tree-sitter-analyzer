@@ -5,7 +5,7 @@ QueryExecutor 单元测试
 
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.core.query import QueryExecutor
+from codexray.core.query import QueryExecutor
 
 
 class TestQueryExecutorInit:
@@ -24,7 +24,7 @@ class TestQueryExecutorInit:
 
     def test_init_creates_query_loader(self):
         """测试初始化时创建query_loader"""
-        with patch("tree_sitter_analyzer.core.query.get_query_loader") as mock_loader:
+        with patch("codexray.core.query.get_query_loader") as mock_loader:
             mock_loader.return_value = MagicMock()
             QueryExecutor()
             mock_loader.assert_called_once()
@@ -59,7 +59,7 @@ class TestQueryExecutorExecuteQuery:
         assert "error" in result
         assert result["query_name"] == "test"
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_execute_query_success(self, mock_compat):
         """测试成功执行查询"""
         mock_language = MagicMock()
@@ -84,7 +84,7 @@ class TestQueryExecutorExecuteQuery:
         assert executor._execution_stats["total_queries"] == 1
         assert executor._execution_stats["successful_queries"] == 1
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_execute_query_query_not_found(self, mock_compat):
         """测试查询未找到"""
         mock_language = MagicMock()
@@ -104,7 +104,7 @@ class TestQueryExecutorExecuteQuery:
         assert "error" in result
         assert "not found" in result["error"].lower()
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_execute_query_updates_stats(self, mock_compat):
         """测试执行查询更新统计信息"""
         mock_language = MagicMock()
@@ -159,7 +159,7 @@ class TestQueryExecutorExecuteQueryWithLanguageName:
         assert result["success"] is False
         assert "error" in result
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_execute_query_with_language_name_success(self, mock_compat):
         """测试成功执行查询（带语言名）"""
         mock_language = MagicMock()
@@ -209,7 +209,7 @@ class TestQueryExecutorExecuteQueryString:
         assert result["success"] is False
         assert "error" in result
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_execute_query_string_success(self, mock_compat):
         """测试成功执行查询字符串"""
         mock_language = MagicMock()
@@ -230,7 +230,7 @@ class TestQueryExecutorExecuteQueryString:
         assert result["query_string"] == "(class_definition)"
         assert "execution_time" in result
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_execute_query_string_updates_stats(self, mock_compat):
         """测试执行查询字符串更新统计信息"""
         mock_language = MagicMock()
@@ -254,7 +254,7 @@ class TestQueryExecutorExecuteQueryString:
 class TestQueryExecutorExecuteMultipleQueries:
     """execute_multiple_queries方法测试"""
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_execute_multiple_queries(self, mock_compat):
         """测试执行多个查询"""
         mock_language = MagicMock()
@@ -276,7 +276,7 @@ class TestQueryExecutorExecuteMultipleQueries:
         assert len(results) == 2
         assert executor._execution_stats["total_queries"] == 2
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_execute_multiple_queries_empty_list(self, mock_compat):
         """测试执行空查询列表"""
         mock_language = MagicMock()
@@ -296,7 +296,7 @@ class TestQueryExecutorExecuteMultipleQueries:
 class TestQueryExecutorProcessCaptures:
     """_process_captures方法测试"""
 
-    @patch("tree_sitter_analyzer.core.query.get_node_text_safe")
+    @patch("codexray.core.query.get_node_text_safe")
     def test_process_captures_tuple_format(self, mock_get_text):
         """测试处理元组格式的captures"""
         mock_get_text.return_value = "test_text"
@@ -317,7 +317,7 @@ class TestQueryExecutorProcessCaptures:
         assert result[0]["capture_name"] == "class"
         assert result[0]["node_type"] == "class_definition"
 
-    @patch("tree_sitter_analyzer.core.query.get_node_text_safe")
+    @patch("codexray.core.query.get_node_text_safe")
     def test_process_captures_dict_format(self, mock_get_text):
         """测试处理字典格式的captures"""
         mock_get_text.return_value = "test_text"
@@ -333,7 +333,7 @@ class TestQueryExecutorProcessCaptures:
         assert len(result) == 1
         assert result[0]["capture_name"] == "function"
 
-    @patch("tree_sitter_analyzer.core.query.get_node_text_safe")
+    @patch("codexray.core.query.get_node_text_safe")
     def test_process_captures_none_node(self, mock_get_text):
         """测试处理None节点"""
         executor = QueryExecutor()
@@ -344,7 +344,7 @@ class TestQueryExecutorProcessCaptures:
 
         assert len(result) == 0
 
-    @patch("tree_sitter_analyzer.core.query.get_node_text_safe")
+    @patch("codexray.core.query.get_node_text_safe")
     def test_process_captures_multiple(self, mock_get_text):
         """测试处理多个captures"""
         mock_get_text.return_value = "text"
@@ -370,7 +370,7 @@ class TestQueryExecutorProcessCaptures:
 class TestQueryExecutorCreateResultDict:
     """_create_result_dict方法测试"""
 
-    @patch("tree_sitter_analyzer.core.query.get_node_text_safe")
+    @patch("codexray.core.query.get_node_text_safe")
     def test_create_result_dict(self, mock_get_text):
         """测试创建结果字典"""
         mock_get_text.return_value = "class Test: pass"
@@ -395,7 +395,7 @@ class TestQueryExecutorCreateResultDict:
         assert result["line_number"] == 1
         assert result["column_number"] == 0
 
-    @patch("tree_sitter_analyzer.core.query.get_node_text_safe")
+    @patch("codexray.core.query.get_node_text_safe")
     def test_create_result_dict_error(self, mock_get_text):
         """测试创建结果字典时出错"""
         mock_get_text.side_effect = Exception("Test error")
@@ -485,7 +485,7 @@ class TestQueryExecutorGetQueryDescription:
 class TestQueryExecutorValidateQuery:
     """validate_query方法测试"""
 
-    @patch("tree_sitter_analyzer.core.query.get_loader")
+    @patch("codexray.core.query.get_loader")
     def test_validate_query_success(self, mock_loader):
         """测试验证查询成功"""
         mock_lang_loader = MagicMock()
@@ -500,7 +500,7 @@ class TestQueryExecutorValidateQuery:
 
         assert result is True
 
-    @patch("tree_sitter_analyzer.core.query.get_loader")
+    @patch("codexray.core.query.get_loader")
     def test_validate_query_invalid(self, mock_loader):
         """测试验证无效查询"""
         mock_lang_loader = MagicMock()
@@ -528,7 +528,7 @@ class TestQueryExecutorGetQueryStatistics:
         assert stats["success_rate"] == 0.0
         assert stats["average_execution_time"] == 0.0
 
-    @patch("tree_sitter_analyzer.core.query.TreeSitterQueryCompat")
+    @patch("codexray.core.query.TreeSitterQueryCompat")
     def test_get_query_statistics_after_execution(self, mock_compat):
         """测试执行后的查询统计信息"""
         mock_language = MagicMock()

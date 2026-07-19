@@ -1,4 +1,4 @@
-from tree_sitter_analyzer.platform_compat.fixtures import ALL_FIXTURES
+from codexray.platform_compat.fixtures import ALL_FIXTURES
 
 
 def test_fixture_library_coverage():

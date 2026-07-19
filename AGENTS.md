@@ -18,10 +18,10 @@
 - The default full-suite command is `uv run pytest -q`.
 - Do not run the full suite serially. Project pytest config enables xdist with `--numprocesses=auto --dist=loadfile`.
 - The full suite must finish in under 5 minutes. The config enforces `--session-timeout=900` and `--timeout=30`. (Bumped from 300 in v1.13.1 — see `docs/POSTMORTEM_v1.13.md` § 9.)
-- After edits, run `uv run python -m tree_sitter_analyzer --change-impact --format json` and follow its `verification_command`.
+- After edits, run `uv run python -m codexray --change-impact --format json` and follow its `verification_command`.
 - If `test_required` is `false`, do not run tests just to look busy; run the reported non-test verification such as `git diff --check`.
 - For targeted code feedback, prefer `verification_command`/`test_command`; `pytest_required` and `pytest_command` are retained for pytest-specific compatibility.
-- For PRs that change Python source, run focused tests with `--cov=tree_sitter_analyzer --cov-report=json`, then run `uv run python scripts/check_patch_coverage.py --base origin/develop --coverage-json coverage.json` before pushing. The local patch gate must report no added executable misses; add effective tests instead of waiting for CI Codecov to block the PR.
+- For PRs that change Python source, run focused tests with `--cov=codexray --cov-report=json`, then run `uv run python scripts/check_patch_coverage.py --base origin/develop --coverage-json coverage.json` before pushing. The local patch gate must report no added executable misses; add effective tests instead of waiting for CI Codecov to block the PR.
 - Benchmark-only runs are the exception: use `uv run pytest tests/benchmarks/ --benchmark-enable --benchmark-only -n 0 --session-timeout=0`.
 - Do not remove or weaken these pytest defaults. They prevent repeated agent mistakes: serial full-suite runs, accidental benchmark execution, hidden hangs, and >5 minute feedback loops.
 - If a test-runtime setting must change, update `tests/contracts/test_pytest_runtime_contract.py`, explain why the new setting is faster or safer, and prove `uv run pytest -q` still finishes under 5 minutes.
@@ -39,7 +39,7 @@
 
 For non-trivial work, expert agents must use this project as their primary feedback instrument while they work, then preserve the learning in memory:
 
-1. **Before edits:** run `uv run python -m tree_sitter_analyzer --change-impact --format json` to get the affected surface and verification command.
+1. **Before edits:** run `uv run python -m codexray --change-impact --format json` to get the affected surface and verification command.
 2. **During exploration:** prefer TSA queries over blind file scans. Use focused codegraph/query/health commands for the area being changed, and keep the raw command outputs small enough to compare before/after.
 3. **After edits:** rerun change-impact and the reported verification command. For Python source changes, also run the local patch coverage gate from the Test Runtime Contract.
 4. **Memory capture:** store a concise JSON record in project memory with `branch`, `task`, `tools_used`, `signals`, `decision`, `verification`, and `followups`. Use the available `memory_store` MCP when present; otherwise use the Claude Flow memory CLI (`npx @claude-flow/cli@latest memory store --namespace tsa/agent-feedback ...`). If neither memory backend is available, include the JSON in the final response so the lead can store it.
@@ -51,7 +51,7 @@ Memory records should capture reusable lessons, not logs: benchmark surprises, C
 - Every registered MCP tool must have a CLI access path.
 - Main CLI flags and standalone scripts are guarded by `tests/contracts/test_mcp_cli_parity_contract.py`.
 - MCP-equivalent CLI handler arguments, required file-path checks, and TOON output are guarded by `tests/unit/cli/test_mcp_commands.py`.
-- When adding or changing an MCP tool, update the CLI path in the same change and run a real CLI smoke test, for example `uv run python -m tree_sitter_analyzer <file> --smart-context --format json`.
+- When adding or changing an MCP tool, update the CLI path in the same change and run a real CLI smoke test, for example `uv run python -m codexray <file> --smart-context --format json`.
 - This keeps MCP-only features from becoming invisible to users, CI, and future agents.
 
 ## Codemap-sync mandate
@@ -60,10 +60,10 @@ Any change touching one of these registries MUST update the corresponding `docs/
 
 | Registry file | Codemap |
 |---|---|
-| `tree_sitter_analyzer/mcp/_tool_registry.py` | `docs/CODEMAPS/mcp-tools.md` |
-| `tree_sitter_analyzer/cli/argument_parser_builder.py` | `docs/CODEMAPS/cli.md` |
-| `tree_sitter_analyzer/languages/<lang>_plugin/*` | `docs/CODEMAPS/languages.md` |
-| `tree_sitter_analyzer/formatters/*` | `docs/CODEMAPS/formatters.md` |
+| `codexray/mcp/_tool_registry.py` | `docs/CODEMAPS/mcp-tools.md` |
+| `codexray/cli/argument_parser_builder.py` | `docs/CODEMAPS/cli.md` |
+| `codexray/languages/<lang>_plugin/*` | `docs/CODEMAPS/languages.md` |
+| `codexray/formatters/*` | `docs/CODEMAPS/formatters.md` |
 
 Enforced by:
 - `scripts/codemap-sync-check.sh` (pre-commit hook + Claude PreToolUse soft-nag)

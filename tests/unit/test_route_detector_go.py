@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from codexray.route_detector import RouteDetector
 from tests.unit.conftest import _write
-from tree_sitter_analyzer.route_detector import RouteDetector
 
 # ---------------------------------------------------------------------------
 # Go — net/http stdlib
@@ -176,7 +176,7 @@ class TestR37rSummaryLineGrammar:
 
     def test_single_framework_uses_singular(self):
         """Summary mode with 1 framework must say 'framework' not 'frameworks'."""
-        from tree_sitter_analyzer.mcp.tools.route_detector_tool import (
+        from codexray.mcp.tools.route_detector_tool import (
             _attach_route_summary,
         )
 
@@ -186,7 +186,7 @@ class TestR37rSummaryLineGrammar:
 
     def test_multiple_frameworks_uses_plural(self):
         """Summary mode with 3 frameworks keeps 'frameworks' (plural)."""
-        from tree_sitter_analyzer.mcp.tools.route_detector_tool import (
+        from codexray.mcp.tools.route_detector_tool import (
             _attach_route_summary,
         )
 
@@ -199,7 +199,7 @@ class TestR37rSummaryLineGrammar:
 
     def test_single_route_uses_singular(self):
         """1 route + 1 framework → both singular."""
-        from tree_sitter_analyzer.mcp.tools.route_detector_tool import (
+        from codexray.mcp.tools.route_detector_tool import (
             _attach_route_summary,
         )
 
@@ -209,7 +209,7 @@ class TestR37rSummaryLineGrammar:
 
     def test_zero_routes_uses_plural(self):
         """English convention: '0 routes' (plural) — n != 1 → plural."""
-        from tree_sitter_analyzer.mcp.tools.route_detector_tool import (
+        from codexray.mcp.tools.route_detector_tool import (
             _attach_route_summary,
         )
 
@@ -219,7 +219,7 @@ class TestR37rSummaryLineGrammar:
 
     def test_mode_all_single_route_uses_singular(self):
         """'all' mode also pluralizes by count."""
-        from tree_sitter_analyzer.mcp.tools.route_detector_tool import (
+        from codexray.mcp.tools.route_detector_tool import (
             _attach_route_summary,
         )
 
@@ -229,7 +229,7 @@ class TestR37rSummaryLineGrammar:
 
     def test_mode_all_multiple_routes_uses_plural(self):
         """'all' mode with 5 routes stays plural."""
-        from tree_sitter_analyzer.mcp.tools.route_detector_tool import (
+        from codexray.mcp.tools.route_detector_tool import (
             _attach_route_summary,
         )
 

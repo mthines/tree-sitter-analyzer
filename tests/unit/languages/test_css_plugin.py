@@ -9,8 +9,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.languages.css_plugin import CssElementExtractor, CssPlugin
-from tree_sitter_analyzer.models import StyleElement
+from codexray.languages.css_plugin import CssElementExtractor, CssPlugin
+from codexray.models import StyleElement
 
 
 class TestCssElementExtractor:
@@ -528,7 +528,7 @@ class TestCssPluginAnalyzeFallback:
 
         try:
             with patch(
-                "tree_sitter_analyzer.languages.css_plugin.tree_sitter_css",
+                "codexray.languages.css_plugin.tree_sitter_css",
                 side_effect=ImportError,
                 create=True,
             ):
@@ -679,7 +679,7 @@ class TestScssVariableExtraction:
         """3 SCSS ``$variable`` declarations → 3 Variable elements."""
         import tempfile
 
-        from tree_sitter_analyzer.models import Variable
+        from codexray.models import Variable
 
         plugin = CssPlugin()
 
@@ -713,7 +713,7 @@ class TestScssVariableExtraction:
         """Each Variable element's start_line matches its source line."""
         import tempfile
 
-        from tree_sitter_analyzer.models import Variable
+        from codexray.models import Variable
 
         plugin = CssPlugin()
 
@@ -742,7 +742,7 @@ class TestScssVariableExtraction:
         """SCSS file with no ``$var`` declarations → 0 Variable elements."""
         import tempfile
 
-        from tree_sitter_analyzer.models import Variable
+        from codexray.models import Variable
 
         plugin = CssPlugin()
 
@@ -768,7 +768,7 @@ class TestScssVariableExtraction:
         """Plain ``.css`` file: no Variable elements, only CSS rules."""
         import tempfile
 
-        from tree_sitter_analyzer.models import Variable
+        from codexray.models import Variable
 
         plugin = CssPlugin()
 
@@ -791,8 +791,8 @@ class TestScssVariableExtraction:
 
     def test_extract_scss_variables_unit(self):
         """Unit test for ``_extract_scss_variables`` helper directly."""
-        from tree_sitter_analyzer.languages.css_plugin import _extract_scss_variables
-        from tree_sitter_analyzer.models import Variable
+        from codexray.languages.css_plugin import _extract_scss_variables
+        from codexray.models import Variable
 
         content = (
             "$alpha: #fff;\n"
@@ -808,7 +808,7 @@ class TestScssVariableExtraction:
 
     def test_extract_scss_variables_deduplicates_on_first_occurrence(self):
         """Reassignment of ``$var`` in nested scope → only first occurrence kept."""
-        from tree_sitter_analyzer.languages.css_plugin import _extract_scss_variables
+        from codexray.languages.css_plugin import _extract_scss_variables
 
         content = "$color: #fff;\n.nested {\n  $color: #000;\n}\n"
         results = _extract_scss_variables("dummy.scss", content)
@@ -822,7 +822,7 @@ class TestScssVariableExtraction:
         A commented-out declaration must NOT yield a phantom Variable, whether
         the comment spans multiple lines or sits inline on a single line.
         """
-        from tree_sitter_analyzer.languages.css_plugin import _extract_scss_variables
+        from codexray.languages.css_plugin import _extract_scss_variables
 
         content = "$live: #fff;\n/*\n$old: red;\n$older: blue;\n*/\n$also_live: 1rem;\n"
         results = _extract_scss_variables("dummy.scss", content)
@@ -831,7 +831,7 @@ class TestScssVariableExtraction:
 
     def test_extract_scss_variables_skips_inline_block_comment(self):
         """A single-line ``/* $old: red; */`` block comment yields no Variable."""
-        from tree_sitter_analyzer.languages.css_plugin import _extract_scss_variables
+        from codexray.languages.css_plugin import _extract_scss_variables
 
         content = "/* $old: red; */\n$live: #fff;\n"
         results = _extract_scss_variables("dummy.scss", content)
@@ -845,7 +845,7 @@ class TestScssVariableExtraction:
         raw-line scan set ``in_block_comment`` and silently dropped every
         following declaration. The string-aware scan must keep BOTH variables.
         """
-        from tree_sitter_analyzer.languages.css_plugin import _extract_scss_variables
+        from codexray.languages.css_plugin import _extract_scss_variables
 
         content = '$glob: "src/*";\n$color: red;\n'
         results = _extract_scss_variables("dummy.scss", content)
@@ -854,7 +854,7 @@ class TestScssVariableExtraction:
 
     def test_extract_scss_variables_single_quoted_slash_star(self):
         """A single-quoted ``'a/*b'`` literal also must not open a block comment."""
-        from tree_sitter_analyzer.languages.css_plugin import _extract_scss_variables
+        from codexray.languages.css_plugin import _extract_scss_variables
 
         content = "$path: 'a/*b';\n$size: 1rem;\n"
         results = _extract_scss_variables("dummy.scss", content)

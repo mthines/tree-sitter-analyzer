@@ -46,7 +46,7 @@ jobs:
 
     - name: Record SQL Behavior Profile
       run: |
-        uv run python -m tree_sitter_analyzer.platform_compat.record --output-dir tests/platform_profiles
+        uv run python -m codexray.platform_compat.record --output-dir tests/platform_profiles
 
     - name: Upload Profile Artifact
       uses: actions/upload-artifact@v7
@@ -84,7 +84,7 @@ jobs:
         print(f"Comparing {current_profile} with {baseline_profile}...")
         # Use uv run to ensure dependencies are available
         result = subprocess.run(
-            ["uv", "run", "python", "-m", "tree_sitter_analyzer.platform_compat.compare", str(baseline_profile), str(current_profile), "--fail-on-diff"],
+            ["uv", "run", "python", "-m", "codexray.platform_compat.compare", str(baseline_profile), str(current_profile), "--fail-on-diff"],
             capture_output=True,
             text=True
         )

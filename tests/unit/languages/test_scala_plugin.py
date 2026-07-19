@@ -1,4 +1,4 @@
-"""Tests for tree_sitter_analyzer.languages.scala_plugin.
+"""Tests for codexray.languages.scala_plugin.
 
 Covers module-level helpers, ScalaPlugin, and ScalaElementExtractor using
 mocked tree-sitter nodes (tree_sitter_scala not required).
@@ -11,7 +11,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.scala_plugin import (
+from codexray.languages.scala_plugin import (
     ScalaElementExtractor,
     ScalaPlugin,
     _flatten_scala_elements,
@@ -326,7 +326,7 @@ class TestScalaPlugin:
         self, plugin: ScalaPlugin
     ) -> None:
         with patch(
-            "tree_sitter_analyzer.encoding_utils.read_file_safe",
+            "codexray.encoding_utils.read_file_safe",
             side_effect=OSError("no such file"),
         ):
             result = await plugin.analyze_file("/no/such/file.scala", MagicMock())
@@ -394,7 +394,7 @@ class TestGetNodeText:
         node.end_byte = 5
         # Force an exception in safe_encode by making content_lines raise
         with patch(
-            "tree_sitter_analyzer.languages.scala_plugin.safe_encode",
+            "codexray.languages.scala_plugin.safe_encode",
             side_effect=RuntimeError("enc err"),
         ):
             result = e._get_node_text(node)

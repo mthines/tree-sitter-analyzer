@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.resources.code_file_resource import CodeFileResource
+from codexray.mcp.resources.code_file_resource import CodeFileResource
 
 
 class TestMatchesUri:
@@ -154,8 +154,8 @@ class TestReadFileContent:
             await resource._read_file_content("/nonexistent/file.py")
 
     @pytest.mark.asyncio
-    @patch("tree_sitter_analyzer.mcp.resources.code_file_resource.Path")
-    @patch("tree_sitter_analyzer.mcp.resources.code_file_resource.read_file_safe")
+    @patch("codexray.mcp.resources.code_file_resource.Path")
+    @patch("codexray.mcp.resources.code_file_resource.read_file_safe")
     async def test_read_file_permission_error(self, mock_read, mock_path, resource):
         """Test reading file with permission error"""
         # Mock Path.exists() to return True
@@ -166,8 +166,8 @@ class TestReadFileContent:
             await resource._read_file_content("test.py")
 
     @pytest.mark.asyncio
-    @patch("tree_sitter_analyzer.mcp.resources.code_file_resource.Path")
-    @patch("tree_sitter_analyzer.mcp.resources.code_file_resource.read_file_safe")
+    @patch("codexray.mcp.resources.code_file_resource.Path")
+    @patch("codexray.mcp.resources.code_file_resource.read_file_safe")
     async def test_read_file_os_error(self, mock_read, mock_path, resource):
         """Test reading file with OS error"""
         # Mock Path.exists() to return True
@@ -178,8 +178,8 @@ class TestReadFileContent:
             await resource._read_file_content("test.py")
 
     @pytest.mark.asyncio
-    @patch("tree_sitter_analyzer.mcp.resources.code_file_resource.Path")
-    @patch("tree_sitter_analyzer.mcp.resources.code_file_resource.read_file_safe")
+    @patch("codexray.mcp.resources.code_file_resource.Path")
+    @patch("codexray.mcp.resources.code_file_resource.read_file_safe")
     async def test_read_file_unexpected_error(self, mock_read, mock_path, resource):
         """Test reading file with unexpected error"""
         # Mock Path.exists() to return True

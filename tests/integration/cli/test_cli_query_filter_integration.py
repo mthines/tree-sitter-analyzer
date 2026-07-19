@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.query_command import QueryCommand
+from codexray.cli.commands.query_command import QueryCommand
 
 
 class TestCLIQueryFilterIntegration:

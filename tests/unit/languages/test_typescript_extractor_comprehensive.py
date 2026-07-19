@@ -9,7 +9,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.typescript_plugin import (
+from codexray.languages.typescript_plugin import (
     TypeScriptElementExtractor,
 )
 
@@ -57,7 +57,7 @@ class TestTypeScriptElementExtractorComprehensive:
 
         # Mock encoding error to trigger fallback
         with patch(
-            "tree_sitter_analyzer.languages.typescript_plugin.extractor.extract_text_slice",
+            "codexray.languages.typescript_plugin.extractor.extract_text_slice",
             side_effect=Exception("Encoding error"),
         ):
             text = extractor._get_node_text_optimized(mock_node)
@@ -70,7 +70,7 @@ class TestTypeScriptElementExtractorComprehensive:
 
         # Mock both primary and fallback methods to fail
         with patch(
-            "tree_sitter_analyzer.languages.typescript_plugin.extractor.extract_text_slice",
+            "codexray.languages.typescript_plugin.extractor.extract_text_slice",
             side_effect=Exception("Primary error"),
         ):
             mock_node.start_point = (10, 0)  # Out of bounds

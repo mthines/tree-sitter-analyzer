@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_metrics_tool import CodeGraphMetricsTool
+from codexray.mcp.tools.codegraph_metrics_tool import CodeGraphMetricsTool
 
 
 @pytest.fixture
@@ -70,7 +70,7 @@ class TestExecuteNoCache:
 
     async def test_cache_empty_section_hint(self, tool_with_root):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_metrics_tool.ensure_indexed",
+            "codexray.mcp.tools.codegraph_metrics_tool.ensure_indexed",
             return_value=None,
         ):
             result = await tool_with_root.execute(
@@ -86,7 +86,7 @@ class TestExecuteNoCache:
 
     async def test_sections_included_field(self, tool_with_root):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_metrics_tool.ensure_indexed",
+            "codexray.mcp.tools.codegraph_metrics_tool.ensure_indexed",
             return_value=None,
         ):
             result = await tool_with_root.execute(
@@ -108,7 +108,7 @@ class TestExecuteWithCache:
         }
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_metrics_tool.ensure_indexed",
+            "codexray.mcp.tools.codegraph_metrics_tool.ensure_indexed",
             return_value=mock_cache,
         ):
             result = await tool_with_root.execute(
@@ -130,7 +130,7 @@ class TestCallGraphMetricsSanity:
     """
 
     def _index(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         proj = tmp_path / "pkg"
         proj.mkdir(parents=True, exist_ok=True)

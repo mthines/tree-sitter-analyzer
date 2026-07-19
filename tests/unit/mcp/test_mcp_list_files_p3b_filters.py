@@ -1,13 +1,13 @@
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -34,7 +34,7 @@ async def test_fd_75_modified_relative_time(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test files modified within 1 day
@@ -68,7 +68,7 @@ async def test_fd_76_modified_absolute_time(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test files modified before a specific date
@@ -110,7 +110,7 @@ async def test_fd_77_size_filtering_advanced(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test files larger than 100 bytes
@@ -152,7 +152,7 @@ async def test_fd_78_no_extension_filter(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test files without extension (simulate with pattern)
@@ -181,7 +181,7 @@ async def test_fd_79_owner_ignore_all(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test owner filtering (simulated)
@@ -210,7 +210,7 @@ async def test_fd_80_owner_current_user(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test current user owner filtering (simulated)
@@ -238,7 +238,7 @@ async def test_fd_81_owner_current_group(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test group owner filtering (simulated)
@@ -266,7 +266,7 @@ async def test_fd_82_owner_root(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test root owner filtering (simulated)
@@ -294,7 +294,7 @@ async def test_fd_83_quiet_mode_simulation(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test quiet mode (our tool is always structured)
@@ -331,7 +331,7 @@ async def test_fd_84_max_results_advanced(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test with limit — the bounded fd pass returns only the requested prefix
@@ -368,7 +368,7 @@ async def test_fd_86_list_details_advanced(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test detailed listing

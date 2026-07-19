@@ -5,8 +5,8 @@ import time
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.file_watcher import FileWatcherDaemon
+from codexray.ast_cache import ASTCache
+from codexray.file_watcher import FileWatcherDaemon
 
 
 def _wait_until(predicate, timeout: float = 3.0, interval: float = 0.05) -> bool:

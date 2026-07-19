@@ -20,12 +20,12 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer import ast_cache as ast_cache_module
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cache import unresolved
-from tree_sitter_analyzer.class_hierarchy import ClassHierarchy
-from tree_sitter_analyzer.graph.edge_store import EdgeKind, symbol_node
-from tree_sitter_analyzer.mcp.utils import auto_index_guard
+from codexray import ast_cache as ast_cache_module
+from codexray.ast_cache import ASTCache
+from codexray.cache import unresolved
+from codexray.class_hierarchy import ClassHierarchy
+from codexray.graph.edge_store import EdgeKind, symbol_node
+from codexray.mcp.utils import auto_index_guard
 
 
 def _write_project(root: Path) -> None:
@@ -280,7 +280,7 @@ def test_class_hierarchy_cli_reads_resolved_cross_file_edge(tmp_path: Path) -> N
         [
             sys.executable,
             "-m",
-            "tree_sitter_analyzer",
+            "codexray",
             "--project-root",
             str(tmp_path),
             "--class-hierarchy",

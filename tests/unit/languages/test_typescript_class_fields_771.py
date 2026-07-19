@@ -17,7 +17,7 @@ from __future__ import annotations
 import tree_sitter
 from tree_sitter_typescript import language_typescript
 
-from tree_sitter_analyzer.languages.typescript_plugin.extractor import (
+from codexray.languages.typescript_plugin.extractor import (
     TypeScriptElementExtractor,
 )
 

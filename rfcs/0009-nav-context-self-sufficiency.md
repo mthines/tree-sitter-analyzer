@@ -8,8 +8,8 @@
 - **Supersedes (in part)**: RFC-0006 (context progressive disclosure) — amends its
   blanket per-block source cap; see Motivation.
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/mcp/tools/codegraph_context_tool.py` (`_build_code_blocks`, `_MAX_BLOCK_LINES`, ranking)
-  - `tree_sitter_analyzer/mcp/tools/_codegraph_explore_helpers.py` (snippet extraction)
+  - `codexray/mcp/tools/codegraph_context_tool.py` (`_build_code_blocks`, `_MAX_BLOCK_LINES`, ranking)
+  - `codexray/mcp/tools/_codegraph_explore_helpers.py` (snippet extraction)
   - `tests/unit/test_codegraph_context_tool.py`, `benchmarks/codegraph_compare/`
 
 ## Summary

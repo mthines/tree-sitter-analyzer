@@ -8,9 +8,9 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.exceptions import SecurityError
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.security import SecurityValidator
+from codexray.exceptions import SecurityError
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.security import SecurityValidator
 
 
 class TestSecurityMCPIntegration:
@@ -31,7 +31,7 @@ class TestSecurityMCPIntegration:
             f.write("print('Hello, World!')")
 
         # Initialize MCP server
-        self.mcp_server = TreeSitterAnalyzerMCPServer()
+        self.mcp_server = CodeXrayMCPServer()
         self.mcp_server.set_project_path(self.project_root)
 
     def teardown_method(self):

@@ -5,8 +5,8 @@ import os
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.call_graph import CachedCallGraph, CallGraph
+from codexray.ast_cache import ASTCache
+from codexray.call_graph import CachedCallGraph, CallGraph
 
 
 @pytest.fixture

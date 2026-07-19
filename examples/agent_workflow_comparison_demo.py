@@ -53,9 +53,9 @@ def estimate_tokens(text: str) -> int:
     return max(1, (len(text) + 3) // 4)
 
 
-def run_tree_sitter_analyzer(args: list[str], project_root: Path) -> Any:
+def run_codexray(args: list[str], project_root: Path) -> Any:
     """Run the local CLI and parse JSON output."""
-    command = [sys.executable, "-m", "tree_sitter_analyzer", *args]
+    command = [sys.executable, "-m", "codexray", *args]
     completed = subprocess.run(
         command,
         cwd=project_root,
@@ -94,11 +94,11 @@ def build_comparison(
     """Build the comparison by calling the same CLI a human would demo."""
     target_file = project_root / target_path
     source_text = target_file.read_text(encoding="utf-8")
-    workflow_pack = run_tree_sitter_analyzer(
+    workflow_pack = run_codexray(
         ["agent-workflow", target_path, "--format", "json"],
         project_root,
     )
-    method_results = run_tree_sitter_analyzer(
+    method_results = run_codexray(
         [
             target_path,
             "--query-key",
@@ -158,7 +158,7 @@ def format_markdown(comparison: Comparison) -> str:
             "",
             "| Scenario | Lines Read | Estimated Tokens |",
             "| --- | ---: | ---: |",
-            f"| Without Tree-sitter Analyzer | {data['source_lines']} | {data['baseline_tokens']} |",
+            f"| Without CodeXray | {data['source_lines']} | {data['baseline_tokens']} |",
             f"| With SMART workflow context | {data['focused_lines']} | {data['guided_tokens']} |",
             "",
             (

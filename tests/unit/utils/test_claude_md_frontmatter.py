@@ -23,7 +23,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.utils.claude_md_frontmatter import (
+from codexray.utils.claude_md_frontmatter import (
     VALID_VERDICT_ACTIONS,
     FixtureAllowlistEntry,
     IntentionalDesignRule,
@@ -32,7 +32,7 @@ from tree_sitter_analyzer.utils.claude_md_frontmatter import (
     parse_intentional_design,
 )
 
-_MODULE_LOGGER = "tree_sitter_analyzer.utils.claude_md_frontmatter"
+_MODULE_LOGGER = "codexray.utils.claude_md_frontmatter"
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -129,7 +129,7 @@ class TestParseIntentionalDesign:
             "intentional_design": [
                 {
                     "id": "mcp_default_toon",
-                    "files": ["tree_sitter_analyzer/mcp/server.py"],
+                    "files": ["codexray/mcp/server.py"],
                     "symbols": ['arguments.get("output_format", "toon")'],
                     "note": "TOON default locked by user r37b",
                     "action_when_touched": "UNSAFE",
@@ -143,10 +143,10 @@ class TestParseIntentionalDesign:
         assert rule.id == "mcp_default_toon"
         assert rule.action == "UNSAFE"
         assert rule.note == "TOON default locked by user r37b"
-        assert rule.raw_globs == ("tree_sitter_analyzer/mcp/server.py",)
+        assert rule.raw_globs == ("codexray/mcp/server.py",)
         assert len(rule.file_patterns) == 1
         # The compiled spec must actually match the path it was built from.
-        assert rule.file_patterns[0].match_file("tree_sitter_analyzer/mcp/server.py")
+        assert rule.file_patterns[0].match_file("codexray/mcp/server.py")
         assert rule.symbols == ('arguments.get("output_format", "toon")',)
 
     def test_glob_pattern_compiles_and_matches(self) -> None:
@@ -154,15 +154,15 @@ class TestParseIntentionalDesign:
             "intentional_design": [
                 {
                     "id": "all_mcp_tools",
-                    "files": ["tree_sitter_analyzer/mcp/tools/*.py"],
+                    "files": ["codexray/mcp/tools/*.py"],
                     "note": "MCP tool surface — review carefully",
                 }
             ]
         }
         rules = parse_intentional_design(data)
         spec = rules[0].file_patterns[0]
-        assert spec.match_file("tree_sitter_analyzer/mcp/tools/foo.py")
-        assert not spec.match_file("tree_sitter_analyzer/mcp/server.py")
+        assert spec.match_file("codexray/mcp/tools/foo.py")
+        assert not spec.match_file("codexray/mcp/server.py")
 
     def test_missing_action_defaults_to_info(self) -> None:
         data = {
@@ -335,7 +335,7 @@ class TestParseFixtureAllowlist:
         data = {
             "fixture_allowlist": [
                 {
-                    "path": "tree_sitter_analyzer/languages/java_plugin.py",
+                    "path": "codexray/languages/java_plugin.py",
                     "note": "SAMPLE_PYTHON negative fixture",
                 }
             ]
@@ -344,7 +344,7 @@ class TestParseFixtureAllowlist:
         assert len(entries) == 1
         entry = entries[0]
         assert isinstance(entry, FixtureAllowlistEntry)
-        assert entry.path == "tree_sitter_analyzer/languages/java_plugin.py"
+        assert entry.path == "codexray/languages/java_plugin.py"
         assert entry.note == "SAMPLE_PYTHON negative fixture"
 
     def test_missing_path_skipped_with_warning(
@@ -399,16 +399,16 @@ class TestEndToEnd:
                 "---\n"
                 "intentional_design:\n"
                 "  - id: mcp_default_toon\n"
-                "    files: ['tree_sitter_analyzer/mcp/server.py', 'tree_sitter_analyzer/mcp/tools/*.py']\n"
+                "    files: ['codexray/mcp/server.py', 'codexray/mcp/tools/*.py']\n"
                 '    symbols: [\'arguments.get("output_format", "toon")\']\n'
                 "    note: 'TOON default locked by user r37b'\n"
                 "    action_when_touched: UNSAFE\n"
                 "  - id: project_root_canonicalization\n"
-                "    files: ['tree_sitter_analyzer/mcp/tools/base_tool.py']\n"
+                "    files: ['codexray/mcp/tools/base_tool.py']\n"
                 "    note: 'macOS symlink trap; solo-commit gate'\n"
                 "    action_when_touched: CAUTION\n"
                 "fixture_allowlist:\n"
-                "  - path: tree_sitter_analyzer/languages/java_plugin.py\n"
+                "  - path: codexray/languages/java_plugin.py\n"
                 "    note: 'SAMPLE_PYTHON negative fixture'\n"
                 "---\n"
                 "\n"
@@ -426,7 +426,7 @@ class TestEndToEnd:
         assert (
             rules[0]
             .file_patterns[1]
-            .match_file("tree_sitter_analyzer/mcp/tools/anything.py")
+            .match_file("codexray/mcp/tools/anything.py")
         )
         assert len(fixtures) == 1
         assert fixtures[0].path.endswith("java_plugin.py")

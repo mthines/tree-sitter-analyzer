@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli.parser_readiness_records import (
+from codexray.cli.parser_readiness_records import (
     LOADER_ALIASES,
     SCORE_WEIGHTS,
     _artifact_signals,

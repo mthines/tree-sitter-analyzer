@@ -7,9 +7,9 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.core.query import QueryExecutor
-from tree_sitter_analyzer.core.request import AnalysisRequest
-from tree_sitter_analyzer.query_loader import get_query_loader
+from codexray.core.query import QueryExecutor
+from codexray.core.request import AnalysisRequest
+from codexray.query_loader import get_query_loader
 
 
 class TestConfigFileCompatibility:
@@ -209,7 +209,7 @@ class TestPluginInterfaceCompatibility:
     @pytest.mark.regression
     def test_plugin_base_interface(self):
         """测试插件基类接口"""
-        from tree_sitter_analyzer.plugins.base import LanguagePlugin
+        from codexray.plugins.base import LanguagePlugin
 
         # 验证基类有必需的方法
         assert hasattr(LanguagePlugin, "get_queries")
@@ -218,7 +218,7 @@ class TestPluginInterfaceCompatibility:
     @pytest.mark.regression
     def test_python_plugin_interface(self):
         """测试Python插件接口"""
-        from tree_sitter_analyzer.languages.python_plugin import PythonPlugin
+        from codexray.languages.python_plugin import PythonPlugin
 
         plugin = PythonPlugin()
 
@@ -237,7 +237,7 @@ class TestPluginInterfaceCompatibility:
     @pytest.mark.regression
     def test_java_plugin_interface(self):
         """测试Java插件接口"""
-        from tree_sitter_analyzer.languages.java_plugin import JavaPlugin
+        from codexray.languages.java_plugin import JavaPlugin
 
         plugin = JavaPlugin()
 
@@ -256,7 +256,7 @@ class TestPluginInterfaceCompatibility:
     @pytest.mark.regression
     def test_javascript_plugin_interface(self):
         """测试JavaScript插件接口"""
-        from tree_sitter_analyzer.languages.javascript_plugin import JavaScriptPlugin
+        from codexray.languages.javascript_plugin import JavaScriptPlugin
 
         plugin = JavaScriptPlugin()
 
@@ -451,8 +451,8 @@ class TestAPIVersionCompatibility:
     def test_module_imports(self):
         """测试模块导入兼容性"""
         # 验证核心模块可以导入
-        from tree_sitter_analyzer.core import analysis_engine, query, request
-        from tree_sitter_analyzer.languages import java_plugin, python_plugin
+        from codexray.core import analysis_engine, query, request
+        from codexray.languages import java_plugin, python_plugin
 
         # 验证关键类存在
         assert hasattr(analysis_engine, "UnifiedAnalysisEngine")

@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.grammar_coverage.validator import (
+from codexray.grammar_coverage.validator import (
     CoverageReport,
     _get_covered_node_types_from_plugin,
     _parse_corpus_file,

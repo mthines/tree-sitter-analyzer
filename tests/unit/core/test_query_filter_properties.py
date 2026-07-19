@@ -15,7 +15,7 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.core.query_filter import QueryFilter
+from codexray.core.query_filter import QueryFilter
 
 
 # Strategies for generating test data

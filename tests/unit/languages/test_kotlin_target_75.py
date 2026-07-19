@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.kotlin_plugin import (
+from codexray.languages.kotlin_plugin import (
     KotlinElementExtractor,
     KotlinPlugin,
 )
@@ -323,7 +323,7 @@ class TestKotlinPluginMissingLines:
             # Create temp file
             import tempfile
 
-            from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+            from codexray.core.analysis_engine import AnalysisRequest
 
             with tempfile.NamedTemporaryFile(mode="w", suffix=".kt", delete=False) as f:
                 f.write("fun test() {}")

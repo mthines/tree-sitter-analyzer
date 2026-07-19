@@ -6,9 +6,9 @@
 - **Last updated**: 2026-06-05
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/synapse_resolver/_constants.py` (external-method table)
-  - `tree_sitter_analyzer/synapse_resolver/__init__.py` (cascade: new final tier)
-  - `tree_sitter_analyzer/synapse_resolver/_context.py` (wire the table + _ensure_loaded copy-back)
+  - `codexray/synapse_resolver/_constants.py` (external-method table)
+  - `codexray/synapse_resolver/__init__.py` (cascade: new final tier)
+  - `codexray/synapse_resolver/_context.py` (wire the table + _ensure_loaded copy-back)
   - `tests/unit/test_external_method_resolution.py`
 
 ## Summary

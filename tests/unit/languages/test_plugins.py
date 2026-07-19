@@ -12,12 +12,12 @@ import sys
 sys.path.insert(0, ".")
 
 
-from tree_sitter_analyzer.languages.java_plugin import JavaElementExtractor, JavaPlugin
-from tree_sitter_analyzer.languages.javascript_plugin import (
+from codexray.languages.java_plugin import JavaElementExtractor, JavaPlugin
+from codexray.languages.javascript_plugin import (
     JavaScriptElementExtractor,
     JavaScriptPlugin,
 )
-from tree_sitter_analyzer.plugins.manager import PluginManager
+from codexray.plugins.manager import PluginManager
 
 
 def test_register_plugin():

@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from unittest.mock import patch
 
-from tree_sitter_analyzer.codegraph_query_backend import (
+from codexray.codegraph_query_backend import (
     CodeGraphQueryBackend as SharedCodeGraphQueryBackend,
 )
-from tree_sitter_analyzer.symbol_resolver import DefinitionLocation
+from codexray.symbol_resolver import DefinitionLocation
 
 
 def _make_def(
@@ -47,6 +47,6 @@ def _patch_resolver_with(defs_per_token: dict[str, list[DefinitionLocation]]):
             return self._real_backend.relation_entries(**kwargs)
 
     return patch(
-        "tree_sitter_analyzer.mcp.tools.codegraph_query_tool.CodeGraphQueryBackend",
+        "codexray.mcp.tools.codegraph_query_tool.CodeGraphQueryBackend",
         FakeBackend,
     )

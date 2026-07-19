@@ -5,16 +5,16 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.safe_to_edit_tool import (
+from codexray.mcp.tools.safe_to_edit_tool import (
     SafeToEditTool,
     _compute_risk,
     _is_init_file,
 )
-from tree_sitter_analyzer.mcp.tools.utils.test_discovery import find_test_files
+from codexray.mcp.tools.utils.test_discovery import find_test_files
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-TARGET_FILE = "tree_sitter_analyzer/mcp/tools/safe_to_edit_tool.py"
-SERVER_FILE = "tree_sitter_analyzer/mcp/server.py"
+TARGET_FILE = "codexray/mcp/tools/safe_to_edit_tool.py"
+SERVER_FILE = "codexray/mcp/server.py"
 
 
 @pytest.fixture
@@ -34,7 +34,7 @@ class SafeToEditTool:
     server = tmp_path / SERVER_FILE
     server.write_text(
         """
-from tree_sitter_analyzer.mcp.tools.safe_to_edit_tool import SafeToEditTool
+from codexray.mcp.tools.safe_to_edit_tool import SafeToEditTool
 
 
 def create_tool():
@@ -109,8 +109,8 @@ class TestSafeToEditTool:
             "uv run pytest tests/unit/mcp/test_safe_to_edit_tool.py -q"
         )
         assert (
-            "uv run python -m tree_sitter_analyzer "
-            "tree_sitter_analyzer/mcp/tools/safe_to_edit_tool.py "
+            "uv run python -m codexray "
+            "codexray/mcp/tools/safe_to_edit_tool.py "
             "--file-health --format json"
         ) in workflow["after_edit_commands"]
         assert workflow["queue_boundary_commands"] == ["uv run pytest -q"]
@@ -295,7 +295,7 @@ class TestHelperFunctions:
 
     def test_find_test_files_for_known_file(self):
         tests = find_test_files(
-            str(PROJECT_ROOT / "tree_sitter_analyzer" / "health_scorer.py"),
+            str(PROJECT_ROOT / "codexray" / "health_scorer.py"),
             str(PROJECT_ROOT),
         )
         assert isinstance(tests, list)
@@ -315,7 +315,7 @@ class TestChecklistSequentialNumbering:
     """
 
     def _checklist(self, **kwargs):
-        from tree_sitter_analyzer.mcp.tools.utils.safe_to_edit_risk import (
+        from codexray.mcp.tools.utils.safe_to_edit_risk import (
             build_checklist,
         )
 

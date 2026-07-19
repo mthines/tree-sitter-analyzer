@@ -10,7 +10,7 @@ import asyncio
 import tempfile
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.tools.table_format_tool import TableFormatTool
+from codexray.mcp.tools.table_format_tool import TableFormatTool
 
 
 async def demo_suppress_output():

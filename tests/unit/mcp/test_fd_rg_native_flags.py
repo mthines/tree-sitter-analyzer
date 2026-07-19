@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools import fd_rg_utils
+from codexray.mcp.tools import fd_rg_utils
 
 _BASE_RG_KW: dict = {
     "query": "x",

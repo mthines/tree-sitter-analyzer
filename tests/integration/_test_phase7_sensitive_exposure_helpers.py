@@ -3,7 +3,7 @@
 from collections.abc import Iterable
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 UNSANITIZED_SECRET_FRAGMENTS = [
     "secret123",

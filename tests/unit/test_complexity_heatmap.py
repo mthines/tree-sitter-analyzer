@@ -64,7 +64,7 @@ def complex_project(tmp_path):
 
 @pytest.fixture()
 def indexed_complex_project(complex_project):
-    from tree_sitter_analyzer.ast_cache import ASTCache
+    from codexray.ast_cache import ASTCache
 
     cache = ASTCache(str(complex_project))
     result = cache.index_project()
@@ -75,14 +75,14 @@ def indexed_complex_project(complex_project):
 
 class TestComplexityEngine:
     def test_analyze_simple_file(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         funcs = analyze_file_complexity(str(complex_project / "simple.py"), "python")
         assert len(funcs) == 2
         assert all(f.complexity == 1 for f in funcs)
 
     def test_analyze_complex_file(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         funcs = analyze_file_complexity(str(complex_project / "complex.py"), "python")
         assert len(funcs) == 3
@@ -91,7 +91,7 @@ class TestComplexityEngine:
         assert nested[0].complexity == 8
 
     def test_class_method_detection(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         funcs = analyze_file_complexity(str(complex_project / "complex.py"), "python")
         process = [f for f in funcs if f.name == "process"]
@@ -100,13 +100,13 @@ class TestComplexityEngine:
         assert process[0].complexity == 5
 
     def test_empty_file(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         funcs = analyze_file_complexity(str(complex_project / "empty.py"), "python")
         assert funcs == []
 
     def test_javascript_complexity(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         funcs = analyze_file_complexity(str(complex_project / "mixed.js"), "javascript")
         assert len(funcs) == 1
@@ -115,7 +115,7 @@ class TestComplexityEngine:
         assert fetch[0].complexity == 5
 
     def test_risk_bands(self):
-        from tree_sitter_analyzer.complexity_heatmap import _risk_band
+        from codexray.complexity_heatmap import _risk_band
 
         assert _risk_band(1) == "low"
         assert _risk_band(5) == "low"
@@ -127,7 +127,7 @@ class TestComplexityEngine:
         assert _risk_band(50) == "critical"
 
     def test_project_heatmap(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_project_heatmap
+        from codexray.complexity_heatmap import analyze_project_heatmap
 
         heatmap = analyze_project_heatmap(str(complex_project))
         assert heatmap["total_files_analyzed"] == 3
@@ -141,7 +141,7 @@ class TestComplexityEngine:
         )
 
     def test_project_heatmap_language_filter(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_project_heatmap
+        from codexray.complexity_heatmap import analyze_project_heatmap
 
         heatmap = analyze_project_heatmap(
             str(complex_project), language_filter="python"
@@ -150,13 +150,13 @@ class TestComplexityEngine:
             assert fh["language"] == "python"
 
     def test_project_heatmap_directory_filter(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_project_heatmap
+        from codexray.complexity_heatmap import analyze_project_heatmap
 
         heatmap = analyze_project_heatmap(str(complex_project), directory_filter=".")
         assert heatmap["total_files_analyzed"] == 3
 
     def test_decision_points_populated(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         funcs = analyze_file_complexity(str(complex_project / "complex.py"), "python")
         nested = [f for f in funcs if f.name == "deeply_nested"]
@@ -166,8 +166,8 @@ class TestComplexityEngine:
 
 class TestCacheBackedComplexity:
     def test_cache_backed_analyze(self, indexed_complex_project):
-        from tree_sitter_analyzer.ast_cache import ASTCache
-        from tree_sitter_analyzer.complexity_heatmap import (
+        from codexray.ast_cache import ASTCache
+        from codexray.complexity_heatmap import (
             analyze_file_complexity_from_cache,
         )
 
@@ -182,7 +182,7 @@ class TestCacheBackedComplexity:
         cache.close()
 
     def test_cache_backed_fallback(self, complex_project):
-        from tree_sitter_analyzer.complexity_heatmap import (
+        from codexray.complexity_heatmap import (
             analyze_file_complexity_from_cache,
         )
 
@@ -196,8 +196,8 @@ class TestCacheBackedComplexity:
         assert len(funcs) == 2
 
     def test_project_heatmap_with_cache(self, indexed_complex_project):
-        from tree_sitter_analyzer.ast_cache import ASTCache
-        from tree_sitter_analyzer.complexity_heatmap import analyze_project_heatmap
+        from codexray.ast_cache import ASTCache
+        from codexray.complexity_heatmap import analyze_project_heatmap
 
         cache = ASTCache(str(indexed_complex_project))
         heatmap = analyze_project_heatmap(str(indexed_complex_project), cache=cache)
@@ -208,7 +208,7 @@ class TestCacheBackedComplexity:
 
 class TestComplexityHeatmapTool:
     def _make_tool(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.complexity_heatmap_tool import (
+        from codexray.mcp.tools.complexity_heatmap_tool import (
             CodeGraphComplexityHeatmapTool,
         )
 
@@ -344,7 +344,7 @@ class TestComplexityHeatmapTool:
 
 class TestComplexityCLI:
     def test_cli_project_mode(self, indexed_complex_project, monkeypatch):
-        from tree_sitter_analyzer.cli_main import main
+        from codexray.cli_main import main
 
         # Pass --project-root so the heatmap scans the tmp fixture, not os.getcwd()
         monkeypatch.setattr(
@@ -377,7 +377,7 @@ class TestComplexityCLI:
         "TestComplexityEngine",
     )
     def test_cli_file_mode(self, complex_project, monkeypatch):
-        from tree_sitter_analyzer.cli_main import main
+        from codexray.cli_main import main
 
         monkeypatch.setattr(
             sys,
@@ -411,7 +411,7 @@ class TestComplexityCLI:
         "TestComplexityEngine",
     )
     def test_cli_function_mode(self, complex_project, monkeypatch):
-        from tree_sitter_analyzer.cli_main import main
+        from codexray.cli_main import main
 
         monkeypatch.setattr(
             sys,
@@ -495,7 +495,7 @@ class TestPluginFallbackLanguages:
     via the plugin-sync fallback rather than a silent empty list."""
 
     def test_csharp_file_complexity(self, csharp_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         funcs = analyze_file_complexity(str(csharp_project / "Calculator.cs"), "csharp")
         # C# fixture has exactly 2 methods: Add (complexity 2) and Sub (complexity 1)
@@ -506,7 +506,7 @@ class TestPluginFallbackLanguages:
         assert add_func.complexity == 2
 
     def test_ruby_file_complexity(self, ruby_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_file_complexity
+        from codexray.complexity_heatmap import analyze_file_complexity
 
         funcs = analyze_file_complexity(str(ruby_project / "helpers.rb"), "ruby")
         # Ruby fixture has exactly 2 methods
@@ -515,7 +515,7 @@ class TestPluginFallbackLanguages:
         assert names == {"greet", "add"}
 
     def test_csharp_project_heatmap(self, csharp_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_project_heatmap
+        from codexray.complexity_heatmap import analyze_project_heatmap
 
         heatmap = analyze_project_heatmap(str(csharp_project))
         # 1 .cs file containing 2 methods
@@ -523,7 +523,7 @@ class TestPluginFallbackLanguages:
         assert heatmap["total_functions"] == 2
 
     def test_ruby_project_heatmap(self, ruby_project):
-        from tree_sitter_analyzer.complexity_heatmap import analyze_project_heatmap
+        from codexray.complexity_heatmap import analyze_project_heatmap
 
         heatmap = analyze_project_heatmap(str(ruby_project))
         # 1 .rb file containing 2 methods
@@ -532,7 +532,7 @@ class TestPluginFallbackLanguages:
 
     def test_empty_project_warns(self, tmp_path):
         """When a project yields 0 functions, result must carry a note/warning."""
-        from tree_sitter_analyzer.complexity_heatmap import analyze_project_heatmap
+        from codexray.complexity_heatmap import analyze_project_heatmap
 
         empty_project = tmp_path / "emptyproj"
         empty_project.mkdir()

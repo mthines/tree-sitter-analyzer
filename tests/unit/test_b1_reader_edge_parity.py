@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Any
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.graph.edge_store import EdgeKind, symbol_node
+from codexray.graph.edge_store import EdgeKind, symbol_node
 
 # ---------------------------------------------------------------------------
 # Shared fixture: build a DB holding ast_call_edges + edges from one spec list
@@ -228,7 +228,7 @@ _SPECS: list[dict[str, Any]] = [
 
 class TestCallPathParity:
     def _run(self, conn: sqlite3.Connection):
-        from tree_sitter_analyzer.call_path import CallPathFinder
+        from codexray.call_path import CallPathFinder
 
         fwd_all = CallPathFinder._query_forward_edges(conn, "main", None)
         fwd_scoped = CallPathFinder._query_forward_edges(conn, "main", "a.py")
@@ -251,7 +251,7 @@ class TestCallPathParity:
 
 class TestAstCacheGraphParity:
     def _run(self, conn: sqlite3.Connection):
-        from tree_sitter_analyzer.cache.graph import bfs_callees, bfs_callers
+        from codexray.cache.graph import bfs_callees, bfs_callers
 
         callers = bfs_callers(conn, "bar", None, max_depth=2)
         callers_scoped = bfs_callers(conn, "foo", "b.py", max_depth=1)
@@ -275,7 +275,7 @@ class TestAstCacheGraphParity:
 
 class TestXrefParity:
     def _run(self, tmp_path: Path, conn: sqlite3.Connection):
-        from tree_sitter_analyzer.xref import XRefEngine
+        from codexray.xref import XRefEngine
 
         cache = _mock_cache(tmp_path, conn)
         tool = XRefEngine(cache)
@@ -304,7 +304,7 @@ class TestXrefParity:
 
 class TestSymbolResolverParity:
     def _run(self, tmp_path: Path, conn: sqlite3.Connection):
-        from tree_sitter_analyzer.symbol_resolver import SymbolResolver
+        from codexray.symbol_resolver import SymbolResolver
 
         resolver = SymbolResolver(_mock_cache(tmp_path, conn))
         refs = resolver._find_references("foo", "foo")
@@ -329,7 +329,7 @@ class TestGetCallEdgesParity:
     """
 
     def _run(self, tmp_path: Path, conn: sqlite3.Connection):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         cache = _mock_cache(tmp_path, conn)
         # Invoke the real, unbound method against the mock's connection so the
@@ -394,8 +394,8 @@ class TestGetCallEdgesParity:
 
 class TestConstraintEvaluatorParity:
     def _run(self, conn: sqlite3.Connection):
-        from tree_sitter_analyzer.constraints.evaluator import evaluate
-        from tree_sitter_analyzer.constraints.schema import Constraint
+        from codexray.constraints.evaluator import evaluate
+        from codexray.constraints.schema import Constraint
 
         constraints = [
             Constraint(
@@ -462,8 +462,8 @@ class TestB13PythonResolutionOnEdges:
         )
 
     def test_cross_file_resolution_lands_on_edges(self, tmp_path: Path) -> None:
-        from tree_sitter_analyzer.ast_cache import ASTCache
-        from tree_sitter_analyzer.graph.edge_store import EdgeKind, symbol_node
+        from codexray.ast_cache import ASTCache
+        from codexray.graph.edge_store import EdgeKind, symbol_node
 
         self._write_project(tmp_path)
         cache = ASTCache(str(tmp_path))

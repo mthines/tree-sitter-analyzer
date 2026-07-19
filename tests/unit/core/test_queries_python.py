@@ -5,7 +5,7 @@ Tests for Python queries module
 
 import pytest
 
-from tree_sitter_analyzer.queries.python import (
+from codexray.queries.python import (
     ALL_QUERIES,
     CLASSES,
     COMMENTS,
@@ -392,7 +392,7 @@ class TestFunctionsQueryNoDuplicate:
             import tree_sitter_python
             from tree_sitter import Language, Parser
 
-            from tree_sitter_analyzer.utils.tree_sitter_compat import (
+            from codexray.utils.tree_sitter_compat import (
                 TreeSitterQueryCompat,
             )
         except ImportError:
@@ -408,7 +408,7 @@ class TestFunctionsQueryNoDuplicate:
         code = b"def foo():\n    pass\n\ndef bar():\n    pass\n\nasync def baz():\n    pass\n"
         tree = parser.parse(code)
 
-        from tree_sitter_analyzer.queries.python import FUNCTIONS
+        from codexray.queries.python import FUNCTIONS
 
         captures = TreeSitterQueryCompat.safe_execute_query(
             py_language, FUNCTIONS, tree.root_node
@@ -426,6 +426,6 @@ class TestFunctionsQueryNoDuplicate:
 
     def test_functions_query_no_async_capture_name(self) -> None:
         """After the fix @function.async capture no longer exists in FUNCTIONS."""
-        from tree_sitter_analyzer.queries.python import FUNCTIONS
+        from codexray.queries.python import FUNCTIONS
 
         assert "@function.async" not in FUNCTIONS

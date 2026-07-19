@@ -9,7 +9,7 @@ Here is what it looks like in practice.
 
 ## The `sorted()` Story
 
-tree-sitter-analyzer's own test corpus includes one Swift file,
+codexray's own test corpus includes one Swift file,
 `tests/golden/corpus_swift.swift`. Line 337 defines:
 
 ```swift
@@ -38,7 +38,7 @@ sqlite3 .codegraph/codegraph.db "
 299 Python callers, one Swift target. The AST does not support any of these
 edges. Python cannot call a Swift method.
 
-tree-sitter-analyzer (measured at v1.22.0, 2026-06-10) finds 392 Python `sorted()`
+codexray (measured at v1.22.0, 2026-06-10) finds 392 Python `sorted()`
 call sites, all with `callee_resolution='unknown'` — honestly unresolved rather than
 confidently wrong. Zero wired to Swift.
 
@@ -84,7 +84,7 @@ With that context, here is what the Gauntlet found.
 | huggingface/tokenizers | Rust+Py+JS+TS | 16,329 | **1,259** (7.71%) | **0** | v1.21.0 <!-- re-measure --> |
 | astral-sh/ruff | Rust+Py+TS | 187,418 | **7,557** (4.03%) | **0** | v1.21.0 <!-- re-measure --> |
 | pola-rs/polars | Rust+Py | 267,066 | **9,016** (3.38%) | **0** | v1.21.0 <!-- re-measure --> |
-| tree-sitter-analyzer (this repo) | 14 langs | 116,606 | **678** (0.58%) | **1** | 2026-06-10, clean checkout of tag v1.22.0 |
+| codexray (this repo) | 14 langs | 116,606 | **678** (0.58%) | **1** | 2026-06-10, clean checkout of tag v1.22.0 |
 | gin-gonic/gin | Go (single) | 9,134 | **0** | **0** | v1.21.0 <!-- re-measure --> |
 
 Across all four polyglot repos, TSA resolves **0 cross-language mis-wires**. The
@@ -124,7 +124,7 @@ same-session comparison (both arms, same commit, v1.21.0) measured:
 | tool | cross-language mis-wires | total call edges | mis-wire rate | measured at |
 |---|---|---|---|---|
 | CodeGraph | **745** | 38,103 | **1.96%** | v1.21.0, same session <!-- re-measure --> |
-| tree-sitter-analyzer | **6** | 114,160 | **0.005%** | v1.21.0, same session <!-- re-measure --> |
+| codexray | **6** | 114,160 | **0.005%** | v1.21.0, same session <!-- re-measure --> |
 
 Same-session ratio: **~124x cleaner** while resolving 3x more call edges. TSA's
 arm alone, re-measured at v1.22.0 on a clean tag checkout, improved to **1**
@@ -137,7 +137,7 @@ the same way at the same time.
 The audit requires no CodeGraph install. It runs against TSA's own index:
 
 ```bash
-uvx --from tree-sitter-analyzer miswire-audit .
+uvx --from codexray miswire-audit .
 ```
 
 The output shows your total call edges, how many a name-only resolver would

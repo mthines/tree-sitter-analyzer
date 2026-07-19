@@ -1,6 +1,6 @@
 # Architecture Overview
 
-This document describes the architecture of Tree-sitter Analyzer, including its plugin system, MCP integration, and core components.
+This document describes the architecture of CodeXray, including its plugin system, MCP integration, and core components.
 
 ## High-Level Architecture
 
@@ -43,7 +43,7 @@ This document describes the architecture of Tree-sitter Analyzer, including its 
 
 The analyzer engine is the central component that orchestrates code analysis.
 
-**Location**: `tree_sitter_analyzer/core/analysis_engine.py`
+**Location**: `codexray/core/analysis_engine.py`
 
 **Responsibilities**:
 - Parse source code using tree-sitter
@@ -60,8 +60,8 @@ The analyzer engine is the central component that orchestrates code analysis.
 
 Each supported language has a dedicated plugin that understands its syntax and semantics.
 
-**Location**: `tree_sitter_analyzer/languages/` (plugin implementations);
-`tree_sitter_analyzer/plugins/` contains only the abstract base class (`LanguagePlugin`) and the plugin manager/registry.
+**Location**: `codexray/languages/` (plugin implementations);
+`codexray/plugins/` contains only the abstract base class (`LanguagePlugin`) and the plugin manager/registry.
 
 **Plugin Structure**:
 ```
@@ -92,7 +92,7 @@ plugins/
 
 The formatter system provides flexible output formatting.
 
-**Location**: `tree_sitter_analyzer/formatters/`
+**Location**: `codexray/formatters/`
 
 **Components**:
 - `FormatterRegistry`: Central registry for formatters
@@ -113,7 +113,7 @@ The formatter system provides flexible output formatting.
 
 The query engine enables targeted code element extraction.
 
-**Location**: `tree_sitter_analyzer/core/query.py`
+**Location**: `codexray/core/query.py`
 
 **Features**:
 - Predefined query keys (methods, classes, functions, etc.)
@@ -124,7 +124,7 @@ The query engine enables targeted code element extraction.
 
 The cache service optimizes repeated operations.
 
-**Location**: `tree_sitter_analyzer/core/cache_service.py`
+**Location**: `codexray/core/cache_service.py`
 
 **Capabilities**:
 - Analysis result caching
@@ -138,7 +138,7 @@ The cache service optimizes repeated operations.
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      MCP Server                              │
-│  (tree_sitter_analyzer/mcp/server.py)                       │
+│  (codexray/mcp/server.py)                       │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  ┌─────────────────────────────────────────────────────┐    │
@@ -172,7 +172,7 @@ The cache service optimizes repeated operations.
 
 ### MCP Tool Classes
 
-**Location**: `tree_sitter_analyzer/mcp/tools/`
+**Location**: `codexray/mcp/tools/`
 
 The public surface is **8 facade tools + set_project_path**. Each facade delegates to
 inner tool classes (approximately 74 total). For the full action-to-tool mapping see
@@ -201,7 +201,7 @@ inner tool classes (approximately 74 total). For the full action-to-tool mapping
          ▼                        ▼
 ┌─────────────────────────────────────────────┐
 │           External Tool Wrapper              │
-│   (tree_sitter_analyzer/tools/external/)     │
+│   (codexray/tools/external/)     │
 ├─────────────────────────────────────────────┤
 │  • Process execution                        │
 │  • Output parsing                           │
@@ -214,7 +214,7 @@ inner tool classes (approximately 74 total). For the full action-to-tool mapping
 
 ### Code Elements
 
-**Location**: `tree_sitter_analyzer/models/`
+**Location**: `codexray/models/`
 
 ```python
 # Base element types
@@ -370,7 +370,7 @@ See [New Language Support Checklist](new-language-support-checklist.md) for deta
 ## Directory Structure
 
 ```
-tree_sitter_analyzer/
+codexray/
 ├── __init__.py
 ├── __main__.py              # CLI entry point
 ├── core/

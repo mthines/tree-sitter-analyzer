@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cache Functionality Demo for tree-sitter-analyzer Phase 2
+Cache Functionality Demo for codexray Phase 2
 
 This script demonstrates the search caching functionality and its performance benefits.
 """
@@ -13,13 +13,13 @@ from pathlib import Path
 # Add the project root to Python path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
-from tree_sitter_analyzer.mcp.utils.search_cache import configure_cache
+from codexray.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.utils.search_cache import configure_cache
 
 
 async def demo_cache_performance():
     """Demonstrate cache performance improvements"""
-    print("🚀 tree-sitter-analyzer Phase 2 Cache Demo")
+    print("🚀 codexray Phase 2 Cache Demo")
     print("=" * 50)
 
     # Use the project's examples directory for testing

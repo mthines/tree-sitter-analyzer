@@ -1,6 +1,6 @@
 # Agent Envelope Contract
 
-One page for agents and MCP-client authors: what every tree-sitter-analyzer
+One page for agents and MCP-client authors: what every codexray
 (TSA) MCP response envelope guarantees, what each `verdict` obliges you to do,
 how honest truncation works, and which fields survive `compact_only`
 compaction. Everything here is backed by source constants and protected
@@ -16,7 +16,7 @@ the [MCP Tools Codemap](CODEMAPS/mcp-tools.md).
 ## The minimum envelope
 
 Every tool response is a JSON object. The typed contract lives in
-[`tree_sitter_analyzer/mcp/tools/tool_response.py`](../tree_sitter_analyzer/mcp/tools/tool_response.py)
+[`codexray/mcp/tools/tool_response.py`](../codexray/mcp/tools/tool_response.py)
 (`ToolResponse` + `validate_tool_response`):
 
 - `success` (bool) — always present. `true` = the tool ran end-to-end.
@@ -25,7 +25,7 @@ Every tool response is a JSON object. The typed contract lives in
 - `verdict` (str) — when present, it is EXACTLY one of the canonical strings
   below. On TOON/JSON success paths a missing verdict is back-filled with
   `INFO` by the safety net in
-  [`tree_sitter_analyzer/mcp/utils/format_helper.py`](../tree_sitter_analyzer/mcp/utils/format_helper.py)
+  [`codexray/mcp/utils/format_helper.py`](../codexray/mcp/utils/format_helper.py)
   (`apply_toon_format_to_response`), so agents can always branch on it.
 - `agent_summary` (object) — token-lean triage block:
   `summary_line` + `verdict` + `next_step`. `summary_line` is also mirrored
@@ -36,13 +36,13 @@ Every tool response is a JSON object. The typed contract lives in
 ## Verdict alphabet
 
 Source of truth: `CANONICAL_VERDICTS` in
-[`tree_sitter_analyzer/mcp/tools/tool_response.py`](../tree_sitter_analyzer/mcp/tools/tool_response.py)
+[`codexray/mcp/tools/tool_response.py`](../codexray/mcp/tools/tool_response.py)
 (mirrored by `_response_builder.CANONICAL_VERDICTS` and
 `base_tool._LEGAL_VERDICTS`; the response factory `build_response()` rejects
 anything else at construction time). Safety verdicts grade edit risk: the
 modification-guard maps impact `none/low/medium/high` →
 `SAFE/CAUTION/REVIEW/UNSAFE`
-([`tree_sitter_analyzer/mcp/tools/modification_guard_tool.py`](../tree_sitter_analyzer/mcp/tools/modification_guard_tool.py)).
+([`codexray/mcp/tools/modification_guard_tool.py`](../codexray/mcp/tools/modification_guard_tool.py)).
 
 <!-- drift:verdict-alphabet:start -->
 | Verdict | Meaning | Agent obligation |
@@ -74,7 +74,7 @@ a list, the envelope carries all four of:
 | `next_step` | Interpolates the *actual* numbers ("showing 3 of 39 …") and says how to get the rest: raise the limit, or narrow the query. |
 
 Reference implementation:
-[`tree_sitter_analyzer/mcp/tools/callers_tool.py`](../tree_sitter_analyzer/mcp/tools/callers_tool.py)
+[`codexray/mcp/tools/callers_tool.py`](../codexray/mcp/tools/callers_tool.py)
 (see worked example 1). Per-tool field spellings vary (`caller_count` vs
 `total_matches`), but the four-part shape — flag, exact pre-cap total, listed
 count + cap, interpolated `next_step` — is the contract.
@@ -97,10 +97,10 @@ in `toon_content` and keep scalar metadata alongside it. Passing
 `compact_only: true` strips even that metadata down to the **control
 surface** — the only keys an agent may branch on without parsing the TOON
 blob. Source of truth: `TOON_CONTROL_SURFACE` in
-[`tree_sitter_analyzer/mcp/utils/format_helper.py`](../tree_sitter_analyzer/mcp/utils/format_helper.py);
+[`codexray/mcp/utils/format_helper.py`](../codexray/mcp/utils/format_helper.py);
 the reduction (`reduce_to_control_surface`) is idempotent and is re-applied at
 the MCP boundary
-([`tree_sitter_analyzer/mcp/server_utils/tool_registration.py`](../tree_sitter_analyzer/mcp/server_utils/tool_registration.py))
+([`codexray/mcp/server_utils/tool_registration.py`](../codexray/mcp/server_utils/tool_registration.py))
 *after* canonical-envelope normalization re-adds `summary_line`.
 
 <!-- drift:control-surface:start -->
@@ -135,7 +135,7 @@ trimmed and marked.
 ```bash
 uv run python - <<'EOF'
 import asyncio, json
-from tree_sitter_analyzer.mcp.tools.callers_tool import CodeGraphCallersTool
+from codexray.mcp.tools.callers_tool import CodeGraphCallersTool
 
 async def main():
     tool = CodeGraphCallersTool(".")
@@ -161,7 +161,7 @@ EOF
   "listed_cap": 3,
   "truncated": true,
   "warnings": [
-    "stale_cache: most edges have callee_resolution='unknown'. Run `uv run tree-sitter-analyzer --ast-cache --ast-cache-mode index --ast-cache-force` or rebuild with `--mode resolve` to populate Synapse resolution columns."
+    "stale_cache: most edges have callee_resolution='unknown'. Run `uv run codexray --ast-cache --ast-cache-mode index --ast-cache-force` or rebuild with `--mode resolve` to populate Synapse resolution columns."
   ],
   "next_step": "showing 3 of 39 callers — raise limit, or qualify with ClassName.method to narrow (dynamic-dispatch names like 'execute' have huge fan-in). Each caller/callee's source body is inlined under 'body' — answer directly, no Read needed. Coordinate-only entries beyond the top-N can be Read on demand."
 }
@@ -178,12 +178,12 @@ degradation here travels in `warnings` while the verdict stays `INFO`.
 ```bash
 uv run python - <<'EOF'
 import asyncio, json
-from tree_sitter_analyzer.mcp.tools.safe_to_edit_tool import SafeToEditTool
+from codexray.mcp.tools.safe_to_edit_tool import SafeToEditTool
 
 async def main():
     tool = SafeToEditTool(".")
     r = await tool.execute({
-        "file_path": "tree_sitter_analyzer/mcp/utils/format_helper.py",
+        "file_path": "codexray/mcp/utils/format_helper.py",
         "output_format": "json",
     })
     print(json.dumps(r, indent=2))
@@ -195,12 +195,12 @@ EOF
 ```json
 {
   "success": true,
-  "file_path": "tree_sitter_analyzer/mcp/utils/format_helper.py",
+  "file_path": "codexray/mcp/utils/format_helper.py",
   "risk_level": "safe",
   "verdict": "SAFE",
   "recommendation": "SAFE to edit (health A, 0 downstream). Standard test pass after the edit is sufficient.",
   "agent_summary": {
-    "summary_line": "tree_sitter_analyzer/mcp/utils/format_helper.py risk=safe verdict=SAFE health=A tests=yes",
+    "summary_line": "codexray/mcp/utils/format_helper.py risk=safe verdict=SAFE health=A tests=yes",
     "verdict": "SAFE",
     "risk": "safe",
     "edit_strategy": "direct_focused_edit",
@@ -224,12 +224,12 @@ EOF
 ```bash
 uv run python - <<'EOF'
 import asyncio, json
-from tree_sitter_analyzer.mcp.tools.file_health_tool import FileHealthTool
+from codexray.mcp.tools.file_health_tool import FileHealthTool
 
 async def main():
     tool = FileHealthTool(".")
     r = await tool.execute({
-        "file_path": "tree_sitter_analyzer/mcp/utils/format_helper.py",
+        "file_path": "codexray/mcp/utils/format_helper.py",
         "output_format": "toon",
         "compact_only": True,
     })
@@ -247,11 +247,11 @@ top-level keys: ['file_path', 'format', 'success', 'summary_line', 'toon_content
 ```json
 {
   "format": "toon",
-  "toon_content": "success: true\nfile_path: tree_sitter_analyzer/mcp/utils/format_helper.py\ngrade: B\nverdict: SAFE\ntotal_score: 89.5\n...<trimmed — full payload lives here>",
+  "toon_content": "success: true\nfile_path: codexray/mcp/utils/format_helper.py\ngrade: B\nverdict: SAFE\ntotal_score: 89.5\n...<trimmed — full payload lives here>",
   "success": true,
-  "file_path": "tree_sitter_analyzer/mcp/utils/format_helper.py",
+  "file_path": "codexray/mcp/utils/format_helper.py",
   "verdict": "SAFE",
-  "summary_line": "tree_sitter_analyzer/mcp/utils/format_helper.py grade=B score=89.5 smells=1 weakest=dependencies"
+  "summary_line": "codexray/mcp/utils/format_helper.py grade=B score=89.5 smells=1 weakest=dependencies"
 }
 ```
 

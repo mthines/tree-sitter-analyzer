@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import tree_sitter
 
-from tree_sitter_analyzer.languages.bash_plugin import BashPlugin
+from codexray.languages.bash_plugin import BashPlugin
 
 
 def _parse(code: str) -> tuple[tree_sitter.Tree, BashPlugin]:
@@ -97,7 +97,7 @@ class TestCompactTableHeaderNoUnknown:
 
     def test_no_unknown_when_classes_empty(self) -> None:
         """compact_table_header must not return 'Unknown' when classes is []."""
-        from tree_sitter_analyzer.formatters.legacy.compact import (
+        from codexray.formatters.legacy.compact import (
             compact_table_header,
         )
 
@@ -109,7 +109,7 @@ class TestCompactTableHeaderNoUnknown:
 
     def test_uses_filename_stem_when_no_classes(self) -> None:
         """When classes is empty, the header must use the filename without extension."""
-        from tree_sitter_analyzer.formatters.legacy.compact import (
+        from codexray.formatters.legacy.compact import (
             compact_table_header,
         )
 
@@ -120,7 +120,7 @@ class TestCompactTableHeaderNoUnknown:
 
     def test_class_name_still_used_when_classes_present(self) -> None:
         """When classes are present the class name must still be used (not filename)."""
-        from tree_sitter_analyzer.formatters.legacy.compact import (
+        from codexray.formatters.legacy.compact import (
             compact_table_header,
         )
 
@@ -133,7 +133,7 @@ class TestCompactTableHeaderNoUnknown:
 
     def test_package_plus_class_unchanged(self) -> None:
         """Package.ClassName format must be preserved when both are present."""
-        from tree_sitter_analyzer.formatters.legacy.compact import (
+        from codexray.formatters.legacy.compact import (
             compact_table_header,
         )
 
@@ -147,7 +147,7 @@ class TestCompactTableHeaderNoUnknown:
     def test_compact_table_output_no_unknown_for_bash_data(self) -> None:
         """The full compact table output for a Bash-like structure dict must not
         contain '# Unknown' on the header line."""
-        from tree_sitter_analyzer.legacy_table_formatter import LegacyTableFormatter
+        from codexray.legacy_table_formatter import LegacyTableFormatter
 
         formatter = LegacyTableFormatter(format_type="compact", language="bash")
         output = formatter.format_structure(

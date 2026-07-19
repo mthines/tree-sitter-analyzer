@@ -14,8 +14,8 @@ import asyncio
 import time
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
-from tree_sitter_analyzer.mcp.utils.search_cache import (
+from codexray.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.utils.search_cache import (
     clear_cache,
     configure_cache,
     get_default_cache,

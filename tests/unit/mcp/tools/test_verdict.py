@@ -1,4 +1,4 @@
-"""Tests for tree_sitter_analyzer.mcp.tools._verdict.
+"""Tests for codexray.mcp.tools._verdict.
 
 Pins the canonical verdict vocabulary, alias table, and the
 _canonicalize_verdict normalisation function extracted from base_tool.
@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._verdict import (
+from codexray.mcp.tools._verdict import (
     _LEGAL_VERDICTS,
     _VERDICT_ALIASES,
     _canonicalize_verdict,

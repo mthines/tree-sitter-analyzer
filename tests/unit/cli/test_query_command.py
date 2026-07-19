@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.query_command import QueryCommand
+from codexray.cli.commands.query_command import QueryCommand
 
 
 @pytest.fixture
@@ -128,7 +128,7 @@ class TestQueryCommandExecuteQuery:
         ) as mock_execute:
             mock_execute.side_effect = Exception("Test error")
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_error"
+                "codexray.cli.commands.query_command.output_error"
             ) as mock_error:
                 results = await command.execute_query("python", "test_query", "methods")
                 assert results is None
@@ -154,7 +154,7 @@ class TestQueryCommandExecuteAsync:
                     "content": "def test(): pass",
                 }
             ]
-            with patch("tree_sitter_analyzer.cli.commands.query_command.output_data"):
+            with patch("codexray.cli.commands.query_command.output_data"):
                 result = await command.execute_async("python")
                 assert result == 0
                 mock_execute.assert_called_once()
@@ -175,7 +175,7 @@ class TestQueryCommandExecuteAsync:
                     "content": "def test(): pass",
                 }
             ]
-            with patch("tree_sitter_analyzer.cli.commands.query_command.output_data"):
+            with patch("codexray.cli.commands.query_command.output_data"):
                 result = await command.execute_async("python")
                 assert result == 0
                 mock_execute.assert_called_once()
@@ -184,7 +184,7 @@ class TestQueryCommandExecuteAsync:
     async def test_execute_async_no_query(self, command):
         """Test execute_async with no query specified."""
         with patch(
-            "tree_sitter_analyzer.cli.commands.query_command.output_error"
+            "codexray.cli.commands.query_command.output_error"
         ) as mock_error:
             result = await command.execute_async("python")
             assert result == 1
@@ -199,7 +199,7 @@ class TestQueryCommandExecuteAsync:
         ) as mock_available:
             mock_available.return_value = ["methods", "classes"]
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_error"
+                "codexray.cli.commands.query_command.output_error"
             ) as mock_error:
                 result = await command.execute_async("python")
                 assert result == 1
@@ -214,7 +214,7 @@ class TestQueryCommandExecuteAsync:
         ) as mock_validate:
             mock_validate.return_value = (False, "Catastrophic backtracking detected")
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_error"
+                "codexray.cli.commands.query_command.output_error"
             ) as mock_error:
                 result = await command.execute_async("python")
                 assert result == 1
@@ -234,7 +234,7 @@ class TestQueryCommandOutput:
         ) as mock_execute:
             mock_execute.return_value = [{"name": "test"}]
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_json"
+                "codexray.cli.commands.query_command.output_json"
             ) as mock_json:
                 result = await command.execute_async("python")
                 assert result == 0
@@ -272,7 +272,7 @@ class TestQueryCommandOutput:
                 }
             ]
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_data"
+                "codexray.cli.commands.query_command.output_data"
             ) as mock_data:
                 result = await command.execute_async("python")
                 assert result == 0
@@ -287,7 +287,7 @@ class TestQueryCommandOutput:
         ) as mock_execute:
             mock_execute.return_value = []
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_info"
+                "codexray.cli.commands.query_command.output_info"
             ) as mock_info:
                 result = await command.execute_async("python")
                 assert result == 0
@@ -318,7 +318,7 @@ class TestQueryCommandBehavior:
                     }
                 ]
                 with patch(
-                    "tree_sitter_analyzer.cli.commands.query_command.output_data"
+                    "codexray.cli.commands.query_command.output_data"
                 ):
                     await command.execute_async("python")
                     mock_sanitize.assert_called_once()
@@ -359,7 +359,7 @@ class TestQueryCommandBehavior:
                 },
             ]
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_data"
+                "codexray.cli.commands.query_command.output_data"
             ) as mock_data:
                 result = await command.execute_async("python")
                 assert result == 0
@@ -400,7 +400,7 @@ class TestR37acQueryCanonicalEnvelope:
             ]
             captured: dict = {}
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_json",
+                "codexray.cli.commands.query_command.output_json",
                 side_effect=lambda d: (
                     captured.update(d)
                     if isinstance(d, dict)
@@ -436,7 +436,7 @@ class TestR37acQueryCanonicalEnvelope:
             mock_execute.return_value = []
             captured: dict = {}
             with patch(
-                "tree_sitter_analyzer.cli.commands.query_command.output_json",
+                "codexray.cli.commands.query_command.output_json",
                 side_effect=lambda d: (
                     captured.update(d)
                     if isinstance(d, dict)

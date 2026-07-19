@@ -2,7 +2,7 @@
 Test fixtures package.
 
 This package provides reusable test utilities, helpers, and data generators
-for comprehensive testing of the tree-sitter-analyzer codebase.
+for comprehensive testing of the codexray codebase.
 
 Modules:
     coverage_helpers: Utilities for measuring and improving test coverage

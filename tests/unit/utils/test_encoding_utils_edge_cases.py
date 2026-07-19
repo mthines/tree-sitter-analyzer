@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.encoding_utils import (
+from codexray.encoding_utils import (
     EncodingCache,
     EncodingManager,
     clear_encoding_cache,
@@ -74,9 +74,9 @@ class TestEncodingManagerEdge:
         result = EncodingManager.detect_encoding(b"plain ascii")
         assert isinstance(result, str)
 
-    @patch("tree_sitter_analyzer.encoding_utils.CHARDET_AVAILABLE", True)
+    @patch("codexray.encoding_utils.CHARDET_AVAILABLE", True)
     def test_detect_encoding_chardet_none_result(self):
-        with patch("tree_sitter_analyzer.encoding_utils.CHARDET_AVAILABLE", True):
+        with patch("codexray.encoding_utils.CHARDET_AVAILABLE", True):
             with patch("chardet.detect", return_value={"encoding": None}):
                 result = EncodingManager.detect_encoding(b"data")
                 assert isinstance(result, str)
@@ -106,14 +106,14 @@ class TestEncodingManagerEdge:
         assert s == ""
 
     def test_clear_cache(self):
-        from tree_sitter_analyzer.encoding_utils import _encoding_cache
+        from codexray.encoding_utils import _encoding_cache
 
         _encoding_cache.set("test.txt", "utf-8")
         clear_encoding_cache()
         assert get_encoding_cache_size() == 0
 
     def test_get_encoding_cache_size(self):
-        from tree_sitter_analyzer.encoding_utils import _encoding_cache
+        from codexray.encoding_utils import _encoding_cache
 
         _encoding_cache.set("test.txt", "utf-8")
         size = get_encoding_cache_size()
@@ -140,9 +140,9 @@ class TestDetectEncodingBOM:
         enc = EncodingManager.detect_encoding(data)
         assert enc == "utf-16-le"
 
-    @patch("tree_sitter_analyzer.encoding_utils.CHARDET_AVAILABLE", True)
+    @patch("codexray.encoding_utils.CHARDET_AVAILABLE", True)
     def test_chardet_high_confidence(self):
-        with patch("tree_sitter_analyzer.encoding_utils.chardet") as mock_chardet:
+        with patch("codexray.encoding_utils.chardet") as mock_chardet:
             mock_chardet.detect.return_value = {
                 "encoding": "shift_jis",
                 "confidence": 0.95,
@@ -151,9 +151,9 @@ class TestDetectEncodingBOM:
             enc = EncodingManager.detect_encoding(data, "test_sjis.txt")
             assert enc == "shift_jis"
 
-    @patch("tree_sitter_analyzer.encoding_utils.CHARDET_AVAILABLE", True)
+    @patch("codexray.encoding_utils.CHARDET_AVAILABLE", True)
     def test_chardet_exception_falls_back(self):
-        with patch("tree_sitter_analyzer.encoding_utils.chardet") as mock_chardet:
+        with patch("codexray.encoding_utils.chardet") as mock_chardet:
             mock_chardet.detect.side_effect = RuntimeError("chardet crash")
             data = b"\x80\x81\x82"
             enc = EncodingManager.detect_encoding(data)
@@ -200,7 +200,7 @@ class TestWriteFileSafeOSError:
 class TestAsyncReadFileSafe:
     @pytest.mark.asyncio
     async def test_read_async_basic(self, tmp_path):
-        from tree_sitter_analyzer.encoding_utils import read_file_safe_async
+        from codexray.encoding_utils import read_file_safe_async
 
         f = tmp_path / "async_test.txt"
         f.write_text("hello async", encoding="utf-8")
@@ -210,7 +210,7 @@ class TestAsyncReadFileSafe:
 
     @pytest.mark.asyncio
     async def test_read_async_empty_file(self, tmp_path):
-        from tree_sitter_analyzer.encoding_utils import read_file_safe_async
+        from codexray.encoding_utils import read_file_safe_async
 
         f = tmp_path / "empty_async.txt"
         f.write_bytes(b"")
@@ -220,7 +220,7 @@ class TestAsyncReadFileSafe:
 
     @pytest.mark.asyncio
     async def test_read_async_nonexistent(self, tmp_path):
-        from tree_sitter_analyzer.encoding_utils import read_file_safe_async
+        from codexray.encoding_utils import read_file_safe_async
 
         with pytest.raises(OSError):
             await read_file_safe_async(str(tmp_path / "nonexistent.txt"))
@@ -228,7 +228,7 @@ class TestAsyncReadFileSafe:
 
 class TestStreamingRead:
     def test_streaming_read_basic(self, tmp_path):
-        from tree_sitter_analyzer.encoding_utils import read_file_safe_streaming
+        from codexray.encoding_utils import read_file_safe_streaming
 
         f = tmp_path / "stream.txt"
         f.write_text("line1\nline2\nline3\n", encoding="utf-8")
@@ -238,7 +238,7 @@ class TestStreamingRead:
         assert len(lines) == 3
 
     def test_streaming_read_empty_file(self, tmp_path):
-        from tree_sitter_analyzer.encoding_utils import read_file_safe_streaming
+        from codexray.encoding_utils import read_file_safe_streaming
 
         f = tmp_path / "empty_stream.txt"
         f.write_bytes(b"")
@@ -248,7 +248,7 @@ class TestStreamingRead:
         assert content == ""
 
     def test_streaming_read_nonexistent(self, tmp_path):
-        from tree_sitter_analyzer.encoding_utils import read_file_safe_streaming
+        from codexray.encoding_utils import read_file_safe_streaming
 
         with pytest.raises(OSError):
             read_file_safe_streaming(str(tmp_path / "no_file.txt"))

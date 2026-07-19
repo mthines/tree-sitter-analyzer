@@ -18,12 +18,12 @@ try:
 except ImportError:
     TREE_SITTER_SQL_AVAILABLE = False
 
-from tree_sitter_analyzer.languages.sql_plugin import SQLElementExtractor
-from tree_sitter_analyzer.languages.sql_plugin.table_extractor import (
+from codexray.languages.sql_plugin import SQLElementExtractor
+from codexray.languages.sql_plugin.table_extractor import (
     _is_in_sql_comment,
     fill_missing_sql_tables_from_regex,
 )
-from tree_sitter_analyzer.models import SQLFunction, SQLTable
+from codexray.models import SQLFunction, SQLTable
 
 
 def _parse(sql: str):

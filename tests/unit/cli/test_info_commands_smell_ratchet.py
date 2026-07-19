@@ -27,7 +27,7 @@ from pathlib import Path
 import pytest
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-TARGET = PROJECT_ROOT / "tree_sitter_analyzer" / "cli" / "info_commands.py"
+TARGET = PROJECT_ROOT / "codexray" / "cli" / "info_commands.py"
 
 # Ratchet — re-running ``code_patterns`` against ``info_commands.py``
 # must NEVER report more smells than this. Decreasing this number is
@@ -44,7 +44,7 @@ def code_patterns_result() -> dict[str, object]:
     cmd = [
         sys.executable,
         "-m",
-        "tree_sitter_analyzer",
+        "codexray",
         "--code-patterns",
         str(TARGET),
         "--format",

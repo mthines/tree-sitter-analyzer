@@ -29,13 +29,13 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.find_and_grep_cli import (
+from codexray.cli.commands.find_and_grep_cli import (
     _build_parser as build_find_and_grep_parser,
 )
-from tree_sitter_analyzer.cli.commands.list_files_cli import (
+from codexray.cli.commands.list_files_cli import (
     _build_parser as build_list_files_parser,
 )
-from tree_sitter_analyzer.cli.commands.search_content_cli import (
+from codexray.cli.commands.search_content_cli import (
     _build_parser as build_search_content_parser,
 )
 
@@ -151,9 +151,9 @@ def _run_cli(args: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
 
 def _module_for(subcommand: str) -> str:
     return {
-        "search-content": "tree_sitter_analyzer.cli.commands.search_content_cli",
-        "find-and-grep": "tree_sitter_analyzer.cli.commands.find_and_grep_cli",
-        "list-files": "tree_sitter_analyzer.cli.commands.list_files_cli",
+        "search-content": "codexray.cli.commands.search_content_cli",
+        "find-and-grep": "codexray.cli.commands.find_and_grep_cli",
+        "list-files": "codexray.cli.commands.list_files_cli",
     }[subcommand]
 
 

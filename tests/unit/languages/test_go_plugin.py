@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.languages.go_plugin module.
+Tests for codexray.languages.go_plugin module.
 
 This module tests the GoPlugin class which provides Go language
 support in the plugin architecture.
@@ -12,9 +12,9 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.go_plugin import GoElementExtractor, GoPlugin
-from tree_sitter_analyzer.models import Class, Function, Package
-from tree_sitter_analyzer.plugins.base import ElementExtractor, LanguagePlugin
+from codexray.languages.go_plugin import GoElementExtractor, GoPlugin
+from codexray.models import Class, Function, Package
+from codexray.plugins.base import ElementExtractor, LanguagePlugin
 
 
 @pytest.fixture
@@ -191,7 +191,7 @@ func main() {
         assert result.success is False
 
     @pytest.mark.asyncio
-    @patch("tree_sitter_analyzer.languages.go_plugin.GoPlugin.get_tree_sitter_language")
+    @patch("codexray.languages.go_plugin.GoPlugin.get_tree_sitter_language")
     @patch("tree_sitter.Parser")
     async def test_analyze_file_integration(
         self, mock_parser_cls: Mock, mock_get_lang: Mock, go_plugin: GoPlugin
@@ -211,7 +211,7 @@ func main() {
 }
 """
 
-        with patch("tree_sitter_analyzer.encoding_utils.read_file_safe") as mock_read:
+        with patch("codexray.encoding_utils.read_file_safe") as mock_read:
             mock_read.return_value = (file_content, "utf-8")
 
             result = await go_plugin.analyze_file("test.go", None)
@@ -429,7 +429,7 @@ func (s *Service) run(ctx context.Context) {
 """
 
     with patch(
-        "tree_sitter_analyzer.encoding_utils.read_file_safe",
+        "codexray.encoding_utils.read_file_safe",
         return_value=(code, "utf-8"),
     ):
         result = await plugin.analyze_file("test.go", None)

@@ -9,11 +9,11 @@
 - **Last updated**: 2026-06-13
 - **Tracking issue**: #517
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/mcp/tools/` (search facade: new `semantic` action)
-  - `tree_sitter_analyzer/ast_cache.py`, `tree_sitter_analyzer/_ast_cache_schema.py`,
-    `tree_sitter_analyzer/_ast_cache_write.py` (docstring/signature serialization,
+  - `codexray/mcp/tools/` (search facade: new `semantic` action)
+  - `codexray/ast_cache.py`, `codexray/_ast_cache_schema.py`,
+    `codexray/_ast_cache_write.py` (docstring/signature serialization,
     new `symbol_embeddings` table, schema version bump)
-  - `tree_sitter_analyzer/cli_main.py` (new `--search-semantic` flag, CLI twin)
+  - `codexray/cli_main.py` (new `--search-semantic` flag, CLI twin)
   - `tests/unit/mcp/`, `tests/integration/` (RED-first suites below)
 
 > **Revision 2 note.** Round-1 adversarial review (two independent reviewers,
@@ -71,7 +71,7 @@ Reproduction artifacts (Rule 11 — claims carry their commands):
 
 ```bash
 # Query 1/2 baseline, run from repo root at 1cc119b7:
-uv run python -c "from tree_sitter_analyzer.mcp.tools.context_tool import ...  # pinned in tests/integration/semantic/test_motivation_baseline.py"
+uv run python -c "from codexray.mcp.tools.context_tool import ...  # pinned in tests/integration/semantic/test_motivation_baseline.py"
 ```
 
 The baseline lives as an executable test, not prose, so motivation drift is

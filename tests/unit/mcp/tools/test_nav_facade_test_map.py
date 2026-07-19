@@ -31,9 +31,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.call_graph import FunctionRef
-from tree_sitter_analyzer.mcp.tools.codegraph_impact_tool import CodeGraphImpactTool
-from tree_sitter_analyzer.mcp.tools.nav_facade import (
+from codexray.call_graph import FunctionRef
+from codexray.mcp.tools.codegraph_impact_tool import CodeGraphImpactTool
+from codexray.mcp.tools.nav_facade import (
     _MAX_TEST_MAP,
     _is_collectible_caller,
     _is_go_test_func,
@@ -365,7 +365,7 @@ async def test_test_map_symbol_alias_function_name_accepted() -> None:
 
 def test_nav_description_mentions_test_map() -> None:
     """_NAV_DESCRIPTION must include test_map so agents can discover the action."""
-    from tree_sitter_analyzer.mcp.tools.nav_facade import _NAV_DESCRIPTION
+    from codexray.mcp.tools.nav_facade import _NAV_DESCRIPTION
 
     assert "test_map" in _NAV_DESCRIPTION
 
@@ -377,7 +377,7 @@ def test_nav_description_mentions_test_map() -> None:
 
 def test_server_instructions_mention_test_map() -> None:
     """MCP server instructions must document test_map."""
-    from tree_sitter_analyzer.mcp._server_helpers import _SERVER_INSTRUCTIONS
+    from codexray.mcp._server_helpers import _SERVER_INSTRUCTIONS
 
     assert "test_map" in _SERVER_INSTRUCTIONS
 
@@ -389,7 +389,7 @@ def test_server_instructions_mention_test_map() -> None:
 
 def test_cli_test_map_flag_exists() -> None:
     """--test-map must be registered in the argument parser."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     flags = {s for a in parser._actions for s in a.option_strings if s.startswith("--")}
@@ -407,14 +407,14 @@ def test_is_legacy_name_nav_test_map_returns_false() -> None:
     Regression guard: if nav_test_map were ever re-added to LEGACY_TOOL_MAP,
     dispatch_legacy would inject FALSE deprecation envelopes for it.
     """
-    from tree_sitter_analyzer.mcp.facade_map import is_legacy_name
+    from codexray.mcp.facade_map import is_legacy_name
 
     assert is_legacy_name("nav_test_map") is False
 
 
 def test_nav_test_map_in_new_action_parity_not_legacy() -> None:
     """nav_test_map lives in NEW_ACTION_PARITY, NOT LEGACY_TOOL_MAP."""
-    from tree_sitter_analyzer.mcp.facade_map import LEGACY_TOOL_MAP, NEW_ACTION_PARITY
+    from codexray.mcp.facade_map import LEGACY_TOOL_MAP, NEW_ACTION_PARITY
 
     assert "nav_test_map" not in LEGACY_TOOL_MAP
     assert "nav_test_map" in NEW_ACTION_PARITY

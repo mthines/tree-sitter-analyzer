@@ -13,7 +13,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 # Import setup_logger and SafeStreamHandler from utils package
-from tree_sitter_analyzer.utils import SafeStreamHandler, setup_logger
+from codexray.utils import SafeStreamHandler, setup_logger
 
 
 class TestLoggingConfiguration:
@@ -101,7 +101,7 @@ class TestLoggingConfiguration:
         # Verify file handler is writing to temp directory
         file_handler = file_handlers[0]
         log_path = Path(file_handler.baseFilename)
-        assert log_path.name == "tree_sitter_analyzer.log"
+        assert log_path.name == "codexray.log"
 
     def test_custom_log_directory(self):
         """Test custom log directory with TREE_SITTER_ANALYZER_LOG_DIR."""
@@ -121,7 +121,7 @@ class TestLoggingConfiguration:
         file_handler = file_handlers[0]
         log_path = Path(file_handler.baseFilename)
         assert str(log_path.parent) == custom_log_dir
-        assert log_path.name == "tree_sitter_analyzer.log"
+        assert log_path.name == "codexray.log"
 
         # Verify directory was created
         assert Path(custom_log_dir).exists()

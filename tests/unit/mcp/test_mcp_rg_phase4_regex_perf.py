@@ -2,15 +2,15 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools import fd_rg_utils
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools import fd_rg_utils
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -72,7 +72,7 @@ async def test_rg_45_large_output_truncation(monkeypatch, tmp_path):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # DF-1 re-pin: default (no max_count) now applies the 50-listed budget
@@ -111,7 +111,7 @@ async def test_rg_46_word_mode_does_not_match_substrings(monkeypatch, tmp_path):
         return 0, (json.dumps(m) + "\n").encode(), b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute({"roots": [str(tmp_path)], "query": "test", "word": True})
@@ -145,7 +145,7 @@ async def test_rg_47_fixed_strings_escapes_regex(monkeypatch, tmp_path):
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -188,7 +188,7 @@ async def test_rg_50_count_parsing_robust_to_bad_lines(monkeypatch, tmp_path):
         return 0, bad, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -226,7 +226,7 @@ async def test_rg_51_group_by_file_structure(monkeypatch, tmp_path):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -264,7 +264,7 @@ async def test_rg_52_summary_counts_consistent(monkeypatch, tmp_path):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute(
@@ -319,7 +319,7 @@ async def test_rg_53_files_mode_uses_parent_dirs(monkeypatch, tmp_path):
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute({"files": [str(f)], "query": "x"})
@@ -351,7 +351,7 @@ async def test_rg_54_no_json_non_match_events(monkeypatch, tmp_path):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute({"roots": [str(tmp_path)], "query": "x"})
@@ -383,7 +383,7 @@ async def test_rg_55_hidden_files_not_included_by_default(monkeypatch, tmp_path)
         return 0, evt, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     res = await tool.execute({"roots": [str(tmp_path)], "query": "x"})

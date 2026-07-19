@@ -1,6 +1,6 @@
 """Unit tests for project-aware verification command selection."""
 
-from tree_sitter_analyzer.mcp.tools.utils.verification_command import (
+from codexray.mcp.tools.utils.verification_command import (
     DefaultTestCommand,
     build_test_command,
     detect_default_test_command,

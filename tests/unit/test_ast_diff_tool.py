@@ -1,4 +1,4 @@
-"""Tests for tree_sitter_analyzer.mcp.tools.ast_diff_tool — previously ZERO coverage."""
+"""Tests for codexray.mcp.tools.ast_diff_tool — previously ZERO coverage."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.ast_diff_tool import ASTDiffTool
+from codexray.mcp.tools.ast_diff_tool import ASTDiffTool
 
 
 @pytest.fixture
@@ -475,7 +475,7 @@ class TestASTDiffNodeBudget:
         """When include_node_bodies=True and response exceeds budget, set children_truncated."""
         # Patch the budget constant to 1 byte to guarantee truncation
         with patch(
-            "tree_sitter_analyzer.mcp.tools.ast_diff_tool.NODE_BODIES_BUDGET", 1
+            "codexray.mcp.tools.ast_diff_tool.NODE_BODIES_BUDGET", 1
         ):
             result = await tool.execute(
                 {

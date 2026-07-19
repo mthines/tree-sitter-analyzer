@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Unit tests for tree_sitter_analyzer.formatters.yaml_formatter module.
+Unit tests for codexray.formatters.yaml_formatter module.
 
 This module tests YAMLFormatter class.
 """
 
 import pytest
 
-from tree_sitter_analyzer.formatters.yaml_formatter import YAMLFormatter
+from codexray.formatters.yaml_formatter import YAMLFormatter
 
 
 class TestYAMLFormatterInit:

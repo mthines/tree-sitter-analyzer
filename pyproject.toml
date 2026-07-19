@@ -3,7 +3,7 @@ requires = ["hatchling>=1.27,<1.31"]
 build-backend = "hatchling.build"
 
 [project]
-name = "tree-sitter-analyzer"
+name = "codexray"
 version = "1.29.0"
 description = "MCP code-intelligence server for AI agents — a more complete and more correct call graph with classified, cross-file edges. 8 facade MCP tools, 13 curated skills, TOON-compressed output, 100% local."
 readme = "README.md"
@@ -304,56 +304,56 @@ all = [
 ]
 [project.scripts]
 # Main CLI entry point
-tree-sitter-analyzer = "tree_sitter_analyzer.cli_main:main"
+codexray = "codexray.cli_main:main"
 # MCP server entry point
-tree-sitter-analyzer-mcp = "tree_sitter_analyzer.mcp.server:main_sync"
+codexray-mcp = "codexray.mcp.server:main_sync"
 # Doctor / diagnostics entry point
-tree-sitter-analyzer-doctor = "tree_sitter_analyzer.cli_main:main_doctor"
+codexray-doctor = "codexray.cli_main:main_doctor"
 # Mis-Wire Audit — run-on-your-repo cross-language correctness demo
-miswire-audit = "tree_sitter_analyzer.miswire_audit:main"
+miswire-audit = "codexray.miswire_audit:main"
 # Legacy aliases for backward compatibility
-code-analyzer = "tree_sitter_analyzer.cli_main:main"
-java-analyzer = "tree_sitter_analyzer.cli_main:main"
-list-files = "tree_sitter_analyzer.cli.commands.list_files_cli:main"
-search-content = "tree_sitter_analyzer.cli.commands.search_content_cli:main"
-find-and-grep = "tree_sitter_analyzer.cli.commands.find_and_grep_cli:main"
+code-analyzer = "codexray.cli_main:main"
+java-analyzer = "codexray.cli_main:main"
+list-files = "codexray.cli.commands.list_files_cli:main"
+search-content = "codexray.cli.commands.search_content_cli:main"
+find-and-grep = "codexray.cli.commands.find_and_grep_cli:main"
 
-[project.entry-points."tree_sitter_analyzer.plugins"]
+[project.entry-points."codexray.plugins"]
 # Core language plugins (automatically discovered)
-java = "tree_sitter_analyzer.languages.java_plugin:JavaPlugin"
-python = "tree_sitter_analyzer.languages.python_plugin:PythonPlugin"
-javascript = "tree_sitter_analyzer.languages.javascript_plugin:JavaScriptPlugin"
-typescript = "tree_sitter_analyzer.languages.typescript_plugin:TypeScriptPlugin"
-markdown = "tree_sitter_analyzer.languages.markdown_plugin:MarkdownPlugin"
-html = "tree_sitter_analyzer.languages.html_plugin:HtmlPlugin"
-css = "tree_sitter_analyzer.languages.css_plugin:CssPlugin"
-csharp = "tree_sitter_analyzer.languages.csharp_plugin:CSharpPlugin"
-sql = "tree_sitter_analyzer.languages.sql_plugin:SQLPlugin"
-php = "tree_sitter_analyzer.languages.php_plugin:PHPPlugin"
-ruby = "tree_sitter_analyzer.languages.ruby_plugin:RubyPlugin"
-yaml = "tree_sitter_analyzer.languages.yaml_plugin:YAMLPlugin"
-json = "tree_sitter_analyzer.languages.json_plugin:JSONPlugin"
-go = "tree_sitter_analyzer.languages.go_plugin:GoPlugin"
-rust = "tree_sitter_analyzer.languages.rust_plugin:RustPlugin"
-kotlin = "tree_sitter_analyzer.languages.kotlin_plugin:KotlinPlugin"
-c = "tree_sitter_analyzer.languages.c_plugin:CPlugin"
-cpp = "tree_sitter_analyzer.languages.cpp_plugin:CppPlugin"
-swift = "tree_sitter_analyzer.languages.swift_plugin:SwiftPlugin"
-bash = "tree_sitter_analyzer.languages.bash_plugin:BashPlugin"
-scala = "tree_sitter_analyzer.languages.scala_plugin:ScalaPlugin"
+java = "codexray.languages.java_plugin:JavaPlugin"
+python = "codexray.languages.python_plugin:PythonPlugin"
+javascript = "codexray.languages.javascript_plugin:JavaScriptPlugin"
+typescript = "codexray.languages.typescript_plugin:TypeScriptPlugin"
+markdown = "codexray.languages.markdown_plugin:MarkdownPlugin"
+html = "codexray.languages.html_plugin:HtmlPlugin"
+css = "codexray.languages.css_plugin:CssPlugin"
+csharp = "codexray.languages.csharp_plugin:CSharpPlugin"
+sql = "codexray.languages.sql_plugin:SQLPlugin"
+php = "codexray.languages.php_plugin:PHPPlugin"
+ruby = "codexray.languages.ruby_plugin:RubyPlugin"
+yaml = "codexray.languages.yaml_plugin:YAMLPlugin"
+json = "codexray.languages.json_plugin:JSONPlugin"
+go = "codexray.languages.go_plugin:GoPlugin"
+rust = "codexray.languages.rust_plugin:RustPlugin"
+kotlin = "codexray.languages.kotlin_plugin:KotlinPlugin"
+c = "codexray.languages.c_plugin:CPlugin"
+cpp = "codexray.languages.cpp_plugin:CppPlugin"
+swift = "codexray.languages.swift_plugin:SwiftPlugin"
+bash = "codexray.languages.bash_plugin:BashPlugin"
+scala = "codexray.languages.scala_plugin:ScalaPlugin"
 
 [project.urls]
-Homepage = "https://github.com/mthines/tree-sitter-analyzer"
-Documentation = "https://github.com/mthines/tree-sitter-analyzer#readme"
-Repository = "https://github.com/mthines/tree-sitter-analyzer.git"
-Issues = "https://github.com/mthines/tree-sitter-analyzer/issues"
-Changelog = "https://github.com/mthines/tree-sitter-analyzer/blob/main/CHANGELOG.md"
-"Bug Reports" = "https://github.com/mthines/tree-sitter-analyzer/issues"
-"Source Code" = "https://github.com/mthines/tree-sitter-analyzer"
+Homepage = "https://github.com/mthines/codexray"
+Documentation = "https://github.com/mthines/codexray#readme"
+Repository = "https://github.com/mthines/codexray.git"
+Issues = "https://github.com/mthines/codexray/issues"
+Changelog = "https://github.com/mthines/codexray/blob/main/CHANGELOG.md"
+"Bug Reports" = "https://github.com/mthines/codexray/issues"
+"Source Code" = "https://github.com/mthines/codexray"
 Upstream = "https://github.com/aimasteracc/tree-sitter-analyzer"
 
 [tool.hatch.build.targets.wheel]
-packages = ["tree_sitter_analyzer"]
+packages = ["codexray"]
 
 [tool.hatch.build.targets.sdist]
 exclude = [
@@ -399,7 +399,7 @@ include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
-known_first_party = ["tree_sitter_analyzer"]
+known_first_party = ["codexray"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 
 [tool.mypy]
@@ -474,75 +474,75 @@ ignore_missing_imports = true
 # mypy as a useful gate, eliminating the routine need for --no-verify.
 [[tool.mypy.overrides]]
 module = [
-    "tree_sitter_analyzer._api_query_helpers",
-    "tree_sitter_analyzer._api_result_helpers",
-    "tree_sitter_analyzer._encoding_detection",
-    "tree_sitter_analyzer.cli.parser_readiness",
-    "tree_sitter_analyzer.cli.parser_readiness_package",
-    "tree_sitter_analyzer.cli.parser_readiness_records",
-    "tree_sitter_analyzer.cli.parser_readiness_sources",
-    "tree_sitter_analyzer.core._analysis_engine_analysis_mixin",
-    "tree_sitter_analyzer.core._analysis_engine_code_mixin",
-    "tree_sitter_analyzer.core._analysis_engine_file_mixin",
-    "tree_sitter_analyzer.core._analysis_engine_runtime_mixin",
-    "tree_sitter_analyzer.core._query_execution",
-    "tree_sitter_analyzer.formatters._cpp_formatter_helpers",
-    "tree_sitter_analyzer.formatters._java_formatter_class_mixin",
-    "tree_sitter_analyzer.formatters._java_formatter_compact_mixin",
-    "tree_sitter_analyzer.formatters._java_formatter_full_mixin",
-    "tree_sitter_analyzer.formatters._javascript_formatter_rows_mixin",
-    "tree_sitter_analyzer.formatters._python_formatter_compact",
-    "tree_sitter_analyzer.formatters._python_formatter_full_classes",
-    "tree_sitter_analyzer.formatters._python_formatter_full_functions",
-    "tree_sitter_analyzer.formatters._python_formatter_rows",
-    "tree_sitter_analyzer.formatters._python_formatter_signatures",
-    "tree_sitter_analyzer.formatters._sql_formatter_wrapper_extractors",
-    "tree_sitter_analyzer.formatters._sql_formatters_helpers",
-    "tree_sitter_analyzer.formatters._typescript_formatter_helpers",
-    "tree_sitter_analyzer.formatters.sql_formatters",
-    "tree_sitter_analyzer.incremental_sync",
-    "tree_sitter_analyzer.language_loader",
-    "tree_sitter_analyzer.languages._cpp_plugin_template_helpers",
-    "tree_sitter_analyzer.languages._go_common_helpers",
-    "tree_sitter_analyzer.languages._go_type_helpers",
-    "tree_sitter_analyzer.languages._java_ast_helpers",
-    "tree_sitter_analyzer.languages._java_traversal_helpers",
-    "tree_sitter_analyzer.languages._swift_plugin_nodes",
-    "tree_sitter_analyzer.languages.cpp_plugin",
-    "tree_sitter_analyzer.languages.json_plugin",
-    "tree_sitter_analyzer.languages.javascript_plugin._function_mixin",
-    "tree_sitter_analyzer.languages.javascript_plugin._import_export_mixin",
-    "tree_sitter_analyzer.languages.javascript_plugin._public_extraction_mixin",
-    "tree_sitter_analyzer.languages.javascript_plugin._utility_mixin",
-    "tree_sitter_analyzer.languages.javascript_plugin.extractor",
-    "tree_sitter_analyzer.languages.markdown_plugin._misc_inline_extractor_helpers",
-    "tree_sitter_analyzer.languages.markdown_plugin.extractor",
-    "tree_sitter_analyzer.languages.markdown_plugin.private_extraction",
-    "tree_sitter_analyzer.languages.markdown_plugin.public_extraction",
-    "tree_sitter_analyzer.languages.python_plugin._class_extractor_mixin",
-    "tree_sitter_analyzer.languages.python_plugin._core_extractor_mixin",
-    "tree_sitter_analyzer.languages.python_plugin._function_extractor_mixin",
-    "tree_sitter_analyzer.languages.python_plugin._import_package_mixin",
-    "tree_sitter_analyzer.languages.python_plugin._signature_helpers",
-    "tree_sitter_analyzer.languages.sql_plugin.extractor",
-    "tree_sitter_analyzer.languages.sql_plugin.plugin",
-    "tree_sitter_analyzer.languages.typescript_plugin._signature_helpers",
-    "tree_sitter_analyzer.languages.typescript_plugin.extractor",
-    "tree_sitter_analyzer.mcp.server",
-    "tree_sitter_analyzer.mcp.server_utils.tool_registration",
-    "tree_sitter_analyzer.mcp.tools.ast_cache_tool",
-    "tree_sitter_analyzer.mcp.tools.code_patterns_tool",
-    "tree_sitter_analyzer.mcp.tools.find_and_grep_tool",
-    "tree_sitter_analyzer.mcp.tools.search_content_helpers",
-    "tree_sitter_analyzer.mcp.tools.search_content_response",
-    "tree_sitter_analyzer.mcp.tools.search_content_response_modes",
-    "tree_sitter_analyzer.mcp.tools.utils.file_health_response",
-    "tree_sitter_analyzer.mcp.tools.utils.file_health_smells",
-    "tree_sitter_analyzer.mcp.tools.utils.refactoring_suggestions_helpers",
-    "tree_sitter_analyzer.platform_compat.profiles",
-    "tree_sitter_analyzer.plugins._base_traverse_mixin",
-    "tree_sitter_analyzer.plugins._manager_helpers",
-    "tree_sitter_analyzer.plugins.base",
+    "codexray._api_query_helpers",
+    "codexray._api_result_helpers",
+    "codexray._encoding_detection",
+    "codexray.cli.parser_readiness",
+    "codexray.cli.parser_readiness_package",
+    "codexray.cli.parser_readiness_records",
+    "codexray.cli.parser_readiness_sources",
+    "codexray.core._analysis_engine_analysis_mixin",
+    "codexray.core._analysis_engine_code_mixin",
+    "codexray.core._analysis_engine_file_mixin",
+    "codexray.core._analysis_engine_runtime_mixin",
+    "codexray.core._query_execution",
+    "codexray.formatters._cpp_formatter_helpers",
+    "codexray.formatters._java_formatter_class_mixin",
+    "codexray.formatters._java_formatter_compact_mixin",
+    "codexray.formatters._java_formatter_full_mixin",
+    "codexray.formatters._javascript_formatter_rows_mixin",
+    "codexray.formatters._python_formatter_compact",
+    "codexray.formatters._python_formatter_full_classes",
+    "codexray.formatters._python_formatter_full_functions",
+    "codexray.formatters._python_formatter_rows",
+    "codexray.formatters._python_formatter_signatures",
+    "codexray.formatters._sql_formatter_wrapper_extractors",
+    "codexray.formatters._sql_formatters_helpers",
+    "codexray.formatters._typescript_formatter_helpers",
+    "codexray.formatters.sql_formatters",
+    "codexray.incremental_sync",
+    "codexray.language_loader",
+    "codexray.languages._cpp_plugin_template_helpers",
+    "codexray.languages._go_common_helpers",
+    "codexray.languages._go_type_helpers",
+    "codexray.languages._java_ast_helpers",
+    "codexray.languages._java_traversal_helpers",
+    "codexray.languages._swift_plugin_nodes",
+    "codexray.languages.cpp_plugin",
+    "codexray.languages.json_plugin",
+    "codexray.languages.javascript_plugin._function_mixin",
+    "codexray.languages.javascript_plugin._import_export_mixin",
+    "codexray.languages.javascript_plugin._public_extraction_mixin",
+    "codexray.languages.javascript_plugin._utility_mixin",
+    "codexray.languages.javascript_plugin.extractor",
+    "codexray.languages.markdown_plugin._misc_inline_extractor_helpers",
+    "codexray.languages.markdown_plugin.extractor",
+    "codexray.languages.markdown_plugin.private_extraction",
+    "codexray.languages.markdown_plugin.public_extraction",
+    "codexray.languages.python_plugin._class_extractor_mixin",
+    "codexray.languages.python_plugin._core_extractor_mixin",
+    "codexray.languages.python_plugin._function_extractor_mixin",
+    "codexray.languages.python_plugin._import_package_mixin",
+    "codexray.languages.python_plugin._signature_helpers",
+    "codexray.languages.sql_plugin.extractor",
+    "codexray.languages.sql_plugin.plugin",
+    "codexray.languages.typescript_plugin._signature_helpers",
+    "codexray.languages.typescript_plugin.extractor",
+    "codexray.mcp.server",
+    "codexray.mcp.server_utils.tool_registration",
+    "codexray.mcp.tools.ast_cache_tool",
+    "codexray.mcp.tools.code_patterns_tool",
+    "codexray.mcp.tools.find_and_grep_tool",
+    "codexray.mcp.tools.search_content_helpers",
+    "codexray.mcp.tools.search_content_response",
+    "codexray.mcp.tools.search_content_response_modes",
+    "codexray.mcp.tools.utils.file_health_response",
+    "codexray.mcp.tools.utils.file_health_smells",
+    "codexray.mcp.tools.utils.refactoring_suggestions_helpers",
+    "codexray.platform_compat.profiles",
+    "codexray.plugins._base_traverse_mixin",
+    "codexray.plugins._manager_helpers",
+    "codexray.plugins.base",
 ]
 disable_error_code = [
     "attr-defined",
@@ -570,7 +570,7 @@ disable_error_code = [
 warn_unused_ignores = false
 
 [tool.coverage.run]
-source = ["tree_sitter_analyzer"]
+source = ["codexray"]
 omit = [
     "*/tests/*",
     "*/archived_files/*",
@@ -602,7 +602,7 @@ directory = "htmlcov"
 
 # MCP server configuration
 [tool.mcp]
-server_name = "tree-sitter-analyzer"
+server_name = "codexray"
 server_version = "1.29.0"
 description = "AI-era enterprise-grade code analysis MCP server with comprehensive HTML/CSS support and multi-language capabilities"
 capabilities = [
@@ -640,10 +640,10 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["B011"]
 "tests/fixtures/project_graph/**/*.py" = ["F401", "I001"]
-"tree_sitter_analyzer/ast_cache.py" = ["I001"]
+"codexray/ast_cache.py" = ["I001"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["tree_sitter_analyzer"]
+known-first-party = ["codexray"]
 
 [tool.bandit]
 exclude_dirs = ["tests", "archived_files"]
@@ -670,11 +670,11 @@ skips = ["B101", "B601", "B404", "B603", "B607", "B110", "B112", "B608"]
 #
 # NOTE: mutmut relies on os.fork — run on Linux (ubuntu-latest) only; NOT Windows.
 source_paths = [
-    "tree_sitter_analyzer/ast_diff.py",
-    "tree_sitter_analyzer/semantic_change_classifier.py",
-    "tree_sitter_analyzer/mcp/tools/facade_tool.py",
-    "tree_sitter_analyzer/mcp/tools/query_symbol_search.py",
-    "tree_sitter_analyzer/formatters/toon_encoder.py",
+    "codexray/ast_diff.py",
+    "codexray/semantic_change_classifier.py",
+    "codexray/mcp/tools/facade_tool.py",
+    "codexray/mcp/tools/query_symbol_search.py",
+    "codexray/formatters/toon_encoder.py",
 ]
 # Targeted test files per mutated module (reduces per-mutant runtime vs full suite).
 pytest_add_cli_args_test_selection = [

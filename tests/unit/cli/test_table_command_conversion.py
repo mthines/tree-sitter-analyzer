@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.table_command import TableCommand
+from codexray.cli.commands.table_command import TableCommand
 
 
 @pytest.fixture
@@ -76,7 +76,7 @@ class TestTableCommandConvertToStructureFormat:
 
     def test_convert_to_structure_format_with_class(self, command):
         """Test _convert_to_structure_format with class element."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_class = MagicMock()
         mock_class.name = "TestClass"
@@ -101,7 +101,7 @@ class TestTableCommandConvertToStructureFormat:
 
     def test_convert_to_structure_format_with_method(self, command):
         """Test _convert_to_structure_format with method element."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         mock_method = MagicMock()
         mock_method.name = "testMethod"
@@ -127,7 +127,7 @@ class TestTableCommandConvertToStructureFormat:
 
     def test_convert_to_structure_format_with_field(self, command):
         """Test _convert_to_structure_format with field element."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_VARIABLE
+        from codexray.constants import ELEMENT_TYPE_VARIABLE
 
         mock_field = MagicMock()
         mock_field.name = "testField"
@@ -152,7 +152,7 @@ class TestTableCommandConvertToStructureFormat:
 
     def test_convert_to_structure_format_statistics(self, command):
         """Test _convert_to_structure_format includes statistics."""
-        from tree_sitter_analyzer.constants import (
+        from codexray.constants import (
             ELEMENT_TYPE_CLASS,
             ELEMENT_TYPE_FUNCTION,
         )
@@ -196,7 +196,7 @@ class TestTableCommandConvertClassElement:
 
     def test_convert_class_element_basic(self, command):
         """Test _convert_class_element with basic class."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_class = MagicMock()
         mock_class.name = "TestClass"
@@ -213,7 +213,7 @@ class TestTableCommandConvertClassElement:
 
     def test_convert_class_element_no_name(self, command):
         """Test _convert_class_element with no name."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_class = MagicMock()
         mock_class.name = None
@@ -228,7 +228,7 @@ class TestTableCommandConvertClassElement:
 
     def test_convert_class_element_interface(self, command):
         """Test _convert_class_element with interface."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_class = MagicMock()
         mock_class.name = "TestInterface"
@@ -247,7 +247,7 @@ class TestTableCommandConvertFunctionElement:
 
     def test_convert_function_element_basic(self, command):
         """Test _convert_function_element with basic function."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         mock_function = MagicMock()
         mock_function.name = "testFunction"
@@ -270,7 +270,7 @@ class TestTableCommandConvertFunctionElement:
 
     def test_convert_function_element_with_parameters(self, command):
         """Test _convert_function_element with parameters."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         mock_function = MagicMock()
         mock_function.name = "testFunction"
@@ -291,7 +291,7 @@ class TestTableCommandConvertFunctionElement:
 
     def test_convert_function_element_constructor(self, command):
         """Test _convert_function_element with constructor."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         mock_function = MagicMock()
         mock_function.name = "__init__"
@@ -310,7 +310,7 @@ class TestTableCommandConvertFunctionElement:
 
     def test_convert_function_element_with_javadoc(self, command):
         """Test _convert_function_element with javadoc enabled."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         command.args.include_javadoc = True
         mock_function = MagicMock()
@@ -331,7 +331,7 @@ class TestTableCommandConvertFunctionElement:
 
     def test_convert_function_element_is_async_propagated(self, command):
         """#774: is_async must appear in the table-command method dict."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         mock_function = MagicMock()
         mock_function.name = "fetchData"
@@ -353,7 +353,7 @@ class TestTableCommandConvertFunctionElement:
 
     def test_convert_function_element_is_abstract_propagated(self, command):
         """#774: is_abstract must appear in the table-command method dict."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         mock_function = MagicMock()
         mock_function.name = "validate"
@@ -375,7 +375,7 @@ class TestTableCommandConvertFunctionElement:
 
     def test_convert_function_element_default_false_when_absent(self, command):
         """#774: is_async/is_abstract default to False when not set on element."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         class MinimalElement:
             name = "foo"
@@ -400,7 +400,7 @@ class TestTableCommandConvertVariableElement:
 
     def test_convert_variable_element_basic(self, command):
         """Test _convert_variable_element with basic variable."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_VARIABLE
+        from codexray.constants import ELEMENT_TYPE_VARIABLE
 
         mock_variable = MagicMock()
         mock_variable.name = "testVar"
@@ -419,7 +419,7 @@ class TestTableCommandConvertVariableElement:
 
     def test_convert_variable_element_python(self, command):
         """Test _convert_variable_element for Python."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_VARIABLE
+        from codexray.constants import ELEMENT_TYPE_VARIABLE
 
         mock_variable = MagicMock()
         mock_variable.name = "testVar"
@@ -435,7 +435,7 @@ class TestTableCommandConvertVariableElement:
 
     def test_convert_variable_element_with_javadoc(self, command):
         """Test _convert_variable_element with javadoc enabled."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_VARIABLE
+        from codexray.constants import ELEMENT_TYPE_VARIABLE
 
         command.args.include_javadoc = True
         mock_variable = MagicMock()
@@ -457,7 +457,7 @@ class TestTableCommandConvertImportElement:
 
     def test_convert_import_element_basic(self, command):
         """Test _convert_import_element with basic import."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_IMPORT
+        from codexray.constants import ELEMENT_TYPE_IMPORT
 
         mock_import = MagicMock()
         mock_import.name = "os"
@@ -472,7 +472,7 @@ class TestTableCommandConvertImportElement:
 
     def test_convert_import_element_no_raw_text(self, command):
         """Test _convert_import_element without raw_text."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_IMPORT
+        from codexray.constants import ELEMENT_TYPE_IMPORT
 
         mock_import = MagicMock()
         mock_import.name = "sys"
@@ -583,7 +583,7 @@ class TestR37abTableJsonCanonicalEnvelope:
     """
 
     def test_table_json_envelope_attached(self):
-        from tree_sitter_analyzer.cli.commands.table_command import (
+        from codexray.cli.commands.table_command import (
             _attach_table_envelope,
         )
 
@@ -618,7 +618,7 @@ class TestR37abTableJsonCanonicalEnvelope:
 
     def test_table_json_falls_back_to_list_length_when_stats_missing(self):
         """If ``statistics`` is absent, counts derive from list lengths."""
-        from tree_sitter_analyzer.cli.commands.table_command import (
+        from codexray.cli.commands.table_command import (
             _attach_table_envelope,
         )
 

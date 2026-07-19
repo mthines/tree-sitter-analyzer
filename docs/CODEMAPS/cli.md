@@ -7,8 +7,8 @@ Five console-script entry points + flag-based dispatch through `cli_main.py`.
 
 | Command | Module | Default format |
 |---|---|---|
-| `tree-sitter-analyzer` | `cli_main.py` | `json` |
-| `tree-sitter-analyzer-mcp` | `mcp/server.py` (stdio) | `toon` |
+| `codexray` | `cli_main.py` | `json` |
+| `codexray-mcp` | `mcp/server.py` (stdio) | `toon` |
 | `find-and-grep` | `cli/commands/find_and_grep_cli.py` | `json` |
 | `list-files` | `cli/commands/list_files_cli.py` | `json` |
 | `search-content` | `cli/commands/search_content_cli.py` | `json` |
@@ -146,7 +146,7 @@ After any code edit, agents should run the per-change verification command surfa
 `--change-impact`:
 
 ```bash
-uv run python -m tree_sitter_analyzer --change-impact --format json
+uv run python -m codexray --change-impact --format json
 # → look at agent_summary.verification_command
 ```
 

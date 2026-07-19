@@ -11,7 +11,7 @@ def run_analyzer(input_file: str, table_format: str) -> str:
     cmd = [
         sys.executable,
         "-m",
-        "tree_sitter_analyzer",
+        "codexray",
         input_file,
         "--table",
         table_format,

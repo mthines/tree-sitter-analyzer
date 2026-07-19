@@ -10,8 +10,8 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from tree_sitter_analyzer import uml_export
-from tree_sitter_analyzer.uml_export import (
+from codexray import uml_export
+from codexray.uml_export import (
     UMLEdge,
     UMLExporter,
     render_class_mermaid,
@@ -284,8 +284,8 @@ def test_state_diagram_relative_path_resolved_against_project_root(
 
 def test_render_state_mermaid_truncated_adds_note() -> None:
     """render_state_mermaid with truncated=True appends the truncation note (line 224)."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
-    from tree_sitter_analyzer.uml_state import StateTransition
+    from codexray.uml_export import render_state_mermaid
+    from codexray.uml_state import StateTransition
 
     transitions = [StateTransition(source="A", target="B")]
     mermaid = render_state_mermaid(["A", "B"], transitions, truncated=True)
@@ -294,7 +294,7 @@ def test_render_state_mermaid_truncated_adds_note() -> None:
 
 def test_render_state_mermaid_not_truncated_no_note() -> None:
     """render_state_mermaid with truncated=False does NOT add truncation note."""
-    from tree_sitter_analyzer.uml_export import render_state_mermaid
+    from codexray.uml_export import render_state_mermaid
 
     mermaid = render_state_mermaid(["A"], [], truncated=False)
     assert "%% NOTE: diagram truncated" not in mermaid
@@ -307,7 +307,7 @@ def test_render_state_mermaid_not_truncated_no_note() -> None:
 
 def test_uml_edge_to_dict_includes_label_when_present() -> None:
     """UMLEdge.to_dict includes 'label' key when label is non-empty (line 55)."""
-    from tree_sitter_analyzer.uml_export import UMLEdge
+    from codexray.uml_export import UMLEdge
 
     edge = UMLEdge(source="A", target="B", label="calls", weight=1)
     d = edge.to_dict()
@@ -320,7 +320,7 @@ def test_uml_edge_to_dict_includes_label_when_present() -> None:
 
 def test_uml_edge_to_dict_no_label_key_when_empty() -> None:
     """UMLEdge.to_dict omits 'label' key when label is empty string."""
-    from tree_sitter_analyzer.uml_export import UMLEdge
+    from codexray.uml_export import UMLEdge
 
     edge = UMLEdge(source="X", target="Y")
     d = edge.to_dict()
@@ -334,7 +334,7 @@ def test_uml_edge_to_dict_no_label_key_when_empty() -> None:
 
 def test_safe_id_digit_leading_name_gets_n_prefix() -> None:
     """_safe_id prepends 'N_' when the sanitized name starts with a digit (line 86)."""
-    from tree_sitter_analyzer.uml_export import _safe_id
+    from codexray.uml_export import _safe_id
 
     # "123abc" starts with a digit → must be prefixed
     result = _safe_id("123abc")
@@ -344,7 +344,7 @@ def test_safe_id_digit_leading_name_gets_n_prefix() -> None:
 
 def test_safe_id_normal_name_unchanged() -> None:
     """_safe_id returns the name unchanged when it starts with a letter."""
-    from tree_sitter_analyzer.uml_export import _safe_id
+    from codexray.uml_export import _safe_id
 
     assert _safe_id("MyClass") == "MyClass"
 
@@ -356,7 +356,7 @@ def test_safe_id_normal_name_unchanged() -> None:
 
 def test_render_flowchart_mermaid_empty_nodes_and_edges() -> None:
     """render_flowchart_mermaid with no nodes and no edges emits the empty sentinel (lines 180-181)."""
-    from tree_sitter_analyzer.uml_export import render_flowchart_mermaid
+    from codexray.uml_export import render_flowchart_mermaid
 
     mermaid = render_flowchart_mermaid([], [])
     assert "No edges found" in mermaid
@@ -369,21 +369,21 @@ def test_render_flowchart_mermaid_empty_nodes_and_edges() -> None:
 
 def test_file_matches_returns_false_when_cls_file_empty() -> None:
     """_file_matches returns False when cls_file is empty (line 263 guard)."""
-    from tree_sitter_analyzer.uml_export import _file_matches
+    from codexray.uml_export import _file_matches
 
     assert _file_matches("", "src/a.py") is False
 
 
 def test_file_matches_returns_false_when_filter_path_empty() -> None:
     """_file_matches returns False when filter_path is empty (line 263 guard)."""
-    from tree_sitter_analyzer.uml_export import _file_matches
+    from codexray.uml_export import _file_matches
 
     assert _file_matches("src/a.py", "") is False
 
 
 def test_file_matches_returns_false_when_both_empty() -> None:
     """_file_matches returns False when both are empty (line 263 guard)."""
-    from tree_sitter_analyzer.uml_export import _file_matches
+    from codexray.uml_export import _file_matches
 
     assert _file_matches("", "") is False
 
@@ -395,7 +395,7 @@ def test_file_matches_returns_false_when_both_empty() -> None:
 
 def test_is_neighbourhood_returns_false_when_center_none() -> None:
     """_is_neighbourhood returns False immediately when center is None (line 281)."""
-    from tree_sitter_analyzer.uml_export import _is_neighbourhood
+    from codexray.uml_export import _is_neighbourhood
 
     result = _is_neighbourhood("Child", {"name": "Child", "parents": []}, None, [])
     assert result is False
@@ -411,7 +411,7 @@ def test_state_diagram_no_file_no_class_returns_not_found(tmp_path: Path) -> Non
 
     No file_path given, no class_name → resolved_path stays empty → early NOT_FOUND.
     """
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.state_diagram()
@@ -440,7 +440,7 @@ def test_state_diagram_class_name_no_file_path_hierarchy_lookup(
     The ClassHierarchy used inside state_diagram is imported locally as
     ``from .class_hierarchy import ClassHierarchy``, so we patch via the module.
     """
-    import tree_sitter_analyzer.class_hierarchy as _ch_module
+    import codexray.class_hierarchy as _ch_module
 
     # Write a real FSM file so the scan can succeed
     src = tmp_path / "light.py"
@@ -498,7 +498,7 @@ def test_state_diagram_class_name_not_in_hierarchy_returns_not_found(
 
     Exercises the path where resolved_path stays empty after hierarchy scan (line 740).
     """
-    import tree_sitter_analyzer.class_hierarchy as _ch_module
+    import codexray.class_hierarchy as _ch_module
 
     class FakeHierarchy:
         def __init__(self, cache: object) -> None:
@@ -530,7 +530,7 @@ def test_state_diagram_class_in_hierarchy_with_empty_file_falls_through(
     Exercises lines 726->733 (cf empty branch) and 733->723 (continue loop) and
     eventually falls through to NOT_FOUND at line 740.
     """
-    import tree_sitter_analyzer.class_hierarchy as _ch_module
+    import codexray.class_hierarchy as _ch_module
 
     class FakeHierarchy:
         def __init__(self, cache: object) -> None:
@@ -566,7 +566,7 @@ def test_state_diagram_class_hierarchy_owned_cache_closed(
     creates a new ASTCache with should_close=True. The finally block must call
     cache.close() — exercises line 737.
     """
-    import tree_sitter_analyzer.class_hierarchy as _ch_module
+    import codexray.class_hierarchy as _ch_module
 
     closed: list[bool] = []
 
@@ -588,7 +588,7 @@ def test_state_diagram_class_hierarchy_owned_cache_closed(
             return []
 
     monkeypatch.setattr(_ch_module, "ClassHierarchy", FakeHierarchy)
-    monkeypatch.setattr("tree_sitter_analyzer.ast_cache.ASTCache", FakeCache)
+    monkeypatch.setattr("codexray.ast_cache.ASTCache", FakeCache)
 
     # No cache passed → _open_cache creates FakeCache with should_close=True
     exporter = UMLExporter(str(tmp_path))

@@ -2,7 +2,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible import (
+from codexray.mcp.tools.analyze_scale_tool_cli_compatible import (
     AnalyzeScaleToolCLICompatible,
 )
 
@@ -10,7 +10,7 @@ from tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible import (
 @pytest.fixture
 def tool():
     with patch(
-        "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.get_analysis_engine"
+        "codexray.mcp.tools.analyze_scale_tool_cli_compatible.get_analysis_engine"
     ):
         return AnalyzeScaleToolCLICompatible()
 
@@ -111,7 +111,7 @@ class TestExecute:
         with (
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
                 return_value="unknown",
             ),
         ):
@@ -143,11 +143,11 @@ class TestExecute:
         with (
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.core.analysis_engine.AnalysisRequest"
+                "codexray.core.analysis_engine.AnalysisRequest"
             ) as MockReq,
             patch.object(
                 tool.analysis_engine,
@@ -180,11 +180,11 @@ class TestExecute:
         with (
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.core.analysis_engine.AnalysisRequest"
+                "codexray.core.analysis_engine.AnalysisRequest"
             ) as MockReq,
             patch.object(
                 tool.analysis_engine,
@@ -211,11 +211,11 @@ class TestExecute:
         with (
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.core.analysis_engine.AnalysisRequest"
+                "codexray.core.analysis_engine.AnalysisRequest"
             ) as MockReq,
             patch.object(
                 tool.analysis_engine,
@@ -241,11 +241,11 @@ class TestExecute:
         with (
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.core.analysis_engine.AnalysisRequest"
+                "codexray.core.analysis_engine.AnalysisRequest"
             ) as MockReq,
             patch.object(
                 tool.analysis_engine,
@@ -265,11 +265,11 @@ class TestExecute:
         with (
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.core.analysis_engine.AnalysisRequest"
+                "codexray.core.analysis_engine.AnalysisRequest"
             ) as MockReq,
             patch.object(
                 tool.analysis_engine,
@@ -297,7 +297,7 @@ class TestExecute:
         with (
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.core.analysis_engine.AnalysisRequest"
+                "codexray.core.analysis_engine.AnalysisRequest"
             ) as MockReq,
             patch.object(
                 tool.analysis_engine,
@@ -327,11 +327,11 @@ class TestExecute:
         with (
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
                 return_value="python",
             ),
             patch(
-                "tree_sitter_analyzer.core.analysis_engine.AnalysisRequest"
+                "codexray.core.analysis_engine.AnalysisRequest"
             ) as MockReq,
             patch.object(
                 tool.analysis_engine,

@@ -17,8 +17,8 @@ except ImportError:  # Python 3.10 — fall back to the tomli back-port
     import tomli as tomllib
 from hypothesis import settings as hypothesis_settings
 
-from tree_sitter_analyzer.cli_main import create_argument_parser
-from tree_sitter_analyzer.mcp.server import _create_tool_registry
+from codexray.cli_main import create_argument_parser
+from codexray.mcp.server import _create_tool_registry
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SKIPPED_SCAN_DIRS = {
@@ -59,8 +59,8 @@ def test_registered_mcp_tools_have_codemap_parity() -> None:
         if m:
             codemap_tools.add(m.group(1))
 
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
-    from tree_sitter_analyzer.mcp.facade_map import (
+    from codexray.mcp._tool_registry import create_tool_registry
+    from codexray.mcp.facade_map import (
         FACADE_NAMES,
         LEGACY_TOOL_MAP,
         NEW_ACTION_PARITY,
@@ -112,7 +112,7 @@ def test_registered_mcp_tools_have_skill_parity() -> None:
         # skills yet, the contract degrades to "no requirement".
         return
 
-    tool_re = re.compile(r"^\s*-\s*mcp__tree-sitter-analyzer__([a-z_]+)\s*$")
+    tool_re = re.compile(r"^\s*-\s*mcp__codexray__([a-z_]+)\s*$")
     covered: set[str] = set()
     skill_files = sorted(skills_dir.glob("tsa-*/SKILL.md"))
     for skill_path in skill_files:
@@ -139,7 +139,7 @@ def test_registered_mcp_tools_have_skill_parity() -> None:
     # known to be stale (see Pain pass 2 / pain #26 comments in the
     # central registry). The skill layer must align with the *canonical*
     # tool list, not the historical drift in ``server.py``.
-    from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+    from codexray.mcp._tool_registry import create_tool_registry
 
     registered = {name for name, _tool in create_tool_registry(str(PROJECT_ROOT))[0]}
 

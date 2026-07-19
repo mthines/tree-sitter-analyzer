@@ -1,13 +1,13 @@
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -46,7 +46,7 @@ async def test_list_files_exec_happy_path(monkeypatch, tmp_path):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -76,7 +76,7 @@ async def test_list_files_exclude(monkeypatch, tmp_path):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -112,7 +112,7 @@ file5.py
         return 0, mock_fd_output, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -139,7 +139,7 @@ async def test_list_files_error_handling(monkeypatch, tmp_path):
         return 1, b"", b"fd: command failed"
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute({"roots": [str(tmp_path)], "output_format": "json"})
@@ -184,7 +184,7 @@ async def test_list_files_with_pattern_and_no_pattern(monkeypatch, tmp_path):
         return 0, b"test.py\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test with pattern
@@ -235,7 +235,7 @@ async def test_list_files_with_size_filters(monkeypatch, tmp_path):
         return 0, f"{large_file}\n".encode(), b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -261,7 +261,7 @@ async def test_list_files_with_time_filters(monkeypatch, tmp_path):
         return 0, b"test.txt\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -284,7 +284,7 @@ async def test_list_files_with_types_and_extensions(monkeypatch, tmp_path):
         return 0, b"test.py\nscript.py\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -309,7 +309,7 @@ async def test_list_files_with_depth_and_symlinks(monkeypatch, tmp_path):
         return 0, b"file1.txt\n.hidden\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -332,7 +332,7 @@ async def test_list_files_with_full_path_match(monkeypatch, tmp_path):
         return 0, b"src/main.py\n", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute(
@@ -356,7 +356,7 @@ async def test_list_files_metadata_fields(monkeypatch, tmp_path):
         return 0, f"{test_file}\n".encode(), b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     result = await tool.execute({"roots": [str(tmp_path)], "output_format": "json"})

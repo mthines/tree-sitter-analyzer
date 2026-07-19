@@ -18,15 +18,15 @@ from typing import Any
 
 import pytest
 
-import tree_sitter_analyzer.mcp.tools.dead_code_tool as mod
-from tree_sitter_analyzer.call_graph import FunctionRef
-from tree_sitter_analyzer.dead_code_analyzer import (
+import codexray.mcp.tools.dead_code_tool as mod
+from codexray.call_graph import FunctionRef
+from codexray.dead_code_analyzer import (
     DeadCodeResult,
     DeadFunction,
     UnreferencedVariable,
     UnusedImport,
 )
-from tree_sitter_analyzer.mcp.tools.dead_code_tool import CodeGraphDeadCodeTool
+from codexray.mcp.tools.dead_code_tool import CodeGraphDeadCodeTool
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -311,7 +311,7 @@ class TestDeadCodeToolEdgeCases:
 
     def test_analyze_dead_code_exception_returns_error(self, fake_root, monkeypatch):
         """If analyze_dead_code raises, tool must return success=False."""
-        import tree_sitter_analyzer.mcp.tools.dead_code_tool as mod2
+        import codexray.mcp.tools.dead_code_tool as mod2
 
         monkeypatch.setattr(
             mod2,
@@ -370,18 +370,18 @@ def _mixed_path_result() -> DeadCodeResult:
     """Dead items spread across product / corpus / benchmarks paths (#1084)."""
     return DeadCodeResult(
         dead_functions=[
-            _make_dead("prod_a", "tree_sitter_analyzer/mcp/x.py"),
-            _make_dead("prod_b", "tree_sitter_analyzer/mcp/sub/y.py"),
+            _make_dead("prod_a", "codexray/mcp/x.py"),
+            _make_dead("prod_b", "codexray/mcp/sub/y.py"),
             _make_dead("corpus_c", "corpus/python/z.py"),
             _make_dead("bench_d", "benchmarks/agent-tasks/scenarios.py"),
             _make_dead("root_e", "analyze_coverage_json.py"),
         ],
         unused_imports=[
-            _make_import("prod_imp", "tree_sitter_analyzer/mcp/x.py"),
+            _make_import("prod_imp", "codexray/mcp/x.py"),
             _make_import("corpus_imp", "corpus/python/z.py"),
         ],
         unreferenced_variables=[
-            _make_var("prod_var", "tree_sitter_analyzer/mcp/x.py"),
+            _make_var("prod_var", "codexray/mcp/x.py"),
             _make_var("corpus_var", "corpus/python/z.py"),
         ],
         stats={
@@ -414,17 +414,17 @@ class TestDeadCodePathScoping:
         )
         tool = CodeGraphDeadCodeTool(fake_root)
         result = _run(
-            tool.execute({"output_format": "json", "path": "tree_sitter_analyzer/mcp"})
+            tool.execute({"output_format": "json", "path": "codexray/mcp"})
         )
         stats = result["stats"]
-        # 2 dead funcs + 1 import + 1 var live under tree_sitter_analyzer/mcp
+        # 2 dead funcs + 1 import + 1 var live under codexray/mcp
         assert stats["total_dead_functions_transitive"] == 2
         assert stats["total_unused_imports"] == 1
         assert stats["total_unreferenced_variables"] == 1
         files = {df["file"] for df in result["dead_functions"]}
         assert files == {
-            "tree_sitter_analyzer/mcp/x.py",
-            "tree_sitter_analyzer/mcp/sub/y.py",
+            "codexray/mcp/x.py",
+            "codexray/mcp/sub/y.py",
         }
 
     def test_path_excludes_corpus_and_benchmarks(self, fake_root, monkeypatch):
@@ -433,7 +433,7 @@ class TestDeadCodePathScoping:
         )
         tool = CodeGraphDeadCodeTool(fake_root)
         result = _run(
-            tool.execute({"output_format": "json", "path": "tree_sitter_analyzer/mcp"})
+            tool.execute({"output_format": "json", "path": "codexray/mcp"})
         )
         files = {df["file"] for df in result["dead_functions"]}
         assert not any(
@@ -455,7 +455,7 @@ class TestDeadCodePathScoping:
         )
         tool = CodeGraphDeadCodeTool(fake_root)
         result = _run(
-            tool.execute({"output_format": "json", "path": "tree_sitter_analyzer/mcp/"})
+            tool.execute({"output_format": "json", "path": "codexray/mcp/"})
         )
         assert result["stats"]["total_dead_functions_transitive"] == 2
 
@@ -467,7 +467,7 @@ class TestDeadCodePathScoping:
         )
         tool = CodeGraphDeadCodeTool(fake_root)
         result = _run(
-            tool.execute({"output_format": "json", "path": "tree_sitter_analyzer/m"})
+            tool.execute({"output_format": "json", "path": "codexray/m"})
         )
         assert result["stats"]["total_dead_functions_transitive"] == 0
 
@@ -489,7 +489,7 @@ class TestDeadCodePathScoping:
         tool = CodeGraphDeadCodeTool(fake_root)
         result = _run(
             tool.execute(
-                {"output_format": "json", "path": "./tree_sitter_analyzer/mcp"}
+                {"output_format": "json", "path": "./codexray/mcp"}
             )
         )
         assert result["stats"]["total_dead_functions_transitive"] == 2
@@ -514,12 +514,12 @@ def test_scoped_mode_ignores_hidden_category_truncation(tmp_path) -> None:
     import asyncio
     from unittest.mock import patch
 
-    from tree_sitter_analyzer.mcp.tools.dead_code_tool import CodeGraphDeadCodeTool
+    from codexray.mcp.tools.dead_code_tool import CodeGraphDeadCodeTool
 
     tool = CodeGraphDeadCodeTool(str(tmp_path))
     fake = _fake_result(n_dead=20, n_imports=1, n_vars=0)
     with patch(
-        "tree_sitter_analyzer.mcp.tools.dead_code_tool.analyze_dead_code",
+        "codexray.mcp.tools.dead_code_tool.analyze_dead_code",
         return_value=fake,
     ):
         result = asyncio.run(

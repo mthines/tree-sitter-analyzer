@@ -12,11 +12,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
-from tree_sitter_analyzer.language_detector import detector
-from tree_sitter_analyzer.language_loader import get_loader
-from tree_sitter_analyzer.languages.typescript_plugin import TypeScriptPlugin
-from tree_sitter_analyzer.plugins.manager import PluginManager
+from codexray.formatters.formatter_registry import FormatterRegistry
+from codexray.language_detector import detector
+from codexray.language_loader import get_loader
+from codexray.languages.typescript_plugin import TypeScriptPlugin
+from codexray.plugins.manager import PluginManager
 
 
 class TestTypeScriptIntegration:
@@ -245,11 +245,11 @@ class TestTypeScriptIntegration:
             )
 
     @patch(
-        "tree_sitter_analyzer.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
+        "codexray.languages.typescript_plugin.plugin.TREE_SITTER_AVAILABLE",
         True,
     )
     @patch(
-        "tree_sitter_analyzer.languages.typescript_plugin.extractor.loader.load_language"
+        "codexray.languages.typescript_plugin.extractor.loader.load_language"
     )
     @pytest.mark.asyncio
     async def test_typescript_plugin_analyze_file_mock(self, mock_load_language):
@@ -287,7 +287,7 @@ class UserService {
 
         try:
             with patch("tree_sitter.Parser", return_value=mock_parser):
-                from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+                from codexray.core.analysis_engine import AnalysisRequest
 
                 request = AnalysisRequest(file_path=temp_file)
                 result = await plugin.analyze_file(temp_file, request)
@@ -303,7 +303,7 @@ class UserService {
 
     def test_typescript_extractor_characteristics_detection(self):
         """Test TypeScript extractor file characteristics detection"""
-        from tree_sitter_analyzer.languages.typescript_plugin import (
+        from codexray.languages.typescript_plugin import (
             TypeScriptElementExtractor,
         )
 
@@ -328,7 +328,7 @@ class UserService {
 
     def test_typescript_type_inference(self):
         """Test TypeScript type inference functionality"""
-        from tree_sitter_analyzer.languages.typescript_plugin import (
+        from codexray.languages.typescript_plugin import (
             TypeScriptElementExtractor,
         )
 

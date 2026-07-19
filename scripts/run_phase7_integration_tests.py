@@ -99,7 +99,7 @@ class Phase7TestRunner:
         ]
 
         if coverage:
-            cmd.extend(["--cov=tree_sitter_analyzer", "--cov-report=term-missing"])
+            cmd.extend(["--cov=codexray", "--cov-report=term-missing"])
 
         # テスト実行
         start_time = time.time()

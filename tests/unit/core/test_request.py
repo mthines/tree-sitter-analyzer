@@ -5,7 +5,7 @@ Analysis Request 单元测试
 
 import pytest
 
-from tree_sitter_analyzer.core.request import AnalysisRequest
+from codexray.core.request import AnalysisRequest
 
 
 class TestAnalysisRequest:

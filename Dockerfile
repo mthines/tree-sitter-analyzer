@@ -1,12 +1,12 @@
-# Containerized tree-sitter-analyzer MCP server (stdio transport).
+# Containerized codexray MCP server (stdio transport).
 #
 # Built from the repo source so the image always matches the committed code.
 # Used by MCP indexers (e.g. Glama) to launch and introspect the server, and
 # by anyone who wants to run the MCP server in a container.
 #
-# Build:  docker build -t tree-sitter-analyzer-mcp .
+# Build:  docker build -t codexray-mcp .
 # Run:    docker run --rm -i --user "$(id -u):$(id -g)" \
-#             -v "$PWD:/work" -w /work tree-sitter-analyzer-mcp
+#             -v "$PWD:/work" -w /work codexray-mcp
 #         (the server speaks MCP over stdio; -i keeps stdin open. --user runs
 #         as the host UID/GID so the .ast-cache, decision journal, and any
 #         `edit`/`refactor` writes under the bind-mounted repo are owned by you,
@@ -26,4 +26,4 @@ COPY . /app
 RUN pip install ".[mcp]"
 
 # The MCP server entry point speaks JSON-RPC over stdio.
-ENTRYPOINT ["tree-sitter-analyzer-mcp"]
+ENTRYPOINT ["codexray-mcp"]

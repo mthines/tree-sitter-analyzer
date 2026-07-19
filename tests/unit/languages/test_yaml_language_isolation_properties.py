@@ -16,10 +16,10 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
-from tree_sitter_analyzer.language_detector import detect_language_from_file
-from tree_sitter_analyzer.languages.yaml_plugin import YAML_AVAILABLE
-from tree_sitter_analyzer.plugins.manager import PluginManager
+from codexray.core.analysis_engine import AnalysisRequest
+from codexray.language_detector import detect_language_from_file
+from codexray.languages.yaml_plugin import YAML_AVAILABLE
+from codexray.plugins.manager import PluginManager
 
 # Strategy for simple valid code in different languages
 java_code_strategy = st.just(

@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.complexity_heatmap_tool import (
+from codexray.mcp.tools.complexity_heatmap_tool import (
     CodeGraphComplexityHeatmapTool as ComplexityHeatmapTool,
 )
-from tree_sitter_analyzer.mcp.tools.dead_code_tool import (
+from codexray.mcp.tools.dead_code_tool import (
     CodeGraphDeadCodeTool as DeadCodeTool,
 )
-from tree_sitter_analyzer.mcp.tools.dependency_matrix_tool import (
+from codexray.mcp.tools.dependency_matrix_tool import (
     CodeGraphDependencyMatrixTool as DependencyMatrixTool,
 )
 
@@ -68,8 +68,8 @@ class TestDeadCodeToolExecute:
     ):
         # Cover the findings branch deterministically: inject one unused import so
         # the CAUTION/REVIEW path runs (the project fixture itself yields none).
-        import tree_sitter_analyzer.mcp.tools.dead_code_tool as mod
-        from tree_sitter_analyzer.dead_code_analyzer import (
+        import codexray.mcp.tools.dead_code_tool as mod
+        from codexray.dead_code_analyzer import (
             DeadCodeResult,
             UnusedImport,
         )
@@ -94,8 +94,8 @@ class TestDeadCodeToolExecute:
     async def test_no_issues_branch_next_step(self, project, monkeypatch):
         # Cover the clean (0-issues) branch deterministically: inject an empty
         # result so verdict=INFO and the "no dead code" next_step runs.
-        import tree_sitter_analyzer.mcp.tools.dead_code_tool as mod
-        from tree_sitter_analyzer.dead_code_analyzer import DeadCodeResult
+        import codexray.mcp.tools.dead_code_tool as mod
+        from codexray.dead_code_analyzer import DeadCodeResult
 
         empty = DeadCodeResult(
             dead_functions=[],

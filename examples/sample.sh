@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_NAME=${APP_NAME:-tree-sitter-analyzer}
+APP_NAME=${APP_NAME:-codexray}
 TARGET_DIR=${1:-dist}
 
 log() {

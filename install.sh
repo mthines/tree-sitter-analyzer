@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — Tree-sitter Analyzer one-command installer
+# install.sh — CodeXray one-command installer
 # Supports: macOS / Linux. Windows PowerShell: use install.ps1 (coming soon).
 # bash 3.x compatible (no declare -A, no ${var,,}, no mapfile)
 set -euo pipefail
@@ -139,9 +139,9 @@ if "mcpServers" not in data:
     data["mcpServers"] = {}
 
 # Merge TSA entry (preserves existing entries)
-data["mcpServers"]["tree-sitter-analyzer"] = {
+data["mcpServers"]["codexray"] = {
     "command": "uvx",
-    "args": ["--from", "tree-sitter-analyzer[mcp] @ git+https://github.com/mthines/tree-sitter-analyzer.git", "tree-sitter-analyzer-mcp"],
+    "args": ["--from", "codexray[mcp]", "codexray-mcp"],
     "env": {"TREE_SITTER_PROJECT_ROOT": project_root},
 }
 
@@ -173,7 +173,7 @@ EOF
 # ─── Summary ──────────────────────────────────────────────────────────────────
 echo ""
 echo "═══════════════════════════════════════════════════════"
-echo "🎉 Tree-sitter Analyzer installation complete"
+echo "🎉 CodeXray installation complete"
 echo "═══════════════════════════════════════════════════════"
 echo ""
 echo "📌 Project root: $PROJECT_ROOT"
@@ -198,7 +198,7 @@ fi
 echo "📋 Next steps:"
 echo "   1. Restart your agent (Claude Code / Claude Desktop / Cursor / VS Code)"
 echo "   2. Ask your agent: \"Run the index tool with action=status\""
-echo "   3. If something looks wrong: tree-sitter-analyzer --doctor"
+echo "   3. If something looks wrong: codexray --doctor"
 echo ""
 
 if [ "$WSL_ENV" = "1" ]; then

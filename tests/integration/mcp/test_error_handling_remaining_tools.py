@@ -15,14 +15,14 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.utils.error_handler import AnalysisError
 
 
 class TestRemainingToolsErrorHandling:
@@ -86,7 +86,7 @@ public class Example {
     @pytest.fixture
     def mcp_server(self, temp_project):
         """MCPサーバー インスタンス"""
-        return TreeSitterAnalyzerMCPServer(temp_project)
+        return CodeXrayMCPServer(temp_project)
 
     @pytest.mark.asyncio
     async def test_check_code_scale_error_handling(self, scale_tool):

@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.partial_read_command import PartialReadCommand
+from codexray.cli.commands.partial_read_command import PartialReadCommand
 
 
 @pytest.fixture
@@ -65,21 +65,21 @@ class TestPartialReadCommandValidateFile:
     def test_validate_file_no_file_path(self, command):
         """Test validate_file without file_path attribute."""
         delattr(command.args, "file_path")
-        with patch("tree_sitter_analyzer.output_manager.output_error"):
+        with patch("codexray.output_manager.output_error"):
             result = command.validate_file()
             assert result is False
 
     def test_validate_file_empty_file_path(self, command):
         """Test validate_file with empty file_path."""
         command.args.file_path = ""
-        with patch("tree_sitter_analyzer.output_manager.output_error"):
+        with patch("codexray.output_manager.output_error"):
             result = command.validate_file()
             assert result is False
 
     def test_validate_file_not_exists(self, command):
         """Test validate_file with non-existent file."""
         with patch("pathlib.Path.exists", return_value=False):
-            with patch("tree_sitter_analyzer.output_manager.output_error"):
+            with patch("codexray.output_manager.output_error"):
                 result = command.validate_file()
                 assert result is False
 
@@ -91,7 +91,7 @@ class TestPartialReadCommandExecute:
         """Test execute returns 0 on success."""
         with patch.object(command, "validate_file", return_value=True):
             with patch(
-                "tree_sitter_analyzer.cli.commands.partial_read_command.read_file_partial",
+                "codexray.cli.commands.partial_read_command.read_file_partial",
                 return_value="test content",
             ):
                 with patch.object(command, "_output_partial_content"):
@@ -108,7 +108,7 @@ class TestPartialReadCommandExecute:
         """Test execute returns 1 when start_line is missing."""
         command.args.start_line = None
         with patch.object(command, "validate_file", return_value=True):
-            with patch("tree_sitter_analyzer.output_manager.output_error"):
+            with patch("codexray.output_manager.output_error"):
                 result = command.execute()
                 assert result == 1
 
@@ -116,7 +116,7 @@ class TestPartialReadCommandExecute:
         """Test execute returns 1 when start_line < 1."""
         command.args.start_line = 0
         with patch.object(command, "validate_file", return_value=True):
-            with patch("tree_sitter_analyzer.output_manager.output_error"):
+            with patch("codexray.output_manager.output_error"):
                 result = command.execute()
                 assert result == 1
 
@@ -125,7 +125,7 @@ class TestPartialReadCommandExecute:
         command.args.start_line = 10
         command.args.end_line = 5
         with patch.object(command, "validate_file", return_value=True):
-            with patch("tree_sitter_analyzer.output_manager.output_error"):
+            with patch("codexray.output_manager.output_error"):
                 result = command.execute()
                 assert result == 1
 
@@ -133,10 +133,10 @@ class TestPartialReadCommandExecute:
         """Test execute returns 1 when read_file_partial fails."""
         with patch.object(command, "validate_file", return_value=True):
             with patch(
-                "tree_sitter_analyzer.cli.commands.partial_read_command.read_file_partial",
+                "codexray.cli.commands.partial_read_command.read_file_partial",
                 return_value=None,
             ):
-                with patch("tree_sitter_analyzer.output_manager.output_error"):
+                with patch("codexray.output_manager.output_error"):
                     result = command.execute()
                     assert result == 1
 
@@ -144,10 +144,10 @@ class TestPartialReadCommandExecute:
         """Test execute handles exceptions."""
         with patch.object(command, "validate_file", return_value=True):
             with patch(
-                "tree_sitter_analyzer.cli.commands.partial_read_command.read_file_partial",
+                "codexray.cli.commands.partial_read_command.read_file_partial",
                 side_effect=Exception("Test error"),
             ):
-                with patch("tree_sitter_analyzer.output_manager.output_error"):
+                with patch("codexray.output_manager.output_error"):
                     result = command.execute()
                     assert result == 1
 
@@ -160,10 +160,10 @@ class TestPartialReadCommandOutputPartialContent:
         command.args.output_format = "text"
         content = "test content"
         with patch(
-            "tree_sitter_analyzer.cli.commands.partial_read_command.output_section"
+            "codexray.cli.commands.partial_read_command.output_section"
         ):
             with patch(
-                "tree_sitter_analyzer.cli.commands.partial_read_command.output_data"
+                "codexray.cli.commands.partial_read_command.output_data"
             ):
                 with patch("builtins.print") as mock_print:
                     command._output_partial_content(content)
@@ -174,7 +174,7 @@ class TestPartialReadCommandOutputPartialContent:
         command.args.output_format = "json"
         content = "test content"
         with patch(
-            "tree_sitter_analyzer.cli.commands.partial_read_command.output_json"
+            "codexray.cli.commands.partial_read_command.output_json"
         ) as mock_output_json:
             command._output_partial_content(content)
             mock_output_json.assert_called_once()
@@ -191,7 +191,7 @@ class TestPartialReadCommandOutputPartialContent:
         command.args.output_format = "toon"
         content = "test content"
         with patch(
-            "tree_sitter_analyzer.cli.commands.partial_read_command.ToonFormatter"
+            "codexray.cli.commands.partial_read_command.ToonFormatter"
         ) as mock_formatter_class:
             mock_formatter = MagicMock()
             mock_formatter.format.return_value = "toon_output"
@@ -206,7 +206,7 @@ class TestPartialReadCommandOutputPartialContent:
         command.args.output_format = "json"
         content = "test content"
         with patch(
-            "tree_sitter_analyzer.cli.commands.partial_read_command.output_json"
+            "codexray.cli.commands.partial_read_command.output_json"
         ) as mock_output_json:
             command._output_partial_content(content)
             call_args = mock_output_json.call_args[0][0]
@@ -218,7 +218,7 @@ class TestPartialReadCommandOutputPartialContent:
         command.args.output_format = "json"
         content = "test content"
         with patch(
-            "tree_sitter_analyzer.cli.commands.partial_read_command.output_json"
+            "codexray.cli.commands.partial_read_command.output_json"
         ) as mock_output_json:
             command._output_partial_content(content)
             call_args = mock_output_json.call_args[0][0]
@@ -230,7 +230,7 @@ class TestPartialReadCommandOutputPartialContent:
         command.args.output_format = "json"
         content = "test content"
         with patch(
-            "tree_sitter_analyzer.cli.commands.partial_read_command.output_json"
+            "codexray.cli.commands.partial_read_command.output_json"
         ) as mock_output_json:
             command._output_partial_content(content)
             call_args = mock_output_json.call_args[0][0]
@@ -242,7 +242,7 @@ class TestPartialReadCommandOutputPartialContent:
         command.args.toon_use_tabs = True
         content = "test content"
         with patch(
-            "tree_sitter_analyzer.cli.commands.partial_read_command.ToonFormatter"
+            "codexray.cli.commands.partial_read_command.ToonFormatter"
         ) as mock_formatter_class:
             mock_formatter = MagicMock()
             mock_formatter.format.return_value = "toon_output"
@@ -278,14 +278,14 @@ class TestPartialReadCommandIntegration:
         content = "line1\nline2\nline3"
         with patch.object(command, "validate_file", return_value=True):
             with patch(
-                "tree_sitter_analyzer.cli.commands.partial_read_command.read_file_partial",
+                "codexray.cli.commands.partial_read_command.read_file_partial",
                 return_value=content,
             ):
                 with patch(
-                    "tree_sitter_analyzer.cli.commands.partial_read_command.output_section"
+                    "codexray.cli.commands.partial_read_command.output_section"
                 ):
                     with patch(
-                        "tree_sitter_analyzer.cli.commands.partial_read_command.output_data"
+                        "codexray.cli.commands.partial_read_command.output_data"
                     ):
                         with patch("builtins.print"):
                             result = command.execute()
@@ -301,9 +301,9 @@ class TestPartialReadCommandIntegration:
         """Test full workflow with read failure."""
         with patch.object(command, "validate_file", return_value=True):
             with patch(
-                "tree_sitter_analyzer.cli.commands.partial_read_command.read_file_partial",
+                "codexray.cli.commands.partial_read_command.read_file_partial",
                 return_value=None,
             ):
-                with patch("tree_sitter_analyzer.output_manager.output_error"):
+                with patch("codexray.output_manager.output_error"):
                     result = command.execute()
                     assert result == 1

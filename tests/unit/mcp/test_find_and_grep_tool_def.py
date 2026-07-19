@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import (
+from codexray.mcp.tools.find_and_grep_tool import (
     FindAndGrepTool,
 )
 

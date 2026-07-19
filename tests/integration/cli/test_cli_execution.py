@@ -10,7 +10,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli_main import main
+from codexray.cli_main import main
 
 
 class TestCLIQueryExecution:
@@ -34,7 +34,7 @@ class TestCLIQueryExecution:
         )
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.query_command.QueryService"
+            "codexray.cli.commands.query_command.QueryService"
         ) as mock_query_service_class:
             mock_query_service = Mock()
 
@@ -83,7 +83,7 @@ class TestCLIQueryExecution:
         )
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.query_command.QueryService"
+            "codexray.cli.commands.query_command.QueryService"
         ) as mock_query_service_class:
             mock_query_service = Mock()
 
@@ -136,7 +136,7 @@ class TestCLIQueryExecution:
             ],
         )
 
-        with patch("tree_sitter_analyzer.query_loader.get_query", return_value=None):
+        with patch("codexray.query_loader.get_query", return_value=None):
             mock_stderr = StringIO()
             monkeypatch.setattr("sys.stderr", mock_stderr)
 
@@ -164,7 +164,7 @@ class TestCLIQueryExecution:
         )
 
         with patch(
-            "tree_sitter_analyzer.core.query_service.query_loader.get_query",
+            "codexray.core.query_service.query_loader.get_query",
             side_effect=ValueError("Query error"),
         ):
             mock_stderr = StringIO()

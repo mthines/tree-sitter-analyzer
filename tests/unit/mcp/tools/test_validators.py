@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._validators import (
+from codexray.mcp.tools._validators import (
     _validate_positive_int,
     invalid_enum_error,
 )
@@ -133,10 +133,10 @@ def test_invalid_enum_error_empty_list() -> None:
 def test_invalid_enum_error_routes_to_validation_recovery_hint() -> None:
     """opencode P2 (#490): the enumerated message must classify as a
     validation error with an actionable (non-generic) recovery hint."""
-    from tree_sitter_analyzer.mcp.server_utils.error_recovery import (
+    from codexray.mcp.server_utils.error_recovery import (
         build_agent_friendly_error,
     )
-    from tree_sitter_analyzer.mcp.tools._validators import invalid_enum_error
+    from codexray.mcp.tools._validators import invalid_enum_error
 
     err = invalid_enum_error("mode", "bogus", ["all", "summary"])
     payload = build_agent_friendly_error("health", err)

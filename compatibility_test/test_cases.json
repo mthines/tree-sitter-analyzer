@@ -11,7 +11,7 @@
     {
       "id": "python_engine_full",
       "params": {
-        "file_path": "tree_sitter_analyzer/core/engine.py",
+        "file_path": "codexray/core/engine.py",
         "format_type": "full"
       },
       "output_file": "analyze_code_structure_python_full.txt"
@@ -37,7 +37,7 @@
     {
       "id": "python_methods",
       "params": {
-        "file_path": "tree_sitter_analyzer/core/engine.py",
+        "file_path": "codexray/core/engine.py",
         "query_key": "methods"
       },
       "output_file": "query_code_python_methods.json"
@@ -65,7 +65,7 @@
     {
       "id": "python_engine",
       "params": {
-        "file_path": "tree_sitter_analyzer/core/engine.py",
+        "file_path": "codexray/core/engine.py",
         "include_complexity": true,
         "include_details": false,
         "include_guidance": true
@@ -87,7 +87,7 @@
     {
       "id": "python_engine_section",
       "params": {
-        "file_path": "tree_sitter_analyzer/core/engine.py",
+        "file_path": "codexray/core/engine.py",
         "start_line": 1,
         "end_line": 50,
         "format": "json"
@@ -117,7 +117,7 @@
     {
       "id": "list_core",
       "params": {
-        "roots": ["tree_sitter_analyzer/core/"],
+        "roots": ["codexray/core/"],
         "extensions": ["py"],
         "types": ["f"]
       },
@@ -154,7 +154,7 @@
     {
       "id": "python_init_methods",
       "params": {
-        "roots": ["tree_sitter_analyzer/"],
+        "roots": ["codexray/"],
         "query": "def __init__",
         "include_globs": ["*.py"],
         "case": "smart"

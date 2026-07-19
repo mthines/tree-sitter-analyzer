@@ -6,9 +6,9 @@ from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 async def collect_malicious_query_results(

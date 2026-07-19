@@ -3,7 +3,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.formatters.ruby_formatter import RubyTableFormatter
+from codexray.formatters.ruby_formatter import RubyTableFormatter
 
 
 class TestRubyTableFormatterFullTable:

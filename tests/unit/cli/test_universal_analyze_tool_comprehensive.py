@@ -10,8 +10,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
-from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+from codexray.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
+from codexray.mcp.utils.error_handler import AnalysisError
 
 
 class TestUniversalAnalyzeToolInitialization:
@@ -19,9 +19,9 @@ class TestUniversalAnalyzeToolInitialization:
 
     def test_init_without_project_root(self):
         """Test initialization without project root"""
-        from tree_sitter_analyzer.core.analysis_engine import UnifiedAnalysisEngine
-        from tree_sitter_analyzer.mcp.utils.path_resolver import PathResolver
-        from tree_sitter_analyzer.security import SecurityValidator
+        from codexray.core.analysis_engine import UnifiedAnalysisEngine
+        from codexray.mcp.utils.path_resolver import PathResolver
+        from codexray.security import SecurityValidator
 
         tool = UniversalAnalyzeTool()
         assert isinstance(tool.analysis_engine, UnifiedAnalysisEngine)
@@ -246,10 +246,10 @@ class TestExecution:
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+        "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+        "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
     )
     async def test_execute_basic_analysis_python(
         self, mock_supported, mock_detect, tmp_path
@@ -290,10 +290,10 @@ class TestExecution:
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+        "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+        "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
     )
     async def test_execute_detailed_analysis(
         self, mock_supported, mock_detect, tmp_path
@@ -330,10 +330,10 @@ class TestExecution:
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+        "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+        "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
     )
     async def test_execute_with_include_ast(
         self, mock_supported, mock_detect, tmp_path
@@ -370,10 +370,10 @@ class TestExecution:
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+        "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+        "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
     )
     async def test_execute_with_include_queries(
         self, mock_supported, mock_detect, tmp_path
@@ -409,10 +409,10 @@ class TestExecution:
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+        "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+        "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
     )
     async def test_execute_structure_analysis(
         self, mock_supported, mock_detect, tmp_path
@@ -449,10 +449,10 @@ class TestExecution:
 
     @pytest.mark.asyncio
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+        "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
     )
     @patch(
-        "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+        "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
     )
     async def test_execute_metrics_analysis(
         self, mock_supported, mock_detect, tmp_path
@@ -600,10 +600,10 @@ class TestEdgeCases:
         tool = UniversalAnalyzeTool(str(tmp_path))
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+            "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
         ) as mock_detect:
             with patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
             ) as mock_supported:
                 mock_detect.return_value = "python"
                 mock_supported.return_value = True
@@ -632,10 +632,10 @@ class TestEdgeCases:
         tool = UniversalAnalyzeTool(str(tmp_path))
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+            "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
         ) as mock_detect:
             with patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
             ) as mock_supported:
                 mock_detect.return_value = "python"
                 mock_supported.return_value = True
@@ -665,10 +665,10 @@ class TestEdgeCases:
         tool = UniversalAnalyzeTool(str(tmp_path))
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.detect_language_from_file"
+            "codexray.mcp.tools.universal_analyze_tool.detect_language_from_file"
         ) as mock_detect:
             with patch(
-                "tree_sitter_analyzer.mcp.tools.universal_analyze_tool.is_language_supported"
+                "codexray.mcp.tools.universal_analyze_tool.is_language_supported"
             ) as mock_supported:
                 mock_detect.return_value = "python"
                 mock_supported.return_value = True

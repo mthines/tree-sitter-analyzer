@@ -13,7 +13,7 @@ class TestRecordCLI:
         """Test successful profile recording."""
         with patch("sys.argv", ["record", "--output-dir", str(tmp_path)]):
             with patch(
-                "tree_sitter_analyzer.platform_compat.record.BehaviorRecorder"
+                "codexray.platform_compat.record.BehaviorRecorder"
             ) as MockRecorder:
                 mock_recorder = MagicMock()
                 mock_profile = MagicMock()
@@ -22,7 +22,7 @@ class TestRecordCLI:
                 mock_recorder.record_all.return_value = mock_profile
                 MockRecorder.return_value = mock_recorder
 
-                from tree_sitter_analyzer.platform_compat.record import main
+                from codexray.platform_compat.record import main
 
                 # Should complete without error
                 main()
@@ -34,7 +34,7 @@ class TestRecordCLI:
         """Test recording with default output directory."""
         with patch("sys.argv", ["record"]):
             with patch(
-                "tree_sitter_analyzer.platform_compat.record.BehaviorRecorder"
+                "codexray.platform_compat.record.BehaviorRecorder"
             ) as MockRecorder:
                 mock_recorder = MagicMock()
                 mock_profile = MagicMock()
@@ -43,7 +43,7 @@ class TestRecordCLI:
                 mock_recorder.record_all.return_value = mock_profile
                 MockRecorder.return_value = mock_recorder
 
-                from tree_sitter_analyzer.platform_compat.record import main
+                from codexray.platform_compat.record import main
 
                 main()
 
@@ -56,13 +56,13 @@ class TestRecordCLI:
         """Test that errors cause sys.exit(1)."""
         with patch("sys.argv", ["record", "--output-dir", str(tmp_path)]):
             with patch(
-                "tree_sitter_analyzer.platform_compat.record.BehaviorRecorder"
+                "codexray.platform_compat.record.BehaviorRecorder"
             ) as MockRecorder:
                 MockRecorder.return_value.record_all.side_effect = RuntimeError(
                     "Test error"
                 )
 
-                from tree_sitter_analyzer.platform_compat.record import main
+                from codexray.platform_compat.record import main
 
                 with pytest.raises(SystemExit) as exc_info:
                     main()
@@ -72,12 +72,12 @@ class TestRecordCLI:
     def test_module_runnable_as_main(self):
         """Test that module can be run as __main__."""
         # Import should work without executing main
-        import tree_sitter_analyzer.platform_compat.record
+        import codexray.platform_compat.record
 
-        assert hasattr(tree_sitter_analyzer.platform_compat.record, "main")
+        assert hasattr(codexray.platform_compat.record, "main")
 
     def test_main_importable(self):
         import importlib
 
-        mod = importlib.import_module("tree_sitter_analyzer.platform_compat.record")
+        mod = importlib.import_module("codexray.platform_compat.record")
         assert callable(mod.main)

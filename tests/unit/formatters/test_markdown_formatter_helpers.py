@@ -1,6 +1,6 @@
 from unittest.mock import Mock, patch
 
-from tree_sitter_analyzer.formatters.markdown_formatter import MarkdownFormatter
+from codexray.formatters.markdown_formatter import MarkdownFormatter
 
 
 class TestFormatTable:
@@ -655,7 +655,7 @@ class TestCalculateDocumentComplexity:
 
 
 class TestComputeRobustCounts:
-    @patch("tree_sitter_analyzer.encoding_utils.read_file_safe")
+    @patch("codexray.encoding_utils.read_file_safe")
     def test_compute_robust_counts_basic(self, mock_read):
         formatter = MarkdownFormatter()
         mock_read.return_value = (
@@ -668,7 +668,7 @@ class TestComputeRobustCounts:
         assert counts["link_count"] == 1
         assert counts["image_count"] == 1
 
-    @patch("tree_sitter_analyzer.encoding_utils.read_file_safe")
+    @patch("codexray.encoding_utils.read_file_safe")
     def test_compute_robust_counts_autolinks(self, mock_read):
         formatter = MarkdownFormatter()
         mock_read.return_value = (
@@ -680,7 +680,7 @@ class TestComputeRobustCounts:
 
         assert counts["link_count"] == 2
 
-    @patch("tree_sitter_analyzer.encoding_utils.read_file_safe")
+    @patch("codexray.encoding_utils.read_file_safe")
     def test_compute_robust_counts_reference_links(self, mock_read):
         formatter = MarkdownFormatter()
         mock_read.return_value = (
@@ -692,7 +692,7 @@ class TestComputeRobustCounts:
 
         assert counts["link_count"] == 1
 
-    @patch("tree_sitter_analyzer.encoding_utils.read_file_safe")
+    @patch("codexray.encoding_utils.read_file_safe")
     def test_compute_robust_counts_image_references(self, mock_read):
         formatter = MarkdownFormatter()
         mock_read.return_value = ("![Alt][imgref]\n[imgref]: image.png", None)
@@ -704,7 +704,7 @@ class TestComputeRobustCounts:
         # counting rules change)
         assert counts["image_count"] == 2
 
-    @patch("tree_sitter_analyzer.encoding_utils.read_file_safe")
+    @patch("codexray.encoding_utils.read_file_safe")
     def test_compute_robust_counts_mixed_content(self, mock_read):
         formatter = MarkdownFormatter()
         content = """
@@ -726,7 +726,7 @@ class TestComputeRobustCounts:
         assert counts["link_count"] == 3
         assert counts["image_count"] == 2
 
-    @patch("tree_sitter_analyzer.encoding_utils.read_file_safe")
+    @patch("codexray.encoding_utils.read_file_safe")
     def test_compute_robust_counts_file_read_error(self, mock_read):
         formatter = MarkdownFormatter()
         mock_read.side_effect = Exception("File not found")
@@ -744,7 +744,7 @@ class TestComputeRobustCounts:
         assert counts["link_count"] == 0
         assert counts["image_count"] == 0
 
-    @patch("tree_sitter_analyzer.encoding_utils.read_file_safe")
+    @patch("codexray.encoding_utils.read_file_safe")
     def test_compute_robust_counts_image_extensions(self, mock_read):
         formatter = MarkdownFormatter()
         content = """

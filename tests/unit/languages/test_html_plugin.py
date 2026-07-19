@@ -9,8 +9,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.languages.html_plugin import HtmlElementExtractor, HtmlPlugin
-from tree_sitter_analyzer.models import MarkupElement
+from codexray.languages.html_plugin import HtmlElementExtractor, HtmlPlugin
+from codexray.models import MarkupElement
 
 
 class TestHtmlElementExtractor:
@@ -382,7 +382,7 @@ class TestHtmlHelpersBehavioral:
     """Behavioral tests for html_helpers functions."""
 
     def test_parse_attribute_from_child_nodes(self):
-        from tree_sitter_analyzer.languages.html_helpers import parse_attribute
+        from codexray.languages.html_helpers import parse_attribute
 
         class FakeNode:
             def __init__(self, node_type="", *, children=None, text=""):
@@ -403,7 +403,7 @@ class TestHtmlHelpersBehavioral:
         assert parse_attribute(attr, fake_text) == ("data-id", "abc")
 
     def test_extract_html_tag_name_from_direct_and_nested(self):
-        from tree_sitter_analyzer.languages.html_helpers import extract_html_tag_name
+        from codexray.languages.html_helpers import extract_html_tag_name
 
         class FakeNode:
             def __init__(self, node_type="", *, children=None, text=""):
@@ -424,13 +424,13 @@ class TestHtmlHelpersBehavioral:
         assert extract_html_tag_name(nested, fake_text) == "section"
 
     def test_classify_element_media_category(self):
-        from tree_sitter_analyzer.languages.html_helpers import classify_element
+        from codexray.languages.html_helpers import classify_element
 
         categories = {"structure": ["div"], "media": ["img"]}
         assert classify_element("IMG", categories) == "media"
 
     def test_create_markup_element_parent_child_linking(self):
-        from tree_sitter_analyzer.languages.html_helpers import create_markup_element
+        from codexray.languages.html_helpers import create_markup_element
 
         class FakeNode:
             def __init__(

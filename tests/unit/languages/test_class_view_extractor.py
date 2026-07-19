@@ -2,7 +2,7 @@
 
 from unittest.mock import Mock
 
-from tree_sitter_analyzer.languages.sql_plugin._class_view_extractor import (
+from codexray.languages.sql_plugin._class_view_extractor import (
     _append_class_view,
     _find_view_statement_end,
     _is_valid_view_identifier,
@@ -12,7 +12,7 @@ from tree_sitter_analyzer.languages.sql_plugin._class_view_extractor import (
     _view_name_from_text,
     extract_class_views,
 )
-from tree_sitter_analyzer.models import Class
+from codexray.models import Class
 
 # ── _view_name_from_text ────────────────────────────────────────────────
 

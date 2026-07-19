@@ -4,12 +4,12 @@
 from hypothesis import given
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.constants import (
+from codexray.constants import (
     ELEMENT_TYPE_CLASS,
     ELEMENT_TYPE_FUNCTION,
     is_element_of_type,
 )
-from tree_sitter_analyzer.models import CodeElement
+from codexray.models import CodeElement
 
 
 class DummyElement(CodeElement):

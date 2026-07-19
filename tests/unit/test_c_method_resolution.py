@@ -16,15 +16,15 @@ is False), while a C caller MAY resolve another C file / C-tagged ``.h`` header.
 
 from __future__ import annotations
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.synapse_resolver import ResolverContext, resolve_callee
-from tree_sitter_analyzer.synapse_resolver._context import build_resolver_context
-from tree_sitter_analyzer.synapse_resolver._registry import get_language_resolver
-from tree_sitter_analyzer.synapse_resolver.languages._c_constants import (
+from codexray.ast_cache import ASTCache
+from codexray.synapse_resolver import ResolverContext, resolve_callee
+from codexray.synapse_resolver._context import build_resolver_context
+from codexray.synapse_resolver._registry import get_language_resolver
+from codexray.synapse_resolver.languages._c_constants import (
     LIBC_FUNCTIONS_C,
     is_libc_function,
 )
-from tree_sitter_analyzer.synapse_resolver.languages.c import (
+from codexray.synapse_resolver.languages.c import (
     CResolverContext,
     build_c_context,
     resolve_c_callee,

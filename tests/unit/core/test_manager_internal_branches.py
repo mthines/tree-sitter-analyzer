@@ -6,7 +6,7 @@ Targets ~52 uncovered lines: 81.1% → 85%+
 
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.plugins.manager import (
+from codexray.plugins.manager import (
     PluginManager,
 )
 
@@ -19,7 +19,7 @@ class TestPrewarmPluginImports:
     def test_prewarm_called_during_init(self):
         """__init__ calls _prewarm_plugin_imports unconditionally"""
         with patch(
-            "tree_sitter_analyzer.plugins.manager.importlib.import_module",
+            "codexray.plugins.manager.importlib.import_module",
             side_effect=ImportError("no module"),
         ):
             mgr = PluginManager()
@@ -28,7 +28,7 @@ class TestPrewarmPluginImports:
     def test_prewarm_non_import_error(self):
         """languages import_module raises RuntimeError → log_debug path"""
         with patch(
-            "tree_sitter_analyzer.plugins.manager.importlib.import_module",
+            "codexray.plugins.manager.importlib.import_module",
             side_effect=RuntimeError("unexpected"),
         ):
             mgr = PluginManager()
@@ -84,7 +84,7 @@ class TestGetPluginEntryPoint:
         manager._loaded_plugins = {}
 
         with patch(
-            "tree_sitter_analyzer.plugins.manager.issubclass", return_value=True
+            "codexray.plugins.manager.issubclass", return_value=True
         ):
             result = manager.get_plugin("testlang")
         assert result is not None
@@ -100,7 +100,7 @@ class TestGetPluginEntryPoint:
         manager._entry_point_map["badlang"] = mock_entry
 
         with patch(
-            "tree_sitter_analyzer.plugins.manager.issubclass", return_value=True
+            "codexray.plugins.manager.issubclass", return_value=True
         ):
             result = manager.get_plugin("badlang")
         assert result is None
@@ -145,16 +145,16 @@ class TestLoadFromEntryPoints:
 class TestLoadFromLocalDirectory:
     def test_languages_package_import_error(self):
         manager = PluginManager()
-        patch_path = "tree_sitter_analyzer.plugins.manager.importlib.import_module"
+        patch_path = "codexray.plugins.manager.importlib.import_module"
         with patch(patch_path, side_effect=ImportError):
             result = manager._load_from_local_directory()
         assert result == []
 
     def test_plugin_instantiation_exception(self):
         manager = PluginManager()
-        patch_path = "tree_sitter_analyzer.plugins.manager.importlib.import_module"
+        patch_path = "codexray.plugins.manager.importlib.import_module"
         mock_mod = MagicMock()
-        mock_mod.__name__ = "tree_sitter_analyzer.languages"
+        mock_mod.__name__ = "codexray.languages"
         mock_mod.__path__ = []
         with patch(patch_path, return_value=mock_mod):
             with patch("pkgutil.iter_modules", return_value=[]):

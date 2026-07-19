@@ -29,8 +29,8 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.base_tool import BaseMCPTool
-from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
+from codexray.mcp.tools.base_tool import BaseMCPTool
+from codexray.mcp.tools.facade_tool import FacadeTool
 
 # ---------------------------------------------------------------------------
 # INVARIANT DELEGATION NOTICE
@@ -129,7 +129,7 @@ def _make_fake_facade(**kwargs: Any) -> tuple[FacadeTool, dict[str, _FakeInner]]
 
 
 def test_edit_facade_builds() -> None:
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     assert isinstance(facade, FacadeTool)
@@ -142,13 +142,13 @@ def test_impact_action_description_documents_mode_param() -> None:
     Skills (tsa-edit-safety, tsa-pr-review, tsa-landing) pass mode=staged /
     branch, so the facade description must advertise the param + its values.
     """
-    from tree_sitter_analyzer.mcp.tools.edit_facade import _EDIT_DESCRIPTION
+    from codexray.mcp.tools.edit_facade import _EDIT_DESCRIPTION
 
     assert "mode (diff|staged|branch|pr" in _EDIT_DESCRIPTION
 
 
 def test_edit_facade_all_actions_present() -> None:
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     expected = {
@@ -270,7 +270,7 @@ def test_guard_symbol_passes_through_unchanged() -> None:
 
 
 def test_no_bespoke_routes() -> None:
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     assert facade.bespoke_map == {}, "edit facade should have no bespoke routes"
@@ -383,7 +383,7 @@ def test_facade_does_not_override_set_project_path() -> None:
 
 
 def test_build_edit_facade_returns_facade_tool() -> None:
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     assert type(facade) is FacadeTool
@@ -402,7 +402,7 @@ def test_safe_action_does_not_leak_action_to_inner_strict_guard(tmp_path: Any) -
     tool gets past its path-validation gate and we can confirm ``action`` was
     stripped before the inner's strict-param guard ran.
     """
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     # Create a real file so SafeToEditTool does not abort at path-validation.
     real_file = tmp_path / "sample.py"
@@ -425,7 +425,7 @@ def test_safe_action_does_not_leak_action_to_inner_strict_guard(tmp_path: Any) -
 
 def test_constraints_action_does_not_leak_action_to_inner(tmp_path: Any) -> None:
     """F4 regression guard for ConstraintCheckTool (no required file_path)."""
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=str(tmp_path))
     try:
@@ -446,7 +446,7 @@ def test_constraints_action_does_not_leak_action_to_inner(tmp_path: Any) -> None
 
 def test_edit_annotations_not_read_only() -> None:
     """edit facade spans mutating-intent actions — readOnlyHint must be False."""
-    from tree_sitter_analyzer.mcp.tools.edit_facade import _EDIT_ANNOTATIONS
+    from codexray.mcp.tools.edit_facade import _EDIT_ANNOTATIONS
 
     assert _EDIT_ANNOTATIONS["readOnlyHint"] is False, (
         "edit facade cannot claim readOnlyHint=True (mixed read+mutating-intent actions)"
@@ -455,21 +455,21 @@ def test_edit_annotations_not_read_only() -> None:
 
 def test_edit_annotations_not_destructive() -> None:
     """edit facade suggests/analyses; it does not write files."""
-    from tree_sitter_analyzer.mcp.tools.edit_facade import _EDIT_ANNOTATIONS
+    from codexray.mcp.tools.edit_facade import _EDIT_ANNOTATIONS
 
     assert _EDIT_ANNOTATIONS["destructiveHint"] is False
 
 
 def test_edit_annotations_all_four_hints_present() -> None:
     """test_every_tool_declares_mcp_annotations requires all 4 hint keys."""
-    from tree_sitter_analyzer.mcp.tools.edit_facade import _EDIT_ANNOTATIONS
+    from codexray.mcp.tools.edit_facade import _EDIT_ANNOTATIONS
 
     required = {"readOnlyHint", "destructiveHint", "idempotentHint", "openWorldHint"}
     assert required.issubset(_EDIT_ANNOTATIONS.keys())
 
 
 def test_edit_facade_definition_includes_annotations() -> None:
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     defn = facade.get_tool_definition()
@@ -490,7 +490,7 @@ def test_ast_diff_facade_description_uses_real_mode_params() -> None:
     REAL mode signatures (old_file/new_file | old_source/new_source |
     old_ref/new_ref) and must NOT use the nonexistent 'before, after' params.
     """
-    from tree_sitter_analyzer.mcp.tools.edit_facade import _EDIT_DESCRIPTION
+    from codexray.mcp.tools.edit_facade import _EDIT_DESCRIPTION
 
     # Must contain real param names
     assert "old_ref" in _EDIT_DESCRIPTION, (
@@ -515,7 +515,7 @@ def test_ast_diff_facade_description_uses_real_mode_params() -> None:
 
 
 def test_edit_facade_schema_includes_action_and_required() -> None:
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     schema = facade.get_tool_schema()
@@ -539,7 +539,7 @@ def test_edit_facade_schema_includes_action_and_required() -> None:
 
 def test_edit_facade_schema_lenient_additional_properties() -> None:
     """The merged facade schema must be lenient (additionalProperties not False)."""
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     schema = facade.get_tool_schema()
@@ -562,7 +562,7 @@ def test_edit_pr_action_missing_pr_url_fails_loudly() -> None:
     """
     facade, inners = _make_fake_facade()
     # Replace the fake 'pr' inner with a real CodeGraphPRReviewTool
-    from tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool import (
+    from codexray.mcp.tools.codegraph_pr_review_tool import (
         CodeGraphPRReviewTool,
     )
 
@@ -593,7 +593,7 @@ def test_edit_facade_schema_has_modification_type_property() -> None:
     (invisible to schema inspection). After fix: it appears in properties with
     the authoritative enum — matching the inner ModificationGuardTool schema.
     """
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     schema = facade.get_tool_schema()
@@ -606,8 +606,8 @@ def test_edit_facade_schema_has_modification_type_property() -> None:
 
 def test_edit_facade_modification_type_has_enum() -> None:
     """modification_type property must carry the full authoritative enum."""
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
-    from tree_sitter_analyzer.mcp.tools.modification_guard_tool import (
+    from codexray.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.modification_guard_tool import (
         MODIFICATION_TYPES,
     )
 
@@ -627,7 +627,7 @@ def test_edit_facade_modification_type_NOT_in_required() -> None:
     text, not in schema required: [] — this prevents the facade validator from
     rejecting calls before routing (facade required only lists 'action').
     """
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(project_root=None)
     schema = facade.get_tool_schema()
@@ -644,7 +644,7 @@ def test_edit_facade_guard_description_marks_modification_type_required() -> Non
     file_path' without any required marker — agents had no signal that omitting
     modification_type triggers an error on the first call.
     """
-    from tree_sitter_analyzer.mcp.tools.edit_facade import _EDIT_DESCRIPTION
+    from codexray.mcp.tools.edit_facade import _EDIT_DESCRIPTION
 
     # The guard line must mark modification_type as required (trailing * or explicit note)
     guard_lines = [
@@ -670,7 +670,7 @@ def test_action_pr_without_mode_or_pr_url_fails_loudly() -> None:
     The facade pr route now implies mode=pr, so the pr_url guard fires."""
     import asyncio
 
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(".")
     result = asyncio.run(
@@ -684,11 +684,11 @@ def test_action_pr_explicit_diff_mode_still_reaches_diff() -> None:
     """Direct sub-mode selection stays available through the facade."""
     import asyncio
 
-    from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
+    from codexray.mcp.tools.edit_facade import build_edit_facade
 
     facade = build_edit_facade(".")
     with patch(
-        "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+        "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
         return_value="",
     ) as get_local_diff:
         result = asyncio.run(facade.execute({"action": "pr", "mode": "diff"}))

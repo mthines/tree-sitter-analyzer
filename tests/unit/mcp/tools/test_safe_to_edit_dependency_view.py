@@ -2,8 +2,8 @@
 
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.tools.utils import safe_to_edit_helpers
-from tree_sitter_analyzer.mcp.tools.utils.safe_to_edit_helpers import (
+from codexray.mcp.tools.utils import safe_to_edit_helpers
+from codexray.mcp.tools.utils.safe_to_edit_helpers import (
     FileDependencyView,
     _extract_import_specs,
     _iter_dependency_source_files,

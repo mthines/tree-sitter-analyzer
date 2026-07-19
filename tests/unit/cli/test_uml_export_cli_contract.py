@@ -7,8 +7,8 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.cli.argument_parser_builder import create_argument_parser
-from tree_sitter_analyzer.cli.commands import mcp_commands
+from codexray.cli.argument_parser_builder import create_argument_parser
+from codexray.cli.commands import mcp_commands
 
 
 def _args(**overrides: Any) -> Namespace:

@@ -12,12 +12,12 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.query_tool import QueryTool
 
 pytestmark = pytest.mark.benchmark
 
@@ -27,7 +27,7 @@ class TestLargeFilePerformance:
 
     def setup_method(self):
         """Set up test fixtures."""
-        self.server = TreeSitterAnalyzerMCPServer()
+        self.server = CodeXrayMCPServer()
         self.temp_dir = tempfile.mkdtemp()
 
     def teardown_method(self):

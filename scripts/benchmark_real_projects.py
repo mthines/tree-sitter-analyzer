@@ -1,5 +1,5 @@
 """
-Real-world benchmark: tree-sitter-analyzer MCP tools vs CodeGraph baselines.
+Real-world benchmark: codexray MCP tools vs CodeGraph baselines.
 
 Methodology (same as CodeGraph):
 1. Clone real open-source projects
@@ -178,7 +178,7 @@ def run_analysis(project_dir: Path, language: str, query_symbols: list[str]) -> 
 
     async def _analyze():
         sys.path.insert(0, str(Path(__file__).parent.parent))
-        from tree_sitter_analyzer.core import AnalysisEngine
+        from codexray.core import AnalysisEngine
 
         tool_calls = 0
         file_reads = 0
@@ -252,7 +252,7 @@ def run_analysis(project_dir: Path, language: str, query_symbols: list[str]) -> 
 
 def main():
     print("=" * 90)
-    print("REAL-WORLD BENCHMARK: tree-sitter-analyzer vs CodeGraph")
+    print("REAL-WORLD BENCHMARK: codexray vs CodeGraph")
     print("=" * 90)
 
     results = []

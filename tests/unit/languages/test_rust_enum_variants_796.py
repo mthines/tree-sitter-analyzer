@@ -46,7 +46,7 @@ class TestRustEnumVariantExtraction:
 
     def test_simple_enum_variants_are_extracted(self):
         """Direction enum: four unit variants must each become a Variable."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = "enum Direction { North, South, East, West }"
         tree, _ = _parse_rust(code)
@@ -64,7 +64,7 @@ class TestRustEnumVariantExtraction:
 
     def test_option_like_enum_variants(self):
         """Option<T>-style enum: None and Some variants extracted."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = "enum Option<T> { None, Some(T) }"
         tree, _ = _parse_rust(code)
@@ -82,7 +82,7 @@ class TestRustEnumVariantExtraction:
 
     def test_enum_variant_has_correct_variable_type(self):
         """Each variant must carry variable_type == 'enum_variant'."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = "enum Color { Red, Green, Blue }"
         tree, _ = _parse_rust(code)
@@ -102,7 +102,7 @@ class TestRustEnumVariantExtraction:
 
     def test_enum_variant_receiver_type_is_enum_name(self):
         """Each variant's receiver_type must be the containing enum name."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = "enum Status { Active, Inactive }"
         tree, _ = _parse_rust(code)
@@ -121,7 +121,7 @@ class TestRustEnumVariantExtraction:
 
     def test_struct_fields_and_enum_variants_coexist(self):
         """Struct fields (field_declaration) must not be crowded out by enum variant extraction."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = "struct Point { x: f64, y: f64 }\nenum Dir { North, South }\n"
         tree, _ = _parse_rust(code)
@@ -148,7 +148,7 @@ class TestRustEnumVariantExtraction:
 
     def test_struct_like_enum_variant_fields_do_not_leak(self):
         """Struct-like enum body fields are not ordinary struct fields (#960)."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = (
             "struct Point { px: f64, py: f64 }\n"
@@ -174,7 +174,7 @@ class TestRustEnumVariantExtraction:
 
     def test_enum_variant_visibility_inherits_enum_visibility(self):
         """Variants inherit the enclosing enum visibility for API consumers (#960)."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = "pub enum Direction { North, South }"
         tree, _ = _parse_rust(code)
@@ -192,7 +192,7 @@ class TestRustEnumVariantExtraction:
 
     def test_enum_variant_line_range_within_enum_span(self):
         """Variant start_line must be within the enclosing enum's line span."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = "enum Suit {\n    Clubs,\n    Diamonds,\n    Hearts,\n    Spades,\n}\n"
         tree, _ = _parse_rust(code)
@@ -211,7 +211,7 @@ class TestRustEnumVariantExtraction:
 
     def test_multiple_enums_variants_separate(self):
         """Two enums in one file: each set of variants has the correct receiver_type."""
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         code = "enum A { Foo, Bar }\nenum B { Baz, Qux }\n"
         tree, _ = _parse_rust(code)

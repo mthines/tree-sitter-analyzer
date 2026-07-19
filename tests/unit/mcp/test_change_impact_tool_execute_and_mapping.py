@@ -2,11 +2,11 @@
 
 import asyncio
 
-from tree_sitter_analyzer.mcp.tools import change_impact_tool as tool_module
-from tree_sitter_analyzer.mcp.tools.utils import (
+from codexray.mcp.tools import change_impact_tool as tool_module
+from codexray.mcp.tools.utils import (
     change_impact_analysis as change_impact_tool,
 )
-from tree_sitter_analyzer.mcp.tools.utils import (
+from codexray.mcp.tools.utils import (
     change_impact_verification as verification_tool,
 )
 
@@ -78,11 +78,11 @@ def test_execute_forwards_scope_paths_to_git_readers(monkeypatch):
 
     def fake_changed_files(mode, project_root, scope_paths=None):
         seen["changed_scopes"].append(scope_paths)
-        return ["tree_sitter_analyzer/mcp/tools/change_impact_tool.py"]
+        return ["codexray/mcp/tools/change_impact_tool.py"]
 
     def fake_diff_stat(mode, project_root, scope_paths=None):
         seen["stat_scope"] = scope_paths
-        return "tree_sitter_analyzer/mcp/tools/change_impact_tool.py | 1 +"
+        return "codexray/mcp/tools/change_impact_tool.py | 1 +"
 
     monkeypatch.setattr(
         tool_module,
@@ -101,14 +101,14 @@ def test_execute_forwards_scope_paths_to_git_readers(monkeypatch):
         tool.execute(
             {
                 "output_format": "json",
-                "scope_paths": ["tree_sitter_analyzer/mcp/tools"],
+                "scope_paths": ["codexray/mcp/tools"],
             }
         )
     )
 
-    assert seen["changed_scopes"] == [["tree_sitter_analyzer/mcp/tools"], []]
-    assert seen["stat_scope"] == ["tree_sitter_analyzer/mcp/tools"]
-    assert result["scope_paths"] == ["tree_sitter_analyzer/mcp/tools"]
+    assert seen["changed_scopes"] == [["codexray/mcp/tools"], []]
+    assert seen["stat_scope"] == ["codexray/mcp/tools"]
+    assert result["scope_paths"] == ["codexray/mcp/tools"]
     assert result["scope_filtered"] is True
     assert result["agent_summary"]["scope"] == "scoped"
 
@@ -118,10 +118,10 @@ def test_execute_adds_queue_ledger_for_scoped_dirty_worktree(monkeypatch):
 
     def fake_changed_files(mode, project_root, scope_paths=None):
         if scope_paths:
-            return ["tree_sitter_analyzer/mcp/tools/change_impact_tool.py"]
+            return ["codexray/mcp/tools/change_impact_tool.py"]
         return [
-            "tree_sitter_analyzer/mcp/tools/change_impact_tool.py",
-            "tree_sitter_analyzer/other_user_change.py",
+            "codexray/mcp/tools/change_impact_tool.py",
+            "codexray/other_user_change.py",
         ]
 
     monkeypatch.setattr(tool_module, "_get_changed_files", fake_changed_files)
@@ -129,7 +129,7 @@ def test_execute_adds_queue_ledger_for_scoped_dirty_worktree(monkeypatch):
         tool_module,
         "_get_diff_stat",
         lambda mode, project_root, scope_paths=None: (
-            "tree_sitter_analyzer/mcp/tools/change_impact_tool.py | 1 +"
+            "codexray/mcp/tools/change_impact_tool.py | 1 +"
         ),
     )
     monkeypatch.setattr(change_impact_tool, "_load_dependency_graph", lambda _: None)
@@ -140,7 +140,7 @@ def test_execute_adds_queue_ledger_for_scoped_dirty_worktree(monkeypatch):
             {
                 "output_format": "json",
                 "agent_summary_only": True,
-                "scope_paths": ["tree_sitter_analyzer/mcp/tools"],
+                "scope_paths": ["codexray/mcp/tools"],
             }
         )
     )
@@ -148,7 +148,7 @@ def test_execute_adds_queue_ledger_for_scoped_dirty_worktree(monkeypatch):
     assert result["queue_ledger"]["scoped_changed_count"] == 1
     assert result["queue_ledger"]["out_of_scope_changed_count"] == 1
     assert result["queue_ledger"]["out_of_scope_changed_preview"] == [
-        "tree_sitter_analyzer/other_user_change.py"
+        "codexray/other_user_change.py"
     ]
     assert "out_of_scope_dirty=1" in result["queue_ledger"]["handoff"]
     assert result["agent_summary"]["queue_ledger"] == result["queue_ledger"]
@@ -164,14 +164,14 @@ def test_execute_supports_agent_summary_only(monkeypatch):
         tool_module,
         "_get_changed_files",
         lambda mode, project_root, scope_paths=None: [
-            "tree_sitter_analyzer/cli_main.py"
+            "codexray/cli_main.py"
         ],
     )
     monkeypatch.setattr(
         tool_module,
         "_get_diff_stat",
         lambda mode, project_root, scope_paths=None: (
-            "tree_sitter_analyzer/cli_main.py | 1 +"
+            "codexray/cli_main.py | 1 +"
         ),
     )
     monkeypatch.setattr(change_impact_tool, "_load_dependency_graph", lambda _: None)
@@ -258,7 +258,7 @@ def test_change_impact_result_uses_complete_mapped_tests_for_verification(monkey
     class FakeGraph:
         def nodes(self):
             return {
-                "tree_sitter_analyzer/feature.py",
+                "codexray/feature.py",
                 *{f"tests/unit/test_feature_{index:02d}.py" for index in range(32)},
             }
 
@@ -280,7 +280,7 @@ def test_change_impact_result_uses_complete_mapped_tests_for_verification(monkey
     result = change_impact_tool._build_change_impact_result(
         change_impact_tool.ChangeImpactRequest(
             mode="diff",
-            changed_files=["tree_sitter_analyzer/feature.py"],
+            changed_files=["codexray/feature.py"],
             diff_stat="",
             project_root="/repo",
             include_tests=True,
@@ -303,7 +303,7 @@ def test_change_impact_result_uses_complete_mapped_tests_for_verification(monkey
 def test_agent_summary_warns_for_unscoped_large_dirty_worktree():
     """The compact summary should tell agents to scope very noisy diffs."""
     verification = verification_tool._build_verification_plan(
-        ["tree_sitter_analyzer/runtime.py"],
+        ["codexray/runtime.py"],
         ["tests/unit/test_runtime.py"],
     )
     strategy = change_impact_tool._build_verification_strategy(
@@ -382,14 +382,14 @@ def test_find_test_files_excludes_conftest_from_runnable_targets():
 def test_find_test_files_does_not_treat_source_test_prefix_as_test():
     """Source modules named test_*.py are not direct pytest targets."""
     mapping = change_impact_tool._find_test_files(
-        ["tree_sitter_analyzer/mcp/tools/utils/test_discovery.py"],
+        ["codexray/mcp/tools/utils/test_discovery.py"],
         {
-            "tree_sitter_analyzer/mcp/tools/utils/test_discovery.py",
+            "codexray/mcp/tools/utils/test_discovery.py",
             "tests/unit/mcp/test_test_discovery.py",
         },
     )
 
-    assert mapping["tree_sitter_analyzer/mcp/tools/utils/test_discovery.py"] == [
+    assert mapping["codexray/mcp/tools/utils/test_discovery.py"] == [
         "tests/unit/mcp/test_test_discovery.py"
     ]
 
@@ -397,16 +397,16 @@ def test_find_test_files_does_not_treat_source_test_prefix_as_test():
 def test_find_test_files_maps_python_plugin_internals_to_package_tests():
     """Language plugin internals should map to package-level test files."""
     mapping = change_impact_tool._find_test_files(
-        ["tree_sitter_analyzer/languages/sql_plugin/extractor.py"],
+        ["codexray/languages/sql_plugin/extractor.py"],
         {
-            "tree_sitter_analyzer/languages/sql_plugin/extractor.py",
+            "codexray/languages/sql_plugin/extractor.py",
             "tests/unit/languages/test_sql_plugin_coverage_80.py",
             "tests/unit/languages/test_sql_plugin_enhanced.py",
             "tests/unit/languages/test_python_plugin.py",
         },
     )
 
-    assert mapping["tree_sitter_analyzer/languages/sql_plugin/extractor.py"] == [
+    assert mapping["codexray/languages/sql_plugin/extractor.py"] == [
         "tests/unit/languages/test_sql_plugin_coverage_80.py",
         "tests/unit/languages/test_sql_plugin_enhanced.py",
     ]
@@ -416,42 +416,42 @@ def test_find_test_files_maps_extracted_analysis_modules_to_family_tests():
     """Extracted analysis modules should map to their parent tool tests."""
     mapping = change_impact_tool._find_test_files(
         [
-            "tree_sitter_analyzer/mcp/tools/utils/change_impact_analysis.py",
-            "tree_sitter_analyzer/mcp/tools/utils/change_impact_git.py",
-            "tree_sitter_analyzer/mcp/tools/utils/change_impact_verification.py",
+            "codexray/mcp/tools/utils/change_impact_analysis.py",
+            "codexray/mcp/tools/utils/change_impact_git.py",
+            "codexray/mcp/tools/utils/change_impact_verification.py",
         ],
         {
-            "tree_sitter_analyzer/mcp/tools/utils/change_impact_analysis.py",
-            "tree_sitter_analyzer/mcp/tools/utils/change_impact_git.py",
-            "tree_sitter_analyzer/mcp/tools/utils/change_impact_verification.py",
+            "codexray/mcp/tools/utils/change_impact_analysis.py",
+            "codexray/mcp/tools/utils/change_impact_git.py",
+            "codexray/mcp/tools/utils/change_impact_verification.py",
             "tests/unit/mcp/test_change_impact_tool.py",
             "tests/unit/mcp/test_verification_command.py",
         },
     )
 
     assert mapping[
-        "tree_sitter_analyzer/mcp/tools/utils/change_impact_analysis.py"
+        "codexray/mcp/tools/utils/change_impact_analysis.py"
     ] == ["tests/unit/mcp/test_change_impact_tool.py"]
-    assert mapping["tree_sitter_analyzer/mcp/tools/utils/change_impact_git.py"] == [
+    assert mapping["codexray/mcp/tools/utils/change_impact_git.py"] == [
         "tests/unit/mcp/test_change_impact_tool.py"
     ]
     assert mapping[
-        "tree_sitter_analyzer/mcp/tools/utils/change_impact_verification.py"
+        "codexray/mcp/tools/utils/change_impact_verification.py"
     ] == ["tests/unit/mcp/test_change_impact_tool.py"]
 
 
 def test_find_test_files_maps_refactoring_plan_builder_to_family_tests():
     """The precise-plan builder should not force auto-discovery."""
     mapping = change_impact_tool._find_test_files(
-        ["tree_sitter_analyzer/mcp/tools/_refactoring_plan_builder.py"],
+        ["codexray/mcp/tools/_refactoring_plan_builder.py"],
         {
-            "tree_sitter_analyzer/mcp/tools/_refactoring_plan_builder.py",
+            "codexray/mcp/tools/_refactoring_plan_builder.py",
             "tests/unit/mcp/test_refactoring_suggestions_tool.py",
             "tests/unit/mcp/test_change_impact_tool.py",
         },
     )
 
-    assert mapping["tree_sitter_analyzer/mcp/tools/_refactoring_plan_builder.py"] == [
+    assert mapping["codexray/mcp/tools/_refactoring_plan_builder.py"] == [
         "tests/unit/mcp/test_refactoring_suggestions_tool.py"
     ]
 
@@ -460,9 +460,9 @@ def test_find_test_files_maps_extracted_search_content_modules_to_family_tests()
     """Search content helper modules should stay on targeted search tests."""
     mapping = change_impact_tool._find_test_files(
         [
-            "tree_sitter_analyzer/mcp/tools/search_content_agent_summary.py",
-            "tree_sitter_analyzer/mcp/tools/search_content_response_modes.py",
-            "tree_sitter_analyzer/mcp/tools/search_content_validation.py",
+            "codexray/mcp/tools/search_content_agent_summary.py",
+            "codexray/mcp/tools/search_content_response_modes.py",
+            "codexray/mcp/tools/search_content_validation.py",
         ],
         {
             "tests/unit/mcp/test_search_content_tool.py",
@@ -478,15 +478,15 @@ def test_find_test_files_maps_extracted_search_content_modules_to_family_tests()
         "tests/unit/mcp/test_search_content_tool.py",
     ]
     assert (
-        mapping["tree_sitter_analyzer/mcp/tools/search_content_agent_summary.py"]
+        mapping["codexray/mcp/tools/search_content_agent_summary.py"]
         == expected
     )
     assert (
-        mapping["tree_sitter_analyzer/mcp/tools/search_content_response_modes.py"]
+        mapping["codexray/mcp/tools/search_content_response_modes.py"]
         == expected
     )
     assert (
-        mapping["tree_sitter_analyzer/mcp/tools/search_content_validation.py"]
+        mapping["codexray/mcp/tools/search_content_validation.py"]
         == expected
     )
 
@@ -494,7 +494,7 @@ def test_find_test_files_maps_extracted_search_content_modules_to_family_tests()
 def test_find_test_files_maps_find_and_grep_execution_to_family_tests():
     """Execution helper modules should stay on targeted find_and_grep tests."""
     mapping = change_impact_tool._find_test_files(
-        ["tree_sitter_analyzer/mcp/tools/find_and_grep_execution.py"],
+        ["codexray/mcp/tools/find_and_grep_execution.py"],
         {
             "tests/unit/cli/test_find_and_grep_cli_comprehensive.py",
             "tests/unit/core/test_find_and_grep_tool_file_output.py",
@@ -505,7 +505,7 @@ def test_find_test_files_maps_find_and_grep_execution_to_family_tests():
         },
     )
 
-    assert mapping["tree_sitter_analyzer/mcp/tools/find_and_grep_execution.py"] == [
+    assert mapping["codexray/mcp/tools/find_and_grep_execution.py"] == [
         "tests/unit/cli/test_find_and_grep_cli_comprehensive.py",
         "tests/unit/core/test_find_and_grep_tool_file_output.py",
         "tests/unit/mcp/test_find_and_grep_tool.py",
@@ -583,12 +583,12 @@ def test_execute_no_changes_with_scope_paths(monkeypatch):
         tool.execute(
             {
                 "output_format": "json",
-                "scope_paths": ["tree_sitter_analyzer/mcp"],
+                "scope_paths": ["codexray/mcp"],
             }
         )
     )
 
-    assert result["scope_paths"] == ["tree_sitter_analyzer/mcp"]
+    assert result["scope_paths"] == ["codexray/mcp"]
     assert result["scope_filtered"] is True
     assert result["queue_ledger"]["scoped_changed_count"] == 0
     assert result["queue_ledger"]["out_of_scope_changed_count"] == 0
@@ -627,7 +627,7 @@ def test_execute_no_changes_with_scope_and_agent_summary(monkeypatch):
         tool.execute(
             {
                 "output_format": "json",
-                "scope_paths": ["tree_sitter_analyzer/cli"],
+                "scope_paths": ["codexray/cli"],
                 "agent_summary_only": True,
             }
         )
@@ -775,21 +775,21 @@ def test_validate_arguments_rejects_bad_scope_mode():
 
 def test_doc_drift_hints_absent_for_unrelated_files():
     """No doc_drift_checks when changed files don't touch CLI or MCP tools."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
-    result = _attach_doc_drift_hints({}, ["tree_sitter_analyzer/plugins/python.py"])
+    result = _attach_doc_drift_hints({}, ["codexray/plugins/python.py"])
     assert "doc_drift_checks" not in result
 
 
 def test_doc_drift_hints_cli_main_triggers_readme_count_check():
     """Changing cli_main.py must append the README-count test to doc_drift_checks."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
-    result = _attach_doc_drift_hints({}, ["tree_sitter_analyzer/cli_main.py"])
+    result = _attach_doc_drift_hints({}, ["codexray/cli_main.py"])
     assert "doc_drift_checks" in result
     assert any(
         "test_readme_counts_match_registry" in step
@@ -799,11 +799,11 @@ def test_doc_drift_hints_cli_main_triggers_readme_count_check():
 
 def test_doc_drift_hints_tool_registry_triggers_readme_count_check():
     """Changing _tool_registry.py must also append the README-count test."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
-    result = _attach_doc_drift_hints({}, ["tree_sitter_analyzer/mcp/_tool_registry.py"])
+    result = _attach_doc_drift_hints({}, ["codexray/mcp/_tool_registry.py"])
     assert any(
         "test_readme_counts_match_registry" in step
         for step in result["doc_drift_checks"]
@@ -812,12 +812,12 @@ def test_doc_drift_hints_tool_registry_triggers_readme_count_check():
 
 def test_doc_drift_hints_facade_tool_triggers_doc_regen():
     """Changing a facade tool must append the facade-actions.md regen step."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
     result = _attach_doc_drift_hints(
-        {}, ["tree_sitter_analyzer/mcp/tools/symbol_search_tool.py"]
+        {}, ["codexray/mcp/tools/symbol_search_tool.py"]
     )
     assert "doc_drift_checks" in result
     assert any(
@@ -827,24 +827,24 @@ def test_doc_drift_hints_facade_tool_triggers_doc_regen():
 
 def test_doc_drift_hints_util_file_not_treated_as_facade_tool():
     """Files under mcp/tools/utils/ must NOT trigger facade-actions regen."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
     result = _attach_doc_drift_hints(
-        {}, ["tree_sitter_analyzer/mcp/tools/utils/change_impact_analysis.py"]
+        {}, ["codexray/mcp/tools/utils/change_impact_analysis.py"]
     )
     assert "doc_drift_checks" not in result
 
 
 def test_doc_drift_hints_argument_groups_file_triggers_readme_count_check():
     """Adding a flag in cli/argument_groups/*.py must trigger README-count check (P2 #924)."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
     result = _attach_doc_drift_hints(
-        {}, ["tree_sitter_analyzer/cli/argument_groups/_analysis.py"]
+        {}, ["codexray/cli/argument_groups/_analysis.py"]
     )
     assert "doc_drift_checks" in result
     assert any(
@@ -855,11 +855,11 @@ def test_doc_drift_hints_argument_groups_file_triggers_readme_count_check():
 
 def test_doc_drift_hints_facade_map_triggers_facade_doc_regen():
     """Changing facade_map.py must trigger facade-actions.md regen (P2 #924)."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
-    result = _attach_doc_drift_hints({}, ["tree_sitter_analyzer/mcp/facade_map.py"])
+    result = _attach_doc_drift_hints({}, ["codexray/mcp/facade_map.py"])
     assert "doc_drift_checks" in result
     assert any(
         "generate_facade_actions_doc" in step for step in result["doc_drift_checks"]
@@ -868,11 +868,11 @@ def test_doc_drift_hints_facade_map_triggers_facade_doc_regen():
 
 def test_doc_drift_hints_tool_registry_triggers_both_checks():
     """_tool_registry.py drives both README counts and facade-actions.md (P2 #924)."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
-    result = _attach_doc_drift_hints({}, ["tree_sitter_analyzer/mcp/_tool_registry.py"])
+    result = _attach_doc_drift_hints({}, ["codexray/mcp/_tool_registry.py"])
     assert any(
         "test_readme_counts_match_registry" in step
         for step in result["doc_drift_checks"]
@@ -884,13 +884,13 @@ def test_doc_drift_hints_tool_registry_triggers_both_checks():
 
 def test_doc_drift_hints_appends_to_verification_steps():
     """doc-drift checks must appear in verification_steps, not just doc_drift_checks (P2 #924)."""
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+    from codexray.mcp.tools.utils.change_impact_analysis import (
         _attach_doc_drift_hints,
     )
 
     result = _attach_doc_drift_hints(
         {"verification_steps": ["uv run pytest tests/unit/ -x"]},
-        ["tree_sitter_analyzer/cli_main.py"],
+        ["codexray/cli_main.py"],
     )
     assert len(result["verification_steps"]) == 2
     assert any(

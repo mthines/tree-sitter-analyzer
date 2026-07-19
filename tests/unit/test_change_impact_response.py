@@ -1,6 +1,6 @@
 """Unit tests for mcp/tools/utils/change_impact_response — response assembly."""
 
-from tree_sitter_analyzer.mcp.tools.utils.change_impact_response import (
+from codexray.mcp.tools.utils.change_impact_response import (
     AgentSummaryContext,
     ChangeImpactResponseContext,
     apply_scope_validation,
@@ -343,7 +343,7 @@ class TestBuildAgentSummaryOnlyResponse:
                 "changed_count": 1,
                 "affected_count": 8,
                 "tests_to_run_count": 2,
-                "changed_preview": ["tree_sitter_analyzer/example.py"],
+                "changed_preview": ["codexray/example.py"],
                 "next_step": "Run verification",
                 "verification_command": "uv run pytest tests/unit/test_example.py -q",
                 "stop_condition": "focused tests pass",
@@ -645,10 +645,10 @@ def test_verdict_severity_rank_matches_journal_rank():
     byte-identical to change_impact_tool._JOURNAL_VERDICT_RANK (duplicated only
     to avoid a circular import).
     """
-    from tree_sitter_analyzer.mcp.tools.change_impact_tool import (
+    from codexray.mcp.tools.change_impact_tool import (
         _JOURNAL_VERDICT_RANK,
     )
-    from tree_sitter_analyzer.mcp.tools.utils.change_impact_response import (
+    from codexray.mcp.tools.utils.change_impact_response import (
         _VERDICT_SEVERITY,
     )
 

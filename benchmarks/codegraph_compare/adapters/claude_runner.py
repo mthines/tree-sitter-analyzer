@@ -43,12 +43,12 @@ _CODEGRAPH_TOOLS = [
     "mcp__codegraph__codegraph_impact",
 ]
 _TSA_TOOLS = [
-    "mcp__tree-sitter-analyzer__nav",
-    "mcp__tree-sitter-analyzer__search",
-    "mcp__tree-sitter-analyzer__structure",
-    "mcp__tree-sitter-analyzer__health",
-    "mcp__tree-sitter-analyzer__index",
-    "mcp__tree-sitter-analyzer__project",
+    "mcp__codexray__nav",
+    "mcp__codexray__search",
+    "mcp__codexray__structure",
+    "mcp__codexray__health",
+    "mcp__codexray__index",
+    "mcp__codexray__project",
 ]
 
 # Tools explicitly blocked per arm (prevents Claude from discovering and using them via ToolSearch)
@@ -152,14 +152,14 @@ def _parse_tool_calls_from_stream(lines: list[str]) -> tuple[int, int, int, int]
             elif (
                 "codegraph" in name_lower
                 or "tree_sitter" in name_lower
-                or "tree-sitter" in name_lower  # TSA MCP: mcp__tree-sitter-analyzer__*
+                or "tree-sitter" in name_lower  # TSA MCP: mcp__codexray__*
             ):
                 index_queries += 1
             elif name_lower == "bash":
                 inp = block.get("input", {})
                 cmd_str = inp.get("command", "") if isinstance(inp, dict) else str(inp)
                 if (
-                    "tree_sitter_analyzer" in cmd_str
+                    "codexray" in cmd_str
                     or "python -m tree_sitter" in cmd_str
                 ):
                     index_queries += 1
@@ -181,7 +181,7 @@ def _looks_like_shell_search(command: str) -> bool:
 
 
 def _looks_like_index_query(command: str) -> bool:
-    return "tree_sitter_analyzer" in command or "codegraph" in command.lower()
+    return "codexray" in command or "codegraph" in command.lower()
 
 
 def _parse_codex_tool_calls_from_stream(lines: list[str]) -> tuple[int, int, int, int]:
@@ -306,18 +306,18 @@ def _write_arm_mcp_config(arm_id: str, repo_path: Path) -> Path:
     CRITICAL: the TSA server is given ``--project-root <repo_path>`` explicitly.
     Without it the server auto-detects its root and resolves to the ANALYZER
     repo (where its package lives), NOT the benchmark target repo — so every
-    nav/structure query analyzes tree-sitter-analyzer's own code instead of
+    nav/structure query analyzes codexray's own code instead of
     e.g. gin. The agent then calls set_project_path, re-queries, and falls back
     to raw Reads of the analyzer tree, inflating cost ~2.5x and invalidating
     the comparison. (Found by dogfooding the TSA arm transcript.)
     """
     if arm_id.startswith("tsa"):
         servers = {
-            "tree-sitter-analyzer": {
+            "codexray": {
                 "command": str(_ANALYZER_ROOT / ".venv" / "bin" / "python"),
                 "args": [
                     "-m",
-                    "tree_sitter_analyzer.mcp.server",
+                    "codexray.mcp.server",
                     "--project-root",
                     str(repo_path),
                 ],

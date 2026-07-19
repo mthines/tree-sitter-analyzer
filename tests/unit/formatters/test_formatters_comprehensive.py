@@ -8,15 +8,15 @@ including base formatter, factory, and language-specific formatters.
 
 import pytest
 
-from tree_sitter_analyzer.default_table_formatter import DefaultTableFormatter
-from tree_sitter_analyzer.formatters.base_formatter import BaseTableFormatter
-from tree_sitter_analyzer.formatters.formatter_registry import FormatterRegistry
-from tree_sitter_analyzer.formatters.java_formatter import JavaTableFormatter
-from tree_sitter_analyzer.formatters.javascript_formatter import (
+from codexray.default_table_formatter import DefaultTableFormatter
+from codexray.formatters.base_formatter import BaseTableFormatter
+from codexray.formatters.formatter_registry import FormatterRegistry
+from codexray.formatters.java_formatter import JavaTableFormatter
+from codexray.formatters.javascript_formatter import (
     JavaScriptTableFormatter,
 )
-from tree_sitter_analyzer.formatters.python_formatter import PythonTableFormatter
-from tree_sitter_analyzer.formatters.typescript_formatter import (
+from codexray.formatters.python_formatter import PythonTableFormatter
+from codexray.formatters.typescript_formatter import (
     TypeScriptTableFormatter,
 )
 

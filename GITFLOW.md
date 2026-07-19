@@ -1,6 +1,6 @@
 # GitFlow Branching Strategy (English Documentation)
 
-This document explains the GitFlow branching strategy implemented in the `tree-sitter-analyzer` project using Mermaid diagrams and English descriptions.
+This document explains the GitFlow branching strategy implemented in the `codexray` project using Mermaid diagrams and English descriptions.
 
 ## GitFlow Diagram
 
@@ -247,7 +247,7 @@ The project recommends using automated release workflows, but the manual process
 
 ## Automation Workflows (Authority CI/CD Pipeline)
 
-The `tree-sitter-analyzer` project implements an enterprise-grade CI/CD pipeline. Our "Authority Pipeline" is built on modular, reusable components that ensure every release meets the highest standards of quality, security, and performance.
+The `codexray` project implements an enterprise-grade CI/CD pipeline. Our "Authority Pipeline" is built on modular, reusable components that ensure every release meets the highest standards of quality, security, and performance.
 
 ### 🏗️ Pipeline Architecture
 - **Modular Design**: All core logic is encapsulated in `reusable-*.yml` workflows to ensure consistency.

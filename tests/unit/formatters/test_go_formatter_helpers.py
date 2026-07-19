@@ -1,4 +1,4 @@
-from tree_sitter_analyzer.formatters._go_formatter_helpers import (
+from codexray.formatters._go_formatter_helpers import (
     format_go_full_table,
 )
 

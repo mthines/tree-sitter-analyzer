@@ -7,7 +7,7 @@
 import asyncio
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.tools.symbol_lineage_tool import (
+from codexray.mcp.tools.symbol_lineage_tool import (
     SymbolLineageTool,
     _filter_references_to_scope,
     _normalize_scope_file_paths,
@@ -48,7 +48,7 @@ class TestFilepathsScopeFilter:
         assert result["scope_filtered"] is False
 
     def test_file_paths_filter_references(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "lib.py", "def foo():\n    return 1\n")
         _write_py(
@@ -98,7 +98,7 @@ class TestFilepathsScopeFilter:
         assert "filters references" in note
 
     def test_scope_cache_key_does_not_cross_pollute(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "lib.py", "def foo():\n    return 1\n")
         _write_py(
@@ -148,7 +148,7 @@ class TestFilepathsScopeFilter:
 
     def test_cli_spec_passes_file_paths(self, tmp_path):
         """CLI spec build_tool_args must include file_paths when present."""
-        from tree_sitter_analyzer.cli.commands.mcp_commands._specs_core import (
+        from codexray.cli.commands.mcp_commands._specs_core import (
             _CORE_SPECS,
         )
 
@@ -168,7 +168,7 @@ class TestFilepathsScopeFilter:
     def test_cli_spec_file_paths_none_not_included(self, tmp_path):
         """When CLI --file-paths is not set (None), file_paths must not appear
         in the tool args (clean envelope, no spurious scope)."""
-        from tree_sitter_analyzer.cli.commands.mcp_commands._specs_core import (
+        from codexray.cli.commands.mcp_commands._specs_core import (
             _CORE_SPECS,
         )
 
@@ -199,7 +199,7 @@ class TestRefCountIncludesCallers:
 
     def test_callers_included_in_references(self, tmp_path):
         """Call-site callers appear in references list."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(
             tmp_path,
@@ -234,7 +234,7 @@ class TestRefCountIncludesCallers:
 
     def test_reference_count_matches_caller_count(self, tmp_path):
         """reference_count must equal len(references) — no hidden inflation."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "lib.py", "def bar():\n    return 1\n")
         _write_py(
@@ -259,7 +259,7 @@ class TestRefCountIncludesCallers:
 
     def test_caller_files_appear_in_references(self, tmp_path):
         """Files that contain call sites must appear in references."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "utils.py", "def helper():\n    return 0\n")
         _write_py(
@@ -282,7 +282,7 @@ class TestRefCountIncludesCallers:
 
     def test_no_duplicate_references_from_call_graph(self, tmp_path):
         """Call-graph callers must not create duplicate reference entries."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "lib.py", "def target():\n    pass\n")
         _write_py(
@@ -305,7 +305,7 @@ class TestRefCountIncludesCallers:
         )
 
     def test_multiple_calls_use_call_site_lines(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "lib.py", "def target():\n    return 1\n")
         _write_py(
@@ -334,7 +334,7 @@ class TestRefCountIncludesCallers:
         assert call_lines == [4, 5]
 
     def test_qualified_symbol_name_is_preserved_for_callers(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "lib.py", "def target():\n    return 1\n")
         _write_py(tmp_path, "other.py", "def target():\n    return 2\n")
@@ -364,7 +364,7 @@ class TestRefCountIncludesCallers:
         assert [r["start_line"] for r in call_refs] == [5]
 
     def test_stale_call_graph_does_not_enrich_refs(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         _write_py(tmp_path, "lib.py", "def gone():\n    return 1\n")
         _write_py(

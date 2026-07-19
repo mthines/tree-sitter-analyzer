@@ -6,8 +6,8 @@
 - **Last updated**: 2026-06-11
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/mcp/utils/format_helper.py`
-  - `tree_sitter_analyzer/mcp/tools/*` (66 call sites of `apply_toon_format_to_response`)
+  - `codexray/mcp/utils/format_helper.py`
+  - `codexray/mcp/tools/*` (66 call sites of `apply_toon_format_to_response`)
   - `tests/**` (62 test files reference `toon_content`)
 
 ## Summary

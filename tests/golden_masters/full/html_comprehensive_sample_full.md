@@ -80,7 +80,7 @@
 | `meta` | meta | 5-6 | name="viewport", content="w... | 0 |
 | `meta` | meta | 6-7 | name="description", content... | 0 |
 | `meta` | meta | 7-8 | name="keywords", content="H... | 0 |
-| `meta` | meta | 8-9 | name="author", content="Tre... | 0 |
+| `meta` | meta | 8-9 | name="author", content="Cod... | 0 |
 | `title` | title | 9-9 | - | 0 |
 | `link` | link | 10-11 | rel="stylesheet", href="com... | 0 |
 | `link` | link | 11-12 | rel="icon", type="image/x-i... | 0 |

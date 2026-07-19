@@ -1,7 +1,7 @@
 """RED tests for HealthHistory persistence layer.
 
 Target module (does NOT exist yet):
-    tree_sitter_analyzer._health_history.HealthHistory
+    codexray._health_history.HealthHistory
 
 Contract under test:
     HealthHistory(project_root: str, db_path: str | None = None)
@@ -28,7 +28,7 @@ pytestmark = pytest.mark.filterwarnings("ignore::DeprecationWarning")
 
 def _import_history():
     """Lazy import to ensure each test gets a clean failure on missing module."""
-    from tree_sitter_analyzer.registry.health_history import (
+    from codexray.registry.health_history import (
         HealthHistory,  # noqa: WPS433
     )
 

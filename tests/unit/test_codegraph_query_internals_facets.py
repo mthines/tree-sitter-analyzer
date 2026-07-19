@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._codegraph_query_dsl import _ChainStep
-from tree_sitter_analyzer.mcp.tools.codegraph_query_tool import (
+from codexray.mcp.tools._codegraph_query_dsl import _ChainStep
+from codexray.mcp.tools.codegraph_query_tool import (
     _absolute_path,
     _affected_tests_facet,
     _build_file_entries,
@@ -248,11 +248,11 @@ class TestCodeGraphQueryInternalsFacets:
         health_score = MagicMock(total=51, grade="D", dimensions={"complexity": 20})
         with (
             patch(
-                "tree_sitter_analyzer.complexity_heatmap."
+                "codexray.complexity_heatmap."
                 "analyze_file_complexity_from_cache",
                 return_value=[complexity_row],
             ),
-            patch("tree_sitter_analyzer.health_scorer.HealthScorer") as scorer_cls,
+            patch("codexray.health_scorer.HealthScorer") as scorer_cls,
         ):
             scorer_cls.return_value.score_file.return_value = health_score
             _include_facets(
@@ -381,7 +381,7 @@ class TestCodeGraphQueryInternalsFacets:
         symbols = [{"file": "main.py", "line": 1, "name": "run"}]
 
         with patch.dict(
-            "sys.modules", {"tree_sitter_analyzer.complexity_heatmap": None}
+            "sys.modules", {"codexray.complexity_heatmap": None}
         ):
             assert (
                 _complexity_facet(MagicMock(), str(tmp_path), symbols, max_files=1)[
@@ -391,7 +391,7 @@ class TestCodeGraphQueryInternalsFacets:
             )
 
         with patch(
-            "tree_sitter_analyzer.complexity_heatmap.analyze_file_complexity_from_cache",
+            "codexray.complexity_heatmap.analyze_file_complexity_from_cache",
             side_effect=[[], RuntimeError("boom")],
         ):
             result = _complexity_facet(
@@ -404,14 +404,14 @@ class TestCodeGraphQueryInternalsFacets:
         assert result["files"][0]["status"] == "no_functions"
         assert result["files"][1]["status"] == "error"
 
-        with patch("tree_sitter_analyzer.health_scorer.HealthScorer") as scorer_cls:
+        with patch("codexray.health_scorer.HealthScorer") as scorer_cls:
             scorer_cls.return_value.score_file.side_effect = RuntimeError("bad health")
             health = _health_facet(str(tmp_path), symbols, max_files=1)
 
         assert health["files"] == [
             {"file": "main.py", "status": "error", "error": "bad health"}
         ]
-        with patch.dict("sys.modules", {"tree_sitter_analyzer.health_scorer": None}):
+        with patch.dict("sys.modules", {"codexray.health_scorer": None}):
             assert _health_facet(str(tmp_path), symbols, max_files=1)["status"] == (
                 "missing"
             )

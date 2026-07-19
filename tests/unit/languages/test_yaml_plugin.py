@@ -7,7 +7,7 @@ Tests for the YAML language plugin functionality.
 
 import pytest
 
-from tree_sitter_analyzer.languages.yaml_plugin import (
+from codexray.languages.yaml_plugin import (
     YAML_AVAILABLE,
     YAMLElement,
     YAMLElementExtractor,
@@ -103,7 +103,7 @@ class TestYAMLPluginAnalysis:
 
     async def test_analyze_simple_yaml(self, tmp_path) -> None:
         """Test analyzing a simple YAML file."""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         # Create test file
         yaml_content = """
@@ -124,7 +124,7 @@ enabled: true
 
     async def test_analyze_yaml_with_anchors(self, tmp_path) -> None:
         """Test analyzing YAML with anchors and aliases."""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         yaml_content = """
 defaults: &defaults
@@ -151,7 +151,7 @@ production:
 
     async def test_analyze_multi_document_yaml(self, tmp_path) -> None:
         """Test analyzing multi-document YAML."""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         yaml_content = """---
 doc1: value1
@@ -174,7 +174,7 @@ doc2: value2
 
     async def test_analyze_yaml_with_sequences(self, tmp_path) -> None:
         """Test analyzing YAML with sequences."""
-        from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+        from codexray.core.analysis_engine import AnalysisRequest
 
         yaml_content = """
 items:

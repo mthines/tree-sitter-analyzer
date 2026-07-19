@@ -3,7 +3,7 @@
 
 from unittest.mock import Mock
 
-from tree_sitter_analyzer.formatters.markdown_formatter import MarkdownFormatter
+from codexray.formatters.markdown_formatter import MarkdownFormatter
 
 
 class TestFormatTable:

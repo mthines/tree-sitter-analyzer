@@ -16,8 +16,8 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
-from tree_sitter_analyzer.languages.yaml_plugin import YAML_AVAILABLE, YAMLPlugin
+from codexray.core.analysis_engine import AnalysisRequest
+from codexray.languages.yaml_plugin import YAML_AVAILABLE, YAMLPlugin
 
 # Skip all tests if YAML is not available
 pytestmark = pytest.mark.skipif(

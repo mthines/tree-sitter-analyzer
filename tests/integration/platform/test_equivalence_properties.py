@@ -1,5 +1,5 @@
-from tree_sitter_analyzer.platform_compat.adapter import CompatibilityAdapter
-from tree_sitter_analyzer.platform_compat.profiles import (
+from codexray.platform_compat.adapter import CompatibilityAdapter
+from codexray.platform_compat.profiles import (
     PROFILE_SCHEMA_VERSION,
     BehaviorProfile,
 )
@@ -59,7 +59,7 @@ class TestEquivalenceProperties:
         # macOS Raw Output: Trigger name is "description"
         # Linux Raw Output: Includes a phantom trigger element
 
-        from tree_sitter_analyzer.models import SQLElementType, SQLFunction, SQLTrigger
+        from codexray.models import SQLElementType, SQLFunction, SQLTrigger
 
         # Helper to run adaptation
         def run_adaptation(profile, raw_elements):

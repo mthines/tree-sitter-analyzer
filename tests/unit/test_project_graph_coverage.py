@@ -5,8 +5,8 @@ from pathlib import Path, PureWindowsPath
 
 import pytest
 
-from tree_sitter_analyzer import project_graph
-from tree_sitter_analyzer.project_graph import (
+from codexray import project_graph
+from codexray.project_graph import (
     BlastRadius,
     DependencyGraph,
     _language_from_ext,

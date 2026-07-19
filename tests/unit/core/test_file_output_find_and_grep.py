@@ -9,7 +9,7 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
 
 
 @pytest.mark.asyncio
@@ -52,11 +52,11 @@ async def test_find_and_grep_with_output_file_and_suppress_output(
             return (0, rg_output.encode(), b"")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
         mock_run_command,
     )
 
@@ -127,11 +127,11 @@ async def test_find_and_grep_output_file_auto_extension_detection(
             return (0, rg_output.encode(), b"")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
         mock_run_command,
     )
 
@@ -213,11 +213,11 @@ async def test_find_and_grep_combined_optimization_features(monkeypatch, tmp_pat
             return (0, rg_output.encode(), b"")
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.find_and_grep_tool.fd_rg_utils.run_command_capture",
         mock_run_command,
     )
 

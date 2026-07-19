@@ -3,7 +3,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.formatters.csharp_formatter import CSharpTableFormatter
+from codexray.formatters.csharp_formatter import CSharpTableFormatter
 
 
 class TestCSharpTableFormatterFullTable:

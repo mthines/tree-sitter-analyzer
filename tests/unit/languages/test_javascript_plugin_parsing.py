@@ -7,11 +7,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.javascript_plugin import (
+from codexray.languages.javascript_plugin import (
     JavaScriptElementExtractor,
     JavaScriptPlugin,
 )
-from tree_sitter_analyzer.models import Class, Function, Import, Variable
+from codexray.models import Class, Function, Import, Variable
 
 
 @pytest.fixture
@@ -141,7 +141,7 @@ class TestExtractDynamicImport:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "import('my-module')"
             result = extractor._extract_dynamic_import(mock_node)
@@ -159,7 +159,7 @@ class TestExtractDynamicImport:
         extractor._file_encoding = "utf-8"
 
         with patch(
-            "tree_sitter_analyzer.languages.javascript_plugin.extractor.extract_text_slice"
+            "codexray.languages.javascript_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "console.log()"
             result = extractor._extract_dynamic_import(mock_node)

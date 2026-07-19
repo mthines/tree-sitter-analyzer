@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a comprehensive reference for all secrets and environment variables used in the tree-sitter-analyzer CI/CD workflows.
+This document provides a comprehensive reference for all secrets and environment variables used in the codexray CI/CD workflows.
 
 ## Required Secrets
 
@@ -19,7 +19,7 @@ This document provides a comprehensive reference for all secrets and environment
 **How to Obtain**:
 1. Visit https://codecov.io/
 2. Sign in with GitHub account
-3. Navigate to the tree-sitter-analyzer repository
+3. Navigate to the codexray repository
 4. Go to Settings → General
 5. Copy the repository upload token
 
@@ -46,8 +46,8 @@ This document provides a comprehensive reference for all secrets and environment
 2. Sign in to your account
 3. Go to Account settings → API tokens
 4. Click "Add API token"
-5. Name: `tree-sitter-analyzer-deploy`
-6. Scope: Select "Project: tree-sitter-analyzer"
+5. Name: `codexray-deploy`
+6. Scope: Select "Project: codexray"
 7. Click "Add token"
 8. Copy the token (starts with `pypi-`)
 

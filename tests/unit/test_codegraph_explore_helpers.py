@@ -6,7 +6,7 @@ import json
 import sqlite3
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.mcp.tools import _codegraph_explore_helpers as helpers
+from codexray.mcp.tools import _codegraph_explore_helpers as helpers
 
 
 class TestConceptSearchHelpers:

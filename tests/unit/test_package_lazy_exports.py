@@ -13,9 +13,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 def test_top_level_import_does_not_preload_heavy_analysis_modules() -> None:
     script = (
-        "import sys, tree_sitter_analyzer; "
-        "print('tree_sitter_analyzer.core.analysis_engine' in sys.modules); "
-        "print('tree_sitter_analyzer.output_manager' in sys.modules)"
+        "import sys, codexray; "
+        "print('codexray.core.analysis_engine' in sys.modules); "
+        "print('codexray.output_manager' in sys.modules)"
     )
 
     result = subprocess.run(
@@ -31,7 +31,7 @@ def test_top_level_import_does_not_preload_heavy_analysis_modules() -> None:
 
 
 def test_lazy_export_resolves_and_caches_public_name() -> None:
-    import tree_sitter_analyzer as tsa
+    import codexray as tsa
 
     tsa.__dict__.pop("Function", None)
 
@@ -42,7 +42,7 @@ def test_lazy_export_resolves_and_caches_public_name() -> None:
 
 
 def test_lazy_export_unknown_name_raises_attribute_error() -> None:
-    import tree_sitter_analyzer as tsa
+    import codexray as tsa
 
     missing = "DefinitelyMissing"
     with pytest.raises(AttributeError, match="DefinitelyMissing"):

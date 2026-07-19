@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.info_commands import (
+from codexray.cli.info_commands import (
     DescribeQueryCommand,
     InfoCommand,
     ListQueriesCommand,
@@ -38,7 +38,7 @@ class TestInfoCommandAbstract:
 
 class TestListQueriesCommand:
     def test_with_explicit_language(self, args_with_language):
-        with patch("tree_sitter_analyzer.cli.info_commands.query_loader") as mock_ql:
+        with patch("codexray.cli.info_commands.query_loader") as mock_ql:
             mock_ql.list_queries_for_language.return_value = ["classes", "methods"]
             mock_ql.get_query_description.side_effect = ["List classes", "List methods"]
             cmd = ListQueriesCommand(args_with_language)
@@ -48,9 +48,9 @@ class TestListQueriesCommand:
 
     def test_with_file_path_language_detection(self, args_with_file):
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.query_loader") as mock_ql,
+            patch("codexray.cli.info_commands.query_loader") as mock_ql,
             patch(
-                "tree_sitter_analyzer.cli.info_commands.detect_language_from_file",
+                "codexray.cli.info_commands.detect_language_from_file",
                 return_value="java",
             ),
         ):
@@ -63,8 +63,8 @@ class TestListQueriesCommand:
 
     def test_no_language_no_file_lists_all(self, args_no_language):
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.query_loader") as mock_ql,
-            patch("tree_sitter_analyzer.cli.info_commands.output_list"),
+            patch("codexray.cli.info_commands.query_loader") as mock_ql,
+            patch("codexray.cli.info_commands.output_list"),
         ):
             mock_ql.list_supported_languages.return_value = ["python"]
             mock_ql.list_queries_for_language.return_value = ["classes"]
@@ -78,9 +78,9 @@ class TestListQueriesCommand:
 class TestDescribeQueryCommand:
     def test_describe_with_explicit_language(self, args_with_language):
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.query_loader") as mock_ql,
-            patch("tree_sitter_analyzer.cli.info_commands.output_info"),
-            patch("tree_sitter_analyzer.cli.info_commands.output_data"),
+            patch("codexray.cli.info_commands.query_loader") as mock_ql,
+            patch("codexray.cli.info_commands.output_info"),
+            patch("codexray.cli.info_commands.output_data"),
         ):
             mock_ql.get_query_description.return_value = "List classes"
             mock_ql.get_query.return_value = "SELECT * FROM classes"
@@ -89,7 +89,7 @@ class TestDescribeQueryCommand:
             assert result == 0
 
     def test_describe_no_language_no_file(self, args_no_language):
-        with patch("tree_sitter_analyzer.cli.info_commands.output_error") as mock_err:
+        with patch("codexray.cli.info_commands.output_error") as mock_err:
             cmd = DescribeQueryCommand(args_no_language)
             result = cmd.execute()
             assert result == 1
@@ -97,8 +97,8 @@ class TestDescribeQueryCommand:
 
     def test_describe_query_not_found(self, args_with_language):
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.query_loader") as mock_ql,
-            patch("tree_sitter_analyzer.cli.info_commands.output_error"),
+            patch("codexray.cli.info_commands.query_loader") as mock_ql,
+            patch("codexray.cli.info_commands.output_error"),
         ):
             mock_ql.get_query_description.return_value = None
             mock_ql.get_query.return_value = None
@@ -108,8 +108,8 @@ class TestDescribeQueryCommand:
 
     def test_describe_query_value_error(self, args_with_language):
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.query_loader") as mock_ql,
-            patch("tree_sitter_analyzer.cli.info_commands.output_error"),
+            patch("codexray.cli.info_commands.query_loader") as mock_ql,
+            patch("codexray.cli.info_commands.output_error"),
         ):
             mock_ql.get_query_description.side_effect = ValueError("bad query")
             cmd = DescribeQueryCommand(args_with_language)
@@ -121,8 +121,8 @@ class TestShowLanguagesCommand:
     def test_show_languages(self):
         args = Namespace()
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.detector") as mock_det,
-            patch("tree_sitter_analyzer.cli.info_commands.output_list"),
+            patch("codexray.cli.info_commands.detector") as mock_det,
+            patch("codexray.cli.info_commands.output_list"),
         ):
             mock_det.get_supported_languages.return_value = ["python", "java"]
             mock_det.get_language_info.side_effect = [
@@ -140,9 +140,9 @@ class TestShowExtensionsCommand:
     def test_show_extensions(self):
         args = Namespace()
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.detector") as mock_det,
-            patch("tree_sitter_analyzer.cli.info_commands.output_list"),
-            patch("tree_sitter_analyzer.cli.info_commands.output_info"),
+            patch("codexray.cli.info_commands.detector") as mock_det,
+            patch("codexray.cli.info_commands.output_list"),
+            patch("codexray.cli.info_commands.output_info"),
         ):
             mock_det.get_supported_extensions.return_value = [
                 ".py",
@@ -176,7 +176,7 @@ class TestQ3SupportedExtensionsParity:
 
     @pytest.fixture
     def detector_instance(self):
-        from tree_sitter_analyzer.language_detector import LanguageDetector
+        from codexray.language_detector import LanguageDetector
 
         return LanguageDetector()
 
@@ -293,7 +293,7 @@ class TestQ3SupportedExtensionsParity:
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--show-supported-extensions",
             ],
             capture_output=True,
@@ -319,7 +319,7 @@ class TestQ3SupportedExtensionsParity:
             [
                 sys.executable,
                 "-m",
-                "tree_sitter_analyzer",
+                "codexray",
                 "--show-supported-languages",
             ],
             capture_output=True,
@@ -353,7 +353,7 @@ class TestR37adListQueriesJsonEnvelope:
         cmd = ListQueriesCommand(args)
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.output_json",
+            "codexray.cli.info_commands.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             rc = cmd.execute()
@@ -382,7 +382,7 @@ class TestR37adListQueriesJsonEnvelope:
         cmd = ListQueriesCommand(args)
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.output_json",
+            "codexray.cli.info_commands.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             rc = cmd.execute()
@@ -408,8 +408,8 @@ class TestR37adListQueriesJsonEnvelope:
         )
         cmd = ListQueriesCommand(args)
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.output_list") as mock_list,
-            patch("tree_sitter_analyzer.cli.info_commands.output_json") as mock_json,
+            patch("codexray.cli.info_commands.output_list") as mock_list,
+            patch("codexray.cli.info_commands.output_json") as mock_json,
         ):
             rc = cmd.execute()
         assert rc == 0
@@ -428,7 +428,7 @@ class TestR37aeRemainingInfoCommandsJsonEnvelope:
     def test_describe_query_json_envelope(self):
         from argparse import Namespace
 
-        from tree_sitter_analyzer.cli.info_commands import DescribeQueryCommand
+        from codexray.cli.info_commands import DescribeQueryCommand
 
         args = Namespace(
             language="python",
@@ -440,7 +440,7 @@ class TestR37aeRemainingInfoCommandsJsonEnvelope:
         cmd = DescribeQueryCommand(args)
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.output_json",
+            "codexray.cli.info_commands.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             rc = cmd.execute()
@@ -456,7 +456,7 @@ class TestR37aeRemainingInfoCommandsJsonEnvelope:
     def test_describe_query_not_found_json_envelope(self):
         from argparse import Namespace
 
-        from tree_sitter_analyzer.cli.info_commands import DescribeQueryCommand
+        from codexray.cli.info_commands import DescribeQueryCommand
 
         args = Namespace(
             language="python",
@@ -468,7 +468,7 @@ class TestR37aeRemainingInfoCommandsJsonEnvelope:
         cmd = DescribeQueryCommand(args)
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.output_json",
+            "codexray.cli.info_commands.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             rc = cmd.execute()
@@ -481,13 +481,13 @@ class TestR37aeRemainingInfoCommandsJsonEnvelope:
     def test_show_supported_languages_json_envelope(self):
         from argparse import Namespace
 
-        from tree_sitter_analyzer.cli.info_commands import ShowLanguagesCommand
+        from codexray.cli.info_commands import ShowLanguagesCommand
 
         args = Namespace(output_format="json", format="json")
         cmd = ShowLanguagesCommand(args)
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.output_json",
+            "codexray.cli.info_commands.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             rc = cmd.execute()
@@ -505,13 +505,13 @@ class TestR37aeRemainingInfoCommandsJsonEnvelope:
     def test_show_supported_extensions_json_envelope(self):
         from argparse import Namespace
 
-        from tree_sitter_analyzer.cli.info_commands import ShowExtensionsCommand
+        from codexray.cli.info_commands import ShowExtensionsCommand
 
         args = Namespace(output_format="json", format="json")
         cmd = ShowExtensionsCommand(args)
         captured: dict = {}
         with patch(
-            "tree_sitter_analyzer.cli.info_commands.output_json",
+            "codexray.cli.info_commands.output_json",
             side_effect=lambda d: captured.update(d) if isinstance(d, dict) else None,
         ):
             rc = cmd.execute()
@@ -525,13 +525,13 @@ class TestR37aeRemainingInfoCommandsJsonEnvelope:
         """Text default must still go through output_list (backward compat)."""
         from argparse import Namespace
 
-        from tree_sitter_analyzer.cli.info_commands import ShowLanguagesCommand
+        from codexray.cli.info_commands import ShowLanguagesCommand
 
         args = Namespace(output_format="text", format=None)
         cmd = ShowLanguagesCommand(args)
         with (
-            patch("tree_sitter_analyzer.cli.info_commands.output_list") as mock_list,
-            patch("tree_sitter_analyzer.cli.info_commands.output_json") as mock_json,
+            patch("codexray.cli.info_commands.output_list") as mock_list,
+            patch("codexray.cli.info_commands.output_json") as mock_json,
         ):
             rc = cmd.execute()
         assert rc == 0

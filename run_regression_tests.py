@@ -95,14 +95,14 @@ class RegressionTestRunner:
             (["python", "-c", "import pytest"], "pytest availability"),
             (["python", "-c", "import asyncio"], "asyncio availability"),
             (
-                ["python", "-c", "import tree_sitter_analyzer"],
-                "tree_sitter_analyzer import",
+                ["python", "-c", "import codexray"],
+                "codexray import",
             ),
             (
                 [
                     "python",
                     "-c",
-                    "from tree_sitter_analyzer.core.query_service import QueryService",
+                    "from codexray.core.query_service import QueryService",
                 ],
                 "QueryService import",
             ),
@@ -110,7 +110,7 @@ class RegressionTestRunner:
                 [
                     "python",
                     "-c",
-                    "from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool",
+                    "from codexray.mcp.tools.query_tool import QueryTool",
                 ],
                 "QueryTool import",
             ),
@@ -217,7 +217,7 @@ class RegressionTestRunner:
                 [
                     "python",
                     "-m",
-                    "tree_sitter_analyzer",
+                    "codexray",
                     "query",
                     "--file-path",
                     "examples/sample.py",
@@ -230,7 +230,7 @@ class RegressionTestRunner:
                 [
                     "python",
                     "-m",
-                    "tree_sitter_analyzer",
+                    "codexray",
                     "query",
                     "--file-path",
                     "examples/ModernJavaScript.js",

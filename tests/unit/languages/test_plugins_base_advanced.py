@@ -7,7 +7,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.plugins.base import (
+from codexray.plugins.base import (
     DefaultExtractor,
     DefaultLanguagePlugin,
     ElementExtractor,
@@ -131,7 +131,7 @@ class TestDefaultExtractorTraversal:
 
     def test_traverse_for_classes_creates_element(self, extractor):
         """_traverse_for_classes should create and append a Class element"""
-        from tree_sitter_analyzer.models import Class as ModelClass
+        from codexray.models import Class as ModelClass
 
         mock_node = Mock()
         mock_node.type = "class_definition"
@@ -165,7 +165,7 @@ class TestDefaultExtractorTraversal:
 
     def test_traverse_for_classes_recursive(self, extractor):
         """_traverse_for_classes should recurse into children"""
-        from tree_sitter_analyzer.models import Class as ModelClass
+        from codexray.models import Class as ModelClass
 
         mock_child = Mock()
         mock_child.type = "class_definition"
@@ -203,7 +203,7 @@ class TestDefaultExtractorTraversal:
 
     def test_traverse_for_variables_creates_element(self, extractor):
         """_traverse_for_variables should create and append a Variable element"""
-        from tree_sitter_analyzer.models import Variable as ModelVariable
+        from codexray.models import Variable as ModelVariable
 
         mock_node = Mock()
         mock_node.type = "variable_declaration"
@@ -224,7 +224,7 @@ class TestDefaultExtractorTraversal:
 
     def test_traverse_for_variables_recursive(self, extractor):
         """_traverse_for_variables should recurse into children"""
-        from tree_sitter_analyzer.models import Variable as ModelVariable
+        from codexray.models import Variable as ModelVariable
 
         mock_child = Mock()
         mock_child.type = "variable_declaration"
@@ -251,7 +251,7 @@ class TestDefaultExtractorTraversal:
 
     def test_traverse_for_imports_creates_element(self, extractor):
         """_traverse_for_imports should create and append an Import element"""
-        from tree_sitter_analyzer.models import Import as ModelImport
+        from codexray.models import Import as ModelImport
 
         mock_node = Mock()
         mock_node.type = "import_statement"
@@ -270,7 +270,7 @@ class TestDefaultExtractorTraversal:
 
     def test_traverse_for_imports_recursive(self, extractor):
         """_traverse_for_imports should recurse into children"""
-        from tree_sitter_analyzer.models import Import as ModelImport
+        from codexray.models import Import as ModelImport
 
         mock_child = Mock()
         mock_child.type = "import_declaration"

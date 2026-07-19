@@ -26,7 +26,7 @@ from pathlib import Path
 import pytest
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-TARGET = PROJECT_ROOT / "tree_sitter_analyzer" / "cli" / "argument_parser_builder.py"
+TARGET = PROJECT_ROOT / "codexray" / "cli" / "argument_parser_builder.py"
 
 # Tech-debt acknowledgement (2026-05-24): argument_parser_builder.py is
 # 1533 lines with one 734-line ``_add_mcp_analysis_options`` (CRITICAL
@@ -48,7 +48,7 @@ def code_patterns_result() -> dict[str, object]:
     cmd = [
         sys.executable,
         "-m",
-        "tree_sitter_analyzer",
+        "codexray",
         "--code-patterns",
         str(TARGET),
         "--format",

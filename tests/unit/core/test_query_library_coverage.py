@@ -12,7 +12,7 @@ import pytest
 # Add project root to path
 sys.path.insert(0, ".")
 
-from tree_sitter_analyzer.query_loader import get_query, get_query_loader, list_queries
+from codexray.query_loader import get_query, get_query_loader, list_queries
 
 # Use a fixed language for testing
 TEST_LANGUAGE = "java"

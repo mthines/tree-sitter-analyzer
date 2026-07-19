@@ -10,7 +10,7 @@ from pathlib import Path
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.encoding_utils import (
+from codexray.encoding_utils import (
     clear_encoding_cache,
     detect_encoding,
     get_encoding_cache_size,

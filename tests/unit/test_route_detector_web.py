@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from codexray.route_detector import RouteDetector
 from tests.unit.conftest import _write
-from tree_sitter_analyzer.route_detector import RouteDetector
 
 # ---------------------------------------------------------------------------
 # Express

@@ -11,8 +11,8 @@ import asyncio
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools import hyphae_subscribe_tool as hst
-from tree_sitter_analyzer.mcp.watch_push_bridge import _send_update
+from codexray.mcp.tools import hyphae_subscribe_tool as hst
+from codexray.mcp.watch_push_bridge import _send_update
 
 
 def test_capture_session_obj_returns_none_outside_request_context() -> None:

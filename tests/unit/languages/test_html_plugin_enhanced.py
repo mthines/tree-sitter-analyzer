@@ -1,6 +1,6 @@
 """Enhanced tests for HTML plugin functionality with focus on advanced features."""
 
-from tree_sitter_analyzer.languages.html_plugin import HtmlPlugin
+from codexray.languages.html_plugin import HtmlPlugin
 
 # Enhanced HTML code samples for testing
 TAG_CODE = """

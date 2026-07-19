@@ -27,8 +27,8 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.core.request import AnalysisRequest
-from tree_sitter_analyzer.plugins.manager import PluginManager
+from codexray.core.request import AnalysisRequest
+from codexray.plugins.manager import PluginManager
 
 pytestmark = pytest.mark.full_language
 
@@ -147,7 +147,7 @@ def test_plugin_golden_master(language: str, fixture_name: str) -> None:
 
 def test_all_supported_languages_have_a_fixture_row() -> None:
     """Surface drift between the plugin roster and the regression matrix."""
-    from tree_sitter_analyzer.plugins.manager import PluginManager
+    from codexray.plugins.manager import PluginManager
 
     mgr = PluginManager()
     mgr.load_plugins()

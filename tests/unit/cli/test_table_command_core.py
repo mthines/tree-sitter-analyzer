@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.table_command import TableCommand
+from codexray.cli.commands.table_command import TableCommand
 
 
 @pytest.fixture
@@ -108,7 +108,7 @@ class TestTableCommandExecuteAsync:
             command, "analyze_file", new_callable=AsyncMock
         ) as mock_analyze:
             mock_analyze.side_effect = Exception("Test error")
-            with patch("tree_sitter_analyzer.cli.commands.table_command.output_error"):
+            with patch("codexray.cli.commands.table_command.output_error"):
                 result = await command.execute_async("python")
                 assert result == 1
 
@@ -152,7 +152,7 @@ class TestTableCommandExecuteAsync:
                 analysis_time=0.1,
             )
             with patch(
-                "tree_sitter_analyzer.formatters.formatter_registry.FormatterRegistry"
+                "codexray.formatters.formatter_registry.FormatterRegistry"
             ) as mock_registry:
                 mock_formatter = MagicMock()
                 mock_formatter.format_structure.return_value = "table_output"
@@ -178,7 +178,7 @@ class TestTableCommandFormatAsToon:
             analysis_time=0.1,
         )
         with patch(
-            "tree_sitter_analyzer.formatters.toon_formatter.ToonFormatter"
+            "codexray.formatters.toon_formatter.ToonFormatter"
         ) as mock_formatter_class:
             mock_formatter = MagicMock()
             mock_formatter.format.return_value = "toon_output"
@@ -200,7 +200,7 @@ class TestTableCommandFormatAsToon:
             analysis_time=0.1,
         )
         with patch(
-            "tree_sitter_analyzer.formatters.toon_formatter.ToonFormatter"
+            "codexray.formatters.toon_formatter.ToonFormatter"
         ) as mock_formatter_class:
             mock_formatter = MagicMock()
             mock_formatter.format.return_value = "toon_output"
@@ -233,7 +233,7 @@ class TestTableCommandConvertToToonFormat:
 
     def test_convert_to_toon_format_with_class(self, command):
         """Test _convert_to_toon_format with class element."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_class = MagicMock()
         mock_class.name = "TestClass"
@@ -257,7 +257,7 @@ class TestTableCommandConvertToToonFormat:
 
     def test_convert_to_toon_format_with_method(self, command):
         """Test _convert_to_toon_format with method element."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_FUNCTION
+        from codexray.constants import ELEMENT_TYPE_FUNCTION
 
         mock_method = MagicMock()
         mock_method.name = "testMethod"
@@ -281,7 +281,7 @@ class TestTableCommandConvertToToonFormat:
 
     def test_convert_to_toon_format_with_field(self, command):
         """Test _convert_to_toon_format with field element."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_VARIABLE
+        from codexray.constants import ELEMENT_TYPE_VARIABLE
 
         mock_field = MagicMock()
         mock_field.name = "testField"
@@ -305,7 +305,7 @@ class TestTableCommandConvertToToonFormat:
 
     def test_convert_to_toon_format_with_import(self, command):
         """Test _convert_to_toon_format with import element."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_IMPORT
+        from codexray.constants import ELEMENT_TYPE_IMPORT
 
         mock_import = MagicMock()
         mock_import.name = "os"
@@ -331,7 +331,7 @@ class TestTableCommandConvertToToonFormat:
 
     def test_convert_to_toon_format_statistics(self, command):
         """Test _convert_to_toon_format includes statistics."""
-        from tree_sitter_analyzer.constants import ELEMENT_TYPE_CLASS
+        from codexray.constants import ELEMENT_TYPE_CLASS
 
         mock_class = MagicMock()
         mock_class.name = "TestClass"

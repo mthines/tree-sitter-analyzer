@@ -2,14 +2,14 @@
 
 from dataclasses import dataclass
 
-from tree_sitter_analyzer.constants import (
+from codexray.constants import (
     ELEMENT_TYPE_CLASS,
     ELEMENT_TYPE_FUNCTION,
     ELEMENT_TYPE_IMPORT,
     ELEMENT_TYPE_PACKAGE,
     ELEMENT_TYPE_VARIABLE,
 )
-from tree_sitter_analyzer.formatters._python_formatter_conversion import (
+from codexray.formatters._python_formatter_conversion import (
     convert_analysis_result_to_python_format,
     convert_class_element_for_python,
     convert_function_element_for_python,

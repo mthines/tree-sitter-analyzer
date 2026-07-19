@@ -7,7 +7,7 @@ across multiple programming languages with automatic language detection.
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
+from codexray.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
 
 
 @pytest.fixture

@@ -17,7 +17,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.project_index import (
+from codexray.mcp.utils.project_index import (
     ProjectIndex,
     ProjectIndexManager,
 )
@@ -90,7 +90,7 @@ class TestProjectIndexManagerBuild:
         # Force the os.walk path: with fd installed the count differs (fd
         # includes the __pycache__ file → 9), so pin the hermetic fallback
         with patch(
-            "tree_sitter_analyzer.mcp.utils.project_index._filesystem.subprocess.run",
+            "codexray.mcp.utils.project_index._filesystem.subprocess.run",
             side_effect=FileNotFoundError("fd not found"),
         ):
             index = manager.build()

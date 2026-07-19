@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This guide provides solutions to common issues encountered in the tree-sitter-analyzer CI/CD workflows. Each section includes the problem description, error messages you might see, root causes, and step-by-step resolution procedures.
+This guide provides solutions to common issues encountered in the codexray CI/CD workflows. Each section includes the problem description, error messages you might see, root causes, and step-by-step resolution procedures.
 
 ## Table of Contents
 
@@ -163,20 +163,20 @@ uv run pre-commit run ruff --all-files
 
 ```bash
 # Auto-format with black
-uv run black tree_sitter_analyzer/ tests/
+uv run black codexray/ tests/
 
 # Auto-fix with ruff
-uv run ruff check --fix tree_sitter_analyzer/ tests/
+uv run ruff check --fix codexray/ tests/
 
 # Auto-sort imports with isort
-uv run isort tree_sitter_analyzer/ tests/
+uv run isort codexray/ tests/
 ```
 
 #### Step 3: Fix Type Issues
 
 ```bash
 # Run mypy with detailed output
-uv run mypy tree_sitter_analyzer/ --show-error-codes
+uv run mypy codexray/ --show-error-codes
 
 # Fix type annotations based on errors
 # Example: Add type hints to function signatures
@@ -186,7 +186,7 @@ uv run mypy tree_sitter_analyzer/ --show-error-codes
 
 ```bash
 # Run bandit security check
-uv run bandit -r tree_sitter_analyzer/
+uv run bandit -r codexray/
 
 # Review and fix security warnings
 ```
@@ -195,7 +195,7 @@ uv run bandit -r tree_sitter_analyzer/
 
 ```bash
 # Run pydocstyle
-uv run pydocstyle tree_sitter_analyzer/
+uv run pydocstyle codexray/
 
 # Add or fix docstrings following Google style
 ```
@@ -344,7 +344,7 @@ Error: Failed to upload coverage report
 
 ```bash
 # Generate coverage locally
-uv run pytest tests/ --cov=tree_sitter_analyzer --cov-report=xml
+uv run pytest tests/ --cov=codexray --cov-report=xml
 
 # Verify coverage.xml exists
 ls -la coverage.xml
@@ -433,7 +433,7 @@ twine upload failed with exit code 1
 grep "version =" pyproject.toml
 
 # Check if version exists on PyPI
-pip index versions tree-sitter-analyzer
+pip index versions codexray
 ```
 
 If version exists, increment version number:
@@ -463,7 +463,7 @@ ls -la dist/
 uv run twine upload --repository testpypi dist/*
 
 # Verify on Test PyPI
-pip install --index-url https://test.pypi.org/simple/ tree-sitter-analyzer
+pip install --index-url https://test.pypi.org/simple/ codexray
 ```
 
 #### Step 5: Fix and Retry
@@ -808,10 +808,10 @@ Run tests in Docker containers matching GitHub Actions environment:
 
 ```bash
 # Build test container
-docker build -t tree-sitter-analyzer-test .
+docker build -t codexray-test .
 
 # Run tests
-docker run tree-sitter-analyzer-test pytest tests/
+docker run codexray-test pytest tests/
 ```
 
 ### Manual Verification

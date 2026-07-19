@@ -8,9 +8,9 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.route_detector_tool import RouteDetectorTool
-from tree_sitter_analyzer.registry.route_cache import RouteCache
-from tree_sitter_analyzer.route_detector import RouteDetector
+from codexray.mcp.tools.route_detector_tool import RouteDetectorTool
+from codexray.registry.route_cache import RouteCache
+from codexray.route_detector import RouteDetector
 
 # ---------------------------------------------------------------------------
 # PERF-1: content-hash route cache
@@ -113,7 +113,7 @@ class TestRouteCachePersistence:
         primed = RouteDetector(str(project)).detect_all()
         assert len(primed) == 60 * 3
 
-        from tree_sitter_analyzer.core.parser import Parser as _Parser
+        from codexray.core.parser import Parser as _Parser
 
         def trial() -> tuple[float, float]:
             # Clear Parser._cache so the "cold" path actually pays the parse
@@ -371,7 +371,7 @@ class TestRouteEnvelopeConsistency:
         frameworks_from_routes = {r["framework"] for r in result["routes"]}
         assert frameworks == frameworks_from_routes
 
-    def test_tree_sitter_analyzer_project_reports_zero_routes(self):
+    def test_codexray_project_reports_zero_routes(self):
         """Regression guard for the original F4 reproducer: running the
         tool against this repo (which has no Flask/Django/FastAPI/Express/
         Spring code) must return ``total_routes==0`` and an empty
@@ -392,14 +392,14 @@ class TestRouteEnvelopeConsistency:
             (p for p in here.parents if (p / "pyproject.toml").exists()),
             None,
         )
-        if repo_root is None or not (repo_root / "tree_sitter_analyzer").is_dir():
-            pytest.skip("tree-sitter-analyzer repo root not found from this test file")
+        if repo_root is None or not (repo_root / "codexray").is_dir():
+            pytest.skip("codexray repo root not found from this test file")
         if _os.environ.get("TSA_SKIP_REPO_DOGFOOD"):
             pytest.skip("TSA_SKIP_REPO_DOGFOOD set")
         tool = RouteDetectorTool(str(repo_root))
         result = self._run(tool, {"mode": "summary", "output_format": "json"})
         assert result["total_routes"] == 0, (
-            f"tree-sitter-analyzer has no web frameworks; "
+            f"codexray has no web frameworks; "
             f"got total_routes={result['total_routes']!r}, "
             f"routes={result['routes']!r}"
         )
@@ -419,7 +419,7 @@ class TestRouteCacheVersionInvalidation:
     """
 
     def test_version_mismatch_clears_cache(self, tmp_path: Path):
-        from tree_sitter_analyzer.registry import route_cache as cache_module
+        from codexray.registry import route_cache as cache_module
 
         db_path = tmp_path / "routes.db"
         # Seed the cache with one row at the current scanner version.
@@ -460,7 +460,7 @@ class TestRouteCacheVersionInvalidation:
         )
 
     def test_version_match_preserves_cache(self, tmp_path: Path):
-        from tree_sitter_analyzer.registry import route_cache as cache_module
+        from codexray.registry import route_cache as cache_module
 
         db_path = tmp_path / "routes.db"
         cache = cache_module.RouteCache(db_path)

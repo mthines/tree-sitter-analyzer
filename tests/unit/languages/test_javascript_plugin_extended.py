@@ -12,13 +12,13 @@ sys.path.insert(0, ".")
 
 import pytest
 
-from tree_sitter_analyzer.languages.javascript_plugin import (
+from codexray.languages.javascript_plugin import (
     JavaScriptElementExtractor,
     JavaScriptPlugin,
 )
 
 # Mock functionality now provided by pytest-mock
-from tree_sitter_analyzer.models import Class, Function, Import, Variable
+from codexray.models import Class, Function, Import, Variable
 
 
 @pytest.fixture

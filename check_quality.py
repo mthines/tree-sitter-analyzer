@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Code Quality Check Script for Tree-sitter Analyzer
+Code Quality Check Script for CodeXray
 
 This script runs all code quality checks and provides a summary.
 Usage: python check_quality.py [--fix] [--new-code-only]
@@ -53,7 +53,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    print("🚀 Running Tree-sitter Analyzer Code Quality Checks")
+    print("🚀 Running CodeXray Code Quality Checks")
     print("=" * 60)
 
     if args.new_code_only:
@@ -78,7 +78,7 @@ def main() -> int:
 
     if args.new_code_only:
         # Focus on main source code, skip examples and legacy files
-        ruff_cmd = ["uv", "run", "ruff", "check", "tree_sitter_analyzer/", "tests/"]
+        ruff_cmd = ["uv", "run", "ruff", "check", "codexray/", "tests/"]
         if args.fix:
             ruff_cmd.append("--fix")
 
@@ -87,7 +87,7 @@ def main() -> int:
 
     # 3. MyPy type checking (skip in new-code-only mode due to legacy issues)
     if not args.new_code_only:
-        mypy_cmd = ["uv", "run", "mypy", "tree_sitter_analyzer/", "--no-error-summary"]
+        mypy_cmd = ["uv", "run", "mypy", "codexray/", "--no-error-summary"]
         success, output = run_command(mypy_cmd, "MyPy type checking")
         checks.append(("MyPy type checking", success))
     else:

@@ -12,7 +12,7 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.queries.yaml import (
+from codexray.queries.yaml import (
     ALL_QUERIES,
     YAML_QUERIES,
     YAML_QUERY_DESCRIPTIONS,

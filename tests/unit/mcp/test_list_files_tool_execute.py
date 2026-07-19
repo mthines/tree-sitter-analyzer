@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
 
 
 @pytest.fixture
@@ -34,7 +34,7 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_fd_not_found(self, tool):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=False,
         ):
             arguments = {"roots": ["."]}
@@ -46,11 +46,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_success(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -60,7 +60,7 @@ class TestExecute:
                 )
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                    "codexray.mcp.tools.list_files_tool.get_default_detector"
                 ):
                     arguments = {
                         "roots": [str(sample_project_structure)],
@@ -79,11 +79,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_count_only_mode(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -93,7 +93,7 @@ class TestExecute:
                 )
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                    "codexray.mcp.tools.list_files_tool.get_default_detector"
                 ):
                     arguments = {
                         "roots": [str(sample_project_structure)],
@@ -112,11 +112,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_file_output(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -126,10 +126,10 @@ class TestExecute:
                 )
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                    "codexray.mcp.tools.list_files_tool.get_default_detector"
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.list_files_helpers.FileOutputManager"
+                        "codexray.mcp.tools.list_files_helpers.FileOutputManager"
                     ) as mock_manager_class:
                         mock_manager = MagicMock()
                         mock_manager.save_to_file.return_value = "/output/results.json"
@@ -149,11 +149,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_with_suppress_output(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -163,10 +163,10 @@ class TestExecute:
                 )
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                    "codexray.mcp.tools.list_files_tool.get_default_detector"
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.list_files_helpers.FileOutputManager"
+                        "codexray.mcp.tools.list_files_helpers.FileOutputManager"
                     ) as mock_manager_class:
                         mock_manager = MagicMock()
                         mock_manager.save_to_file.return_value = "/output/results.json"
@@ -190,11 +190,11 @@ class TestExecute:
         self, tool, sample_project_structure
     ):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -204,10 +204,10 @@ class TestExecute:
                 )
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                    "codexray.mcp.tools.list_files_tool.get_default_detector"
                 ):
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.list_files_helpers.apply_toon_format_to_response"
+                        "codexray.mcp.tools.list_files_helpers.apply_toon_format_to_response"
                     ) as mock_toon:
                         mock_toon.return_value = {"toon": "formatted"}
 
@@ -224,11 +224,11 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_fd_command_failure(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (
@@ -238,7 +238,7 @@ class TestExecute:
                 )
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                    "codexray.mcp.tools.list_files_tool.get_default_detector"
                 ):
                     arguments = {
                         "roots": [str(sample_project_structure)],
@@ -256,22 +256,22 @@ class TestExecute:
         self, tool, sample_project_structure
     ):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.build_fd_command"
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.build_fd_command"
             ) as mock_build:
                 mock_build.return_value = ["fd", "test"]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                    "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                     new_callable=AsyncMock,
                 ) as mock_run:
                     mock_run.return_value = (0, b"", b"")
 
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                        "codexray.mcp.tools.list_files_tool.get_default_detector"
                     ):
                         arguments = {
                             "roots": [str(sample_project_structure)],
@@ -288,22 +288,22 @@ class TestExecute:
         self, tool, sample_project_structure
     ):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.build_fd_command"
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.build_fd_command"
             ) as mock_build:
                 mock_build.return_value = ["fd", "test"]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                    "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                     new_callable=AsyncMock,
                 ) as mock_run:
                     mock_run.return_value = (0, b"", b"")
 
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                        "codexray.mcp.tools.list_files_tool.get_default_detector"
                     ) as mock_detector:
                         mock_detector.return_value.should_use_no_ignore.return_value = (
                             True
@@ -322,22 +322,22 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_limit_clamping(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.build_fd_command"
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.build_fd_command"
             ) as mock_build:
                 mock_build.return_value = ["fd", "test"]
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                    "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                     new_callable=AsyncMock,
                 ) as mock_run:
                     mock_run.return_value = (0, b"", b"")
 
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                        "codexray.mcp.tools.list_files_tool.get_default_detector"
                     ):
                         arguments = {
                             "roots": [str(sample_project_structure)],
@@ -347,7 +347,7 @@ class TestExecute:
                         await tool.execute(arguments)
 
                         call_kwargs = mock_build.call_args.kwargs
-                        from tree_sitter_analyzer.mcp.tools import fd_rg_utils
+                        from codexray.mcp.tools import fd_rg_utils
 
                         assert call_kwargs["limit"] == fd_rg_utils.MAX_RESULTS_HARD_CAP
 
@@ -358,7 +358,7 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_execute_truncation_defensive(self, tool, sample_project_structure):
         with patch(
-            "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
+            "codexray.mcp.tools.list_files_tool.fd_rg_utils.check_external_command",
             return_value=True,
         ):
             many_files = "\n".join(
@@ -366,13 +366,13 @@ class TestExecute:
             ).encode()
 
             with patch(
-                "tree_sitter_analyzer.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
+                "codexray.mcp.tools.list_files_tool.fd_rg_utils.run_command_capture",
                 new_callable=AsyncMock,
             ) as mock_run:
                 mock_run.return_value = (0, many_files, b"")
 
                 with patch(
-                    "tree_sitter_analyzer.mcp.tools.list_files_tool.get_default_detector"
+                    "codexray.mcp.tools.list_files_tool.get_default_detector"
                 ):
                     arguments = {"roots": [str(sample_project_structure)]}
 

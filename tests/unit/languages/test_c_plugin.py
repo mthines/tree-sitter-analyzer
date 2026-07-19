@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.languages.c_plugin module.
+Tests for codexray.languages.c_plugin module.
 
 This module tests the CPlugin class which provides C language
 support in the new plugin architecture.
@@ -12,9 +12,9 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.c_plugin import CElementExtractor, CPlugin
-from tree_sitter_analyzer.models import Class, Function
-from tree_sitter_analyzer.plugins.base import ElementExtractor, LanguagePlugin
+from codexray.languages.c_plugin import CElementExtractor, CPlugin
+from codexray.models import Class, Function
+from codexray.plugins.base import ElementExtractor, LanguagePlugin
 
 
 class TestCElementExtractor:
@@ -593,7 +593,7 @@ class TestCPluginLegacyTests:
         path = os.path.join("examples", "sample.c")
         ar = SimpleNamespace()
 
-        from tree_sitter_analyzer.models.result import AnalysisResult
+        from codexray.models.result import AnalysisResult
 
         out = await p.analyze_file(path, ar)
         assert isinstance(out, AnalysisResult)
@@ -652,7 +652,7 @@ int use2(void) { return SQUARE(3); }
         import tree_sitter
         import tree_sitter_c
 
-        from tree_sitter_analyzer.languages.c_plugin import CElementExtractor
+        from codexray.languages.c_plugin import CElementExtractor
 
         lang = tree_sitter.Language(tree_sitter_c.language())
         parser = tree_sitter.Parser(lang)

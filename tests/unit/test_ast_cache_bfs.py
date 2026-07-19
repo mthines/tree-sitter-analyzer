@@ -13,8 +13,8 @@ from __future__ import annotations
 import json
 import sqlite3
 
-from tree_sitter_analyzer.cache.graph import bfs_callees, bfs_callers
-from tree_sitter_analyzer.graph.edge_store import EdgeKind, symbol_node
+from codexray.cache.graph import bfs_callees, bfs_callers
+from codexray.graph.edge_store import EdgeKind, symbol_node
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -27,7 +27,7 @@ from tree_sitter_analyzer.graph.edge_store import EdgeKind, symbol_node
 
 
 def _make_conn() -> sqlite3.Connection:
-    from tree_sitter_analyzer.graph.edge_store import EDGE_STORE_SCHEMA
+    from codexray.graph.edge_store import EDGE_STORE_SCHEMA
 
     conn = sqlite3.connect(":memory:")
     conn.row_factory = sqlite3.Row

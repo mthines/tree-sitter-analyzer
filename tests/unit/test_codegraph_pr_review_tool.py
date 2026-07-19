@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool import (
+from codexray.mcp.tools.codegraph_pr_review_tool import (
     CodeGraphPRReviewTool,
     FileReview,
     PRReviewResult,
@@ -198,7 +198,7 @@ class TestCodeGraphPRReviewTool:
         tmpdir = _make_project(("main.py", "print('hello')\n"))
         tool = CodeGraphPRReviewTool(tmpdir)
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+            "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
             return_value="",
         ):
             result = _run(tool, {"mode": "diff"})
@@ -226,11 +226,11 @@ class TestCodeGraphPRReviewTool:
         )
         tool = CodeGraphPRReviewTool(tmpdir)
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+            "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
             return_value=diff_text,
         ):
             with patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_old_source",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_old_source",
                 return_value=src_old,
             ):
                 result = _run(
@@ -256,7 +256,7 @@ class TestCodeGraphPRReviewTool:
     def test_pr_url_gh_unavailable(self):
         tool = CodeGraphPRReviewTool()
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool.check_gh_available",
+            "codexray.mcp.tools.codegraph_pr_review_tool.check_gh_available",
             return_value=False,
         ):
             result = _run(
@@ -273,7 +273,7 @@ class TestCodeGraphPRReviewTool:
         tmpdir = _make_project(("main.py", "x = 1\n"))
         tool = CodeGraphPRReviewTool(tmpdir)
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+            "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
             return_value="",
         ):
             result = _run(tool, {"mode": "diff", "output_format": "json"})
@@ -330,7 +330,7 @@ class TestCodeGraphPRReviewTool:
         tool = CodeGraphPRReviewTool(tmpdir)
         # Non-pr mode with empty local diff → still OK to return NOT_FOUND
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+            "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
             return_value="",
         ):
             result = _run(tool, {"mode": "diff"})
@@ -426,7 +426,7 @@ class TestPhantomEdgeFilter:
 
     def test_known_generic_callback_name_dropped(self):
         """A name in _KNOWN_GENERIC_CALLBACK_NAMES is dropped even below count threshold."""
-        from tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool import (
+        from codexray.mcp.tools.codegraph_pr_review_tool import (
             _KNOWN_GENERIC_CALLBACK_NAMES,
         )
 
@@ -595,7 +595,7 @@ class TestPhantomEdgeFilter:
         The OLD per-ref counting would yield count=3 and drop it — that was wrong.
         Uses 'visit_node' which is not in _KNOWN_GENERIC_CALLBACK_NAMES.
         """
-        from tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool import (
+        from codexray.mcp.tools.codegraph_pr_review_tool import (
             _AMBIGUOUS_NAME_FILE_THRESHOLD,
             _KNOWN_GENERIC_CALLBACK_NAMES,
         )
@@ -631,7 +631,7 @@ class TestPhantomEdgeFilter:
         → meets threshold → edge dropped + counted in ambiguous_name_edges_dropped.
         Uses 'visit_node' which is not in _KNOWN_GENERIC_CALLBACK_NAMES.
         """
-        from tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool import (
+        from codexray.mcp.tools.codegraph_pr_review_tool import (
             _AMBIGUOUS_NAME_FILE_THRESHOLD,
             _KNOWN_GENERIC_CALLBACK_NAMES,
         )
@@ -668,7 +668,7 @@ class TestPhantomEdgeFilter:
         from pathlib import Path
         from unittest.mock import MagicMock, patch
 
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         tmpdir = tempfile.mkdtemp()
         (Path(tmpdir) / "changed.py").write_text(
@@ -737,7 +737,7 @@ class TestPhantomEdgeFilter:
         The method now iterates _func_by_file + caller_refs_of/callee_refs_of
         (not file_impact) so we mock those instead.
         """
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         tmpdir = _make_project(
             ("kotlin_helpers.kt", "fun extract_kotlin_function() {}\n"),
@@ -914,7 +914,7 @@ class TestCoverageToolMethods:
 
     def test_analyze_call_graph_impact_function_refs_exception(self):
         """If function_refs() raises, name_file_count stays empty (no crash)."""
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         tmpdir = _make_project(("f.py", "x=1\n"))
         tool = CodeGraphPRReviewTool(tmpdir)
@@ -935,7 +935,7 @@ class TestCoverageToolMethods:
 
     def test_analyze_call_graph_impact_dedup_upstream(self):
         """Duplicate caller entries (same qualified_name) are deduplicated."""
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         tmpdir = _make_project(("f.py", "x=1\n"))
         tool = CodeGraphPRReviewTool(tmpdir)
@@ -1005,7 +1005,7 @@ class TestCoverageToolMethods:
         tmpdir = _make_project(("file.unknown_ext", "new\n"))
         tool = CodeGraphPRReviewTool(tmpdir)
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+            "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
             return_value=diff_text,
         ):
             result = _run(
@@ -1019,7 +1019,7 @@ class TestCoverageToolMethods:
         """_get_old_source returns '' when subprocess raises TimeoutExpired."""
         import subprocess
 
-        from tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool import (
+        from codexray.mcp.tools.codegraph_pr_review_tool import (
             _get_old_source,
         )
 
@@ -1028,7 +1028,7 @@ class TestCoverageToolMethods:
 
     def test_get_old_source_file_not_found(self):
         """_get_old_source returns '' when git binary missing."""
-        from tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool import (
+        from codexray.mcp.tools.codegraph_pr_review_tool import (
             _get_old_source,
         )
 
@@ -1037,7 +1037,7 @@ class TestCoverageToolMethods:
 
     def test_get_new_source_os_error(self):
         """_get_new_source returns '' when file is unreadable."""
-        from tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool import (
+        from codexray.mcp.tools.codegraph_pr_review_tool import (
             _get_new_source,
         )
 
@@ -1048,14 +1048,14 @@ class TestCoverageToolMethods:
         """_try_get_cache returns None when ASTCache import raises."""
         tool = CodeGraphPRReviewTool("/tmp")
         with patch(
-            "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool.CodeGraphPRReviewTool._try_get_cache",
+            "codexray.mcp.tools.codegraph_pr_review_tool.CodeGraphPRReviewTool._try_get_cache",
             side_effect=Exception("cache error"),
         ):
             # Patch _try_get_cache to raise; then manually call the real one
             pass
         # Test the real implementation with a broken import
         with patch(
-            "tree_sitter_analyzer.ast_cache.ASTCache",
+            "codexray.ast_cache.ASTCache",
             side_effect=RuntimeError("broken"),
         ):
             result = tool._try_get_cache()
@@ -1068,7 +1068,7 @@ class TestCoverageToolMethods:
         mock_cache = MagicMock()
         with patch.object(tool, "_try_get_cache", return_value=mock_cache):
             cg = tool._get_call_graph()
-        from tree_sitter_analyzer.call_graph import CachedCallGraph
+        from codexray.call_graph import CachedCallGraph
 
         assert isinstance(cg, CachedCallGraph)
 
@@ -1086,15 +1086,15 @@ class TestCoverageToolMethods:
         tool = CodeGraphPRReviewTool(tmpdir)
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
                 return_value=diff_text,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_old_source",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_old_source",
                 return_value="",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_new_source",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_new_source",
                 return_value="",
             ),
         ):
@@ -1140,23 +1140,23 @@ class TestCoverageToolMethods:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
                 return_value=diff_text,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_old_source",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_old_source",
                 return_value=src_old,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_new_source",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_new_source",
                 return_value=src_new,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool.ASTDiffer.diff_strings",
+                "codexray.mcp.tools.codegraph_pr_review_tool.ASTDiffer.diff_strings",
                 return_value=mock_diff_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool.SemanticChangeClassifier.classify",
+                "codexray.mcp.tools.codegraph_pr_review_tool.SemanticChangeClassifier.classify",
                 return_value=mock_result,
             ),
         ):
@@ -1194,15 +1194,15 @@ class TestCoverageToolMethods:
 
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_local_diff",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_local_diff",
                 return_value=diff_text,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_old_source",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_old_source",
                 return_value=src_old,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool._get_new_source",
+                "codexray.mcp.tools.codegraph_pr_review_tool._get_new_source",
                 return_value=src_new,
             ),
         ):
@@ -1228,7 +1228,7 @@ class TestCoverageToolMethods:
 
     def test_analyze_call_graph_impact_dedup_callee(self):
         """Duplicate callee entries (same qualified_name) are deduplicated."""
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         tmpdir = _make_project(("f.py", "x=1\n"))
         tool = CodeGraphPRReviewTool(tmpdir)
@@ -1254,7 +1254,7 @@ class TestCoverageToolMethods:
 
     def test_analyze_call_graph_impact_ambiguous_anchor_dropped(self):
         """Anchor with ambiguous name (count >= threshold) → callers go to ambiguous_dropped."""
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         tmpdir = _make_project(("f.py", "x=1\n"))
         tool = CodeGraphPRReviewTool(tmpdir)
@@ -1304,7 +1304,7 @@ class TestCoverageToolMethods:
 
     def test_analyze_call_graph_impact_unknown_lang_file(self):
         """Changed file with unknown extension → empty changed_langs → lang gate skips."""
-        from tree_sitter_analyzer.call_graph import FunctionRef
+        from codexray.call_graph import FunctionRef
 
         tmpdir = _make_project(("f.unkn", "x=1\n"))
         tool = CodeGraphPRReviewTool(tmpdir)
@@ -1333,15 +1333,15 @@ class TestCoverageToolMethods:
         tool = CodeGraphPRReviewTool(tmpdir)
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool.check_gh_available",
+                "codexray.mcp.tools.codegraph_pr_review_tool.check_gh_available",
                 return_value=True,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool.fetch_pr_diff",
+                "codexray.mcp.tools.codegraph_pr_review_tool.fetch_pr_diff",
                 return_value=diff_text,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.codegraph_pr_review_tool.parse_pr_url",
+                "codexray.mcp.tools.codegraph_pr_review_tool.parse_pr_url",
                 return_value=("owner", "repo", 42),
             ),
         ):

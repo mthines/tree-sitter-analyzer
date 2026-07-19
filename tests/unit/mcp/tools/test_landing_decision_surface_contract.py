@@ -70,7 +70,7 @@ class TestLandingDecisionSurfaceVerdict:
     """Each tool tsa-landing reads MUST emit a verdict."""
 
     def test_project_overview_has_verdict(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.project_overview_tool import (
+        from codexray.mcp.tools.project_overview_tool import (
             ProjectOverviewTool,
         )
 
@@ -79,7 +79,7 @@ class TestLandingDecisionSurfaceVerdict:
         _assert_canonical_verdict(result, "get_project_overview")
 
     def test_project_health_has_verdict(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.project_health_tool import (
+        from codexray.mcp.tools.project_health_tool import (
             ProjectHealthTool,
         )
 
@@ -88,7 +88,7 @@ class TestLandingDecisionSurfaceVerdict:
         _assert_canonical_verdict(result, "check_project_health")
 
     def test_change_impact_has_verdict(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.change_impact_tool import (
+        from codexray.mcp.tools.change_impact_tool import (
             ChangeImpactTool,
         )
 
@@ -97,7 +97,7 @@ class TestLandingDecisionSurfaceVerdict:
         _assert_canonical_verdict(result, "analyze_change_impact")
 
     def test_agent_workflow_has_verdict(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.agent_workflow_tool import (
+        from codexray.mcp.tools.agent_workflow_tool import (
             AgentWorkflowTool,
         )
 
@@ -113,7 +113,7 @@ class TestLandingDecisionSurfaceVerdict:
         _assert_canonical_verdict(result, "get_agent_workflow")
 
     def test_agent_skills_has_verdict(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.agent_skills_tool import (
+        from codexray.mcp.tools.agent_skills_tool import (
             AgentSkillsTool,
         )
 
@@ -131,7 +131,7 @@ class TestLandingAgentSummaryMirror:
     """
 
     def test_project_health_mirrors_verdict(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.project_health_tool import (
+        from codexray.mcp.tools.project_health_tool import (
             ProjectHealthTool,
         )
 
@@ -146,7 +146,7 @@ class TestLandingAgentSummaryMirror:
             )
 
     def test_change_impact_mirrors_verdict(self, tiny_project: Path) -> None:
-        from tree_sitter_analyzer.mcp.tools.change_impact_tool import (
+        from codexray.mcp.tools.change_impact_tool import (
             ChangeImpactTool,
         )
 

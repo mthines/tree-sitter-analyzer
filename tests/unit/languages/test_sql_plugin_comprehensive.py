@@ -22,8 +22,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.sql_plugin import SQLElementExtractor, SQLPlugin
-from tree_sitter_analyzer.models import (
+from codexray.languages.sql_plugin import SQLElementExtractor, SQLPlugin
+from codexray.models import (
     CodeElement,
     SQLColumn,
     SQLConstraint,
@@ -647,7 +647,7 @@ CREATE TABLE users (
             temp_path = f.name
 
         try:
-            from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+            from codexray.core.analysis_engine import AnalysisRequest
 
             request = AnalysisRequest(file_path=temp_path)
             result = await plugin.analyze_file(temp_path, request)
@@ -671,7 +671,7 @@ END;
             temp_path = f.name
 
         try:
-            from tree_sitter_analyzer.core.analysis_engine import AnalysisRequest
+            from codexray.core.analysis_engine import AnalysisRequest
 
             request = AnalysisRequest(file_path=temp_path)
             result = await plugin.analyze_file(temp_path, request)

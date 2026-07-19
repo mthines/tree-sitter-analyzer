@@ -16,9 +16,9 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.core.request import AnalysisRequest
-from tree_sitter_analyzer.languages.c_plugin import CElementExtractor, CPlugin
-from tree_sitter_analyzer.languages.java_plugin import (
+from codexray.core.request import AnalysisRequest
+from codexray.languages.c_plugin import CElementExtractor, CPlugin
+from codexray.languages.java_plugin import (
     JavaElementExtractor,
     JavaPlugin,
 )
@@ -123,7 +123,7 @@ class TestCPluginEncodingPropagation:
         _RecordingCExtractor.seen_encoding = "<unset>"
         monkeypatch.setattr(plugin, "create_extractor", lambda: _RecordingCExtractor())
         # Force a known encoding through read_file_safe.
-        from tree_sitter_analyzer import encoding_utils
+        from codexray import encoding_utils
 
         monkeypatch.setattr(
             encoding_utils,
@@ -175,7 +175,7 @@ class TestJavaPluginEncodingPropagation:
             plugin, "create_extractor", lambda: _RecordingJavaExtractor()
         )
         # Java uses the async variant; patch that one.
-        from tree_sitter_analyzer import encoding_utils
+        from codexray import encoding_utils
 
         async def _fake_read(path):
             return (Path(path).read_text(encoding="utf-8"), "shift_jis")
@@ -227,14 +227,14 @@ class TestPhpRubyNoDeadEncodingAttr:
     re-introduction via copy-paste from c/java extractors."""
 
     def test_php_extractor_has_no_file_encoding_attr(self):
-        from tree_sitter_analyzer.languages.php_plugin import PHPElementExtractor
+        from codexray.languages.php_plugin import PHPElementExtractor
 
         extractor = PHPElementExtractor()
         # Instance must not carry an unused encoding attribute.
         assert "_file_encoding" not in vars(extractor)
 
     def test_ruby_extractor_has_no_file_encoding_attr(self):
-        from tree_sitter_analyzer.languages.ruby_plugin import RubyElementExtractor
+        from codexray.languages.ruby_plugin import RubyElementExtractor
 
         extractor = RubyElementExtractor()
         assert "_file_encoding" not in vars(extractor)

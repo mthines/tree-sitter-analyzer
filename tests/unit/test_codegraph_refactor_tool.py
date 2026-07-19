@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_refactor_tool import CodeGraphRefactorTool
+from codexray.mcp.tools.codegraph_refactor_tool import CodeGraphRefactorTool
 
 
 @pytest.fixture

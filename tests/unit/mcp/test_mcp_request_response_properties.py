@@ -59,7 +59,7 @@ class TestMCPRequestResponseConsistency:
     @pytest.mark.asyncio
     async def test_analyze_file_valid_response_structure(self, temp_dir, sample_files):
         """Test that execute produces valid response structure."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
 
@@ -74,10 +74,10 @@ class TestMCPRequestResponseConsistency:
     @pytest.mark.asyncio
     async def test_analyze_file_error_response_format(self, temp_dir):
         """Test that error responses have proper format."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         tool = UniversalAnalyzeTool(temp_dir)
 
@@ -87,7 +87,7 @@ class TestMCPRequestResponseConsistency:
 
     def test_tool_definition_format(self):
         """Test that tool definition returns proper format."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
 
@@ -104,10 +104,10 @@ class TestMCPRequestResponseConsistency:
     @pytest.mark.asyncio
     async def test_invalid_file_path_handling(self, temp_dir):
         """Test that invalid file paths are handled gracefully."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         tool = UniversalAnalyzeTool(temp_dir)
 
@@ -118,7 +118,7 @@ class TestMCPRequestResponseConsistency:
     @pytest.mark.asyncio
     async def test_concurrent_requests_consistency(self, temp_dir, sample_files):
         """Test that concurrent requests produce consistent responses."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
 
@@ -143,7 +143,7 @@ class TestMCPProtocolCompliance:
 
     def test_mcp_info_has_required_fields(self):
         """Test that MCP_INFO contains all required fields."""
-        from tree_sitter_analyzer.mcp import MCP_INFO
+        from codexray.mcp import MCP_INFO
 
         required_fields = ["name", "version", "description"]
         for field in required_fields:
@@ -151,7 +151,7 @@ class TestMCPProtocolCompliance:
 
     def test_mcp_capabilities_structure(self):
         """Test that MCP capabilities are properly structured."""
-        from tree_sitter_analyzer.mcp import MCP_INFO
+        from codexray.mcp import MCP_INFO
 
         if "capabilities" in MCP_INFO:
             caps = MCP_INFO["capabilities"]
@@ -160,7 +160,7 @@ class TestMCPProtocolCompliance:
 
     def test_tool_schema_validity(self):
         """Test that tool schemas are valid."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
 
@@ -182,10 +182,10 @@ class TestErrorResponseConsistency:
     @pytest.mark.asyncio
     async def test_file_not_found_error_format(self, tmp_path):
         """Test error response for file not found."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         tool = UniversalAnalyzeTool(str(tmp_path))
 
@@ -196,10 +196,10 @@ class TestErrorResponseConsistency:
     @pytest.mark.asyncio
     async def test_unsupported_language_handling(self, tmp_path):
         """Test handling of unsupported file types."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         # Create a file with unsupported extension
         unsupported_file = tmp_path / "file.xyz123"
@@ -214,10 +214,10 @@ class TestErrorResponseConsistency:
     @pytest.mark.asyncio
     async def test_empty_file_handling(self, tmp_path):
         """Test handling of empty files."""
-        from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import (
+        from codexray.mcp.tools.universal_analyze_tool import (
             UniversalAnalyzeTool,
         )
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         empty_file = tmp_path / "empty.py"
         empty_file.write_text("")

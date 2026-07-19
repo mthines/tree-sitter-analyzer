@@ -33,7 +33,7 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "2️⃣  MyPy Type Check"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-if uv run mypy tree_sitter_analyzer/; then
+if uv run mypy codexray/; then
     echo -e "${GREEN}✅ MyPy: PASSED${NC}"
 else
     echo -e "${RED}❌ MyPy: FAILED${NC}"
@@ -46,7 +46,7 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "3️⃣  Bandit Security Scan"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-if uv run --with bandit bandit -r tree_sitter_analyzer/ -f json -o bandit-results.json 2>/dev/null; then
+if uv run --with bandit bandit -r codexray/ -f json -o bandit-results.json 2>/dev/null; then
     echo -e "${GREEN}✅ Bandit: PASSED${NC}"
     rm -f bandit-results.json
 else

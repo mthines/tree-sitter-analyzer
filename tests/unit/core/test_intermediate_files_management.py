@@ -13,7 +13,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.utils import log_error, log_info, log_warning
+from codexray.utils import log_error, log_info, log_warning
 
 
 class IntermediateFilesManager:
@@ -234,7 +234,7 @@ class TestIntermediateFilesManager:
                 ],
                 "excluded_patterns": [
                     "tests/*",
-                    "tree_sitter_analyzer/*",
+                    "codexray/*",
                     "examples/*",
                     "roo_system/*",
                 ],
@@ -286,7 +286,7 @@ class TestIntermediateFilesManager:
 
         # Should not match excluded patterns
         assert manager.is_intermediate_file("tests/test_main.py") is False
-        assert manager.is_intermediate_file("tree_sitter_analyzer/core.py") is False
+        assert manager.is_intermediate_file("codexray/core.py") is False
         assert manager.is_intermediate_file("examples/sample.py") is False
         assert manager.is_intermediate_file("roo_system/rules.py") is False
 
@@ -516,8 +516,8 @@ class TestIntermediateFilesIntegration:
         # 6. Validate cleanup
         assert manager.validate_cleanup() is True
 
-    @patch("tree_sitter_analyzer.utils.log_warning")
-    @patch("tree_sitter_analyzer.utils.log_info")
+    @patch("codexray.utils.log_warning")
+    @patch("codexray.utils.log_info")
     def test_logging_integration(
         self, mock_log_info: Mock, mock_log_warning: Mock, tmp_path: Path
     ) -> None:
@@ -548,7 +548,7 @@ class TestIntermediateFilesIntegration:
         # Force logging by ensuring monitoring is enabled
         if mock_log_info.call_count == 0:
             # Manually trigger logging if not called
-            from tree_sitter_analyzer.utils import log_info
+            from codexray.utils import log_info
 
             log_info("Test log message")
 

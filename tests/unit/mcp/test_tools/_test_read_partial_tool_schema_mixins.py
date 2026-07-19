@@ -5,7 +5,7 @@ These modules keep the collected pytest node IDs anchored in test_read_partial_t
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
 
 class ReadPartialToolInitMixin:

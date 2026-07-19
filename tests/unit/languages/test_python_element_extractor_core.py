@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tree_sitter_analyzer.languages.python_plugin import PythonElementExtractor
+from codexray.languages.python_plugin import PythonElementExtractor
 
 
 class TestPythonElementExtractor:
@@ -224,7 +224,7 @@ def __magic_method__(self, other):
 
         # Mock extract_text_slice to return test text
         with patch(
-            "tree_sitter_analyzer.languages.python_plugin.extractor.extract_text_slice"
+            "codexray.languages.python_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.return_value = "test text"
 
@@ -257,7 +257,7 @@ def __magic_method__(self, other):
 
         # Mock extract_text_slice to raise exception
         with patch(
-            "tree_sitter_analyzer.languages.python_plugin.extractor.extract_text_slice"
+            "codexray.languages.python_plugin.extractor.extract_text_slice"
         ) as mock_extract:
             mock_extract.side_effect = Exception("Test error")
 

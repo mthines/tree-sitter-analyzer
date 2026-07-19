@@ -17,17 +17,17 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.core.parser import Parser
-from tree_sitter_analyzer.languages.python_plugin._element_builders import (
+from codexray.core.parser import Parser
+from codexray.languages.python_plugin._element_builders import (
     extract_module_constants,
 )
-from tree_sitter_analyzer.languages.python_plugin.extractor import (
+from codexray.languages.python_plugin.extractor import (
     PythonElementExtractor,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool,
 )
-from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
+from codexray.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
 
 # Mirrors _CONST_SRC in tests/unit/test_ast_extraction.py (#610/#612 rule):
 # 5 module constants + 1 class attribute; logger / bare_decl / RETRIES are
@@ -145,7 +145,7 @@ class TestPluginModuleConstants:
     def test_constant_extraction_failure_degrades_to_class_attrs(self, monkeypatch):
         # The module-constant walk failing must not take down class-attribute
         # extraction (mirrors the existing degradation contract).
-        import tree_sitter_analyzer.languages.python_plugin._class_extractor_mixin as mixin_mod
+        import codexray.languages.python_plugin._class_extractor_mixin as mixin_mod
 
         def _boom(tree, source):
             raise RuntimeError("forced failure")
@@ -222,7 +222,7 @@ class TestOutlineTopLevelFields:
     def test_outline_surfaces_module_constants(self, tmp_path):
         import asyncio
 
-        from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+        from codexray.mcp.tools.get_code_outline_tool import (
             GetCodeOutlineTool,
         )
 

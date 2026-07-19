@@ -6,11 +6,11 @@
 - **Last updated**: 2026-06-03
 - **Tracking issue**: TBD
 - **Affected source paths**:
-  - `tree_sitter_analyzer/_ast_cache_unresolved.py` (the second-pass resolver)
-  - `tree_sitter_analyzer/_ast_cache_synapse.py` (synapse resolution RMW)
-  - `tree_sitter_analyzer/_ast_extraction.py` (call-edge extraction / receiver capture)
-  - `tree_sitter_analyzer/graph/edge_store.py` (edges schema: callee_resolved_file / callee_resolution / callee_symbol_id)
-  - `tree_sitter_analyzer/hyphae/evaluator.py` (consumer — edge pseudo-classes)
+  - `codexray/_ast_cache_unresolved.py` (the second-pass resolver)
+  - `codexray/_ast_cache_synapse.py` (synapse resolution RMW)
+  - `codexray/_ast_extraction.py` (call-edge extraction / receiver capture)
+  - `codexray/graph/edge_store.py` (edges schema: callee_resolved_file / callee_resolution / callee_symbol_id)
+  - `codexray/hyphae/evaluator.py` (consumer — edge pseudo-classes)
   - `tests/unit/`
 
 ## Summary
@@ -75,7 +75,7 @@ The `edges` table already carries the target columns — this RFC is about
 > by bare name *first*, we'd mislabel the call `builtin`/`stdlib` with no
 > `callee_symbol_id` and **regress the resolved graph**. This RFC therefore
 > follows the EXISTING cascade in
-> `tree_sitter_analyzer/synapse_resolver/__init__.py` (local → self/cls →
+> `codexray/synapse_resolver/__init__.py` (local → self/cls →
 > import → stdlib/builtin), which already orders bindings before builtins
 > specifically to preserve shadowing. This RFC extends that cascade's *reach*
 > and *fill rate*, it does not reorder it.

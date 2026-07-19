@@ -6,9 +6,9 @@
 - **Last updated**: 2026-06-05
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/synapse_resolver/_constants.py` (stdlib-method table)
-  - `tree_sitter_analyzer/synapse_resolver/__init__.py` (cascade: new final tier)
-  - `tree_sitter_analyzer/synapse_resolver/_context.py` (wire the table)
+  - `codexray/synapse_resolver/_constants.py` (stdlib-method table)
+  - `codexray/synapse_resolver/__init__.py` (cascade: new final tier)
+  - `codexray/synapse_resolver/_context.py` (wire the table)
   - `tests/unit/test_synapse_resolution.py`, `tests/unit/`
 
 ## Summary

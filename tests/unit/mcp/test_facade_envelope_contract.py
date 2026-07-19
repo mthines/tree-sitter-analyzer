@@ -20,15 +20,15 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.base_tool import BaseMCPTool
-from tree_sitter_analyzer.mcp.tools.edit_facade import build_edit_facade
-from tree_sitter_analyzer.mcp.tools.health_facade import build_health_facade
-from tree_sitter_analyzer.mcp.tools.index_facade import build_index_facade
-from tree_sitter_analyzer.mcp.tools.nav_facade import build_nav_facade
-from tree_sitter_analyzer.mcp.tools.project_facade import build_project_facade
-from tree_sitter_analyzer.mcp.tools.search_facade import build_search_facade
-from tree_sitter_analyzer.mcp.tools.structure_facade import build_structure_facade
-from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
+from codexray.mcp.tools.base_tool import BaseMCPTool
+from codexray.mcp.tools.edit_facade import build_edit_facade
+from codexray.mcp.tools.health_facade import build_health_facade
+from codexray.mcp.tools.index_facade import build_index_facade
+from codexray.mcp.tools.nav_facade import build_nav_facade
+from codexray.mcp.tools.project_facade import build_project_facade
+from codexray.mcp.tools.search_facade import build_search_facade
+from codexray.mcp.tools.structure_facade import build_structure_facade
+from codexray.mcp.tools.viz_facade import build_viz_facade
 
 # ---------------------------------------------------------------------------
 # FakeInnerTool — minimal BaseMCPTool for isolation testing

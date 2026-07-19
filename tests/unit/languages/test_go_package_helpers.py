@@ -2,11 +2,11 @@
 
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.languages._go_package import (
+from codexray.languages._go_package import (
     _go_package_name,
     extract_go_package,
 )
-from tree_sitter_analyzer.models import Package
+from codexray.models import Package
 
 
 def _mock_node(children=None, start_row=0, end_row=0, text="package main"):

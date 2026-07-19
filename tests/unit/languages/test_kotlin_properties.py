@@ -12,9 +12,9 @@ from unittest.mock import MagicMock, patch
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.formatters.kotlin_formatter import KotlinTableFormatter
-from tree_sitter_analyzer.languages.kotlin_plugin import KotlinElementExtractor
-from tree_sitter_analyzer.models import AnalysisResult, Class, Function
+from codexray.formatters.kotlin_formatter import KotlinTableFormatter
+from codexray.languages.kotlin_plugin import KotlinElementExtractor
+from codexray.models import AnalysisResult, Class, Function
 
 # --- Strategies ---
 

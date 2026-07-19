@@ -6,7 +6,7 @@
 - **Last updated**: 2026-06-10 (adversarial review round 1 — opencode fallback)
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/mcp/tools/facade_tool.py` (`_project_args`, `execute`)
+  - `codexray/mcp/tools/facade_tool.py` (`_project_args`, `execute`)
   - `tests/unit/mcp/tools/test_facade_tool.py`
   - `tests/unit/test_agent_contracts.py` (envelope contract)
 

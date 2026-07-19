@@ -10,7 +10,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools import fd_rg_utils
+from codexray.mcp.tools import fd_rg_utils
 
 
 class TestParseRgJsonLinesToMatches:
@@ -317,7 +317,7 @@ class TestRunParallelRgSearches:
         """Test running single command."""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch("asyncio.create_subprocess_exec") as mock_subprocess,
@@ -340,7 +340,7 @@ class TestRunParallelRgSearches:
         """Test running multiple commands."""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch("asyncio.create_subprocess_exec") as mock_subprocess,
@@ -364,7 +364,7 @@ class TestRunParallelRgSearches:
         """Test running with timeout."""
         with (
             patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+                "codexray.mcp.tools.fd_rg_utils.check_external_command",
                 return_value=True,
             ),
             patch("asyncio.create_subprocess_exec") as mock_subprocess,

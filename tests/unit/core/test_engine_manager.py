@@ -6,13 +6,13 @@ import threading
 
 import pytest
 
-from tree_sitter_analyzer.core.analysis_engine import (
+from codexray.core.analysis_engine import (
     AnalysisRequest,
     UnifiedAnalysisEngine,
     UnsupportedLanguageError,
     get_analysis_engine,
 )
-from tree_sitter_analyzer.core.engine_manager import EngineManager
+from codexray.core.engine_manager import EngineManager
 
 
 class TestEngineManagerGetInstance:

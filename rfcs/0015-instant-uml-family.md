@@ -6,12 +6,12 @@
 - **Last updated**: 2026-06-11 (adversarial review round 1 — lead-triaged verdicts applied)
 - **Tracking issue**: TBD
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/uml_export.py` (lines 313–356 today: `sequence_diagram`)
-  - `tree_sitter_analyzer/mcp/tools/uml_tool.py` (`CodeGraphUMLTool`, `validate_arguments`, schema)
-  - `tree_sitter_analyzer/mcp/tools/viz_facade.py` (action registration)
-  - `tree_sitter_analyzer/cli/argument_groups/_analysis_codegraph.py` (`--uml-*` flags)
-  - `tree_sitter_analyzer/cli/commands/mcp_commands/_builders.py` (`_build_uml_tool_args`)
-  - `tree_sitter_analyzer/cli/commands/mcp_commands/_specs_extended.py` (UML spec)
+  - `codexray/uml_export.py` (lines 313–356 today: `sequence_diagram`)
+  - `codexray/mcp/tools/uml_tool.py` (`CodeGraphUMLTool`, `validate_arguments`, schema)
+  - `codexray/mcp/tools/viz_facade.py` (action registration)
+  - `codexray/cli/argument_groups/_analysis_codegraph.py` (`--uml-*` flags)
+  - `codexray/cli/commands/mcp_commands/_builders.py` (`_build_uml_tool_args`)
+  - `codexray/cli/commands/mcp_commands/_specs_extended.py` (UML spec)
   - `tests/unit/test_uml_tool.py`
   - `tests/unit/test_uml_export.py`
   - `tests/unit/test_uml_export_renderers.py`
@@ -197,7 +197,7 @@ or `"whole_project"` according to which branch fired.
 
 #### P1-B: fix the `max_edges` validator and extract shared util
 
-Extract to a new module `tree_sitter_analyzer/mcp/tools/_validators.py`:
+Extract to a new module `codexray/mcp/tools/_validators.py`:
 
 ```python
 def _validate_positive_int(arguments: dict, key: str) -> None:
@@ -619,7 +619,7 @@ def test_max_edges_bool_false_rejected() -> None:
 # tests/unit/mcp/tools/test_validators.py  (new file — shared util)
 
 def test_sitemap_tool_accepts_float_whole_number() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import CodeGraphSitemapTool
+    from codexray.mcp.tools.codegraph_sitemap_tool import CodeGraphSitemapTool
     tool = CodeGraphSitemapTool()
     args = {"mode": "full", "max_files": 50.0}
     tool.validate_arguments(args)
@@ -627,7 +627,7 @@ def test_sitemap_tool_accepts_float_whole_number() -> None:
     assert type(args["max_files"]) is int
 
 def test_sitemap_tool_rejects_bool_max_files() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import CodeGraphSitemapTool
+    from codexray.mcp.tools.codegraph_sitemap_tool import CodeGraphSitemapTool
     tool = CodeGraphSitemapTool()
     with pytest.raises(ValueError, match="max_files"):
         tool.validate_arguments({"mode": "full", "max_files": True})
@@ -652,8 +652,8 @@ def test_non_truncated_diagram_has_no_truncation_comment(monkeypatch) -> None:
 # tests/unit/mcp/tools/test_viz_facade_uml.py  (new file)
 
 def test_file_path_not_dropped_after_fix() -> None:
-    from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
-    from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
+    from codexray.mcp.tools.viz_facade import build_viz_facade
+    from codexray.mcp.tools.facade_tool import FacadeTool
     facade = build_viz_facade("/repo")
     inner = facade.action_map["uml"]
     projected = FacadeTool._project_args.__func__(
@@ -664,8 +664,8 @@ def test_file_path_not_dropped_after_fix() -> None:
     assert projected["file_path"] == "src/foo.py"
 
 def test_class_name_not_dropped_after_fix() -> None:
-    from tree_sitter_analyzer.mcp.tools.viz_facade import build_viz_facade
-    from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
+    from codexray.mcp.tools.viz_facade import build_viz_facade
+    from codexray.mcp.tools.facade_tool import FacadeTool
     facade = build_viz_facade("/repo")
     inner = facade.action_map["uml"]
     projected = FacadeTool._project_args.__func__(
@@ -711,7 +711,7 @@ def test_class_diagram_scoped_smaller_than_unscoped(tmp_path) -> None:
     invariant, not a hand-waved bound).
     """
     import asyncio, json
-    from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+    from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
     # Skeleton — implementer fills in with real indexed tmp_path fixture once
     # the Phase-1 UMLExporter scoping is implemented and the index is wired.
     # The relationship invariant: scoped_bytes < unscoped_bytes is the contract.
@@ -778,14 +778,14 @@ def test_state_diagram_zero_transitions_returns_not_found(mock_no_transition_enu
 # tests/unit/cli/test_uml_cli.py
 
 def test_phase1_cli_flags_registered() -> None:
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
     parser = create_argument_parser()
     long_flags = {a.option_strings[-1] for a in parser._actions if a.option_strings}
     for flag in ("--uml-file-path", "--uml-class-name", "--uml-include-tests"):
         assert flag in long_flags, f"Phase-1 CLI flag missing: {flag}"
 
 def test_phase2_cli_flags_registered() -> None:
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
     parser = create_argument_parser()
     long_flags = {a.option_strings[-1] for a in parser._actions if a.option_strings}
     for flag in ("--uml-function", "--uml-max-nodes"):

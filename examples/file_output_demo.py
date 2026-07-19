@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-File Output Demo for Tree-sitter Analyzer
+File Output Demo for CodeXray
 
 This demo shows how to use the new file output functionality
 in the analyze_code_structure MCP tool.
@@ -141,7 +141,7 @@ def print_usage_examples():
 
 
 if __name__ == "__main__":
-    print("Tree-sitter Analyzer File Output Demo")
+    print("CodeXray File Output Demo")
     print("=====================================")
 
     demo_content_type_detection()

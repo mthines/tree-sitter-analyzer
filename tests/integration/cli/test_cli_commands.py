@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.cli_main import main
+from codexray.cli_main import main
 
 
 class MockArgs:
@@ -178,7 +178,7 @@ class TestCLIQueryCommands:
     @pytest.mark.asyncio
     async def test_query_command_with_key(self):
         """Test QueryCommand with query key using MockArgs."""
-        from tree_sitter_analyzer.cli.commands.query_command import QueryCommand
+        from codexray.cli.commands.query_command import QueryCommand
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
             f.write("def foo(): pass")
@@ -472,7 +472,7 @@ class TestTableCommandCoverage:
     @pytest.mark.asyncio
     async def test_table_command_full(self):
         """Test TableCommand with full format."""
-        from tree_sitter_analyzer.cli.commands.table_command import TableCommand
+        from codexray.cli.commands.table_command import TableCommand
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
             f.write("def foo(): pass")

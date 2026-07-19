@@ -2,7 +2,7 @@
 
 Helpers for Feature 2 (Temporal Activation) tests. Builds disposable git
 repositories with seeded commits so we can exercise
-`tree_sitter_analyzer.git_activation` without touching the developer's real
+`codexray.git_activation` without touching the developer's real
 history.
 
 ## Quick start

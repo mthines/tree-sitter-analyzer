@@ -11,13 +11,13 @@ constraints:
   - id: dogfood-mcp-no-cli
     severity: error
     rule: forbid
-    from: "tree_sitter_analyzer/mcp/**"
-    to: "tree_sitter_analyzer/cli/**"
+    from: "codexray/mcp/**"
+    to: "codexray/cli/**"
     reason: "MCP layer is the transport boundary; CLI commands belong to the CLI layer."
 
   - id: dogfood-tools-no-raw-formatter
     severity: warn
     rule: forbid
-    from: "tree_sitter_analyzer/mcp/tools/**"
-    to: "tree_sitter_analyzer/formatters/_internal/**"
+    from: "codexray/mcp/tools/**"
+    to: "codexray/formatters/_internal/**"
     reason: "Tools must use the formatter registry, not internal formatter modules."

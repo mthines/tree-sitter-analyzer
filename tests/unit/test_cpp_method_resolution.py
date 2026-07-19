@@ -11,14 +11,14 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.synapse_resolver import ResolverContext, resolve_callee
-from tree_sitter_analyzer.synapse_resolver._context import build_resolver_context
-from tree_sitter_analyzer.synapse_resolver._registry import get_language_resolver
-from tree_sitter_analyzer.synapse_resolver.languages._cpp_constants import (
+from codexray.ast_cache import ASTCache
+from codexray.synapse_resolver import ResolverContext, resolve_callee
+from codexray.synapse_resolver._context import build_resolver_context
+from codexray.synapse_resolver._registry import get_language_resolver
+from codexray.synapse_resolver.languages._cpp_constants import (
     is_stdlib_qualifier,
 )
-from tree_sitter_analyzer.synapse_resolver.languages.cpp import (
+from codexray.synapse_resolver.languages.cpp import (
     CppResolverContext,
     build_cpp_context,
     resolve_cpp_callee,

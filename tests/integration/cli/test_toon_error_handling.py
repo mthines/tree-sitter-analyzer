@@ -11,8 +11,8 @@ Verifies that:
 
 import pytest
 
-from tree_sitter_analyzer.formatters.toon_encoder import ToonEncodeError, ToonEncoder
-from tree_sitter_analyzer.formatters.toon_formatter import ToonFormatter
+from codexray.formatters.toon_encoder import ToonEncodeError, ToonEncoder
+from codexray.formatters.toon_formatter import ToonFormatter
 
 
 class TestToonEncodeError:

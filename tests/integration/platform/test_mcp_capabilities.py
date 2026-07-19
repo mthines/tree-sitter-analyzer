@@ -2,8 +2,8 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.platform_compat.detector import PlatformInfo
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.platform_compat.detector import PlatformInfo
 
 
 class TestMCPCapabilities:
@@ -18,7 +18,7 @@ class TestMCPCapabilities:
         Property 14: MCP capability consistency
         Validates: Requirements 7.5
         """
-        with patch("tree_sitter_analyzer.mcp.server.PlatformDetector") as mock_detector:
+        with patch("codexray.mcp.server.PlatformDetector") as mock_detector:
             mock_detector.detect.return_value = PlatformInfo(
                 os_name="test_os",
                 os_version="1.0",
@@ -28,16 +28,16 @@ class TestMCPCapabilities:
 
             # Mock other dependencies to avoid side effects
             with (
-                patch("tree_sitter_analyzer.mcp.server.get_analysis_engine"),
-                patch("tree_sitter_analyzer.mcp.server.SecurityValidator"),
-                patch("tree_sitter_analyzer.mcp.server.QueryTool"),
-                patch("tree_sitter_analyzer.mcp.server.ReadPartialTool"),
-                patch("tree_sitter_analyzer.mcp.server.AnalyzeCodeStructureTool"),
-                patch("tree_sitter_analyzer.mcp.server.AnalyzeScaleTool"),
-                patch("tree_sitter_analyzer.mcp.server.ListFilesTool"),
-                patch("tree_sitter_analyzer.mcp.server.SearchContentTool"),
-                patch("tree_sitter_analyzer.mcp.server.FindAndGrepTool"),
+                patch("codexray.mcp.server.get_analysis_engine"),
+                patch("codexray.mcp.server.SecurityValidator"),
+                patch("codexray.mcp.server.QueryTool"),
+                patch("codexray.mcp.server.ReadPartialTool"),
+                patch("codexray.mcp.server.AnalyzeCodeStructureTool"),
+                patch("codexray.mcp.server.AnalyzeScaleTool"),
+                patch("codexray.mcp.server.ListFilesTool"),
+                patch("codexray.mcp.server.SearchContentTool"),
+                patch("codexray.mcp.server.FindAndGrepTool"),
             ):
-                server = TreeSitterAnalyzerMCPServer()
+                server = CodeXrayMCPServer()
 
                 assert "test_os-3.10" in server.version

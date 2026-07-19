@@ -39,7 +39,7 @@ pytest.importorskip("yaml")
 # ---------------------------------------------------------------------------
 
 
-TARGET_FILE_REL = "tree_sitter_analyzer/mcp/tools/safe_to_edit_tool.py"
+TARGET_FILE_REL = "codexray/mcp/tools/safe_to_edit_tool.py"
 
 
 def _run(coro):
@@ -94,7 +94,7 @@ def _seed_violation(
     rule_id: str,
     caller_file: str,
     severity: str,
-    callee_file: str = "tree_sitter_analyzer/cli/y.py",
+    callee_file: str = "codexray/cli/y.py",
     caller_line: int = 1,
 ) -> None:
     conn = sqlite3.connect(str(db_path))
@@ -131,15 +131,15 @@ constraints:
   - id: mcp-no-cli
     severity: error
     rule: forbid
-    from: "tree_sitter_analyzer/mcp/**"
-    to: "tree_sitter_analyzer/cli/**"
+    from: "codexray/mcp/**"
+    to: "codexray/cli/**"
     reason: "Dogfood: MCP must not depend on CLI."
 """.lstrip()
     )
 
 
 def _make_safe_to_edit_tool(project_root: Path):
-    from tree_sitter_analyzer.mcp.tools.safe_to_edit_tool import SafeToEditTool
+    from codexray.mcp.tools.safe_to_edit_tool import SafeToEditTool
 
     tool = SafeToEditTool(str(project_root))
     tool.set_project_path(str(project_root))
@@ -147,7 +147,7 @@ def _make_safe_to_edit_tool(project_root: Path):
 
 
 def _make_change_impact_tool(project_root: Path):
-    from tree_sitter_analyzer.mcp.tools.change_impact_tool import ChangeImpactTool
+    from codexray.mcp.tools.change_impact_tool import ChangeImpactTool
 
     tool = ChangeImpactTool(str(project_root))
     tool.set_project_path(str(project_root))

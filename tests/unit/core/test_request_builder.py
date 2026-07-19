@@ -1,6 +1,6 @@
 """Tests for core/request_builder.py — build_request_from_params, update_request_from_params."""
 
-from tree_sitter_analyzer.core.request_builder import (
+from codexray.core.request_builder import (
     build_request_from_params,
     update_request_from_params,
 )

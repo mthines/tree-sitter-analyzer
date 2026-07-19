@@ -8,7 +8,7 @@ from io import StringIO
 from pathlib import Path
 from unittest.mock import patch
 
-from tree_sitter_analyzer.cli_main import main
+from codexray.cli_main import main
 
 
 class TestCLIAdvancedOptions:
@@ -148,9 +148,9 @@ class TestCLIAdvancedOptions:
 
         # Mock the UnifiedAnalysisEngine.analyze method to return failed result
         with patch(
-            "tree_sitter_analyzer.core.analysis_engine.UnifiedAnalysisEngine.analyze"
+            "codexray.core.analysis_engine.UnifiedAnalysisEngine.analyze"
         ) as mock_analyze:
-            from tree_sitter_analyzer.models import AnalysisResult
+            from codexray.models import AnalysisResult
 
             # Create a failed analysis result
             failed_result = AnalysisResult(
@@ -356,9 +356,9 @@ class TestCLISummaryOption:
 
         # Mock the UnifiedAnalysisEngine.analyze method to return failed result
         with patch(
-            "tree_sitter_analyzer.core.analysis_engine.UnifiedAnalysisEngine.analyze"
+            "codexray.core.analysis_engine.UnifiedAnalysisEngine.analyze"
         ) as mock_analyze:
-            from tree_sitter_analyzer.models import AnalysisResult
+            from codexray.models import AnalysisResult
 
             # Create a failed analysis result
             failed_result = AnalysisResult(
@@ -465,9 +465,9 @@ class TestCLIStructureOption:
 
         # Mock the UnifiedAnalysisEngine.analyze method to return failed result
         with patch(
-            "tree_sitter_analyzer.core.analysis_engine.UnifiedAnalysisEngine.analyze"
+            "codexray.core.analysis_engine.UnifiedAnalysisEngine.analyze"
         ) as mock_analyze:
-            from tree_sitter_analyzer.models import AnalysisResult
+            from codexray.models import AnalysisResult
 
             # Create a failed analysis result
             failed_result = AnalysisResult(

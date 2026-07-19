@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 def _rg_json(file_paths: list) -> bytes:
@@ -28,7 +28,7 @@ def _rg_json(file_paths: list) -> bytes:
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -65,7 +65,7 @@ async def test_fd_19_case_sensitive_search(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test case sensitive search
@@ -102,7 +102,7 @@ async def test_fd_20_case_insensitive_search(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test case insensitive content search
@@ -143,7 +143,7 @@ async def test_fd_26_regex_overrides_glob(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test regex pattern (should override glob)
@@ -191,7 +191,7 @@ async def test_fd_27_full_path_searches(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test full path search for "src"
@@ -224,7 +224,7 @@ async def test_fd_28_fixed_strings_search(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test fixed strings search
@@ -256,7 +256,7 @@ async def test_fd_66_count_only_mode_advanced(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test count functionality

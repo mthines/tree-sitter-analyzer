@@ -8,8 +8,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.exceptions import SecurityError
-from tree_sitter_analyzer.security import (
+from codexray.exceptions import SecurityError
+from codexray.security import (
     ProjectBoundaryManager,
     RegexSafetyChecker,
     SecurityValidator,

@@ -31,9 +31,9 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.file_health_tool import FileHealthTool
-from tree_sitter_analyzer.mcp.tools.project_health_tool import ProjectHealthTool
-from tree_sitter_analyzer.mcp.tools.safe_to_edit_tool import SafeToEditTool
+from codexray.mcp.tools.file_health_tool import FileHealthTool
+from codexray.mcp.tools.project_health_tool import ProjectHealthTool
+from codexray.mcp.tools.safe_to_edit_tool import SafeToEditTool
 
 _SAMPLE = "def f(x):\n    if x:\n        return 1\n    return 2\n"
 
@@ -131,8 +131,8 @@ def test_compact_only_strictly_reduces_default_toon(
 
 def _make_synthetic_uml_response(n_classes: int = 20) -> dict:
     """Build a synthetic UML response dict (mimics CodeGraphUMLTool.execute output)."""
-    from tree_sitter_analyzer.mcp.tools._response_builder import build_response
-    from tree_sitter_analyzer.uml_export import UMLDiagram, UMLEdge
+    from codexray.mcp.tools._response_builder import build_response
+    from codexray.uml_export import UMLDiagram, UMLEdge
 
     edges = [
         UMLEdge(source=f"Class{i}", target=f"Class{i + 1}") for i in range(n_classes)
@@ -157,7 +157,7 @@ def test_viz_uml_toon_no_bulk_duplication() -> None:
     These three fields are the bulk-content drivers of the 1.78x issue (#439).
     They are encoded inside toon_content and must be stripped from top level.
     """
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.utils.format_helper import (
         apply_toon_format_to_response,
     )
 
@@ -180,8 +180,8 @@ def test_viz_uml_toon_no_bulk_duplication() -> None:
 
 def test_viz_graph_toon_no_mermaid_duplication() -> None:
     """action=graph: mermaid must not appear at top level of TOON response."""
-    from tree_sitter_analyzer.mcp.tools._response_builder import build_response
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.tools._response_builder import build_response
+    from codexray.mcp.utils.format_helper import (
         apply_toon_format_to_response,
     )
 
@@ -198,7 +198,7 @@ def test_viz_graph_toon_no_mermaid_duplication() -> None:
 
 def test_viz_similarity_toon_no_groups_duplication() -> None:
     """action=similarity: groups must not appear at top level of TOON response."""
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.utils.format_helper import (
         apply_toon_format_to_response,
     )
 
@@ -232,7 +232,7 @@ def test_viz_uml_toon_smaller_than_json() -> None:
     After stripping the top-level duplicates (nodes/edges/mermaid), the TOON
     response must be strictly smaller than the plain JSON response.
     """
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.utils.format_helper import (
         apply_toon_format_to_response,
     )
 
@@ -265,8 +265,8 @@ def test_viz_graph_toon_smaller_than_json() -> None:
     """Rule-11 ratchet: viz graph TOON bytes < JSON bytes (currently xfail — no duplication,
     but toon_content wrapper overhead > savings on a single text-blob response).
     """
-    from tree_sitter_analyzer.mcp.tools._response_builder import build_response
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.tools._response_builder import build_response
+    from codexray.mcp.utils.format_helper import (
         apply_toon_format_to_response,
     )
 
@@ -301,8 +301,8 @@ def test_viz_boundary_toon_disjoint() -> None:
     from unittest.mock import Mock
     from unittest.mock import patch as _patch
 
-    from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.server import CodeXrayMCPServer
+    from codexray.mcp.utils.format_helper import (
         apply_toon_format_to_response,
     )
 
@@ -318,9 +318,9 @@ def test_viz_boundary_toon_disjoint() -> None:
     )
 
     # Capture the handle_call_tool handler
-    server = TreeSitterAnalyzerMCPServer("/repo")
-    with _patch("tree_sitter_analyzer.mcp.server.MCP_AVAILABLE", True):
-        with _patch("tree_sitter_analyzer.mcp.server.Server") as mock_server_class:
+    server = CodeXrayMCPServer("/repo")
+    with _patch("codexray.mcp.server.MCP_AVAILABLE", True):
+        with _patch("codexray.mcp.server.Server") as mock_server_class:
             mock_srv = Mock()
             captured: dict = {}
 
@@ -562,7 +562,7 @@ def test_toon_strip_no_bulk_at_top_level(field_name: str, bulk_value: object) ->
     This is the P1.2 test that makes any new tool field that emits a bulk list
     or dict fail CI the day it is written, regardless of the field name.
     """
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.utils.format_helper import (
         TOON_CONTROL_SURFACE,
         apply_toon_format_to_response,
     )
@@ -674,7 +674,7 @@ def test_nav_impact_toon_no_bulk_at_top_level() -> None:
     and risk are the 5 fields that triggered the re-open.  Verify none
     survive at top level after apply_toon_format_to_response.
     """
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.utils.format_helper import (
         TOON_CONTROL_SURFACE,
         apply_toon_format_to_response,
     )
@@ -712,7 +712,7 @@ def test_nav_impact_toon_smaller_than_json() -> None:
     Before the fix, direct_callers/transitive_callers/risk at top level
     made the response ~1.6x JSON.  After the fix, TOON must be < JSON.
     """
-    from tree_sitter_analyzer.mcp.utils.format_helper import (
+    from codexray.mcp.utils.format_helper import (
         apply_toon_format_to_response,
     )
 
@@ -758,7 +758,7 @@ def test_class_diagram_scoped_smaller_than_unscoped(monkeypatch) -> None:
     import asyncio
     import json as _json
 
-    from tree_sitter_analyzer.mcp.tools import uml_tool as _uml_tool
+    from codexray.mcp.tools import uml_tool as _uml_tool
 
     # A synthetic class set with 10 classes, only one in the target file.
     # The whole-project diagram covers all 10; the file-scoped diagram covers 1.
@@ -787,13 +787,13 @@ def test_class_diagram_scoped_smaller_than_unscoped(monkeypatch) -> None:
             pass
 
         def uml_exporter(self):
-            import tree_sitter_analyzer.uml_export as _export
+            import codexray.uml_export as _export
 
             # Pass the sentinel cache so _open_cache skips ASTCache("/repo")
             return _export.UMLExporter("/repo", cache=SentinelCache())
 
     # Patch ClassHierarchy for the duration of this test
-    import tree_sitter_analyzer.uml_export as _uml_export
+    import codexray.uml_export as _uml_export
 
     monkeypatch.setattr(_uml_export, "ClassHierarchy", FakeHierarchyAll)
     monkeypatch.setattr(_uml_tool, "CodeGraphVisualizationHub", FakeExporterProvider)
@@ -1017,7 +1017,7 @@ def _make_synthetic_callers_payload(n_callers: int, limit: int) -> dict:
     Mimics what CodeGraphCallersTool.execute returns — no tmp paths so the
     byte count is fully deterministic.
     """
-    from tree_sitter_analyzer.mcp.tools._response_builder import build_response
+    from codexray.mcp.tools._response_builder import build_response
 
     callers_all = [
         {
@@ -1135,7 +1135,7 @@ def _make_synthetic_content_response(n_shown: int, n_total: int, cap: int) -> di
     """
     matches = [
         {
-            "file": f"tree_sitter_analyzer/module_{i // 10}/file_{i}.py",
+            "file": f"codexray/module_{i // 10}/file_{i}.py",
             "line": i * 3 + 10,
             "text": "def execute(self, arguments):",
             "matches": [[4, 11]],
@@ -1164,7 +1164,7 @@ def _make_synthetic_content_response(n_shown: int, n_total: int, cap: int) -> di
 
 def test_content_truncation_structural_fields() -> None:
     """DF-1: capped (50/80) response carries correct truncation fields."""
-    from tree_sitter_analyzer.mcp.tools.search_content_response import (
+    from codexray.mcp.tools.search_content_response import (
         DEFAULT_CONTENT_LISTED_CAP,
     )
 
@@ -1179,7 +1179,7 @@ def test_content_truncation_structural_fields() -> None:
 
 def test_content_no_truncation_structural_fields() -> None:
     """DF-1: 30 matches with default cap 50 → truncated=False, all listed."""
-    from tree_sitter_analyzer.mcp.tools.search_content_response import (
+    from codexray.mcp.tools.search_content_response import (
         DEFAULT_CONTENT_LISTED_CAP,
     )
 
@@ -1198,7 +1198,7 @@ def test_content_default_cap_bytes_smaller_than_uncapped() -> None:
     response than listing all 80 matches. If this fails, the budget cap is
     a no-op.
     """
-    from tree_sitter_analyzer.mcp.tools.search_content_response import (
+    from codexray.mcp.tools.search_content_response import (
         DEFAULT_CONTENT_LISTED_CAP,
     )
 
@@ -1214,13 +1214,16 @@ def test_content_default_cap_bytes_smaller_than_uncapped() -> None:
     )
     # Exact pins — synthetic fixture has no tmp paths, fully deterministic.
     # Measured 2026-06-12: capped=6775 B, uncapped=10505 B (1.55x reduction).
+    # Re-pinned 2026-07-19: capped=6175 B, uncapped=9545 B (1.55x reduction)
+    # after the codexray rename — synthetic file paths shrank from
+    # "tree_sitter_analyzer/…" to "codexray/…"; ratio unchanged.
     # Live dogfood: before 24477B / after 9856B (2.48x reduction).
     # Re-measure and re-pin if envelope fields change.
-    assert capped_bytes == 6775, (
-        f"content capped bytes drifted: {capped_bytes} != 6775 — re-measure and re-pin"
+    assert capped_bytes == 6175, (
+        f"content capped bytes drifted: {capped_bytes} != 6175 — re-measure and re-pin"
     )
-    assert uncapped_bytes == 10505, (
-        f"content uncapped bytes drifted: {uncapped_bytes} != 10505 — re-measure and re-pin"
+    assert uncapped_bytes == 9545, (
+        f"content uncapped bytes drifted: {uncapped_bytes} != 9545 — re-measure and re-pin"
     )
 
 
@@ -1234,7 +1237,7 @@ def test_outline_wide_class_methods_bounded_by_cap(tmp_path) -> None:
     so every count is pinned EXACTLY (CLAUDE.md exact-assertion lock — no <=/<
     bounds; the byte budget is the deterministic consequence of methods == cap).
     """
-    from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+    from codexray.mcp.tools.get_code_outline_tool import (
         DEFAULT_OUTLINE_CLASSES_CAP,
         GetCodeOutlineTool,
     )
@@ -1257,7 +1260,7 @@ def test_outline_wide_class_methods_bounded_by_cap(tmp_path) -> None:
 
 # ── Phase 4: Serialization Unification — parametric toon≤json invariants ─────
 #
-# These tests use the new tree_sitter_analyzer.serialization subpackage
+# These tests use the new codexray.serialization subpackage
 # (Serializer protocol, JSONSerializer, TOONSerializer) to assert the core
 # TOON efficiency claim against representative MCP tool response shapes.
 #
@@ -1294,11 +1297,11 @@ _PHASE4_SAMPLE_RESPONSES: list[tuple[str, dict, bool]] = [
                  "line": 42, "language": "python"},
                 {"name": "test_execute_no_args", "file": "tests/unit/test_tool.py",
                  "line": 67, "language": "python"},
-                {"name": "handle_call_tool", "file": "tree_sitter_analyzer/mcp/server.py",
+                {"name": "handle_call_tool", "file": "codexray/mcp/server.py",
                  "line": 215, "language": "python"},
-                {"name": "dispatch_legacy", "file": "tree_sitter_analyzer/mcp/legacy_shim.py",
+                {"name": "dispatch_legacy", "file": "codexray/mcp/legacy_shim.py",
                  "line": 88, "language": "python"},
-                {"name": "run_tool", "file": "tree_sitter_analyzer/mcp/router.py",
+                {"name": "run_tool", "file": "codexray/mcp/router.py",
                  "line": 134, "language": "python"},
             ],
             "agent_summary": {
@@ -1323,25 +1326,25 @@ _PHASE4_SAMPLE_RESPONSES: list[tuple[str, dict, bool]] = [
             "listed_cap": 50,
             "truncated": False,
             "callees": [
-                {"name": "setup_logger", "file": "tree_sitter_analyzer/utils.py",
+                {"name": "setup_logger", "file": "codexray/utils.py",
                  "line": 12, "language": "python"},
                 {"name": "resolve_file_path",
-                 "file": "tree_sitter_analyzer/mcp/utils/path_resolver.py",
+                 "file": "codexray/mcp/utils/path_resolver.py",
                  "line": 55, "language": "python"},
-                {"name": "get_plugin", "file": "tree_sitter_analyzer/plugins/registry.py",
+                {"name": "get_plugin", "file": "codexray/plugins/registry.py",
                  "line": 99, "language": "python"},
-                {"name": "parse_file", "file": "tree_sitter_analyzer/core/parser.py",
+                {"name": "parse_file", "file": "codexray/core/parser.py",
                  "line": 34, "language": "python"},
-                {"name": "extract_elements", "file": "tree_sitter_analyzer/core/extractor.py",
+                {"name": "extract_elements", "file": "codexray/core/extractor.py",
                  "line": 77, "language": "python"},
                 {"name": "build_response",
-                 "file": "tree_sitter_analyzer/mcp/tools/_response_builder.py",
+                 "file": "codexray/mcp/tools/_response_builder.py",
                  "line": 91, "language": "python"},
                 {"name": "format_as_toon",
-                 "file": "tree_sitter_analyzer/mcp/utils/format_helper.py",
+                 "file": "codexray/mcp/utils/format_helper.py",
                  "line": 98, "language": "python"},
                 {"name": "mirror_summary_line",
-                 "file": "tree_sitter_analyzer/mcp/tools/base_tool.py",
+                 "file": "codexray/mcp/tools/base_tool.py",
                  "line": 48, "language": "python"},
             ],
             "agent_summary": {
@@ -1363,7 +1366,7 @@ _PHASE4_SAMPLE_RESPONSES: list[tuple[str, dict, bool]] = [
             "success": True,
             "verdict": "REVIEW",
             "output_format": "toon",
-            "file_path": "tree_sitter_analyzer/mcp/server.py",
+            "file_path": "codexray/mcp/server.py",
             "language": "python",
             "line_count": 1842,
             "function_count": 47,
@@ -1419,19 +1422,19 @@ _PHASE4_SAMPLE_RESPONSES: list[tuple[str, dict, bool]] = [
         {
             "success": True,
             "verdict": "CAUTION",
-            "file_path": "tree_sitter_analyzer/mcp/tools/base_tool.py",
+            "file_path": "codexray/mcp/tools/base_tool.py",
             "impact_score": 9.2,
             "direct_dependents": 23,
             "indirect_dependents": 67,
             "downstream_files": [
-                "tree_sitter_analyzer/mcp/tools/callers_tool.py",
-                "tree_sitter_analyzer/mcp/tools/callees_tool.py",
-                "tree_sitter_analyzer/mcp/tools/analyze_scale_tool.py",
-                "tree_sitter_analyzer/mcp/tools/change_impact_tool.py",
-                "tree_sitter_analyzer/mcp/tools/dead_code_tool.py",
-                "tree_sitter_analyzer/mcp/tools/dependency_matrix_tool.py",
-                "tree_sitter_analyzer/mcp/tools/code_similarity_tool.py",
-                "tree_sitter_analyzer/mcp/tools/universal_analyze_tool.py",
+                "codexray/mcp/tools/callers_tool.py",
+                "codexray/mcp/tools/callees_tool.py",
+                "codexray/mcp/tools/analyze_scale_tool.py",
+                "codexray/mcp/tools/change_impact_tool.py",
+                "codexray/mcp/tools/dead_code_tool.py",
+                "codexray/mcp/tools/dependency_matrix_tool.py",
+                "codexray/mcp/tools/code_similarity_tool.py",
+                "codexray/mcp/tools/universal_analyze_tool.py",
             ],
             "agent_summary": {
                 "summary_line": "change_impact: base_tool.py impact=9.2 CAUTION",
@@ -1448,26 +1451,26 @@ _PHASE4_SAMPLE_RESPONSES: list[tuple[str, dict, bool]] = [
         {
             "success": True,
             "verdict": "REVIEW",
-            "file_path": "tree_sitter_analyzer/mcp/tools/",
+            "file_path": "codexray/mcp/tools/",
             "dead_symbol_count": 6,
             "dead_symbols": [
                 {"name": "_legacy_format",
-                 "file": "tree_sitter_analyzer/mcp/tools/format_tool.py",
+                 "file": "codexray/mcp/tools/format_tool.py",
                  "line": 88, "kind": "function"},
                 {"name": "OldToolBase",
-                 "file": "tree_sitter_analyzer/mcp/tools/old_base.py",
+                 "file": "codexray/mcp/tools/old_base.py",
                  "line": 12, "kind": "class"},
                 {"name": "_encode_compat",
-                 "file": "tree_sitter_analyzer/formatters/toon_encoder.py",
+                 "file": "codexray/formatters/toon_encoder.py",
                  "line": 245, "kind": "method"},
                 {"name": "debug_payload",
-                 "file": "tree_sitter_analyzer/mcp/utils/format_helper.py",
+                 "file": "codexray/mcp/utils/format_helper.py",
                  "line": 201, "kind": "function"},
                 {"name": "_v1_route",
-                 "file": "tree_sitter_analyzer/mcp/server.py",
+                 "file": "codexray/mcp/server.py",
                  "line": 567, "kind": "function"},
                 {"name": "LegacyEncoder",
-                 "file": "tree_sitter_analyzer/formatters/legacy.py",
+                 "file": "codexray/formatters/legacy.py",
                  "line": 5, "kind": "class"},
             ],
             "agent_summary": {
@@ -1536,7 +1539,7 @@ def test_phase4_toon_not_larger_than_json(
 ) -> None:
     """Phase 4 parametric invariant: TOON byte size must not exceed compact JSON.
 
-    Uses the tree_sitter_analyzer.serialization subpackage (Serializer Protocol,
+    Uses the codexray.serialization subpackage (Serializer Protocol,
     JSONSerializer, TOONSerializer) introduced in Phase 4.
 
     CLAUDE.md §11 rule 1: executable invariant for the §1 token-efficiency claim.
@@ -1549,7 +1552,7 @@ def test_phase4_toon_not_larger_than_json(
     Note: compact JSON (no indent) is the lower bound on JSON byte size.
     If TOON > compact JSON the efficiency claim fails for that response type.
     """
-    from tree_sitter_analyzer.serialization import JSONSerializer, TOONSerializer
+    from codexray.serialization import JSONSerializer, TOONSerializer
 
     if known_overhead:
         pytest.xfail(

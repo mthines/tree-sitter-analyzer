@@ -4,7 +4,7 @@ Tests for create_json_file_analysis, build_analysis_result, and build_detailed_a
 
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_helpers import (
+from codexray.mcp.tools.analyze_scale_helpers import (
     build_analysis_result,
     build_detailed_analysis,
     create_json_file_analysis,

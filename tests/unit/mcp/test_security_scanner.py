@@ -5,8 +5,8 @@ from __future__ import annotations
 import asyncio
 from pathlib import Path
 
-from tree_sitter_analyzer.mcp.tools.file_health_tool import FileHealthTool
-from tree_sitter_analyzer.mcp.tools.security_scanner import detect_security_issues
+from codexray.mcp.tools.file_health_tool import FileHealthTool
+from codexray.mcp.tools.security_scanner import detect_security_issues
 
 
 def _run(coro):
@@ -17,7 +17,7 @@ def test_python_asserts_are_reported_in_source_files() -> None:
     issues = detect_security_issues(
         "def check(value):\n    assert value\n",
         "python",
-        file_path="tree_sitter_analyzer/example.py",
+        file_path="codexray/example.py",
     )
 
     assert {issue["issue"] for issue in issues} == {"assert_in_prod"}
@@ -49,7 +49,7 @@ def test_python_eval_inside_string_or_comment_is_not_reported() -> None:
         "# eval(user_input)\n"
         "result = eval(user_input)\n",
         "python",
-        file_path="tree_sitter_analyzer/example.py",
+        file_path="codexray/example.py",
     )
 
     assert issues == [
@@ -67,14 +67,14 @@ def test_python_hardcoded_secret_detection_still_scans_assignments() -> None:
     issues = detect_security_issues(
         "pass" + "word = 'example-secret-value'\n",
         "python",
-        file_path="tree_sitter_analyzer/example.py",
+        file_path="codexray/example.py",
     )
 
     assert {issue["issue"] for issue in issues} == {"hardcoded_secret"}
 
 
 def test_scanner_rule_samples_do_not_report_as_security_issues() -> None:
-    scanner_path = Path("tree_sitter_analyzer/mcp/tools/security_scanner.py")
+    scanner_path = Path("codexray/mcp/tools/security_scanner.py")
 
     issues = detect_security_issues(
         scanner_path.read_text(),
@@ -102,7 +102,7 @@ def test_python_runtime_security_constructs_are_still_reported() -> None:
         "context.verify_mode = ssl.CERT_NONE\n"
         "assert user.is_admin\n",
         "python",
-        file_path="tree_sitter_analyzer/example.py",
+        file_path="codexray/example.py",
     )
 
     assert {

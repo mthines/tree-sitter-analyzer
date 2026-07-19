@@ -16,7 +16,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._call_tree import build_call_tree
+from codexray.mcp.tools._call_tree import build_call_tree
 
 _PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
 
@@ -126,7 +126,7 @@ def chain_project_root(tmp_path):
 class TestCalleeTreeTool:
     @pytest.mark.asyncio
     async def test_returns_nested_tree_one_call(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools._call_tree_tool import (
+        from codexray.mcp.tools._call_tree_tool import (
             CodeGraphCalleeTreeTool,
         )
 
@@ -146,7 +146,7 @@ class TestCalleeTreeTool:
 
     @pytest.mark.asyncio
     async def test_deterrent_next_step(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools._call_tree_tool import (
+        from codexray.mcp.tools._call_tree_tool import (
             CodeGraphCalleeTreeTool,
         )
 
@@ -160,7 +160,7 @@ class TestCalleeTreeTool:
 
     @pytest.mark.asyncio
     async def test_symbol_required(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools._call_tree_tool import (
+        from codexray.mcp.tools._call_tree_tool import (
             CodeGraphCalleeTreeTool,
         )
 
@@ -170,7 +170,7 @@ class TestCalleeTreeTool:
 
     @pytest.mark.asyncio
     async def test_toon_format(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools._call_tree_tool import (
+        from codexray.mcp.tools._call_tree_tool import (
             CodeGraphCalleeTreeTool,
         )
 
@@ -181,7 +181,7 @@ class TestCalleeTreeTool:
 
     @pytest.mark.asyncio
     async def test_no_project_root_raises(self) -> None:
-        from tree_sitter_analyzer.mcp.tools._call_tree_tool import (
+        from codexray.mcp.tools._call_tree_tool import (
             CodeGraphCalleeTreeTool,
         )
 
@@ -193,7 +193,7 @@ class TestCalleeTreeTool:
 class TestCallerTreeTool:
     @pytest.mark.asyncio
     async def test_returns_nested_caller_tree(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools._call_tree_tool import (
+        from codexray.mcp.tools._call_tree_tool import (
             CodeGraphCallerTreeTool,
         )
 
@@ -213,7 +213,7 @@ class TestCallerTreeTool:
 
     @pytest.mark.asyncio
     async def test_symbol_required(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools._call_tree_tool import (
+        from codexray.mcp.tools._call_tree_tool import (
             CodeGraphCallerTreeTool,
         )
 
@@ -225,7 +225,7 @@ class TestCallerTreeTool:
 class TestNavFacadeTreeActions:
     @pytest.mark.asyncio
     async def test_callee_tree_action(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools.nav_facade import build_nav_facade
+        from codexray.mcp.tools.nav_facade import build_nav_facade
 
         facade = build_nav_facade(chain_project_root)
         result = await facade.execute(
@@ -240,7 +240,7 @@ class TestNavFacadeTreeActions:
 
     @pytest.mark.asyncio
     async def test_caller_tree_action(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools.nav_facade import build_nav_facade
+        from codexray.mcp.tools.nav_facade import build_nav_facade
 
         facade = build_nav_facade(chain_project_root)
         result = await facade.execute(
@@ -254,7 +254,7 @@ class TestNavFacadeTreeActions:
         assert result["tree"]["root"]["name"] == "baz"
 
     def test_facade_exposes_tree_actions_in_enum(self, chain_project_root) -> None:
-        from tree_sitter_analyzer.mcp.tools.nav_facade import build_nav_facade
+        from codexray.mcp.tools.nav_facade import build_nav_facade
 
         facade = build_nav_facade(chain_project_root)
         defn = facade.get_tool_definition()

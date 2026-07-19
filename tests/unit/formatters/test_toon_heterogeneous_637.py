@@ -17,8 +17,8 @@ All pins are exact ``==`` (user-locked rule — no substring-only/loose
 assertions for deterministic encoder output).
 """
 
-from tree_sitter_analyzer.formatters.toon_encoder import ToonEncoder
-from tree_sitter_analyzer.formatters.toon_formatter import ToonFormatter
+from codexray.formatters.toon_encoder import ToonEncoder
+from codexray.formatters.toon_formatter import ToonFormatter
 
 
 class TestHeterogeneousArrayLosslessness:

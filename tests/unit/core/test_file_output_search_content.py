@@ -9,7 +9,7 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 def _make_rg_match_line(
@@ -59,11 +59,11 @@ def _make_multi_file_rg_output(tmp_path, n_files: int, n_functions: int) -> str:
 def _patch_rg_tools(monkeypatch, mock_run_command) -> None:
     """Monkeypatch fd_rg_utils so tests don't invoke real ripgrep."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.search_content_tool.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
+        "codexray.mcp.tools.search_content_tool.fd_rg_utils.run_command_capture",
         mock_run_command,
     )
 

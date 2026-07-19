@@ -9,7 +9,7 @@ _extract_strikethrough_elements (42.9%).
 
 from unittest.mock import Mock
 
-from tree_sitter_analyzer.languages.markdown_plugin import (
+from codexray.languages.markdown_plugin import (
     MarkdownElementExtractor,
     MarkdownPlugin,
 )

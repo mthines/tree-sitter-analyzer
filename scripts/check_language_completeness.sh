@@ -40,23 +40,23 @@ check_item() {
 }
 
 echo "=== Core Components ==="
-check_item "Plugin file exists" "[ -f 'tree_sitter_analyzer/languages/${LANG}_plugin.py' ]"
-check_item "Query file exists" "[ -f 'tree_sitter_analyzer/queries/${LANG}.py' ]"
-check_item "Formatter file exists" "[ -f 'tree_sitter_analyzer/formatters/${LANG}_formatter.py' ]"
+check_item "Plugin file exists" "[ -f 'codexray/languages/${LANG}_plugin.py' ]"
+check_item "Query file exists" "[ -f 'codexray/queries/${LANG}.py' ]"
+check_item "Formatter file exists" "[ -f 'codexray/formatters/${LANG}_formatter.py' ]"
 echo ""
 
 echo "=== Configuration ==="
 check_item "Entry point registered in pyproject.toml" "grep -q '${LANG} = ' pyproject.toml"
-check_item "Formatter config in formatter_config.py" "grep -q '\"${LANG}\":' tree_sitter_analyzer/formatters/formatter_config.py"
-check_item "Formatter registered in factory" "grep -q '${LANG}' tree_sitter_analyzer/formatters/language_formatter_factory.py"
-check_item "Language detector configured" "grep -q '\"\.${EXT}\"' tree_sitter_analyzer/language_detector.py"
+check_item "Formatter config in formatter_config.py" "grep -q '\"${LANG}\":' codexray/formatters/formatter_config.py"
+check_item "Formatter registered in factory" "grep -q '${LANG}' codexray/formatters/language_formatter_factory.py"
+check_item "Language detector configured" "grep -q '\"\.${EXT}\"' codexray/language_detector.py"
 echo ""
 
 echo "=== Plugin Methods ==="
-if [ -f "tree_sitter_analyzer/languages/${LANG}_plugin.py" ]; then
-    check_item "get_queries() method exists" "grep -q 'def get_queries' tree_sitter_analyzer/languages/${LANG}_plugin.py"
-    check_item "execute_query_strategy() method exists" "grep -q 'def execute_query_strategy' tree_sitter_analyzer/languages/${LANG}_plugin.py"
-    check_item "get_element_categories() method exists" "grep -q 'def get_element_categories' tree_sitter_analyzer/languages/${LANG}_plugin.py"
+if [ -f "codexray/languages/${LANG}_plugin.py" ]; then
+    check_item "get_queries() method exists" "grep -q 'def get_queries' codexray/languages/${LANG}_plugin.py"
+    check_item "execute_query_strategy() method exists" "grep -q 'def execute_query_strategy' codexray/languages/${LANG}_plugin.py"
+    check_item "get_element_categories() method exists" "grep -q 'def get_element_categories' codexray/languages/${LANG}_plugin.py"
 else
     echo "⊘ Plugin methods check skipped (plugin file missing)"
     TOTAL=$((TOTAL + 3))
@@ -64,10 +64,10 @@ fi
 echo ""
 
 echo "=== Formatter Methods ==="
-if [ -f "tree_sitter_analyzer/formatters/${LANG}_formatter.py" ]; then
-    check_item "_format_full_table() method exists" "grep -q 'def _format_full_table' tree_sitter_analyzer/formatters/${LANG}_formatter.py"
-    check_item "_format_compact_table() method exists" "grep -q 'def _format_compact_table' tree_sitter_analyzer/formatters/${LANG}_formatter.py"
-    check_item "_format_csv() method exists" "grep -q 'def _format_csv' tree_sitter_analyzer/formatters/${LANG}_formatter.py"
+if [ -f "codexray/formatters/${LANG}_formatter.py" ]; then
+    check_item "_format_full_table() method exists" "grep -q 'def _format_full_table' codexray/formatters/${LANG}_formatter.py"
+    check_item "_format_compact_table() method exists" "grep -q 'def _format_compact_table' codexray/formatters/${LANG}_formatter.py"
+    check_item "_format_csv() method exists" "grep -q 'def _format_csv' codexray/formatters/${LANG}_formatter.py"
 else
     echo "⊘ Formatter methods check skipped (formatter file missing)"
     TOTAL=$((TOTAL + 3))

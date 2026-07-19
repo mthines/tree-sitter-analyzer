@@ -30,15 +30,15 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.synapse_resolver import ResolvedCallee, resolve_callee
-from tree_sitter_analyzer.synapse_resolver import languages as _languages
-from tree_sitter_analyzer.synapse_resolver._context import ResolverContext
-from tree_sitter_analyzer.synapse_resolver._registry import (
+from codexray.ast_cache import ASTCache
+from codexray.synapse_resolver import ResolvedCallee, resolve_callee
+from codexray.synapse_resolver import languages as _languages
+from codexray.synapse_resolver._context import ResolverContext
+from codexray.synapse_resolver._registry import (
     get_language_resolver,
     registered_languages,
 )
-from tree_sitter_analyzer.synapse_resolver.languages.php import (
+from codexray.synapse_resolver.languages.php import (
     PhpResolverContext,
     build_php_context,
     resolve_php_callee,
@@ -318,7 +318,7 @@ def test_bare_call_does_not_bind_sibling_method() -> None:
 
 def test_external_tier_is_empty() -> None:
     """The PHP external tier is intentionally empty (RFC-0008 precision)."""
-    from tree_sitter_analyzer.synapse_resolver.languages._php_constants import (
+    from codexray.synapse_resolver.languages._php_constants import (
         EXTERNAL_FUNCTIONS_PHP,
     )
 
@@ -422,7 +422,7 @@ def test_no_cross_language_mis_wire_end_to_end(tmp_path: Path) -> None:
     cache = ASTCache(str(tmp_path))
     try:
         cache.index_project()
-        from tree_sitter_analyzer.synapse_resolver._context import (
+        from codexray.synapse_resolver._context import (
             build_resolver_context,
         )
 

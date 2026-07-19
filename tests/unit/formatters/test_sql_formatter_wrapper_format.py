@@ -4,8 +4,8 @@ Tests for SQL Formatter Wrapper formatting methods.
 
 import pytest
 
-from tree_sitter_analyzer.formatters.sql_formatter_wrapper import SQLFormatterWrapper
-from tree_sitter_analyzer.models import (
+from codexray.formatters.sql_formatter_wrapper import SQLFormatterWrapper
+from codexray.models import (
     AnalysisResult,
     SQLElement,
     SQLElementType,

@@ -25,10 +25,10 @@ from __future__ import annotations
 import pytest
 import tree_sitter
 
-from tree_sitter_analyzer.languages.csharp_plugin import CSharpPlugin
-from tree_sitter_analyzer.languages.php_plugin import PHPPlugin
-from tree_sitter_analyzer.languages.python_plugin import PythonPlugin
-from tree_sitter_analyzer.languages.ruby_plugin import RubyPlugin
+from codexray.languages.csharp_plugin import CSharpPlugin
+from codexray.languages.php_plugin import PHPPlugin
+from codexray.languages.python_plugin import PythonPlugin
+from codexray.languages.ruby_plugin import RubyPlugin
 
 # A small zoo of multibyte chars. Each is 2-4 UTF-8 bytes so any direct
 # ``str``-slicing of byte offsets will shift by at least 1 codepoint and

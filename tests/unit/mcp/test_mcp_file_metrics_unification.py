@@ -1,7 +1,7 @@
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.file_metrics import compute_file_metrics
-from tree_sitter_analyzer.mcp.utils.shared_cache import get_shared_cache
+from codexray.mcp.utils.file_metrics import compute_file_metrics
+from codexray.mcp.utils.shared_cache import get_shared_cache
 
 _INITIAL_CONTENT = "# c\n\nprint('x')\n"
 _CHANGED_CONTENT = "# c\n\nprint('y')\n"
@@ -18,7 +18,7 @@ def py_file(tmp_path):
 
 def _spy_line_metrics(monkeypatch) -> list:
     """Patch _compute_line_metrics to count invocations; returns a [count] list."""
-    from tree_sitter_analyzer.mcp.utils import file_metrics as fm
+    from codexray.mcp.utils import file_metrics as fm
 
     counter = [0]
     original = fm._compute_line_metrics

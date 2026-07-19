@@ -1,13 +1,13 @@
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -23,7 +23,7 @@ class DummyProc:
 @pytest.mark.unit
 def test_parse_rg_count_output():
     """Test parsing ripgrep --count-matches output."""
-    from tree_sitter_analyzer.mcp.tools.fd_rg_utils import parse_rg_count_output
+    from codexray.mcp.tools.fd_rg_utils import parse_rg_count_output
 
     # Mock count output
     count_output = b"""file1.py:5
@@ -44,7 +44,7 @@ file4.py:12
 @pytest.mark.unit
 def test_build_rg_command_with_count_only():
     """Test building ripgrep command with count_only_matches option."""
-    from tree_sitter_analyzer.mcp.tools.fd_rg_utils import build_rg_command
+    from codexray.mcp.tools.fd_rg_utils import build_rg_command
 
     # Test with count_only_matches=True
     cmd = build_rg_command(
@@ -106,7 +106,7 @@ def test_build_rg_command_with_count_only():
 @pytest.mark.unit
 def test_summarize_search_results():
     """Test summarizing search results for context reduction."""
-    from tree_sitter_analyzer.mcp.tools.fd_rg_utils import summarize_search_results
+    from codexray.mcp.tools.fd_rg_utils import summarize_search_results
 
     # Mock search results
     matches = [
@@ -141,7 +141,7 @@ def test_summarize_search_results():
 @pytest.mark.unit
 def test_build_fd_command():
     """Test building fd command with various options."""
-    from tree_sitter_analyzer.mcp.tools.fd_rg_utils import build_fd_command
+    from codexray.mcp.tools.fd_rg_utils import build_fd_command
 
     # Test basic command with pattern
     cmd = build_fd_command(
@@ -210,7 +210,7 @@ def test_build_fd_command():
 @pytest.mark.unit
 def test_parse_rg_count_output_edge_cases():
     """Test parsing ripgrep count output with edge cases."""
-    from tree_sitter_analyzer.mcp.tools.fd_rg_utils import parse_rg_count_output
+    from codexray.mcp.tools.fd_rg_utils import parse_rg_count_output
 
     # Test empty output
     result = parse_rg_count_output(b"")
@@ -242,7 +242,7 @@ file3.py:10
 @pytest.mark.unit
 def test_summarize_search_results_edge_cases():
     """Test summarizing search results with edge cases."""
-    from tree_sitter_analyzer.mcp.tools.fd_rg_utils import summarize_search_results
+    from codexray.mcp.tools.fd_rg_utils import summarize_search_results
 
     # Test empty results
     summary = summarize_search_results([])
@@ -265,7 +265,7 @@ def test_summarize_search_results_edge_cases():
 @pytest.mark.unit
 def test_fd_rg_utils_edge_cases():
     """Test edge cases in fd_rg_utils functions."""
-    from tree_sitter_analyzer.mcp.tools.fd_rg_utils import (
+    from codexray.mcp.tools.fd_rg_utils import (
         clamp_int,
         normalize_max_filesize,
         parse_size_to_bytes,
@@ -308,7 +308,7 @@ async def test_fd_67_performance_large_dataset(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test performance with many files
@@ -335,7 +335,7 @@ async def test_fd_68_command_timeout_handling(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test timeout handling
@@ -362,7 +362,7 @@ async def test_fd_69_invalid_regex_handling(tmp_path, monkeypatch):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test with potentially invalid regex
@@ -390,7 +390,7 @@ async def test_fd_70_memory_usage_optimization(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test memory efficient processing
@@ -423,7 +423,7 @@ async def test_fd_71_cross_platform_compatibility(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test cross-platform file handling
@@ -460,7 +460,7 @@ async def test_fd_72_edge_case_patterns(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test edge case handling
@@ -488,7 +488,7 @@ async def test_fd_73_concurrent_execution_safety(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test concurrent execution safety
@@ -514,7 +514,7 @@ async def test_fd_74_resource_cleanup(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test resource cleanup
@@ -543,7 +543,7 @@ async def test_fd_85_invalid_utf8_handling(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test UTF-8 handling
@@ -572,7 +572,7 @@ async def test_fd_87_single_and_multithreaded_execution(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test execution (threading is internal)
@@ -594,7 +594,7 @@ async def test_fd_88_number_parsing_errors(tmp_path, monkeypatch):
         return 0, b"", b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test invalid depth value (should be handled gracefully)
@@ -631,7 +631,7 @@ async def test_fd_89_opposing_parameters(tmp_path, monkeypatch):
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test with valid parameters (our tool validates parameters)
@@ -667,7 +667,7 @@ async def test_fd_90_error_if_hidden_not_set_and_pattern_starts_with_dot(
         return 0, out, b""
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture", fake_run
+        "codexray.mcp.tools.fd_rg_utils.run_command_capture", fake_run
     )
 
     # Test hidden pattern without hidden flag

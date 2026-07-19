@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
 # ---------------------------------------------------------------------------
 # Schema / enum tests
@@ -77,7 +77,7 @@ def test_activity_diagram_mermaid_type_and_comment(tmp_path: Path) -> None:
     """activity_diagram returns flowchart TD with the RFC comment header."""
     src = tmp_path / "mod.py"
     src.write_text("def my_func(x):\n    if x > 0:\n        return x\n    return 0\n")
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("my_func", file_path=str(src))
@@ -92,7 +92,7 @@ def test_activity_diagram_mermaid_type_and_comment(tmp_path: Path) -> None:
 def test_activity_diagram_metadata_analysis_kind(tmp_path: Path) -> None:
     src = tmp_path / "mod.py"
     src.write_text("def my_func(x):\n    if x:\n        return 1\n    return 0\n")
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("my_func", file_path=str(src))
@@ -105,7 +105,7 @@ def test_activity_diagram_node_count_simple_if(tmp_path: Path) -> None:
     src.write_text(
         "def simple_func(x):\n    if x > 0:\n        return x\n    return 0\n"
     )
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("simple_func", file_path=str(src))
@@ -119,7 +119,7 @@ def test_activity_diagram_for_loop(tmp_path: Path) -> None:
     src.write_text(
         "def loop_func(items):\n    for item in items:\n        pass\n    return None\n"
     )
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("loop_func", file_path=str(src))
@@ -133,7 +133,7 @@ def test_activity_diagram_while_loop(tmp_path: Path) -> None:
     src.write_text(
         "def while_func(n):\n    while n > 0:\n        n -= 1\n    return n\n"
     )
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("while_func", file_path=str(src))
@@ -151,7 +151,7 @@ def test_activity_diagram_try_except(tmp_path: Path) -> None:
     src.write_text(
         "def try_func():\n    try:\n        pass\n    except Exception:\n        pass\n"
     )
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("try_func", file_path=str(src))
@@ -163,7 +163,7 @@ def test_activity_diagram_raise_statement(tmp_path: Path) -> None:
     """Raise: entry + raise = 2 nodes."""
     src = tmp_path / "mod.py"
     src.write_text("def raise_func():\n    raise ValueError('err')\n")
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("raise_func", file_path=str(src))
@@ -175,7 +175,7 @@ def test_activity_diagram_empty_function_returns_not_found(tmp_path: Path) -> No
     """Empty (stub) function: zero CFG nodes -> NOT_FOUND with next_step."""
     src = tmp_path / "mod.py"
     src.write_text("def empty_func():\n    pass\n")
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     result = exporter.activity_diagram("empty_func", file_path=str(src))
@@ -185,7 +185,7 @@ def test_activity_diagram_empty_function_returns_not_found(tmp_path: Path) -> No
 
 def test_activity_diagram_missing_file_returns_not_found(tmp_path: Path) -> None:
     """When the file no longer exists, return NOT_FOUND."""
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     result = exporter.activity_diagram(
@@ -202,7 +202,7 @@ def test_activity_diagram_function_not_found_in_file_returns_not_found(
     src = tmp_path / "mod.py"
     src.write_text("def other_func():\n    pass\n")
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     result = exporter.activity_diagram("missing_func", file_path=str(src))
@@ -213,7 +213,7 @@ def test_activity_diagram_max_nodes_cap(tmp_path: Path) -> None:
     """max_nodes=2 truncates: only 2 nodes emitted + truncated flag set."""
     src = tmp_path / "mod.py"
     src.write_text("def big_func(x):\n    if x > 0:\n        return x\n    return 0\n")
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("big_func", file_path=str(src), max_nodes=2)
@@ -243,7 +243,7 @@ def test_activity_diagram_parse_count_exactly_one(tmp_path: Path) -> None:
         "    return 0\n"
     )
 
-    import tree_sitter_analyzer.uml_activity as _activity_module
+    import codexray.uml_activity as _activity_module
 
     parse_call_count = 0
     original_parse = _activity_module._parse_file_for_activity
@@ -253,7 +253,7 @@ def test_activity_diagram_parse_count_exactly_one(tmp_path: Path) -> None:
         parse_call_count += 1
         return original_parse(file_path, language)
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     with patch.object(_activity_module, "_parse_file_for_activity", counting_parse):
         exporter = UMLExporter(str(tmp_path))
@@ -279,7 +279,7 @@ def test_activity_diagram_large_function_parse_count(tmp_path: Path) -> None:
     src = tmp_path / "big.py"
     src.write_text("".join(lines))
 
-    import tree_sitter_analyzer.uml_activity as _activity_module
+    import codexray.uml_activity as _activity_module
 
     parse_call_count = 0
     original_parse = _activity_module._parse_file_for_activity
@@ -289,7 +289,7 @@ def test_activity_diagram_large_function_parse_count(tmp_path: Path) -> None:
         parse_call_count += 1
         return original_parse(file_path, language)
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     with patch.object(_activity_module, "_parse_file_for_activity", counting_parse):
         exporter = UMLExporter(str(tmp_path))
@@ -313,7 +313,7 @@ def test_return_label_exact_text(tmp_path: Path) -> None:
     """
     src = tmp_path / "mod.py"
     src.write_text("def f(x):\n    return x\n")
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("f", str(src))
     return_nodes = [n for n in cfg.nodes if n.kind == "return"]
@@ -325,7 +325,7 @@ def test_raise_label_exact_text(tmp_path: Path) -> None:
     """Raise node label must be 'raise ValueError…' NOT 'raise raise ValueError…'."""
     src = tmp_path / "mod.py"
     src.write_text("def f():\n    raise ValueError('err')\n")
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("f", str(src))
     raise_nodes = [n for n in cfg.nodes if n.kind == "raise"]
@@ -341,7 +341,7 @@ def test_raise_label_exact_text(tmp_path: Path) -> None:
 
 def test_escape_label_strips_newlines() -> None:
     """_escape_label must replace \\n and \\r with space (Mermaid ["..."] safety)."""
-    from tree_sitter_analyzer.uml_export import _escape_label
+    from codexray.uml_export import _escape_label
 
     assert _escape_label("line1\nline2") == "line1 line2"
     assert _escape_label("line1\r\nline2") == "line1 line2"
@@ -354,7 +354,7 @@ def test_multiline_condition_no_newline_in_mermaid(tmp_path: Path) -> None:
     A multiline condition string (e.g. from a lambda) must be flattened to a
     space-separated single line so that Mermaid parsers don't break.
     """
-    from tree_sitter_analyzer.uml_export import _escape_label
+    from codexray.uml_export import _escape_label
 
     multiline = "x > 0\nand y > 0"
     escaped = _escape_label(multiline)
@@ -376,7 +376,7 @@ def test_activity_diagram_metadata_note_always_set(tmp_path: Path) -> None:
     """
     src = tmp_path / "mod.py"
     src.write_text("def f(x):\n    if x:\n        return 1\n    return 0\n")
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     diagram = exporter.activity_diagram("f", file_path=str(src))
@@ -404,7 +404,7 @@ def test_try_except_both_return_no_exit_edge(tmp_path: Path) -> None:
         "    except Exception:\n"
         "        return 2\n"
     )
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("f", str(src))
 
@@ -439,7 +439,7 @@ def test_find_function_bare_name_picks_outermost(tmp_path: Path) -> None:
     src.write_text(
         "def outer(x):\n    def inner(y):\n        return y + 1\n    return inner(x)\n"
     )
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("outer", str(src))
     # outer has one return statement: "return inner(x)"
@@ -454,7 +454,7 @@ def test_find_function_qualified_name_picks_inner(tmp_path: Path) -> None:
     src.write_text(
         "def outer(x):\n    def inner(y):\n        return y + 1\n    return inner(x)\n"
     )
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("outer.inner", str(src))
     # inner has one return statement: "return y + 1"
@@ -474,7 +474,7 @@ def test_if_true_false_edge_labels_with_else(tmp_path: Path) -> None:
     src.write_text(
         "def f(x):\n    if x > 0:\n        return 1\n    else:\n        return 0\n"
     )
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("f", str(src))
     cond_nodes = [n for n in cfg.nodes if n.kind == "condition"]
@@ -490,7 +490,7 @@ def test_if_true_false_edge_labels_no_else(tmp_path: Path) -> None:
     """Condition→true-body is 'True'; condition falls through to next stmt as 'False'."""
     src = tmp_path / "mod.py"
     src.write_text("def f(x):\n    if x > 0:\n        return 1\n    return 0\n")
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("f", str(src))
     cond_nodes = [n for n in cfg.nodes if n.kind == "condition"]
@@ -514,7 +514,7 @@ def test_for_loop_label_includes_both_sides(tmp_path: Path) -> None:
     src.write_text(
         "def f(items):\n    for item in items:\n        pass\n    return None\n"
     )
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("f", str(src))
     loop_nodes = [n for n in cfg.nodes if n.kind == "loop"]
@@ -529,7 +529,7 @@ def test_for_loop_label_includes_both_sides(tmp_path: Path) -> None:
 
 def test_phase2_cli_flags_registered() -> None:
     """--uml-function and --uml-max-nodes must be registered in the CLI parser."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     long_flags = {a.option_strings[-1] for a in parser._actions if a.option_strings}
@@ -539,7 +539,7 @@ def test_phase2_cli_flags_registered() -> None:
 
 def test_uml_enum_includes_activity_in_cli() -> None:
     """--uml choices must include 'activity'."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     uml_action = next(a for a in parser._actions if "--uml" in (a.option_strings or []))
@@ -548,7 +548,7 @@ def test_uml_enum_includes_activity_in_cli() -> None:
 
 def test_build_uml_tool_args_passes_function_name() -> None:
     """_build_uml_tool_args must forward function_name when set."""
-    from tree_sitter_analyzer.cli.commands.mcp_commands._builders import (
+    from codexray.cli.commands.mcp_commands._builders import (
         _build_uml_tool_args,
     )
 
@@ -575,7 +575,7 @@ def test_build_uml_tool_args_passes_function_name() -> None:
 
 def test_build_uml_tool_args_omits_function_name_when_none() -> None:
     """_build_uml_tool_args must NOT include function_name key when not provided."""
-    from tree_sitter_analyzer.cli.commands.mcp_commands._builders import (
+    from codexray.cli.commands.mcp_commands._builders import (
         _build_uml_tool_args,
     )
 
@@ -643,7 +643,7 @@ def test_node_text_returns_empty_when_text_is_none() -> None:
     """_node_text returns '' when node.text is None (line 78)."""
     from types import SimpleNamespace
 
-    from tree_sitter_analyzer.uml_activity import _node_text
+    from codexray.uml_activity import _node_text
 
     fake_node = SimpleNamespace(text=None)
     assert _node_text(fake_node) == ""
@@ -651,7 +651,7 @@ def test_node_text_returns_empty_when_text_is_none() -> None:
 
 def test_node_text_returns_empty_on_decode_exception() -> None:
     """_node_text returns '' when node.text.decode raises (lines 83-84)."""
-    from tree_sitter_analyzer.uml_activity import _node_text
+    from codexray.uml_activity import _node_text
 
     class BadText:
         def decode(self, *a, **kw):
@@ -667,7 +667,7 @@ def test_node_text_truncates_long_text() -> None:
     """_node_text appends … when text > max_len (line 81)."""
     from types import SimpleNamespace
 
-    from tree_sitter_analyzer.uml_activity import _node_text
+    from codexray.uml_activity import _node_text
 
     long_str = "a" * 50
     fake_node = SimpleNamespace(text=long_str.encode("utf-8"))
@@ -687,7 +687,7 @@ def test_condition_text_for_statement_skips_empty_text_children(
     """for-loop with a non-empty right side: label includes both sides.
     Also exercises line 107 (continue when text is empty for some children).
     """
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     src = tmp_path / "mod.py"
     # Simple for-loop exercises the _condition_text for_statement branch fully
@@ -702,7 +702,7 @@ def test_condition_text_for_only_right_side(tmp_path) -> None:
     """for-loop where left side parses empty falls back to right or full text (line 116)."""
     from unittest.mock import MagicMock
 
-    from tree_sitter_analyzer.uml_activity import _condition_text
+    from codexray.uml_activity import _condition_text
 
     # Build a fake for_statement node: left child has empty text, right has text
     def make_child(ctype, text_bytes):
@@ -732,7 +732,7 @@ def test_condition_text_non_for_all_keywords_fallback(tmp_path) -> None:
     """_condition_text non-for: all children are keywords → returns node full text (line 123)."""
     from unittest.mock import MagicMock
 
-    from tree_sitter_analyzer.uml_activity import _condition_text
+    from codexray.uml_activity import _condition_text
 
     # if-statement where all children are keyword/body types → fallback to _node_text
     node = MagicMock()
@@ -759,7 +759,7 @@ def test_build_activity_cfg_parse_failed(tmp_path) -> None:
     """When _parse_file_for_activity returns None → error='PARSE_FAILED' (line 459)."""
     from unittest.mock import patch
 
-    import tree_sitter_analyzer.uml_activity as _mod
+    import codexray.uml_activity as _mod
 
     src = tmp_path / "mod.py"
     src.write_text("def f():\n    return 1\n")
@@ -779,7 +779,7 @@ def test_build_activity_cfg_parse_failed(tmp_path) -> None:
 
 def test_find_function_node_root_none() -> None:
     """_find_function_node(None, name) returns None immediately (line 176)."""
-    from tree_sitter_analyzer.uml_activity import _find_function_node
+    from codexray.uml_activity import _find_function_node
 
     result = _find_function_node(None, "f")
     assert result is None
@@ -789,7 +789,7 @@ def test_find_function_node_qualified_outer_missing(tmp_path) -> None:
     """Qualified 'missing.inner' returns None when outer not found (line 172)."""
     src = tmp_path / "mod.py"
     src.write_text("def other(x):\n    return x\n")
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("missing.inner", str(src))
     assert cfg.error == "NOT_FOUND:function_missing"
@@ -799,7 +799,7 @@ def test_find_function_node_identifier_decode_error() -> None:
     """_find_function_node when identifier.text.decode raises → name='' (lines 185-186)."""
     from unittest.mock import MagicMock
 
-    from tree_sitter_analyzer.uml_activity import _find_function_node
+    from codexray.uml_activity import _find_function_node
 
     # Build a minimal tree-sitter-like node with a function_definition that has
     # an identifier child whose .text.decode() raises.
@@ -844,7 +844,7 @@ def test_build_activity_cfg_max_nodes_zero_returns_truncated() -> None:
     """max_nodes=0: entry node itself cannot be added → truncated=True (line 244)."""
     from unittest.mock import MagicMock
 
-    from tree_sitter_analyzer.uml_activity import _CFGWalker
+    from codexray.uml_activity import _CFGWalker
 
     # Build a fake function node with a block child
     block = MagicMock()
@@ -869,7 +869,7 @@ def test_build_activity_cfg_no_block_child_uses_func_node(tmp_path) -> None:
     """
     from unittest.mock import MagicMock
 
-    from tree_sitter_analyzer.uml_activity import _CFGWalker
+    from codexray.uml_activity import _CFGWalker
 
     # func_node with no "block" or "body" child — only keyword children
     kw = MagicMock()
@@ -890,7 +890,7 @@ def test_build_activity_cfg_no_block_child_uses_func_node(tmp_path) -> None:
 
 def test_build_activity_cfg_exit_node_truncated_no_extra_edge(tmp_path) -> None:
     """When exit node cannot be added (max_nodes reached), no pred→exit edge added (lines 264-266)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     # Function with while loop that needs exit: entry(1) + loop(2) = 2 nodes
     # With max_nodes=2, exit node cannot be added (truncated=True)
@@ -910,7 +910,7 @@ def test_build_activity_cfg_exit_node_truncated_no_extra_edge(tmp_path) -> None:
 
 def test_return_node_not_added_when_truncated(tmp_path) -> None:
     """When max_nodes is reached, return_statement's _add_node returns None → no node added."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     # entry(1) + if-condition(2) = 2; with max_nodes=2, return nodes can't be added
     src = tmp_path / "mod.py"
@@ -938,7 +938,7 @@ def test_handle_if_elif_else_full(tmp_path) -> None:
         "    else:\n"
         "        return -1\n"
     )
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("f", str(src))
     # entry + if-cond + return(>0) + elif-cond + return(==0) + return(-1) = 6
@@ -960,7 +960,7 @@ def test_handle_if_elif_no_else(tmp_path) -> None:
         "        return 0\n"
         "    return -1\n"
     )
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     cfg = build_activity_cfg("f", str(src))
     conds = [n for n in cfg.nodes if n.kind == "condition"]
@@ -972,7 +972,7 @@ def test_handle_if_elif_no_else(tmp_path) -> None:
 
 def test_handle_if_cond_none_when_max_nodes_reached(tmp_path) -> None:
     """When _add_node returns None for cond (truncated), _handle_if returns incoming (line 323)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     # entry=1 node; max_nodes=1 means cond cannot be added → truncated
     src = tmp_path / "mod.py"
@@ -989,7 +989,7 @@ def test_handle_if_with_else_false_live_non_condition(tmp_path) -> None:
     This exercises the 'for pred in false_live: if pred.kind == "condition"' path
     where the pred kind is NOT 'condition' — so the pending label is NOT set (line 375→374).
     """
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     # A while loop followed by if/else: the false_live after while = [loop_node]
     # Then if/else: we get cond, true=return, else=return.
@@ -1020,7 +1020,7 @@ def test_handle_if_with_else_false_live_non_condition(tmp_path) -> None:
 
 def test_handle_loop_node_none_when_truncated(tmp_path) -> None:
     """When loop_node cannot be added (max_nodes=1), _handle_loop returns incoming (line 387)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     src = tmp_path / "mod.py"
     src.write_text(
@@ -1035,7 +1035,7 @@ def test_handle_loop_node_none_when_truncated(tmp_path) -> None:
 
 def test_handle_loop_body_with_return_inside(tmp_path) -> None:
     """Loop body with return inside: exercises _walk_body from loop (lines 392-396)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     src = tmp_path / "mod.py"
     src.write_text(
@@ -1062,7 +1062,7 @@ def test_handle_loop_body_with_return_inside(tmp_path) -> None:
 
 def test_handle_try_node_none_when_truncated(tmp_path) -> None:
     """When try_node cannot be added (max_nodes=1), _handle_try returns incoming (line 401)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     src = tmp_path / "mod.py"
     src.write_text(
@@ -1082,7 +1082,7 @@ def test_handle_try_no_except_returns_try_node(tmp_path) -> None:
     produces with only a block child and no except_clause hits branches_processed=True
     with outgoing=last_nodes from walk_body.
     """
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     src = tmp_path / "mod.py"
     # try with only a return inside and no except: all branches terminated → outgoing=[]
@@ -1096,7 +1096,7 @@ def test_handle_try_no_except_returns_try_node(tmp_path) -> None:
 
 def test_handle_try_bare_except(tmp_path) -> None:
     """bare 'except:' (no exception type): exc_text='' → label='except' (lines 415-419)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     src = tmp_path / "mod.py"
     src.write_text("def f():\n    try:\n        pass\n    except:\n        pass\n")
@@ -1116,7 +1116,7 @@ def test_handle_try_only_no_except_uses_try_node(tmp_path) -> None:
     """
     from unittest.mock import MagicMock
 
-    from tree_sitter_analyzer.uml_activity import _CFGWalker
+    from codexray.uml_activity import _CFGWalker
 
     # Build a fake try_statement node with NO block and NO except_clause children
     # so branches_processed stays False → return [try_node] (line 433)
@@ -1148,7 +1148,7 @@ def test_handle_try_only_no_except_uses_try_node(tmp_path) -> None:
 
 def test_safe_id_prepends_N_for_digit_start() -> None:
     """_safe_id prepends 'N_' when name starts with a digit (line 86)."""
-    from tree_sitter_analyzer.uml_export import _safe_id
+    from codexray.uml_export import _safe_id
 
     assert _safe_id("1foo") == "N_1foo"
     assert _safe_id("42") == "N_42"
@@ -1156,7 +1156,7 @@ def test_safe_id_prepends_N_for_digit_start() -> None:
 
 def test_safe_id_empty_string_prepends_N() -> None:
     """_safe_id prepends 'N_' when safe is empty after substitution (line 86)."""
-    from tree_sitter_analyzer.uml_export import _safe_id
+    from codexray.uml_export import _safe_id
 
     # All non-alphanumeric chars → all replaced with _, but starts with _ not digit
     # Actually: re.sub("[^0-9A-Za-z_]", "_", "!!!") = "___" which starts with _
@@ -1166,7 +1166,7 @@ def test_safe_id_empty_string_prepends_N() -> None:
 
 def test_render_flowchart_mermaid_empty_nodes_and_edges() -> None:
     """render_flowchart_mermaid with no nodes/edges renders 'No edges found' (lines 180-181)."""
-    from tree_sitter_analyzer.uml_export import render_flowchart_mermaid
+    from codexray.uml_export import render_flowchart_mermaid
 
     result = render_flowchart_mermaid([], [])
     assert 'empty["No edges found"]' in result
@@ -1175,7 +1175,7 @@ def test_render_flowchart_mermaid_empty_nodes_and_edges() -> None:
 
 def test_file_matches_returns_false_for_empty_inputs() -> None:
     """_file_matches returns False when cls_file or filter_path is empty (line 230)."""
-    from tree_sitter_analyzer.uml_export import _file_matches
+    from codexray.uml_export import _file_matches
 
     assert _file_matches("", "foo.py") is False
     assert _file_matches("foo.py", "") is False
@@ -1184,7 +1184,7 @@ def test_file_matches_returns_false_for_empty_inputs() -> None:
 
 def test_is_neighbourhood_center_none_returns_false() -> None:
     """_is_neighbourhood returns False immediately when center is None (line 248)."""
-    from tree_sitter_analyzer.uml_export import _is_neighbourhood
+    from codexray.uml_export import _is_neighbourhood
 
     result = _is_neighbourhood("child", {}, None, [])
     assert result is False
@@ -1196,7 +1196,7 @@ def test_activity_diagram_no_file_path_returns_not_found(tmp_path) -> None:
     When the function is not found in the index and no file_path is given,
     verdict=NOT_FOUND with message distinguishing "not in index" from "file required".
     """
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     class FakeCache:
         def search_symbols(self, query: str, language: str | None = None) -> list:
@@ -1216,7 +1216,7 @@ def test_activity_diagram_relative_file_path(tmp_path) -> None:
     """activity_diagram resolves relative file_path relative to project_root (line 513)."""
     src = tmp_path / "mod.py"
     src.write_text("def f(x):\n    if x:\n        return 1\n    return 0\n")
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     exporter = UMLExporter(str(tmp_path))
     # Pass a relative path — should resolve to tmp_path/mod.py
@@ -1229,8 +1229,8 @@ def test_activity_diagram_parse_failed_via_exporter(tmp_path) -> None:
     """activity_diagram returns verdict=NOT_FOUND on PARSE_FAILED (line 587)."""
     from unittest.mock import patch
 
-    import tree_sitter_analyzer.uml_activity as _mod
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    import codexray.uml_activity as _mod
+    from codexray.uml_export import UMLExporter
 
     src = tmp_path / "mod.py"
     src.write_text("def f():\n    return 1\n")
@@ -1276,7 +1276,7 @@ def test_parse_file_for_activity_returns_none_on_parse_failure(tmp_path) -> None
     """_parse_file_for_activity returns None when parser.parse_file fails (line 146)."""
     from unittest.mock import MagicMock, patch
 
-    import tree_sitter_analyzer.uml_activity as _mod
+    import codexray.uml_activity as _mod
 
     src = tmp_path / "mod.py"
     src.write_text("def f():\n    return 1\n")
@@ -1293,7 +1293,7 @@ def test_parse_file_for_activity_returns_none_on_parse_failure(tmp_path) -> None
     ):
         # Patch the Parser class at its import location inside the function
         with patch(
-            "tree_sitter_analyzer.uml_activity._parse_file_for_activity"
+            "codexray.uml_activity._parse_file_for_activity"
         ) as mock_pffa:
             mock_pffa.return_value = None
             cfg = _mod.build_activity_cfg("f", str(src))
@@ -1308,7 +1308,7 @@ def test_parse_file_for_activity_direct_parse_failure(tmp_path) -> None:
     from types import SimpleNamespace
     from unittest.mock import patch
 
-    import tree_sitter_analyzer.uml_activity as _mod
+    import codexray.uml_activity as _mod
 
     src = tmp_path / "bad.py"
     src.write_text("not valid python honestly ??!!")
@@ -1320,7 +1320,7 @@ def test_parse_file_for_activity_direct_parse_failure(tmp_path) -> None:
             return fake_result
 
     # Patch the Parser class as imported inside _parse_file_for_activity's local import
-    with patch("tree_sitter_analyzer.core.parser.Parser", new=FakeParser):
+    with patch("codexray.core.parser.Parser", new=FakeParser):
         result = _mod._parse_file_for_activity(str(src), "python")
 
     assert result is None
@@ -1328,7 +1328,7 @@ def test_parse_file_for_activity_direct_parse_failure(tmp_path) -> None:
 
 def test_raise_node_not_added_when_truncated(tmp_path) -> None:
     """When max_nodes reached during raise_statement, raise_node is None (line 313→316)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     src = tmp_path / "mod.py"
     # entry(1) = 1 node; max_nodes=1 → raise_node cannot be added
@@ -1340,7 +1340,7 @@ def test_raise_node_not_added_when_truncated(tmp_path) -> None:
 
 def test_build_all_terminal_paths_no_exit(tmp_path) -> None:
     """When all paths from last_nodes terminate, non_terminal is empty → no exit (line 262→268)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     # if/else where both branches return: last_nodes = [return1, return2]
     # non_terminal = [] (both are return) → if non_terminal: is False → no exit
@@ -1359,7 +1359,7 @@ def test_find_function_node_function_without_identifier_child(tmp_path) -> None:
     """_find_function_node: function_definition with no identifier child is skipped (line 181→190)."""
     from unittest.mock import MagicMock
 
-    from tree_sitter_analyzer.uml_activity import _find_function_node
+    from codexray.uml_activity import _find_function_node
 
     # A function_definition node whose children contain no "identifier" child.
     # The for loop (line 181) exits without break, then continues at line 190.
@@ -1383,7 +1383,7 @@ def test_find_function_node_function_without_identifier_child(tmp_path) -> None:
 
 def test_handle_if_elif_node_none_skip(tmp_path) -> None:
     """elif_clause where elif_node is None (max_nodes reached): elif body not walked (line 351→369)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     # entry(1) + if-cond(2) + return-true(3) = 3 nodes; max_nodes=3
     # When processing elif, elif_node cannot be added → elif is skipped
@@ -1404,7 +1404,7 @@ def test_handle_if_elif_node_none_skip(tmp_path) -> None:
 
 def test_handle_try_exc_node_path(tmp_path) -> None:
     """except_clause where exc_node is not None: edges and walk happen (line 421→408 arc exercised)."""
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     # Standard try/except — exc_node IS not None → edges are added
     src = tmp_path / "mod.py"
@@ -1436,7 +1436,7 @@ def test_handle_if_no_else_false_live_has_non_condition(tmp_path) -> None:
 
     Also exercises the loop where pred.kind == 'condition' (line 375 True branch).
     """
-    from tree_sitter_analyzer.uml_activity import build_activity_cfg
+    from codexray.uml_activity import build_activity_cfg
 
     # Simple if without else: false_live = [cond], cond.kind == "condition"
     # → pending label set. Then next statement (return) uses that label.
@@ -1468,7 +1468,7 @@ def test_activity_diagram_no_file_path_index_unique_resolves(tmp_path) -> None:
     src = tmp_path / "mod.py"
     src.write_text("def unique_fn(x):\n    if x:\n        return 1\n    return 0\n")
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     class FakeCache:
         def search_symbols(self, query: str, language: str | None = None) -> list:
@@ -1495,7 +1495,7 @@ def test_activity_diagram_no_file_path_index_not_found_message(tmp_path) -> None
     Distinct from "file_path required" — the message must say the function
     is absent from the index, not that file_path is missing.
     """
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     class FakeCache:
         def search_symbols(self, query: str, language: str | None = None) -> list:
@@ -1520,7 +1520,7 @@ def test_activity_diagram_no_file_path_index_ambiguous_lists_files(
     When a function name matches in multiple files, agent must see the file list
     so it can supply the right file_path. Bare NOT_FOUND is insufficient.
     """
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     class FakeCache:
         def search_symbols(self, query: str, language: str | None = None) -> list:
@@ -1546,7 +1546,7 @@ def test_activity_index_lookup_ignores_non_python_same_name(tmp_path) -> None:
     src = tmp_path / "mod.py"
     src.write_text("def handle(x):\n    return x\n")
 
-    from tree_sitter_analyzer.uml_export import UMLExporter
+    from codexray.uml_export import UMLExporter
 
     class PolyglotCache:
         def search_symbols(self, query: str, language: str | None = None) -> list:

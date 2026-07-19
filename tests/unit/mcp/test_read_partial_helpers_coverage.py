@@ -1,6 +1,6 @@
 """Tests for mcp.tools.read_partial_helpers — schema, validation, response building."""
 
-from tree_sitter_analyzer.mcp.tools.read_partial_helpers import (
+from codexray.mcp.tools.read_partial_helpers import (
     TOOL_SCHEMA,
     build_agent_summary,
     build_agent_summary_for_result,

@@ -2,7 +2,7 @@
 
 import pytest
 
-from tree_sitter_analyzer.languages.yaml_plugin import (
+from codexray.languages.yaml_plugin import (
     YAML_AVAILABLE,
     YAMLPlugin,
 )

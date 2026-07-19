@@ -16,9 +16,9 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.list_files_tool import ListFilesTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.list_files_tool import ListFilesTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 # Mark tests that require ripgrep
 pytestmark = pytest.mark.requires_ripgrep
@@ -731,7 +731,7 @@ temp/
         self, extract_tool, list_files_tool, search_tool
     ):
         """T010-14: エラーハンドリングテスト - 無効なパス"""
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         # extract_code_section: 存在しないファイル
         extract_result = await extract_tool.execute(

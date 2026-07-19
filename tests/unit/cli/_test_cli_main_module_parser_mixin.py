@@ -5,7 +5,7 @@ import argparse
 
 import pytest
 
-from tree_sitter_analyzer.cli_main import (
+from codexray.cli_main import (
     _normalize_agent_command_aliases,
     create_argument_parser,
 )

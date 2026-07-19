@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools.auto_index_tool import CodeGraphAutoIndexTool
-from tree_sitter_analyzer.mcp.utils import auto_index_guard
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools.auto_index_tool import CodeGraphAutoIndexTool
+from codexray.mcp.utils import auto_index_guard
 
 
 @pytest.fixture

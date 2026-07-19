@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.route_detector_tool import RouteDetectorTool
-from tree_sitter_analyzer.route_detector import RouteDetector
+from codexray.mcp.tools.route_detector_tool import RouteDetectorTool
+from codexray.route_detector import RouteDetector
 
 # ---------------------------------------------------------------------------
 # MCP tool layer — schema validation

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import tree_sitter
 
-from tree_sitter_analyzer.languages.bash_plugin import BashPlugin
+from codexray.languages.bash_plugin import BashPlugin
 
 
 def _parse(code: str) -> tuple[tree_sitter.Tree, BashPlugin]:

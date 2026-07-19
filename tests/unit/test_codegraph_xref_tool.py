@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.codegraph_xref_tool import CodeGraphXRefTool
+from codexray.mcp.tools.codegraph_xref_tool import CodeGraphXRefTool
 
 
 @pytest.fixture

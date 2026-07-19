@@ -6,7 +6,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from tree_sitter_analyzer.languages.swift_plugin import (
+from codexray.languages.swift_plugin import (
     SwiftPlugin,
     _analysis_error_result,
     _analysis_result,

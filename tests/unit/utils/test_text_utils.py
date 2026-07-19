@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Tests for text utility functions."""
 
-from tree_sitter_analyzer.utils.text_utils import safe_preview
+from codexray.utils.text_utils import safe_preview
 
 
 class TestSafePreview:

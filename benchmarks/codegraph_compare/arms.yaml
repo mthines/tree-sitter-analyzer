@@ -8,7 +8,7 @@ arms:
     index_mode: warm
 
   - id: tsa-warm
-    adapter: tree_sitter_analyzer
+    adapter: codexray
     index_mode: warm
 
   - id: codegraph-cold
@@ -16,5 +16,5 @@ arms:
     index_mode: cold
 
   - id: tsa-cold
-    adapter: tree_sitter_analyzer
+    adapter: codexray
     index_mode: cold

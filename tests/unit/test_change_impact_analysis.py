@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock, patch
 
-from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+from codexray.mcp.tools.utils.change_impact_analysis import (
     ChangeImpactRequest,
     _append_large_dirty_hint,
     _assess_risk,
@@ -93,7 +93,7 @@ class TestIsTestOnlyChangeSet:
         )
 
     def test_false_for_runtime_or_test_support_files(self):
-        assert not _is_test_only_change_set(["tree_sitter_analyzer/runtime.py"])
+        assert not _is_test_only_change_set(["codexray/runtime.py"])
         assert not _is_test_only_change_set(["tests/conftest.py"])
         assert not _is_test_only_change_set([])
 
@@ -125,7 +125,7 @@ class TestBuildFileImpacts:
         blast = MagicMock()
         blast.forward.return_value = {"b.py", "c.py"}
         with patch(
-            "tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis.BlastRadius",
+            "codexray.mcp.tools.utils.change_impact_analysis.BlastRadius",
             return_value=blast,
         ):
             graph.dependents_of.return_value = ["b.py"]
@@ -175,21 +175,21 @@ class TestAppendLargeDirtyHint:
 
 class TestEnsureASTCache:
     def test_returns_none_for_none_root(self):
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _ensure_ast_cache,
         )
 
         assert _ensure_ast_cache(None, ["a.py"]) is None
 
     def test_returns_none_for_empty_files(self):
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _ensure_ast_cache,
         )
 
         assert _ensure_ast_cache("/tmp", []) is None
 
     def test_auto_indexes_empty_cache(self, tmp_path):
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _ensure_ast_cache,
         )
 
@@ -207,15 +207,15 @@ class TestEnsureASTCache:
 
 class TestEnrichWithCacheSymbols:
     def test_returns_empty_for_none_cache(self):
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _enrich_with_cache_symbols,
         )
 
         assert _enrich_with_cache_symbols(["a.py"], None) == []
 
     def test_enriches_changed_files(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.ast_cache import ASTCache
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _enrich_with_cache_symbols,
         )
 
@@ -236,15 +236,15 @@ class TestEnrichWithCacheSymbols:
 
 class TestFindAffectedSymbols:
     def test_returns_empty_for_none_cache(self):
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _find_affected_symbols,
         )
 
         assert _find_affected_symbols({"a.py"}, None) == []
 
     def test_finds_symbols_in_affected_files(self, tmp_path):
-        from tree_sitter_analyzer.ast_cache import ASTCache
-        from tree_sitter_analyzer.mcp.tools.utils.change_impact_analysis import (
+        from codexray.ast_cache import ASTCache
+        from codexray.mcp.tools.utils.change_impact_analysis import (
             _find_affected_symbols,
         )
 
@@ -262,7 +262,7 @@ class TestFindAffectedSymbols:
 
 class TestSummaryOnlyFastPath:
     def test_summary_only_skips_ast_cache_enrichment(self, tmp_path, monkeypatch):
-        from tree_sitter_analyzer.mcp.tools.utils import change_impact_analysis as ci
+        from codexray.mcp.tools.utils import change_impact_analysis as ci
 
         class FakeGraph:
             _nodes = {"src/app.py", "tests/test_app.py"}

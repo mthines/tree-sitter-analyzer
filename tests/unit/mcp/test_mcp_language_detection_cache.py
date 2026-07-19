@@ -1,10 +1,10 @@
 import pytest
 
-from tree_sitter_analyzer.language_detector import (
+from codexray.language_detector import (
     LanguageDetector,
     detect_language_from_file,
 )
-from tree_sitter_analyzer.mcp.utils.shared_cache import get_shared_cache
+from codexray.mcp.utils.shared_cache import get_shared_cache
 
 
 @pytest.mark.unit

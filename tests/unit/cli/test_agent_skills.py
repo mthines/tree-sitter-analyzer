@@ -6,9 +6,9 @@ import sys
 
 import pytest
 
-from tree_sitter_analyzer.cli.agent_skills import build_agent_skills_inventory
-from tree_sitter_analyzer.cli.agent_skills_metadata import split_front_matter
-from tree_sitter_analyzer.cli.agent_skills_validation import build_skill_validation
+from codexray.cli.agent_skills import build_agent_skills_inventory
+from codexray.cli.agent_skills_metadata import split_front_matter
+from codexray.cli.agent_skills_validation import build_skill_validation
 
 
 def test_split_front_matter_supports_folded_descriptions():

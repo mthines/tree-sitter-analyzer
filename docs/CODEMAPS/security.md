@@ -1,7 +1,7 @@
 <!-- Generated: 2026-05-22; doc-code re-sync: 2026-06-17 -->
 # Security Codemap
 
-Security boundary enforcement for both CLI and MCP. Located in `tree_sitter_analyzer/security/`.
+Security boundary enforcement for both CLI and MCP. Located in `codexray/security/`.
 
 ## Components
 

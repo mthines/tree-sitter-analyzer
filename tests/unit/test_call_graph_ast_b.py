@@ -3,17 +3,17 @@
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.core.parser import Parser
-from tree_sitter_analyzer.function_extraction import (
+from codexray.core.parser import Parser
+from codexray.function_extraction import (
     extract_call as _extract_call,
 )
-from tree_sitter_analyzer.function_extraction import (
+from codexray.function_extraction import (
     find_parent_class_java as _find_parent_class_java,
 )
-from tree_sitter_analyzer.function_extraction import (
+from codexray.function_extraction import (
     find_parent_class_python as _find_parent_class_python,
 )
-from tree_sitter_analyzer.function_extraction import (
+from codexray.function_extraction import (
     get_func_name as _get_func_name,
 )
 

@@ -12,7 +12,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.batch_search_tool import (
+from codexray.mcp.tools.batch_search_tool import (
     _BATCH_MAX_MATCHES_PER_QUERY,
     BatchSearchTool,
 )
@@ -121,7 +121,7 @@ class TestBatchSearchToolExecution:
         fake_results = [(0, fake_stdout, b""), (0, fake_stdout, b"")]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
+            "codexray.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
             new_callable=AsyncMock,
             return_value=fake_results,
         ):
@@ -176,7 +176,7 @@ class TestBatchSearchToolExecution:
         fake_results = [(0, lines_q1, b""), (0, lines_q2, b"")]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
+            "codexray.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
             new_callable=AsyncMock,
             return_value=fake_results,
         ):
@@ -214,7 +214,7 @@ class TestBatchSearchToolExecution:
         fake_results = [(0, lines, b""), (0, b"", b"")]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
+            "codexray.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
             new_callable=AsyncMock,
             return_value=fake_results,
         ):
@@ -239,7 +239,7 @@ class TestBatchSearchToolExecution:
         fake_results = [(1, b"", b""), (1, b"", b"")]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
+            "codexray.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
             new_callable=AsyncMock,
             return_value=fake_results,
         ):
@@ -264,7 +264,7 @@ class TestBatchSearchToolExecution:
         fake_results = [(1, b"", b""), (1, b"", b"")]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
+            "codexray.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
             new_callable=AsyncMock,
             return_value=fake_results,
         ):
@@ -285,7 +285,7 @@ class TestBatchSearchToolExecution:
         fake_results = [(1, b"", b""), (1, b"", b"")]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
+            "codexray.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
             new_callable=AsyncMock,
             return_value=fake_results,
         ):
@@ -306,7 +306,7 @@ class TestBatchSearchToolExecution:
         fake_results = [(1, b"", b""), (1, b"", b""), (1, b"", b"")]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
+            "codexray.mcp.tools.batch_search_tool.fd_rg_utils.run_parallel_rg_searches",
             new_callable=AsyncMock,
             return_value=fake_results,
         ):

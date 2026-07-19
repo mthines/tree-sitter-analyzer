@@ -27,7 +27,7 @@ import asyncio
 import json
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import (
+from codexray.mcp.tools.get_code_outline_tool import (
     DEFAULT_OUTLINE_CLASSES_CAP,
     DEFAULT_OUTLINE_FUNCTIONS_CAP,
     GetCodeOutlineTool,
@@ -125,11 +125,11 @@ def _run_outline(arguments: dict) -> dict:
         ),
         patch("pathlib.Path.exists", return_value=True),
         patch(
-            "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.detect_language_mismatch",
+            "codexray.mcp.tools.get_code_outline_tool.detect_language_mismatch",
             return_value=None,
         ),
         patch(
-            "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.detect_language_from_file",
+            "codexray.mcp.tools.get_code_outline_tool.detect_language_from_file",
             return_value="typescript",
         ),
         patch.object(
@@ -242,11 +242,11 @@ class TestFunctionOnlyTruncationHint:
             ),
             patch("pathlib.Path.exists", return_value=True),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.detect_language_mismatch",
+                "codexray.mcp.tools.get_code_outline_tool.detect_language_mismatch",
                 return_value=None,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.detect_language_from_file",
+                "codexray.mcp.tools.get_code_outline_tool.detect_language_from_file",
                 return_value="python",
             ),
             patch.object(

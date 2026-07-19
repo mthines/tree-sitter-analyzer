@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.api module.
+Tests for codexray.api module.
 
 This module tests the unified API facade that provides a consistent
 interface for both CLI and MCP components in the new architecture.
@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer import __version__, api
+from codexray import __version__, api
 
 
 class TestAPIFacade:
@@ -286,7 +286,7 @@ class TestClass:
 
         assert isinstance(info, dict)
         assert "name" in info
-        assert info["name"] == "tree-sitter-analyzer"
+        assert info["name"] == "codexray"
         assert "version" in info
         assert info["version"] == __version__
 

@@ -6,9 +6,9 @@
 - **Last updated**: 2026-06-19
 - **Tracking issue**: #1094
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/languages/` (the per-language extractor complexity functions — the chosen source of truth)
-  - `tree_sitter_analyzer/health_scorer.py` (`DECISION_NODE_TYPES`, `score_complexity`)
-  - `tree_sitter_analyzer/complexity_heatmap.py` (`_count_complexity_in_node`, `analyze_file_complexity` — the heatmap/hotspot path)
+  - `codexray/languages/` (the per-language extractor complexity functions — the chosen source of truth)
+  - `codexray/health_scorer.py` (`DECISION_NODE_TYPES`, `score_complexity`)
+  - `codexray/complexity_heatmap.py` (`_count_complexity_in_node`, `analyze_file_complexity` — the heatmap/hotspot path)
   - `tests/unit/test_complexity_cross_path_invariant.py` (the keystone strict-xfail invariant, added with this RFC)
   - `tests/unit/test_complexity_heatmap.py`, `tests/unit/languages/test_cyclomatic_complexity.py`, golden masters carrying a `Cx` column
 
@@ -63,7 +63,7 @@ Pick the **extractor per-language functions as the single source of truth**
 
 ### A shared dispatcher
 
-Add `tree_sitter_analyzer/languages/complexity.py`:
+Add `codexray/languages/complexity.py`:
 
 ```python
 def cyclomatic_complexity(function_node, language: str) -> int:

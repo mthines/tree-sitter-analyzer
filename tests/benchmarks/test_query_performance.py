@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.query_tool import QueryTool
 
 pytestmark = pytest.mark.benchmark
 

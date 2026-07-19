@@ -12,7 +12,7 @@ from pathlib import Path
 # Mock functionality now provided by pytest-mock
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
 
 
 class TestAnalyzeScaleToolEnhanced:

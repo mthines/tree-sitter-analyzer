@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from tree_sitter_analyzer.formatters._sql_formatter_wrapper_helpers import (
+from codexray.formatters._sql_formatter_wrapper_helpers import (
     convert_analysis_result_to_sql_elements,
     create_sql_element_from_dict,
     element_to_dict,
 )
-from tree_sitter_analyzer.models import (
+from codexray.models import (
     SQLFunction,
     SQLIndex,
     SQLProcedure,

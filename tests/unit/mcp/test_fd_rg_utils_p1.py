@@ -11,7 +11,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools import fd_rg_utils
+from codexray.mcp.tools import fd_rg_utils
 
 
 class TestCheckExternalCommand:

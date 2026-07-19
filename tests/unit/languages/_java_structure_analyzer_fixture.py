@@ -5,7 +5,7 @@ import concurrent.futures
 import time
 from pathlib import Path
 
-from tree_sitter_analyzer.core.analysis_engine import (
+from codexray.core.analysis_engine import (
     AnalysisRequest,
     get_analysis_engine,
 )

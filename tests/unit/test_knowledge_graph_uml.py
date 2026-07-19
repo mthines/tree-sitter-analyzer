@@ -6,14 +6,14 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.knowledge_graph import (
+from codexray.knowledge_graph import (
     JsonKnowledgeGraphStore,
     KnowledgeEdge,
     KnowledgeGraphSnapshot,
     KnowledgeNode,
 )
-from tree_sitter_analyzer.knowledge_graph.exporters import to_mermaid_uml
-from tree_sitter_analyzer.mcp.tools.knowledge_graph_tool import (
+from codexray.knowledge_graph.exporters import to_mermaid_uml
+from codexray.mcp.tools.knowledge_graph_tool import (
     CodeGraphKnowledgeGraphTool,
 )
 
@@ -411,7 +411,7 @@ async def test_knowledge_graph_tool_uses_uml_sized_default_caps(
         }
 
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.knowledge_graph_tool.to_mermaid_uml",
+        "codexray.mcp.tools.knowledge_graph_tool.to_mermaid_uml",
         _fake_to_mermaid_uml,
     )
     tool = CodeGraphKnowledgeGraphTool(str(tmp_path))

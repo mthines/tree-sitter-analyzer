@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Additional coverage boost tests for tree_sitter_analyzer.api module.
+Additional coverage boost tests for codexray.api module.
 
 Targets uncovered branches in:
 - analyze_file method-in-class, exclude flags, exceptions
@@ -18,7 +18,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer import api
+from codexray import api
 
 
 class TestAnalyzeFileAdditional:
@@ -56,7 +56,7 @@ class TestAnalyzeFileAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_file("test.py")
             assert result["success"] is True
             method_elem = result["elements"][1]
@@ -85,7 +85,7 @@ class TestAnalyzeFileAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_file("test.py")
             method_elem = result["elements"][0]
             assert method_elem.get("class_name") is None
@@ -104,7 +104,7 @@ class TestAnalyzeFileAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_file("test.py", include_elements=False)
             assert "elements" not in result
 
@@ -122,7 +122,7 @@ class TestAnalyzeFileAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_file("test.py", include_queries=False)
             assert "query_results" not in result
 
@@ -131,7 +131,7 @@ class TestAnalyzeFileAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.side_effect = RuntimeError("Unexpected")
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_file("test.py")
             assert result["success"] is False
             assert "error" in result
@@ -141,7 +141,7 @@ class TestAnalyzeFileAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_sync.side_effect = FileNotFoundError("missing.py")
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             with pytest.raises(FileNotFoundError, match="missing.py"):
                 api.analyze_file("missing.py")
 
@@ -180,7 +180,7 @@ class TestAnalyzeCodeAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_code_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_code("class Svc {}", language="java")
             method_elem = result["elements"][1]
             assert method_elem.get("class_name") == "Svc"
@@ -198,7 +198,7 @@ class TestAnalyzeCodeAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_code_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_code(
                 "x = 1", language="python", include_elements=False
             )
@@ -218,7 +218,7 @@ class TestAnalyzeCodeAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_code_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_code("x = 1", language="python", include_queries=False)
             assert "query_results" not in result
 
@@ -232,7 +232,7 @@ class TestAnalyzeCodeAdditional:
         mock_engine = MagicMock()
         mock_engine.analyze_code_sync.return_value = mock_result
 
-        with patch("tree_sitter_analyzer.api.get_engine", return_value=mock_engine):
+        with patch("codexray.api.get_engine", return_value=mock_engine):
             result = api.analyze_code("bad", language="python")
             assert result["success"] is False
             assert result["error"] == "bad syntax"
@@ -279,14 +279,14 @@ class TestGroupCapturesAdditional:
 
     def test_empty_captures(self) -> None:
         """Line 559: empty captures list."""
-        from tree_sitter_analyzer.api import _group_captures_by_main_node
+        from codexray.api import _group_captures_by_main_node
 
         result = _group_captures_by_main_node([])
         assert result == []
 
     def test_stack_pop_when_child_beyond_parent(self) -> None:
         """Line 582: stack pop when child extends beyond parent."""
-        from tree_sitter_analyzer.api import _group_captures_by_main_node
+        from codexray.api import _group_captures_by_main_node
 
         captures = [
             {
@@ -311,7 +311,7 @@ class TestGroupCapturesAdditional:
 
     def test_sub_capture_without_parent(self) -> None:
         """Sub-capture with no containing main node is ignored."""
-        from tree_sitter_analyzer.api import _group_captures_by_main_node
+        from codexray.api import _group_captures_by_main_node
 
         captures = [
             {
@@ -333,7 +333,7 @@ class TestExecuteQueryAdditional:
     def test_execute_query_with_dict_captures(self) -> None:
         """Line 648: captures from dict query_result_dict."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file",
+            "codexray.api.analyze_file",
             return_value={
                 "success": True,
                 "query_results": {
@@ -360,7 +360,7 @@ class TestExecuteQueryAdditional:
     def test_execute_query_with_list_captures(self) -> None:
         """Line 649-650: captures as plain list."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file",
+            "codexray.api.analyze_file",
             return_value={
                 "success": True,
                 "query_results": {
@@ -384,7 +384,7 @@ class TestExecuteQueryAdditional:
     def test_execute_query_with_other_type_captures(self) -> None:
         """Line 651-652: captures is neither dict-with-captures nor list."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file",
+            "codexray.api.analyze_file",
             return_value={
                 "success": True,
                 "query_results": {"test": "not_a_list"},
@@ -398,7 +398,7 @@ class TestExecuteQueryAdditional:
     def test_execute_query_failure(self) -> None:
         """Lines 666-672: execute_query when analyze_file fails."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file",
+            "codexray.api.analyze_file",
             return_value={
                 "success": False,
                 "error": "File not found",
@@ -410,7 +410,7 @@ class TestExecuteQueryAdditional:
     def test_execute_query_exception(self) -> None:
         """Lines 674-681: execute_query exception handler."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file", side_effect=RuntimeError("Boom")
+            "codexray.api.analyze_file", side_effect=RuntimeError("Boom")
         ):
             result = api.execute_query("test.py", "class")
             assert result["success"] is False
@@ -423,7 +423,7 @@ class TestExtractElementsAdditional:
     def test_extract_with_type_filtering(self) -> None:
         """Lines 707-720: extract_elements filters by element_types."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file",
+            "codexray.api.analyze_file",
             return_value={
                 "success": True,
                 "elements": [
@@ -442,7 +442,7 @@ class TestExtractElementsAdditional:
     def test_extract_no_matching_types(self) -> None:
         """No elements match the filter."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file",
+            "codexray.api.analyze_file",
             return_value={
                 "success": True,
                 "elements": [
@@ -457,7 +457,7 @@ class TestExtractElementsAdditional:
     def test_extract_elements_no_elements_key(self) -> None:
         """Lines 727-732: successful analysis but no elements key."""
         with patch(
-            "tree_sitter_analyzer.api.analyze_file",
+            "codexray.api.analyze_file",
             return_value={
                 "success": True,
                 "language_info": {"language": "python"},

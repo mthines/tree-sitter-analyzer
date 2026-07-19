@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.output_format_validator import (
+from codexray.mcp.tools.output_format_validator import (
     OutputFormatValidator,
     get_default_validator,
 )

@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.batch_executor import (
+from codexray.mcp.tools.batch_executor import (
     BATCH_LIMITS,
     execute_batch,
 )

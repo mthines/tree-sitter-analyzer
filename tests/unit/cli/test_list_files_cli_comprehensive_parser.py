@@ -7,7 +7,7 @@ import argparse
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.list_files_cli import _build_parser
+from codexray.cli.commands.list_files_cli import _build_parser
 
 
 class TestBuildParser:

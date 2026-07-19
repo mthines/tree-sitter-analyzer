@@ -24,7 +24,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 @pytest.fixture

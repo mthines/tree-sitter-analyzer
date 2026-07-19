@@ -12,9 +12,9 @@ from unittest.mock import MagicMock, patch
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from tree_sitter_analyzer.formatters.go_formatter import GoTableFormatter
-from tree_sitter_analyzer.languages.go_plugin import GoElementExtractor
-from tree_sitter_analyzer.models import AnalysisResult, Class, Function
+from codexray.formatters.go_formatter import GoTableFormatter
+from codexray.languages.go_plugin import GoElementExtractor
+from codexray.models import AnalysisResult, Class, Function
 
 # --- Strategies ---
 

@@ -8,7 +8,7 @@ Two defects (confirmed by reproduce command):
    leaking {'name': 'int64', 'type': 'n'} into the rendered signature.
 
 Reproduce:
-  uv run python -m tree_sitter_analyzer /tmp/oss-go/Go/math/eulertotient.go
+  uv run python -m codexray /tmp/oss-go/Go/math/eulertotient.go
       --advanced --table full
   Source: func Phi(n int64) int64
   Bad:    | Phi | ({'name': 'int64', 'type': 'n'}) int64 | ...
@@ -19,8 +19,8 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.table_command_helpers import process_parameters
-from tree_sitter_analyzer.formatters.go_formatter import GoTableFormatter
+from codexray.cli.commands.table_command_helpers import process_parameters
+from codexray.formatters.go_formatter import GoTableFormatter
 
 # ---------------------------------------------------------------------------
 # Defect 1: process_parameters for Go language
@@ -176,7 +176,7 @@ class TestGoParamExtractionEndToEnd:
         import tree_sitter
         import tree_sitter_go
 
-        from tree_sitter_analyzer.languages.go_plugin import GoElementExtractor
+        from codexray.languages.go_plugin import GoElementExtractor
 
         source = open(file_path, "rb").read()
         lang = tree_sitter.Language(tree_sitter_go.language())
@@ -211,7 +211,7 @@ class TestGoParamExtractionEndToEnd:
         assert phi is not None
 
         # Simulate what TableCommand._convert_function_element does:
-        from tree_sitter_analyzer.cli.commands.table_command_helpers import (
+        from codexray.cli.commands.table_command_helpers import (
             process_parameters,
         )
 

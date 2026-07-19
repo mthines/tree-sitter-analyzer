@@ -166,9 +166,9 @@ The audit + sprint history is persisted to ruflo memory and ReasoningBank:
 
 | Namespace | Key | Use |
 |---|---|---|
-| `project-context` | `tree-sitter-analyzer/audit/2026-05-20` | Overall audit posture |
-| `project-context` | `tree-sitter-analyzer/perf-1/route-cache` | PERF-1 implementation notes |
-| `project-context` | `tree-sitter-analyzer/audit-pass-2/perf-and-tests` | Pass-2 results |
+| `project-context` | `codexray/audit/2026-05-20` | Overall audit posture |
+| `project-context` | `codexray/perf-1/route-cache` | PERF-1 implementation notes |
+| `project-context` | `codexray/audit-pass-2/perf-and-tests` | Pass-2 results |
 | ReasoningBank pattern | `audit-workflow` | Reusable dogfood-first audit recipe |
 | ReasoningBank pattern | `performance-optimization` | Generic filesystem-walker tuning recipe |
 

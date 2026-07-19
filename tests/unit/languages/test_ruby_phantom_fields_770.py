@@ -34,7 +34,7 @@ def _parse(code: str):
 
 
 def _extract_vars(code: str):
-    from tree_sitter_analyzer.languages.ruby_plugin import RubyElementExtractor
+    from codexray.languages.ruby_plugin import RubyElementExtractor
 
     tree = _parse(code)
     ext = RubyElementExtractor()

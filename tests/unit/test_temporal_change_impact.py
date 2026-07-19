@@ -29,8 +29,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools.callees_tool import CodeGraphCalleesTool
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools.callees_tool import CodeGraphCalleesTool
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -213,7 +213,7 @@ class TestHotZoneBumpsVerdict:
         # Run change-impact analysis from inside the repo so the tool picks
         # up our test git directory.
         monkeypatch.chdir(repo)
-        from tree_sitter_analyzer.mcp.tools.change_impact_tool import ChangeImpactTool
+        from codexray.mcp.tools.change_impact_tool import ChangeImpactTool
 
         tool = ChangeImpactTool(str(repo))
         result = await tool.execute(

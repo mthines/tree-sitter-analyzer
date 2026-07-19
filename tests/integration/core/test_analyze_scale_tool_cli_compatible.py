@@ -14,7 +14,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 # Import the module under test
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible import (
+from codexray.mcp.tools.analyze_scale_tool_cli_compatible import (
     AnalyzeScaleToolCLICompatible,
     analyze_scale_tool_cli_compatible,
 )
@@ -316,7 +316,7 @@ class TestAnalyzeScaleToolCLICompatibleExecution:
                 return_value=sample_analysis_result,
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+                "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
                 return_value="java",
             ),
         ):
@@ -331,7 +331,7 @@ class TestAnalyzeScaleToolCLICompatibleExecution:
     ) -> None:
         """Test execution fails with unknown language"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
+            "codexray.mcp.tools.analyze_scale_tool_cli_compatible.detect_language_from_file",
             return_value="unknown",
         ):
             arguments = {"file_path": sample_java_file}

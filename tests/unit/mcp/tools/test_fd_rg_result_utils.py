@@ -5,7 +5,7 @@ import sys
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.fd_rg_result_utils import (
+from codexray.mcp.tools.fd_rg_result_utils import (
     create_file_summary_from_count_data,
     extract_file_list_from_count_data,
     group_matches_by_file,

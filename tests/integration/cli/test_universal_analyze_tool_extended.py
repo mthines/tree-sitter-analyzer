@@ -12,9 +12,9 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.exceptions import SecurityError
-from tree_sitter_analyzer.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
-from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+from codexray.exceptions import SecurityError
+from codexray.mcp.tools.universal_analyze_tool import UniversalAnalyzeTool
+from codexray.mcp.utils.error_handler import AnalysisError
 
 
 class TestUniversalAnalyzeToolEdgeCases:

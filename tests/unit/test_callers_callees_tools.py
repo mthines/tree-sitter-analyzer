@@ -5,11 +5,11 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cache import build_state
-from tree_sitter_analyzer.mcp.tools.callees_tool import CodeGraphCalleesTool
-from tree_sitter_analyzer.mcp.tools.callers_tool import CodeGraphCallersTool
-from tree_sitter_analyzer.mcp.tools.codegraph_relation_tool import (
+from codexray.ast_cache import ASTCache
+from codexray.cache import build_state
+from codexray.mcp.tools.callees_tool import CodeGraphCalleesTool
+from codexray.mcp.tools.callers_tool import CodeGraphCallersTool
+from codexray.mcp.tools.codegraph_relation_tool import (
     CodeGraphRelationToolMixin,
 )
 
@@ -390,18 +390,18 @@ class TestStaleCacheWarning:
     deterministic (no live cache needed)."""
 
     def test_helper_is_false_for_empty(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.callees_tool import _is_stale_resolution
+        from codexray.mcp.tools.callees_tool import _is_stale_resolution
 
         assert _is_stale_resolution([]) is False
 
     def test_helper_is_true_when_all_unknown(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.callees_tool import _is_stale_resolution
+        from codexray.mcp.tools.callees_tool import _is_stale_resolution
 
         entries = [{"callee_resolution": "unknown"} for _ in range(10)]
         assert _is_stale_resolution(entries) is True
 
     def test_helper_is_false_when_majority_resolved(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.callees_tool import _is_stale_resolution
+        from codexray.mcp.tools.callees_tool import _is_stale_resolution
 
         # 30% unknown / 70% project → below the 80% threshold.
         entries = [{"callee_resolution": "unknown"} for _ in range(3)] + [
@@ -410,7 +410,7 @@ class TestStaleCacheWarning:
         assert _is_stale_resolution(entries) is False
 
     def test_helper_trips_at_exactly_80_percent(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.callees_tool import _is_stale_resolution
+        from codexray.mcp.tools.callees_tool import _is_stale_resolution
 
         # 8 unknown out of 10 = 80% → at threshold (inclusive).
         entries = [{"callee_resolution": "unknown"} for _ in range(8)] + [
@@ -419,7 +419,7 @@ class TestStaleCacheWarning:
         assert _is_stale_resolution(entries) is True
 
     def test_warning_message_recommends_valid_rebuild_command(self) -> None:
-        from tree_sitter_analyzer.mcp.tools.callees_tool import _STALE_CACHE_WARNING
+        from codexray.mcp.tools.callees_tool import _STALE_CACHE_WARNING
 
         # #1028: the user-visible string must point at a command that
         # actually runs. The old text recommended `--ast-cache-mode force`
@@ -460,7 +460,7 @@ class TestStaleCacheWarning:
 
 def test_cli_call_limit_flag_parity() -> None:
     """Codex P2 (#500): CLI must be able to raise the new limit (MCP/CLI parity)."""
-    from tree_sitter_analyzer.cli_main import create_argument_parser
+    from codexray.cli_main import create_argument_parser
 
     parser = create_argument_parser()
     args = parser.parse_args(["--callers", "execute", "--call-limit", "200"])
@@ -599,7 +599,7 @@ class TestEmptyIndexHint:
         no call edges (e.g. a single ``def solo(): return 1``).  NOT_FOUND must
         NOT carry a --full-index hint — the user already indexed; they just have
         a project with no calls."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         (tmp_path / "solo.py").write_text(
             "def solo():\n    return 1\n", encoding="utf-8"
@@ -622,7 +622,7 @@ class TestEmptyIndexHint:
     @pytest.mark.asyncio
     async def test_callees_built_index_zero_edges_no_hint(self, tmp_path) -> None:
         """#705 follow-up: same zero-edge scenario for callees."""
-        from tree_sitter_analyzer.ast_cache import ASTCache
+        from codexray.ast_cache import ASTCache
 
         (tmp_path / "solo.py").write_text(
             "def solo():\n    return 1\n", encoding="utf-8"

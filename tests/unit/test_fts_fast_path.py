@@ -5,8 +5,8 @@ from __future__ import annotations
 import asyncio
 import os
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.mcp.tools._fts_fast_path import (
+from codexray.ast_cache import ASTCache
+from codexray.mcp.tools._fts_fast_path import (
     _is_fts_eligible,
     try_fts5_fast_path,
 )
@@ -241,7 +241,7 @@ class TestSearchContentFtsIntegration:
 
     def test_search_content_uses_fts_for_simple_query(self, tmp_path):
         self._setup_indexed_project(tmp_path)
-        from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+        from codexray.mcp.tools.search_content_tool import SearchContentTool
 
         tool = SearchContentTool(project_root=str(tmp_path))
 
@@ -259,7 +259,7 @@ class TestSearchContentFtsIntegration:
 
     def test_search_content_falls_through_for_regex(self, tmp_path):
         _write_py_file(str(tmp_path), "example.py", "def foo():\n    pass\n")
-        from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+        from codexray.mcp.tools.search_content_tool import SearchContentTool
 
         tool = SearchContentTool(project_root=str(tmp_path))
         result = asyncio.run(

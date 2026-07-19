@@ -27,10 +27,10 @@ _root = Path(__file__).parent.parent
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
-from tree_sitter_analyzer.grammar_coverage.auto_discovery import (  # noqa: E402
+from codexray.grammar_coverage.auto_discovery import (  # noqa: E402
     AutoDiscoveryEngine,
 )
-from tree_sitter_analyzer.grammar_coverage.discovery_corpus import (  # noqa: E402
+from codexray.grammar_coverage.discovery_corpus import (  # noqa: E402
     TARGET_LANGUAGES,
 )
 

@@ -13,17 +13,17 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     """Auto-mock external command availability checks for all tests in this module."""
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -99,7 +99,7 @@ public class Test {
     ):
         """Test basic file output functionality for search_content"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             # Mock ripgrep output
             mock_output = b'{"type":"match","data":{"path":{"text":"test.py"},"lines":{"text":"def hello_world():"},"line_number":2,"absolute_offset":1,"submatches":[{"match":{"text":"hello"},"start":4,"end":9}]}}\n'
@@ -138,7 +138,7 @@ public class Test {
     ):
         """Test suppress_output functionality for search_content"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             # Mock ripgrep output
             mock_output = b'{"type":"match","data":{"path":{"text":"test.py"},"lines":{"text":"def hello_world():"},"line_number":2,"absolute_offset":1,"submatches":[{"match":{"text":"hello"},"start":4,"end":9}]}}\n'
@@ -166,7 +166,7 @@ public class Test {
     ):
         """Test summary_only mode with file output (only one format parameter allowed)"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             # Mock ripgrep output
             mock_output = b'{"type":"match","data":{"path":{"text":"test.py"},"lines":{"text":"def hello_world():"},"line_number":2,"absolute_offset":1,"submatches":[{"match":{"text":"hello"},"start":4,"end":9}]}}\n'
@@ -197,7 +197,7 @@ public class Test {
     ):
         """Test file output functionality for find_and_grep"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             # Mock fd output (file discovery)
             fd_output = f"{temp_project_dir}/test.py\n"
@@ -236,7 +236,7 @@ public class Test {
     ):
         """Test suppress_output functionality for find_and_grep"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             # Mock fd output (file discovery)
             fd_output = f"{temp_project_dir}/test.py\n"
@@ -418,7 +418,7 @@ public class Test {
     ):
         """Test error handling for file output"""
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             # Mock ripgrep output
             mock_output = b'{"type":"match","data":{"path":{"text":"test.py"},"lines":{"text":"def hello_world():"},"line_number":2,"absolute_offset":1,"submatches":[{"match":{"text":"hello"},"start":4,"end":9}]}}\n'
@@ -517,7 +517,7 @@ public class Test {
 
         # Mock external dependencies
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             # Mock outputs for search and find_and_grep tools
             mock_output = b'{"type":"match","data":{"path":{"text":"test.py"},"lines":{"text":"def hello_world():"},"line_number":2,"absolute_offset":1,"submatches":[{"match":{"text":"hello"},"start":4,"end":9}]}}\n'
@@ -599,7 +599,7 @@ class TestFileOutputManagerIntegration:
         tool = SearchContentTool(temp_project_dir)
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             mock_output = b'{"type":"match","data":{"path":{"text":"test.py"},"lines":{"text":"test"},"line_number":1,"absolute_offset":0,"submatches":[{"match":{"text":"test"},"start":0,"end":4}]}}\n'
             mock_run.return_value = (0, mock_output, b"")

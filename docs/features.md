@@ -1,6 +1,6 @@
-# Tree-sitter Analyzer Features
+# CodeXray Features
 
-This document provides a comprehensive overview of the features and language support in Tree-sitter Analyzer.
+This document provides a comprehensive overview of the features and language support in CodeXray.
 
 ## Feature Overview
 
@@ -14,7 +14,7 @@ This document provides a comprehensive overview of the features and language sup
 
 ### Token Optimization
 
-For AI assistants with token limits, Tree-sitter Analyzer provides multiple optimization strategies:
+For AI assistants with token limits, CodeXray provides multiple optimization strategies:
 
 | Strategy | Option | Token Reduction |
 |----------|--------|-----------------|
@@ -321,32 +321,32 @@ tree-sitter parse, typically < 50 ms). All other types read from the index.
 
 ```bash
 # Whole-project class diagram
-uv run python -m tree_sitter_analyzer --uml class
+uv run python -m codexray --uml class
 
 # Class diagram for one file (excludes external base classes)
-uv run python -m tree_sitter_analyzer --uml class \
-  --uml-file-path tree_sitter_analyzer/mcp/tools/base_tool.py \
+uv run python -m codexray --uml class \
+  --uml-file-path codexray/mcp/tools/base_tool.py \
   --uml-no-external-bases
 
 # Neighbourhood subgraph for one class
-uv run python -m tree_sitter_analyzer --uml class \
+uv run python -m codexray --uml class \
   --uml-class-name BaseMCPTool
 
 # Call-path sequence diagram
-uv run python -m tree_sitter_analyzer --uml sequence \
+uv run python -m codexray --uml sequence \
   --uml-source execute --uml-target build_response
 
 # Per-function CFG (activity diagram)
-uv run python -m tree_sitter_analyzer --uml activity \
+uv run python -m codexray --uml activity \
   --uml-function execute \
-  --uml-file-path tree_sitter_analyzer/mcp/tools/uml_tool.py
+  --uml-file-path codexray/mcp/tools/uml_tool.py
 
 # Enum/match FSM state diagram
-uv run python -m tree_sitter_analyzer --uml state \
-  --uml-file-path tree_sitter_analyzer/mcp/tools/uml_tool.py
+uv run python -m codexray --uml state \
+  --uml-file-path codexray/mcp/tools/uml_tool.py
 
 # Package dependency map
-uv run python -m tree_sitter_analyzer --uml package --uml-package-depth 2
+uv run python -m codexray --uml package --uml-package-depth 2
 ```
 
 ### MCP equivalent

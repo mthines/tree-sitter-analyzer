@@ -6,7 +6,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.utils.file_health_smells import (
+from codexray.mcp.tools.utils.file_health_smells import (
     _check_deep_nesting,
     _check_element_smells,
     _check_god_class,

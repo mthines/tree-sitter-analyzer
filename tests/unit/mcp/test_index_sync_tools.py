@@ -16,7 +16,7 @@ def project_root(tmp_path):
 
 class TestCodeGraphFullIndexTool:
     def test_tool_definition(self):
-        from tree_sitter_analyzer.mcp.tools.full_index_tool import (
+        from codexray.mcp.tools.full_index_tool import (
             CodeGraphFullIndexTool,
         )
 
@@ -30,7 +30,7 @@ class TestCodeGraphFullIndexTool:
         assert "include_activation" in schema["properties"]
 
     def test_schema_defaults(self):
-        from tree_sitter_analyzer.mcp.tools.full_index_tool import (
+        from codexray.mcp.tools.full_index_tool import (
             CodeGraphFullIndexTool,
         )
 
@@ -41,7 +41,7 @@ class TestCodeGraphFullIndexTool:
         assert schema["properties"]["include_activation"]["default"] is False
 
     def test_validate_arguments_valid(self):
-        from tree_sitter_analyzer.mcp.tools.full_index_tool import (
+        from codexray.mcp.tools.full_index_tool import (
             CodeGraphFullIndexTool,
         )
 
@@ -50,7 +50,7 @@ class TestCodeGraphFullIndexTool:
         assert tool.validate_arguments({"mode": "incremental"}) is True
 
     def test_validate_arguments_invalid(self):
-        from tree_sitter_analyzer.mcp.tools.full_index_tool import (
+        from codexray.mcp.tools.full_index_tool import (
             CodeGraphFullIndexTool,
         )
 
@@ -60,7 +60,7 @@ class TestCodeGraphFullIndexTool:
 
     @pytest.mark.asyncio
     async def test_execute_no_project_root(self):
-        from tree_sitter_analyzer.mcp.tools.full_index_tool import (
+        from codexray.mcp.tools.full_index_tool import (
             CodeGraphFullIndexTool,
         )
 
@@ -71,7 +71,7 @@ class TestCodeGraphFullIndexTool:
 
     @pytest.mark.asyncio
     async def test_execute_incremental(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.full_index_tool import (
+        from codexray.mcp.tools.full_index_tool import (
             CodeGraphFullIndexTool,
         )
 
@@ -85,7 +85,7 @@ class TestCodeGraphFullIndexTool:
 
     @pytest.mark.asyncio
     async def test_execute_full(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.full_index_tool import (
+        from codexray.mcp.tools.full_index_tool import (
             CodeGraphFullIndexTool,
         )
 
@@ -100,7 +100,7 @@ class TestCodeGraphFullIndexTool:
 
 class TestCodeGraphAutoIndexTool:
     def test_tool_definition(self):
-        from tree_sitter_analyzer.mcp.tools.auto_index_tool import (
+        from codexray.mcp.tools.auto_index_tool import (
             CodeGraphAutoIndexTool,
         )
 
@@ -111,7 +111,7 @@ class TestCodeGraphAutoIndexTool:
         assert "mode" in schema["properties"]
 
     def test_schema_defaults(self):
-        from tree_sitter_analyzer.mcp.tools.auto_index_tool import (
+        from codexray.mcp.tools.auto_index_tool import (
             CodeGraphAutoIndexTool,
         )
 
@@ -120,7 +120,7 @@ class TestCodeGraphAutoIndexTool:
         assert schema["properties"]["mode"]["default"] == "status"
 
     def test_validate_arguments_valid(self):
-        from tree_sitter_analyzer.mcp.tools.auto_index_tool import (
+        from codexray.mcp.tools.auto_index_tool import (
             CodeGraphAutoIndexTool,
         )
 
@@ -130,7 +130,7 @@ class TestCodeGraphAutoIndexTool:
         assert tool.validate_arguments({"mode": "reset"}) is True
 
     def test_validate_arguments_invalid(self):
-        from tree_sitter_analyzer.mcp.tools.auto_index_tool import (
+        from codexray.mcp.tools.auto_index_tool import (
             CodeGraphAutoIndexTool,
         )
 
@@ -140,7 +140,7 @@ class TestCodeGraphAutoIndexTool:
 
     @pytest.mark.asyncio
     async def test_execute_status_no_root(self):
-        from tree_sitter_analyzer.mcp.tools.auto_index_tool import (
+        from codexray.mcp.tools.auto_index_tool import (
             CodeGraphAutoIndexTool,
         )
 
@@ -151,7 +151,7 @@ class TestCodeGraphAutoIndexTool:
 
     @pytest.mark.asyncio
     async def test_execute_status(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.auto_index_tool import (
+        from codexray.mcp.tools.auto_index_tool import (
             CodeGraphAutoIndexTool,
         )
 
@@ -162,7 +162,7 @@ class TestCodeGraphAutoIndexTool:
 
     @pytest.mark.asyncio
     async def test_execute_warm(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.auto_index_tool import (
+        from codexray.mcp.tools.auto_index_tool import (
             CodeGraphAutoIndexTool,
         )
 
@@ -175,7 +175,7 @@ class TestCodeGraphAutoIndexTool:
 
     @pytest.mark.asyncio
     async def test_execute_reset(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.auto_index_tool import (
+        from codexray.mcp.tools.auto_index_tool import (
             CodeGraphAutoIndexTool,
         )
 
@@ -187,7 +187,7 @@ class TestCodeGraphAutoIndexTool:
 
 class TestCodeGraphIncrementalSyncTool:
     def test_tool_definition(self):
-        from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+        from codexray.mcp.tools.incremental_sync_tool import (
             CodeGraphIncrementalSyncTool,
         )
 
@@ -199,7 +199,7 @@ class TestCodeGraphIncrementalSyncTool:
         assert schema["properties"]["mode"]["default"] == "sync"
 
     def test_validate_arguments_valid(self):
-        from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+        from codexray.mcp.tools.incremental_sync_tool import (
             CodeGraphIncrementalSyncTool,
         )
 
@@ -209,7 +209,7 @@ class TestCodeGraphIncrementalSyncTool:
         assert tool.validate_arguments({"mode": "status"}) is True
 
     def test_validate_arguments_invalid(self):
-        from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+        from codexray.mcp.tools.incremental_sync_tool import (
             CodeGraphIncrementalSyncTool,
         )
 
@@ -219,7 +219,7 @@ class TestCodeGraphIncrementalSyncTool:
 
     @pytest.mark.asyncio
     async def test_execute_no_project_root(self):
-        from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+        from codexray.mcp.tools.incremental_sync_tool import (
             CodeGraphIncrementalSyncTool,
         )
 
@@ -229,7 +229,7 @@ class TestCodeGraphIncrementalSyncTool:
 
     @pytest.mark.asyncio
     async def test_execute_sync(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+        from codexray.mcp.tools.incremental_sync_tool import (
             CodeGraphIncrementalSyncTool,
         )
 
@@ -242,7 +242,7 @@ class TestCodeGraphIncrementalSyncTool:
 
     @pytest.mark.asyncio
     async def test_execute_changes(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+        from codexray.mcp.tools.incremental_sync_tool import (
             CodeGraphIncrementalSyncTool,
         )
 
@@ -252,7 +252,7 @@ class TestCodeGraphIncrementalSyncTool:
 
     @pytest.mark.asyncio
     async def test_execute_status(self, project_root):
-        from tree_sitter_analyzer.mcp.tools.incremental_sync_tool import (
+        from codexray.mcp.tools.incremental_sync_tool import (
             CodeGraphIncrementalSyncTool,
         )
 
@@ -269,7 +269,7 @@ class TestIndexToolsRegistered:
     """
 
     def test_full_index_registered(self):
-        from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+        from codexray.mcp._tool_registry import create_tool_registry
 
         _, by_name = create_tool_registry(None)
         assert "index" in by_name
@@ -280,7 +280,7 @@ class TestIndexToolsRegistered:
         )
 
     def test_autoindex_registered(self):
-        from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+        from codexray.mcp._tool_registry import create_tool_registry
 
         _, by_name = create_tool_registry(None)
         assert "auto" in by_name["index"].action_map
@@ -290,7 +290,7 @@ class TestIndexToolsRegistered:
         )
 
     def test_incremental_sync_registered(self):
-        from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+        from codexray.mcp._tool_registry import create_tool_registry
 
         _, by_name = create_tool_registry(None)
         assert "sync" in by_name["index"].action_map
@@ -300,7 +300,7 @@ class TestIndexToolsRegistered:
         )
 
     def test_registered_tool_count(self):
-        from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+        from codexray.mcp._tool_registry import create_tool_registry
 
         _, by_name = create_tool_registry(None)
         index_actions = set(by_name["index"].action_map)

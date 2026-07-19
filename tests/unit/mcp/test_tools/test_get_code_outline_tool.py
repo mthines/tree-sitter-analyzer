@@ -10,7 +10,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
+from codexray.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
 
 # ---------------------------------------------------------------------------
 # 测试辅助：构造 mock 分析结果
@@ -201,7 +201,7 @@ class TestBuildOutlineBasic:
             return getattr(elem, "element_type", "") == type_const
 
         return patch(
-            "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.is_element_of_type",
+            "codexray.mcp.tools.get_code_outline_tool.is_element_of_type",
             side_effect=_mock_is_elem,
         )
 
@@ -642,14 +642,14 @@ class TestGetCodeOutlineToolExecute:
                 return_value="/proj/MyService.java",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.Path"
+                "codexray.mcp.tools.get_code_outline_tool.Path"
             ) as mock_path,
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.detect_language_from_file",
+                "codexray.mcp.tools.get_code_outline_tool.detect_language_from_file",
                 return_value="java",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.is_element_of_type",
+                "codexray.mcp.tools.get_code_outline_tool.is_element_of_type",
                 side_effect=lambda e, t: getattr(e, "element_type", "") == t,
             ),
         ):
@@ -692,7 +692,7 @@ class TestGetCodeOutlineToolExecute:
                 return_value="/proj/Missing.java",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.Path"
+                "codexray.mcp.tools.get_code_outline_tool.Path"
             ) as mock_path,
         ):
             mock_path.return_value.exists.return_value = False
@@ -709,10 +709,10 @@ class TestGetCodeOutlineToolExecute:
                 return_value="/proj/Foo.java",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.Path"
+                "codexray.mcp.tools.get_code_outline_tool.Path"
             ) as mock_path,
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.detect_language_from_file",
+                "codexray.mcp.tools.get_code_outline_tool.detect_language_from_file",
                 return_value="java",
             ),
         ):
@@ -733,13 +733,13 @@ class TestGetCodeOutlineToolExecute:
                 return_value="/proj/Foo.java",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.Path"
+                "codexray.mcp.tools.get_code_outline_tool.Path"
             ) as mock_path,
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.detect_language_from_file"
+                "codexray.mcp.tools.get_code_outline_tool.detect_language_from_file"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.is_element_of_type",
+                "codexray.mcp.tools.get_code_outline_tool.is_element_of_type",
                 side_effect=lambda e, t: getattr(e, "element_type", "") == t,
             ),
         ):
@@ -779,14 +779,14 @@ class TestGetCodeOutlineToolExecute:
                 return_value="/proj/Counter.java",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.Path"
+                "codexray.mcp.tools.get_code_outline_tool.Path"
             ) as mock_path,
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.detect_language_from_file",
+                "codexray.mcp.tools.get_code_outline_tool.detect_language_from_file",
                 return_value="java",
             ),
             patch(
-                "tree_sitter_analyzer.mcp.tools.get_code_outline_tool.is_element_of_type",
+                "codexray.mcp.tools.get_code_outline_tool.is_element_of_type",
                 side_effect=lambda e, t: getattr(e, "element_type", "") == t,
             ),
         ):

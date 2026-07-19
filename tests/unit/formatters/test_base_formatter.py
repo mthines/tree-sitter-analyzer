@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.formatters.base_formatter import (
+from codexray.formatters.base_formatter import (
     BaseFormatter,
     BaseTableFormatter,
 )

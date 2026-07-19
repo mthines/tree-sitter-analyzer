@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.encoding_utils import (
+from codexray.encoding_utils import (
     EncodingCache,
     clear_encoding_cache,
     detect_encoding,

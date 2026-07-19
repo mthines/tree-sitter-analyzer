@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.search_content_cli import _run
+from codexray.cli.commands.search_content_cli import _run
 
 
 class TestRunFunction:
@@ -50,16 +50,16 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root"
+                "codexray.cli.commands.search_content_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+                "codexray.cli.commands.search_content_cli.SearchContentTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"
+                "codexray.cli.commands.search_content_cli.set_output_mode"
             ) as mock_set_output,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.output_data"
+                "codexray.cli.commands.search_content_cli.output_data"
             ) as mock_output,
         ):
             mock_detect.return_value = "/project/root"
@@ -116,15 +116,15 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root"
+                "codexray.cli.commands.search_content_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+                "codexray.cli.commands.search_content_cli.SearchContentTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"
+                "codexray.cli.commands.search_content_cli.set_output_mode"
             ),
-            patch("tree_sitter_analyzer.cli.commands.search_content_cli.output_data"),
+            patch("codexray.cli.commands.search_content_cli.output_data"),
         ):
             mock_detect.return_value = "/project/root"
             mock_tool = AsyncMock()
@@ -172,16 +172,16 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root"
+                "codexray.cli.commands.search_content_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+                "codexray.cli.commands.search_content_cli.SearchContentTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"
+                "codexray.cli.commands.search_content_cli.set_output_mode"
             ) as mock_set_output,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.output_data"
+                "codexray.cli.commands.search_content_cli.output_data"
             ) as mock_output,
         ):
             mock_detect.return_value = "/custom/root"
@@ -229,15 +229,15 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root"
+                "codexray.cli.commands.search_content_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+                "codexray.cli.commands.search_content_cli.SearchContentTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"
+                "codexray.cli.commands.search_content_cli.set_output_mode"
             ),
-            patch("tree_sitter_analyzer.cli.commands.search_content_cli.output_data"),
+            patch("codexray.cli.commands.search_content_cli.output_data"),
         ):
             mock_detect.return_value = "/project/root"
             mock_tool = AsyncMock()
@@ -304,16 +304,16 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root"
+                "codexray.cli.commands.search_content_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+                "codexray.cli.commands.search_content_cli.SearchContentTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"
+                "codexray.cli.commands.search_content_cli.set_output_mode"
             ),
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.output_data"
+                "codexray.cli.commands.search_content_cli.output_data"
             ) as mock_output,
         ):
             mock_detect.return_value = "/project/root"
@@ -360,16 +360,16 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root"
+                "codexray.cli.commands.search_content_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+                "codexray.cli.commands.search_content_cli.SearchContentTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"
+                "codexray.cli.commands.search_content_cli.set_output_mode"
             ),
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.output_error"
+                "codexray.cli.commands.search_content_cli.output_error"
             ) as mock_error,
         ):
             mock_detect.return_value = "/project/root"
@@ -416,15 +416,15 @@ class TestRunFunction:
 
         with (
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.detect_project_root"
+                "codexray.cli.commands.search_content_cli.detect_project_root"
             ) as mock_detect,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.SearchContentTool"
+                "codexray.cli.commands.search_content_cli.SearchContentTool"
             ) as mock_tool_class,
             patch(
-                "tree_sitter_analyzer.cli.commands.search_content_cli.set_output_mode"
+                "codexray.cli.commands.search_content_cli.set_output_mode"
             ),
-            patch("tree_sitter_analyzer.cli.commands.search_content_cli.output_data"),
+            patch("codexray.cli.commands.search_content_cli.output_data"),
         ):
             mock_detect.return_value = "/custom/path"
             mock_tool = AsyncMock()

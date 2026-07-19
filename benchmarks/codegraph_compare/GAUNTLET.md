@@ -1,6 +1,6 @@
 # Polyglot Mis-Wire Gauntlet — TSA Results Card
 
-**What this page is:** a permanent, verifiable record of how tree-sitter-analyzer
+**What this page is:** a permanent, verifiable record of how codexray
 scores on cross-language call-graph correctness across five real open-source repos.
 All numbers in the summary table are lifted verbatim from
 [MISWIRE-AUDIT-EXAMPLES.md](MISWIRE-AUDIT-EXAMPLES.md) and
@@ -24,7 +24,7 @@ All numbers in the summary table are lifted verbatim from
 | huggingface/tokenizers | Rust+Py+JS+TS | 16,329 | **1,259** (7.71%) | **0** | v1.21.0 (2026-06-07) <!-- re-measure --> |
 | astral-sh/ruff | Rust+Py+TS | 187,418 | **7,557** (4.03%) | **0** | v1.21.0 (2026-06-07) <!-- re-measure --> |
 | pola-rs/polars | Rust+Py | 267,066 | **9,016** (3.38%) | **0** | v1.21.0 (2026-06-07) <!-- re-measure --> |
-| tree-sitter-analyzer (this repo) | 14 langs | 116,606 | **678** (0.58%) | **1** | 2026-06-10, clean checkout of tag v1.22.0 |
+| codexray (this repo) | 14 langs | 116,606 | **678** (0.58%) | **1** | 2026-06-10, clean checkout of tag v1.22.0 |
 | gin-gonic/gin | Go (single) | 9,134 | **0** | **0** | v1.21.0 (2026-06-07) <!-- re-measure --> |
 
 **Across all four polyglot repos TSA resolves 0 cross-language mis-wires.** The 1
@@ -45,7 +45,7 @@ The single-language repo (gin) correctly returns 0 and 0 — no false positives.
 > **Reproducibility protocol.** These numbers are from a **clean checkout of the
 > tag** — untracked working files (build artifacts, scratch dirs) add call edges
 > and shift every count. To reproduce: `git clone --branch v1.22.0 … && cd … &&
-> uvx --from tree-sitter-analyzer miswire-audit .`
+> uvx --from codexray miswire-audit .`
 
 ---
 
@@ -61,7 +61,7 @@ Source: [REPORT-v1.21.0.md §Addendum 2](REPORT-v1.21.0.md)
 | tool | cross-language mis-wires | total call edges | mis-wire rate | measured at |
 |---|---|---|---|---|
 | **CodeGraph** | **745** | 38,103 | **1.96%** | v1.21.0 (2026-06-07), same session <!-- re-measure --> |
-| **Tree-sitter Analyzer** | **6** | 114,160 | **0.005%** | v1.21.0 (2026-06-07), same session <!-- re-measure --> |
+| **CodeXray** | **6** | 114,160 | **0.005%** | v1.21.0 (2026-06-07), same session <!-- re-measure --> |
 
 Same-session ratio at v1.21.0: **~124x cleaner** (6 vs 745) while resolving 3x more
 call edges total (114k vs 38k). TSA's arm alone, re-measured at v1.22.0 (clean tag
@@ -100,7 +100,7 @@ sqlite3 .codegraph/codegraph.db "
 
 # 3. TSA (v1.22.0, 2026-06-10): all 392 sorted() call sites are unresolved; none wired to Swift:
 uv run python -c "
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray.ast_cache import ASTCache
 cache = ASTCache('.')
 conn = cache.get_conn()
 edges = conn.execute(\"SELECT callee_resolved_file, COUNT(*) n FROM edges WHERE kind='calls' AND callee_name='sorted' GROUP BY callee_resolved_file\").fetchall()
@@ -123,10 +123,10 @@ rather than confidently wrong. For an agent about to change a function's signatu
 
 ```bash
 # Via uvx (no install required):
-uvx --from tree-sitter-analyzer miswire-audit /path/to/your/repo
+uvx --from codexray miswire-audit /path/to/your/repo
 
 # Via uv run (from this repo):
-uv run python -m tree_sitter_analyzer.miswire_audit /path/to/your/repo
+uv run python -m codexray.miswire_audit /path/to/your/repo
 
 # Options:
 #   --card          emit a markdown card you can paste to issues/PRs

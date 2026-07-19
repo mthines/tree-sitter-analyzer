@@ -20,7 +20,7 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.base_tool import BaseMCPTool
+from codexray.mcp.tools.base_tool import BaseMCPTool
 
 # ---------------------------------------------------------------------------
 # Minimal concrete tool — only one known parameter: ``file_path``

@@ -14,17 +14,17 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
-from tree_sitter_analyzer.mcp.tools.find_and_grep_tool import FindAndGrepTool
-from tree_sitter_analyzer.mcp.tools.query_tool import QueryTool
-from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
-from tree_sitter_analyzer.mcp.tools.search_content_tool import SearchContentTool
+from codexray.mcp.tools.analyze_scale_tool import AnalyzeScaleTool
+from codexray.mcp.tools.find_and_grep_tool import FindAndGrepTool
+from codexray.mcp.tools.query_tool import QueryTool
+from codexray.mcp.tools.read_partial_tool import ReadPartialTool
+from codexray.mcp.tools.search_content_tool import SearchContentTool
 
 
 @pytest.fixture(autouse=True)
 def mock_external_commands(monkeypatch):
     monkeypatch.setattr(
-        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.check_external_command",
+        "codexray.mcp.tools.fd_rg_utils.check_external_command",
         lambda cmd: True,
     )
 
@@ -195,7 +195,7 @@ class TestMCPConsistencyIntegration:
         test_scenarios = []
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             mock_run.return_value = (
                 0,
@@ -214,7 +214,7 @@ class TestMCPConsistencyIntegration:
             test_scenarios.append(("search_content", search_result))
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             fd_output = f"{comprehensive_project}/main.py\n"
             rg_output = b'{"type":"match","data":{"path":{"text":"main.py"},"lines":{"text":"def main():"},"line_number":8,"absolute_offset":100,"submatches":[{"match":{"text":"main"},"start":4,"end":8}]}}\n'
@@ -314,7 +314,7 @@ class TestMCPConsistencyIntegration:
         ]
 
         with patch(
-            "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+            "codexray.mcp.tools.fd_rg_utils.run_command_capture"
         ) as mock_run:
             mock_run.return_value = (
                 0,
@@ -362,7 +362,7 @@ class TestMCPConsistencyIntegration:
 
     @pytest.mark.asyncio
     async def test_error_handling_consistency(self, all_tools, comprehensive_project):
-        from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+        from codexray.mcp.utils.error_handler import AnalysisError
 
         tools_with_file_output = ["search_content", "read_partial", "query"]
 
@@ -374,7 +374,7 @@ class TestMCPConsistencyIntegration:
 
                 if tool_name == "search_content":
                     with patch(
-                        "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+                        "codexray.mcp.tools.fd_rg_utils.run_command_capture"
                     ) as mock_run:
                         mock_run.return_value = (
                             0,
@@ -510,7 +510,7 @@ class TestMCPConsistencyIntegration:
 
         async def search_task():
             with patch(
-                "tree_sitter_analyzer.mcp.tools.fd_rg_utils.run_command_capture"
+                "codexray.mcp.tools.fd_rg_utils.run_command_capture"
             ) as mock_run:
                 mock_run.return_value = (
                     0,

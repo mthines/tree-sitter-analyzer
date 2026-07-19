@@ -18,11 +18,11 @@ from pathlib import Path
 import pytest
 from tree_sitter import Node
 
-from tree_sitter_analyzer.core.parser import Parser
-from tree_sitter_analyzer.utils import setup_logger
+from codexray.core.parser import Parser
+from codexray.utils import setup_logger
 
 # ❌ 错误：顺序混乱
-from tree_sitter_analyzer.core.parser import Parser
+from codexray.core.parser import Parser
 import json
 import pytest
 ```
@@ -157,7 +157,7 @@ API_KEY = os.getenv("API_KEY")
 # Ruff 检查 + 自动修复
 uv run ruff check path/to/file.py --fix
 
-# MyPy 检查（仅 tree_sitter_analyzer/）
+# MyPy 检查（仅 codexray/）
 uv run mypy path/to/file.py --strict
 ```
 
@@ -192,7 +192,7 @@ ln -sf ../../.github/scripts/pre-commit-check.sh .git/hooks/pre-commit
 
 ### 编写新代码时
 1. 写完代码后立即运行 `uv run ruff check <file> --fix`
-2. 如果是 `tree_sitter_analyzer/` 中的文件，运行 `uv run mypy <file> --strict`
+2. 如果是 `codexray/` 中的文件，运行 `uv run mypy <file> --strict`
 3. 修复所有错误后再提交
 
 ### 提交前
@@ -217,7 +217,7 @@ ln -sf ../../.github/scripts/pre-commit-check.sh .git/hooks/pre-commit
            │
            ▼
 ┌─────────────────────┐
-│  本地 MyPy 检查     │ ← uv run mypy tree_sitter_analyzer/
+│  本地 MyPy 检查     │ ← uv run mypy codexray/
 └──────────┬──────────┘
            │
            ▼
@@ -248,7 +248,7 @@ ln -sf ../../.github/scripts/pre-commit-check.sh .git/hooks/pre-commit
 
 ```bash
 # 快速修复常见问题
-alias ci-fix="uv run ruff check . --fix && uv run mypy tree_sitter_analyzer/"
+alias ci-fix="uv run ruff check . --fix && uv run mypy codexray/"
 
 # 完整 CI 检查
 alias ci-check=".github/scripts/local-ci-check.sh"

@@ -13,7 +13,7 @@ sys.path.insert(0, ".")
 
 import pytest
 
-from tree_sitter_analyzer.languages.javascript_plugin import (
+from codexray.languages.javascript_plugin import (
     JavaScriptElementExtractor,
     JavaScriptPlugin,
 )

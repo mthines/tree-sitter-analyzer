@@ -5,37 +5,37 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools._refactoring_plan_builder import (
+from codexray.mcp.tools._refactoring_plan_builder import (
     _build_plan_for_func,
     _infer_returns,
 )
-from tree_sitter_analyzer.mcp.tools.refactoring_suggestions_tool import (
+from codexray.mcp.tools.refactoring_suggestions_tool import (
     RefactoringSuggestionsTool,
 )
-from tree_sitter_analyzer.mcp.tools.utils.refactoring_suggestions_classes import (
+from codexray.mcp.tools.utils.refactoring_suggestions_classes import (
     find_class_extractions,
     group_methods_by_responsibility,
 )
-from tree_sitter_analyzer.mcp.tools.utils.refactoring_suggestions_helpers import (
+from codexray.mcp.tools.utils.refactoring_suggestions_helpers import (
     make_agent_summary,
 )
 
 # Use project files for testing (within project boundary)
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 SAMPLE_PYTHON = str(
-    PROJECT_ROOT / "tree_sitter_analyzer" / "languages" / "java_plugin.py"
+    PROJECT_ROOT / "codexray" / "languages" / "java_plugin.py"
 )
-SAMPLE_GENERIC = str(PROJECT_ROOT / "tree_sitter_analyzer" / "mcp" / "server.py")
-SAMPLE_CLI_MAIN = str(PROJECT_ROOT / "tree_sitter_analyzer" / "cli_main.py")
+SAMPLE_GENERIC = str(PROJECT_ROOT / "codexray" / "mcp" / "server.py")
+SAMPLE_CLI_MAIN = str(PROJECT_ROOT / "codexray" / "cli_main.py")
 SAMPLE_PLAN_BUILDER = str(
     PROJECT_ROOT
-    / "tree_sitter_analyzer"
+    / "codexray"
     / "mcp"
     / "tools"
     / "_refactoring_plan_builder.py"
 )
 SAMPLE_SAFE_TO_EDIT = str(
-    PROJECT_ROOT / "tree_sitter_analyzer" / "mcp" / "tools" / "safe_to_edit_tool.py"
+    PROJECT_ROOT / "codexray" / "mcp" / "tools" / "safe_to_edit_tool.py"
 )
 
 
@@ -450,7 +450,7 @@ class TestRefactoringSuggestionsTool:
                             "_parse_import_statement",
                         ],
                         "tests": [
-                            "uv run python -m tree_sitter_analyzer <file> --refactor --format json"
+                            "uv run python -m codexray <file> --refactor --format json"
                         ],
                         "stop_condition": "WidgetExtractor is below the class-size threshold.",
                     },

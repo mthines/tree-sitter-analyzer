@@ -1,7 +1,7 @@
 """Tests for ``--affected`` CLI dispatcher (CodeGraph CLI parity).
 
 Closes the last surface advantage CodeGraph held over TSA's CLI —
-``codegraph affected <files>`` ↔ ``tree-sitter-analyzer --affected
+``codegraph affected <files>`` ↔ ``codexray --affected
 <files>``. These tests pin the dispatcher's contract so the parity
 claim cannot silently regress.
 """
@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 import pytest
 
-from tree_sitter_analyzer.cli.commands.affected_command import (
+from codexray.cli.commands.affected_command import (
     _DEFAULT_TEST_GLOBS,
     _is_test_path,
     run_affected,
@@ -119,7 +119,7 @@ class TestRunAffected:
             output_format="json",
         )
         with patch(
-            "tree_sitter_analyzer.mcp.tools.dependency_analysis_tool"
+            "codexray.mcp.tools.dependency_analysis_tool"
             ".DependencyAnalysisTool.execute",
             new=fake_execute,
         ):
@@ -149,7 +149,7 @@ class TestRunAffected:
             output_format="json",
         )
         with patch(
-            "tree_sitter_analyzer.mcp.tools.dependency_analysis_tool"
+            "codexray.mcp.tools.dependency_analysis_tool"
             ".DependencyAnalysisTool.execute",
             new=fake_execute,
         ):
@@ -178,7 +178,7 @@ class TestRunAffected:
             affected_quiet=True,
         )
         with patch(
-            "tree_sitter_analyzer.mcp.tools.dependency_analysis_tool"
+            "codexray.mcp.tools.dependency_analysis_tool"
             ".DependencyAnalysisTool.execute",
             new=fake_execute,
         ):
@@ -211,7 +211,7 @@ class TestRunAffected:
             output_format="json",
         )
         with patch(
-            "tree_sitter_analyzer.mcp.tools.dependency_analysis_tool"
+            "codexray.mcp.tools.dependency_analysis_tool"
             ".DependencyAnalysisTool.execute",
             new=fake_execute,
         ):
@@ -239,7 +239,7 @@ class TestRunAffected:
             output_format="json",
         )
         with patch(
-            "tree_sitter_analyzer.mcp.tools.dependency_analysis_tool"
+            "codexray.mcp.tools.dependency_analysis_tool"
             ".DependencyAnalysisTool.execute",
             new=fake_execute,
         ):

@@ -8,7 +8,7 @@ testing language loading, caching, parser creation, and error handling.
 
 from unittest.mock import Mock, patch
 
-from tree_sitter_analyzer.language_loader import (
+from codexray.language_loader import (
     LanguageLoader,
     check_language_availability,
     create_parser_safely,
@@ -71,7 +71,7 @@ class TestLanguageAvailability:
         loader._availability_cache["test_lang"] = True
         assert loader.is_language_available("test_lang") is True
 
-    @patch("tree_sitter_analyzer.language_loader.TREE_SITTER_AVAILABLE", False)
+    @patch("codexray.language_loader.TREE_SITTER_AVAILABLE", False)
     def test_is_language_available_no_tree_sitter(self):
         """Test when tree-sitter is not available"""
         loader = LanguageLoader()
@@ -84,7 +84,7 @@ class TestLanguageAvailability:
         assert loader.is_language_available("unknown_lang_xyz") is False
         assert "unknown_lang_xyz" in loader._unavailable_languages
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.importlib.import_module")
     def test_is_language_available_import_success(self, mock_import):
         """Test successful import marks language as available"""
         loader = LanguageLoader()
@@ -96,7 +96,7 @@ class TestLanguageAvailability:
         assert loader._availability_cache["python"] is True
         assert "python" not in loader._unavailable_languages
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.importlib.import_module")
     def test_is_language_available_import_failure(self, mock_import):
         """Test failed import marks language as unavailable"""
         loader = LanguageLoader()
@@ -112,7 +112,7 @@ class TestLanguageAvailability:
 class TestLoadLanguage:
     """Test language loading functionality"""
 
-    @patch("tree_sitter_analyzer.language_loader.TREE_SITTER_AVAILABLE", False)
+    @patch("codexray.language_loader.TREE_SITTER_AVAILABLE", False)
     def test_load_language_no_tree_sitter(self):
         """Test loading when tree-sitter is not available"""
         loader = LanguageLoader()
@@ -139,8 +139,8 @@ class TestLoadLanguage:
 
         assert result is None
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "is_language_available")
     def test_load_language_success_modern_api(
         self, mock_available, mock_tree_sitter, mock_import
@@ -166,8 +166,8 @@ class TestLoadLanguage:
         assert "python" in loader._loaded_languages
         assert loader._loaded_languages["python"] is mock_language_obj
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "is_language_available")
     def test_load_language_success_capsule_api(
         self, mock_available, mock_tree_sitter, mock_import
@@ -193,8 +193,8 @@ class TestLoadLanguage:
         assert result == mock_language_obj
         mock_tree_sitter.Language.assert_called_once_with(mock_capsule)
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "is_language_available")
     def test_load_language_typescript_dialect(
         self, mock_available, mock_tree_sitter, mock_import
@@ -219,8 +219,8 @@ class TestLoadLanguage:
         assert result is mock_language_obj
         mock_module.language_typescript.assert_called_once()
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "is_language_available")
     def test_load_language_tsx_dialect(
         self, mock_available, mock_tree_sitter, mock_import
@@ -245,7 +245,7 @@ class TestLoadLanguage:
         assert result is mock_language_obj
         mock_module.language_tsx.assert_called_once()
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.importlib.import_module")
     @patch.object(LanguageLoader, "is_language_available")
     def test_load_language_module_cache(self, mock_available, mock_import):
         """Test that modules are cached"""
@@ -266,7 +266,7 @@ class TestLoadLanguage:
         # Module should only be imported once
         mock_import.assert_called_once()
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.importlib.import_module")
     @patch.object(LanguageLoader, "is_language_available")
     def test_load_language_no_language_function(self, mock_available, mock_import):
         """Test loading when module has no language function"""
@@ -280,7 +280,7 @@ class TestLoadLanguage:
 
         assert result is None
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.importlib.import_module")
     @patch.object(LanguageLoader, "is_language_available")
     def test_load_language_import_error(self, mock_available, mock_import):
         """Test handling of import errors"""
@@ -298,7 +298,7 @@ class TestLoadLanguage:
 class TestCreateParser:
     """Test parser creation functionality"""
 
-    @patch("tree_sitter_analyzer.language_loader.TREE_SITTER_AVAILABLE", False)
+    @patch("codexray.language_loader.TREE_SITTER_AVAILABLE", False)
     def test_create_parser_no_tree_sitter(self):
         """Test parser creation when tree-sitter is not available"""
         loader = LanguageLoader()
@@ -325,7 +325,7 @@ class TestCreateParser:
 
         assert result is None
 
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "load_language")
     def test_create_parser_success(self, mock_load, mock_tree_sitter):
         """Test successful parser creation"""
@@ -348,7 +348,7 @@ class TestCreateParser:
         mock_parser.set_language.assert_called_once_with(mock_language)
         assert loader._parser_cache["python"] == mock_parser
 
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "load_language")
     def test_create_parser_invalid_language_object(self, mock_load, mock_tree_sitter):
         """Test parser creation with invalid language object"""
@@ -361,7 +361,7 @@ class TestCreateParser:
 
         assert result is None
 
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "load_language")
     def test_create_parser_fallback_property(self, mock_load, mock_tree_sitter):
         """Test parser creation using language property fallback"""
@@ -383,7 +383,7 @@ class TestCreateParser:
         assert result == mock_parser
         assert mock_parser.language == mock_language
 
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "load_language")
     def test_create_parser_constructor_fallback(self, mock_load, mock_tree_sitter):
         """Test parser creation using constructor fallback"""
@@ -573,7 +573,7 @@ class TestEdgeCases:
         result = loader.load_language("")
         assert result is None
 
-    @patch("tree_sitter_analyzer.language_loader.importlib.import_module")
+    @patch("codexray.language_loader.importlib.import_module")
     @patch.object(LanguageLoader, "is_language_available")
     def test_load_language_attribute_error(self, mock_available, mock_import):
         """Test handling of AttributeError during loading"""
@@ -586,7 +586,7 @@ class TestEdgeCases:
         assert result is None
         assert "python" in loader._unavailable_languages
 
-    @patch("tree_sitter_analyzer.language_loader.tree_sitter")
+    @patch("codexray.language_loader.tree_sitter")
     @patch.object(LanguageLoader, "load_language")
     def test_create_parser_exception(self, mock_load, mock_tree_sitter):
         """Test parser creation with exception"""
@@ -612,7 +612,7 @@ class TestConcurrentAccess:
 
         with patch.object(loader, "is_language_available", return_value=True):
             with patch(
-                "tree_sitter_analyzer.language_loader.importlib.import_module"
+                "codexray.language_loader.importlib.import_module"
             ) as mock_import:
                 mock_language = Mock()
                 mock_language.__class__.__name__ = "Language"
@@ -642,9 +642,9 @@ class TestConcurrentAccess:
 
         # Load language (should use cache)
         with patch(
-            "tree_sitter_analyzer.language_loader.importlib.import_module"
+            "codexray.language_loader.importlib.import_module"
         ) as mock_import:
-            with patch("tree_sitter_analyzer.language_loader.tree_sitter"):
+            with patch("codexray.language_loader.tree_sitter"):
                 # Create proper mock language that passes checks
                 class MockLanguage:
                     pass

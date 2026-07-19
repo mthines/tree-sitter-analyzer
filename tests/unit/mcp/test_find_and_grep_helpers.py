@@ -8,7 +8,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.find_and_grep_helpers import (
+from codexray.mcp.tools.find_and_grep_helpers import (
     TOOL_SCHEMA,
     FindAndGrepCountOnlyContext,
     FindAndGrepFullMatchContext,

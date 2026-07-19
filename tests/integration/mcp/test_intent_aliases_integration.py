@@ -14,8 +14,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.server import TreeSitterAnalyzerMCPServer
-from tree_sitter_analyzer.mcp.utils.error_handler import AnalysisError
+from codexray.mcp.server import CodeXrayMCPServer
+from codexray.mcp.utils.error_handler import AnalysisError
 
 
 @pytest.fixture(scope="session")
@@ -26,7 +26,7 @@ def server():
     Creates ONE server instance for the entire test session.
     This prevents race conditions when tests run in parallel.
     """
-    return TreeSitterAnalyzerMCPServer()
+    return CodeXrayMCPServer()
 
 
 @pytest.mark.requires_fd

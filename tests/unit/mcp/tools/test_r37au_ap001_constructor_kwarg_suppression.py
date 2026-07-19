@@ -3,7 +3,7 @@
 # passed an empty list/dict as a keyword argument
 # (``SQLTable(columns=[], constraints=[], dependencies=[])``).
 # 11 such false positives showed up in
-# tree_sitter_analyzer/formatters/_sql_formatter_wrapper_helpers.py.
+# codexray/formatters/_sql_formatter_wrapper_helpers.py.
 #
 # The old heuristic was "line text contains =[] AND any nearby line has
 # 'def '". Constructor calls inside a function body trivially satisfy
@@ -22,7 +22,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.utils.anti_patterns import detect_anti_patterns
+from codexray.mcp.tools.utils.anti_patterns import detect_anti_patterns
 
 
 def _ids(findings: list[dict[str, object]]) -> list[str]:
@@ -137,7 +137,7 @@ def test_sql_formatter_helper_self_scan() -> None:
     project_root = Path(__file__).parent.parent.parent.parent.parent
     target = (
         project_root
-        / "tree_sitter_analyzer"
+        / "codexray"
         / "formatters"
         / "_sql_formatter_wrapper_helpers.py"
     )
@@ -145,7 +145,7 @@ def test_sql_formatter_helper_self_scan() -> None:
         [
             sys.executable,
             "-m",
-            "tree_sitter_analyzer",
+            "codexray",
             "--code-patterns",
             str(target),
             "--format",

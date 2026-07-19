@@ -1,12 +1,12 @@
 """Coverage tests for compare.py — target 55.74% → ≥80%."""
 
-from tree_sitter_analyzer.platform_compat.compare import (
+from codexray.platform_compat.compare import (
     BehaviorDifference,
     ProfileComparison,
     compare_profiles,
     generate_diff_report,
 )
-from tree_sitter_analyzer.platform_compat.profiles import (
+from codexray.platform_compat.profiles import (
     PROFILE_SCHEMA_VERSION,
     BehaviorProfile,
     ParsingBehavior,

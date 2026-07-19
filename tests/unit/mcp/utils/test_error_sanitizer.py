@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.mcp.utils.error_sanitizer import (
+from codexray.mcp.utils.error_sanitizer import (
     safe_error_message,
     sanitize_exception,
     sanitize_message,
@@ -101,7 +101,7 @@ class TestIntegrationWithErrorRecovery:
     Make sure it actually invokes the sanitiser."""
 
     def test_build_agent_friendly_error_redacts_paths(self, tmp_path: Path):
-        from tree_sitter_analyzer.mcp.server_utils.error_recovery import (
+        from codexray.mcp.server_utils.error_recovery import (
             build_agent_friendly_error,
         )
 
@@ -121,7 +121,7 @@ class TestFileOutputManagerPathTraversal:
     def test_rejects_parent_traversal(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ):
-        from tree_sitter_analyzer.mcp.utils.file_output_manager import (
+        from codexray.mcp.utils.file_output_manager import (
             FileOutputManager,
         )
 
@@ -133,7 +133,7 @@ class TestFileOutputManagerPathTraversal:
     def test_rejects_absolute_path_outside(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ):
-        from tree_sitter_analyzer.mcp.utils.file_output_manager import (
+        from codexray.mcp.utils.file_output_manager import (
             FileOutputManager,
         )
 
@@ -145,7 +145,7 @@ class TestFileOutputManagerPathTraversal:
     def test_allows_in_directory_path(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ):
-        from tree_sitter_analyzer.mcp.utils.file_output_manager import (
+        from codexray.mcp.utils.file_output_manager import (
             FileOutputManager,
         )
 

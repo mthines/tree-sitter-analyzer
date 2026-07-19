@@ -9,7 +9,7 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 from hypothesis.stateful import RuleBasedStateMachine, invariant, rule
 
-from tree_sitter_analyzer.core.query import QueryExecutor
+from codexray.core.query import QueryExecutor
 
 
 class TestQueryProperties:
@@ -78,7 +78,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -109,7 +109,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -141,7 +141,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -177,7 +177,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -210,7 +210,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -244,7 +244,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -284,7 +284,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -321,7 +321,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -375,7 +375,7 @@ class TestClass:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -427,7 +427,7 @@ class QueryStatefulMachine(RuleBasedStateMachine):
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -471,7 +471,7 @@ class TestQueryEdgeCases:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -501,7 +501,7 @@ class Test_类:
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -530,7 +530,7 @@ def test_function():
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -554,7 +554,7 @@ def test_function():
         mock_tree.root_node = MagicMock()
 
         with patch(
-            "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+            "codexray.core.query.TreeSitterQueryCompat"
         ) as mock_compat:
             mock_compat.safe_execute_query.return_value = []
 
@@ -581,7 +581,7 @@ def test_function():
             mock_tree.root_node = MagicMock()
 
             with patch(
-                "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+                "codexray.core.query.TreeSitterQueryCompat"
             ) as mock_compat:
                 mock_compat.safe_execute_query.return_value = []
 
@@ -611,7 +611,7 @@ def test_function():
             mock_tree.root_node = MagicMock()
 
             with patch(
-                "tree_sitter_analyzer.core.query.TreeSitterQueryCompat"
+                "codexray.core.query.TreeSitterQueryCompat"
             ) as mock_compat:
                 mock_compat.safe_execute_query.return_value = []
 

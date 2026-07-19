@@ -1,4 +1,4 @@
-"""Tests for tree_sitter_analyzer.formatters.json_formatter.JSONFormatter."""
+"""Tests for codexray.formatters.json_formatter.JSONFormatter."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from tree_sitter_analyzer.formatters.json_formatter import JSONFormatter
+from codexray.formatters.json_formatter import JSONFormatter
 
 
 @pytest.fixture

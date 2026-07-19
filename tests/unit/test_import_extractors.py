@@ -1,6 +1,6 @@
 """Tests for import_extractors.py — multi-language import extraction."""
 
-from tree_sitter_analyzer.import_extractors import (
+from codexray.import_extractors import (
     _extract_cpp_imports,
     _extract_csharp_imports,
     _extract_go_imports,

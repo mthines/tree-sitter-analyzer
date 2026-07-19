@@ -65,7 +65,7 @@ class TestHeroSection:
         first_20_lines = "\n".join(lines[:HERO_SECTION_MAX_LINE])
 
         # Check for project name
-        assert "Tree-sitter Analyzer" in first_20_lines, (
+        assert "CodeXray" in first_20_lines, (
             "Project name should appear in first 20 lines"
         )
 

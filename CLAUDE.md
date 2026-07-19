@@ -163,8 +163,8 @@ Rules distilled from a full mycelium + call-graph analysis sprint. Violations he
 
 **Mandatory check**: After any plugin interface change, run:
 ```bash
-uv run python -m tree_sitter_analyzer --show-supported-languages
-uv run python -m tree_sitter_analyzer --show-supported-extensions
+uv run python -m codexray --show-supported-languages
+uv run python -m codexray --show-supported-extensions
 ```
 and verify the output is sane before committing.
 
@@ -407,7 +407,7 @@ Any string works as a custom agent type.
 
 - ALWAYS run tests after code changes
 - ALWAYS verify build succeeds before committing
-- After edits, run `uv run python -m tree_sitter_analyzer --change-impact --format json` and follow its `verification_command`
+- After edits, run `uv run python -m codexray --change-impact --format json` and follow its `verification_command`
 - If `pytest_required` is `false`, do not run tests just to look busy
 
 ```bash
@@ -478,7 +478,7 @@ Use /browse for all web browsing. Use ~/.claude/skills/gstack/... for gstack fil
 
 1. **Fetch the review** (the PR-body summary is just a template — the real findings are inline comments):
    ```bash
-   gh api repos/mthines/tree-sitter-analyzer/pulls/<N>/comments \
+   gh api repos/mthines/codexray/pulls/<N>/comments \
      | python3 -c "import json,sys; [print(c['path'],c.get('line'),'\n',c['body'][:1500],'\n---') for c in json.load(sys.stdin)]"
    ```
    Codex review is triggered on open / ready-for-review / `@codex review` comment. If it hasn't posted yet, wait for it (CI-monitor pattern) before merging.
@@ -534,11 +534,11 @@ review/rollback baselines get muddy. User called it out; rule locked.
 **CLI flag count** — do NOT use grep on `--help` output (double-counts flags in multiple sections):
 ```bash
 # WRONG
-uv run python -m tree_sitter_analyzer --help | grep -E "^\s+--" | wc -l
+uv run python -m codexray --help | grep -E "^\s+--" | wc -l
 
 # RIGHT — matches what test_readme_counts_match_registry uses
 uv run python -c "
-from tree_sitter_analyzer.cli_main import create_argument_parser
+from codexray.cli_main import create_argument_parser
 p = create_argument_parser()
 flags = {s for a in p._actions for s in a.option_strings if s.startswith('--')}
 print(len(flags))
@@ -548,7 +548,7 @@ print(len(flags))
 **MCP tool count** — use the registry directly (matches `test_readme_counts_match_registry`):
 ```bash
 uv run python -c "
-from tree_sitter_analyzer.mcp._tool_registry import create_tool_registry
+from codexray.mcp._tool_registry import create_tool_registry
 tools, _ = create_tool_registry('.')
 print(len(tools))
 "

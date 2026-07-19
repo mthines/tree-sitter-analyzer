@@ -4,7 +4,7 @@ import textwrap
 
 import pytest
 
-from tree_sitter_analyzer.call_graph import CallGraph
+from codexray.call_graph import CallGraph
 
 
 @pytest.fixture

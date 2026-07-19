@@ -9,18 +9,18 @@ from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 from hypothesis.stateful import RuleBasedStateMachine, invariant, rule
 
-from tree_sitter_analyzer.formatters.formatter_registry import (
+from codexray.formatters.formatter_registry import (
     CompactFormatter,
     FormatterRegistry,
     FullFormatter,
 )
-from tree_sitter_analyzer.formatters.formatter_registry import (
+from codexray.formatters.formatter_registry import (
     CsvFormatter as CSVFormatter,
 )
-from tree_sitter_analyzer.formatters.formatter_registry import (
+from codexray.formatters.formatter_registry import (
     JsonFormatter as JSONFormatter,
 )
-from tree_sitter_analyzer.models import CodeElement
+from codexray.models import CodeElement
 
 
 class TestFormatProperties:

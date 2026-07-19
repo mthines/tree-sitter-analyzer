@@ -2,8 +2,9 @@
 
 import pytest
 
-from tree_sitter_analyzer.exceptions.core import (
+from codexray.exceptions.core import (
     AnalysisError,
+    CodeXrayError,
     ConfigurationError,
     FileHandlingError,
     LanguageNotSupportedError,
@@ -11,43 +12,42 @@ from tree_sitter_analyzer.exceptions.core import (
     ParseError,
     PluginError,
     QueryError,
-    TreeSitterAnalyzerError,
     ValidationError,
 )
 
 
-class TestTreeSitterAnalyzerError:
+class TestCodeXrayError:
     """Tests for the base exception class."""
 
     def test_message_and_error_code(self):
-        exc = TreeSitterAnalyzerError("test error")
+        exc = CodeXrayError("test error")
         assert str(exc) == "test error"
         assert exc.message == "test error"
-        assert exc.error_code == "TreeSitterAnalyzerError"
+        assert exc.error_code == "CodeXrayError"
 
     def test_custom_error_code(self):
-        exc = TreeSitterAnalyzerError("msg", error_code="CUSTOM_001")
+        exc = CodeXrayError("msg", error_code="CUSTOM_001")
         assert exc.error_code == "CUSTOM_001"
 
     def test_default_context_is_empty(self):
-        exc = TreeSitterAnalyzerError("msg")
+        exc = CodeXrayError("msg")
         assert exc.context == {}
 
     def test_custom_context(self):
-        exc = TreeSitterAnalyzerError("msg", context={"key": "value"})
+        exc = CodeXrayError("msg", context={"key": "value"})
         assert exc.context == {"key": "value"}
 
     def test_to_dict(self):
-        exc = TreeSitterAnalyzerError("msg", error_code="E1", context={"k": "v"})
+        exc = CodeXrayError("msg", error_code="E1", context={"k": "v"})
         d = exc.to_dict()
-        assert d["error_type"] == "TreeSitterAnalyzerError"
+        assert d["error_type"] == "CodeXrayError"
         assert d["error_code"] == "E1"
         assert d["message"] == "msg"
         assert d["context"] == {"k": "v"}
 
     def test_is_catchable_as_exception(self):
-        with pytest.raises(TreeSitterAnalyzerError) as exc_info:
-            raise TreeSitterAnalyzerError("boom")
+        with pytest.raises(CodeXrayError) as exc_info:
+            raise CodeXrayError("boom")
         assert exc_info.value.message == "boom"
 
 
@@ -176,10 +176,10 @@ class TestExceptionHierarchy:
             ValidationError,
             MCPError,
         ]:
-            assert issubclass(exc_cls, TreeSitterAnalyzerError)
+            assert issubclass(exc_cls, CodeXrayError)
 
     def test_all_catchable_as_base(self):
-        with pytest.raises(TreeSitterAnalyzerError):
+        with pytest.raises(CodeXrayError):
             raise QueryError("test", query_name="q")
 
     def test_to_dict_includes_concrete_class_name(self):

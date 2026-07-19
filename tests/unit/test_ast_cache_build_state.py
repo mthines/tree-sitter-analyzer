@@ -25,9 +25,9 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.ast_cache import ASTCache
-from tree_sitter_analyzer.cache import build_state as bs
-from tree_sitter_analyzer.mcp.tools.codegraph_status_tool import CodeGraphStatusTool
+from codexray.ast_cache import ASTCache
+from codexray.cache import build_state as bs
+from codexray.mcp.tools.codegraph_status_tool import CodeGraphStatusTool
 
 
 def test_build_state_helpers_degrade_on_missing_table() -> None:
@@ -187,7 +187,7 @@ def test_full_rebuild_sets_marker_during_empty_window_and_clears_after(
     cache.index_project(max_files=10, workers=0)
     assert bs.build_in_progress(cache.get_conn()) is False
 
-    import tree_sitter_analyzer.ast_cache as ast_cache_mod
+    import codexray.ast_cache as ast_cache_mod
 
     real_commit = ast_cache_mod._commit_index_results
     observed: dict[str, bool] = {}

@@ -8,7 +8,7 @@ analysis with detailed overview tables (classes, methods, fields).
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool,
 )
 

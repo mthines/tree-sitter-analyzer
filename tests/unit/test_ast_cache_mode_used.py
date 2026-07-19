@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from tree_sitter_analyzer.ast_cache import ASTCache
+from codexray.ast_cache import ASTCache
 
 
 def _make_project(tmp_path: Path) -> Path:

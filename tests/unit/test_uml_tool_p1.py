@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.uml_tool import CodeGraphUMLTool
+from codexray.mcp.tools.uml_tool import CodeGraphUMLTool
 
 # ── P1-A: schema declares new params ──────────────────────────────────────────
 
@@ -78,7 +78,7 @@ def test_max_depth_float_coerced() -> None:
 
 
 def test_sitemap_tool_accepts_float_whole_number() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+    from codexray.mcp.tools.codegraph_sitemap_tool import (
         CodeGraphSitemapTool,
     )
 
@@ -90,7 +90,7 @@ def test_sitemap_tool_accepts_float_whole_number() -> None:
 
 
 def test_sitemap_tool_rejects_bool_max_files() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+    from codexray.mcp.tools.codegraph_sitemap_tool import (
         CodeGraphSitemapTool,
     )
 
@@ -100,7 +100,7 @@ def test_sitemap_tool_rejects_bool_max_files() -> None:
 
 
 def test_sitemap_tool_rejects_bool_max_symbols() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+    from codexray.mcp.tools.codegraph_sitemap_tool import (
         CodeGraphSitemapTool,
     )
 

@@ -20,21 +20,21 @@ on:
   push:
     branches: [main, develop]
     paths:
-      - "tree_sitter_analyzer/mcp/**"
-      - "tree_sitter_analyzer/call_graph.py"
-      - "tree_sitter_analyzer/callee_resolution.py"
-      - "tree_sitter_analyzer/function_extraction.py"
-      - "tree_sitter_analyzer/graph_extraction_cache.py"
+      - "codexray/mcp/**"
+      - "codexray/call_graph.py"
+      - "codexray/callee_resolution.py"
+      - "codexray/function_extraction.py"
+      - "codexray/graph_extraction_cache.py"
       - "tests/e2e/**"
       - ".github/workflows/e2e-real-repos.yml"
   pull_request:
     branches: [main, develop]
     paths:
-      - "tree_sitter_analyzer/mcp/**"
-      - "tree_sitter_analyzer/call_graph.py"
-      - "tree_sitter_analyzer/callee_resolution.py"
-      - "tree_sitter_analyzer/function_extraction.py"
-      - "tree_sitter_analyzer/graph_extraction_cache.py"
+      - "codexray/mcp/**"
+      - "codexray/call_graph.py"
+      - "codexray/callee_resolution.py"
+      - "codexray/function_extraction.py"
+      - "codexray/graph_extraction_cache.py"
       - "tests/e2e/test_real_repos.py"
       - "tests/e2e/test_real_repos_callgraph.py"
       - "tests/e2e/conftest.py"

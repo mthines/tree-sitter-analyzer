@@ -1,4 +1,4 @@
-# tree-sitter-analyzer — Documentation
+# codexray — Documentation
 
 Index of all project documentation. Start here, then jump to the area you need.
 For the project overview and install-and-go instructions, see the

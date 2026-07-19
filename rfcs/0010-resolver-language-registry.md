@@ -7,12 +7,12 @@
 - **Tracking issue**: TBD
 - **Builds on**: RFC-0008 (multi-language method classification — Java shipped #326)
 - **Affected source paths** (pin them — reviewers watch for drift here):
-  - `tree_sitter_analyzer/synapse_resolver/__init__.py` (`resolve_callee` dispatch)
-  - `tree_sitter_analyzer/synapse_resolver/_context.py` (`ResolverContext`, `build_resolver_context`)
-  - `tree_sitter_analyzer/synapse_resolver/_registry.py` (NEW — the registry)
-  - `tree_sitter_analyzer/synapse_resolver/_java.py` (migrate to self-register)
-  - `tree_sitter_analyzer/synapse_resolver/languages/__init__.py` (NEW — auto-discovery)
-  - `tree_sitter_analyzer/synapse_resolver/languages/<lang>.py`, `_<lang>_constants.py` (per-language, NEW)
+  - `codexray/synapse_resolver/__init__.py` (`resolve_callee` dispatch)
+  - `codexray/synapse_resolver/_context.py` (`ResolverContext`, `build_resolver_context`)
+  - `codexray/synapse_resolver/_registry.py` (NEW — the registry)
+  - `codexray/synapse_resolver/_java.py` (migrate to self-register)
+  - `codexray/synapse_resolver/languages/__init__.py` (NEW — auto-discovery)
+  - `codexray/synapse_resolver/languages/<lang>.py`, `_<lang>_constants.py` (per-language, NEW)
   - `tests/unit/test_<lang>_method_resolution.py` (per-language, NEW)
 
 ## Summary

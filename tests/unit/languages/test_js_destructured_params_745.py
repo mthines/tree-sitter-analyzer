@@ -15,11 +15,11 @@ Two code paths are affected:
 * ``_process_type_prefix_parameter`` (table_command_helpers.py — CLI path)
 """
 
-from tree_sitter_analyzer.cli.commands.table_command_helpers import (
+from codexray.cli.commands.table_command_helpers import (
     _process_type_prefix_parameter,
     process_parameters,
 )
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_helpers import (
+from codexray.mcp.tools.analyze_code_structure_helpers import (
     _parse_string_parameter,
 )
 

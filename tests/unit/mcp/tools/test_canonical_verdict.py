@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.tool_response import (
+from codexray.mcp.tools.tool_response import (
     CANONICAL_VERDICTS,
     validate_tool_response,
 )

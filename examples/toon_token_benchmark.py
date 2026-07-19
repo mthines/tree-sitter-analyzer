@@ -21,7 +21,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from tree_sitter_analyzer.formatters.toon_formatter import ToonFormatter
+from codexray.formatters.toon_formatter import ToonFormatter
 
 
 @dataclass

@@ -10,8 +10,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.api import analyze_code_structure
-from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+from codexray.api import analyze_code_structure
+from codexray.mcp.tools.analyze_code_structure_tool import (
     AnalyzeCodeStructureTool as TableFormatTool,
 )
 
@@ -464,7 +464,7 @@ def create_processor(processor_type: str, config: Dict[str, Any]) -> DataProcess
                     [
                         sys.executable,
                         "-m",
-                        "tree_sitter_analyzer",
+                        "codexray",
                         "--file",
                         str(java_file),
                         "--table",

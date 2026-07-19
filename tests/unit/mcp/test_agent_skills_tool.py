@@ -27,10 +27,10 @@ import sys
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.agent_skills_tool import AgentSkillsTool
+from codexray.mcp.tools.agent_skills_tool import AgentSkillsTool
 
 # Legal verdict vocabulary, mirrored from
-# ``tree_sitter_analyzer.mcp.tools.base_tool._LEGAL_VERDICTS``. Kept
+# ``codexray.mcp.tools.base_tool._LEGAL_VERDICTS``. Kept
 # local so the tests still fail loudly if anyone widens the vocabulary
 # without updating the contract.
 _LEGAL_VERDICTS = frozenset(
@@ -106,7 +106,7 @@ async def test_agent_skills_tool_lists_project_skills(tmp_path):
     assert result["skills"][0]["actionability_score"] >= 85  # ratchet: nondeterministic
     assert result["validation"]["status"] == "ready"
     assert result["agent_summary"]["inspection_command"] == (
-        "uv run tree-sitter-analyzer agent-skills --format json"
+        "uv run codexray agent-skills --format json"
     )
 
 

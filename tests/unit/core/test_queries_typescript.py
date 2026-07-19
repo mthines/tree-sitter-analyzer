@@ -8,7 +8,7 @@ for extracting various TypeScript language constructs.
 
 import pytest
 
-from tree_sitter_analyzer.queries import typescript as ts_queries
+from codexray.queries import typescript as ts_queries
 
 
 class TestTypeScriptQueries:

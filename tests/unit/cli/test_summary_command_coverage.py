@@ -1,7 +1,7 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from tree_sitter_analyzer.cli.commands.summary_command import SummaryCommand
-from tree_sitter_analyzer.constants import (
+from codexray.cli.commands.summary_command import SummaryCommand
+from codexray.constants import (
     ELEMENT_TYPE_CLASS,
     ELEMENT_TYPE_FUNCTION,
     ELEMENT_TYPE_IMPORT,
@@ -17,16 +17,16 @@ class TestSummaryCommandCoverage:
         self.command = SummaryCommand(self.mock_args)
         self.command.analyze_file = AsyncMock()
 
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_section")
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_data")
+    @patch("codexray.cli.commands.summary_command.output_section")
+    @patch("codexray.cli.commands.summary_command.output_data")
     def test_execute_async_no_result(self, mock_output_data, mock_output_section):
         """Test execute_async with no analysis result"""
         self.command.analyze_file.return_value = None
         result = asyncio_run(self.command.execute_async("python"))
         assert result == 1
 
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_section")
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_data")
+    @patch("codexray.cli.commands.summary_command.output_section")
+    @patch("codexray.cli.commands.summary_command.output_data")
     def test_execute_async_with_result_text(
         self, mock_output_data, mock_output_section
     ):
@@ -44,7 +44,7 @@ class TestSummaryCommandCoverage:
         calls = [str(c) for c in mock_output_data.call_args_list]
         assert any("File: test.py" in c for c in calls)
 
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_json")
+    @patch("codexray.cli.commands.summary_command.output_json")
     def test_execute_async_with_result_json(self, mock_output_json):
         """Test execute_async with result (json output)"""
         self.command.args.output_format = "json"
@@ -58,7 +58,7 @@ class TestSummaryCommandCoverage:
         assert result == 0
         mock_output_json.assert_called()
 
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_data")
+    @patch("codexray.cli.commands.summary_command.output_data")
     def test_output_summary_analysis_all_types(self, mock_output_data):
         """Test _output_summary_analysis with all element types"""
         mock_result = MagicMock()
@@ -90,7 +90,7 @@ class TestSummaryCommandCoverage:
         # Assuming is_element_of_type checks element.type against constant.
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+            "codexray.cli.commands.summary_command.is_element_of_type"
         ) as mock_check:
 
             def check_side_effect(elem, type_const):
@@ -111,7 +111,7 @@ class TestSummaryCommandCoverage:
             assert any("Imports (1 items" in c for c in calls)
             assert any("os" in c for c in calls)
 
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_data")
+    @patch("codexray.cli.commands.summary_command.output_data")
     def test_output_summary_analysis_filtered_types(self, mock_output_data):
         """Test _output_summary_analysis with specific types requested"""
         self.command.args.summary = "classes"
@@ -131,7 +131,7 @@ class TestSummaryCommandCoverage:
         mock_result.elements = [class_elem, method_elem]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+            "codexray.cli.commands.summary_command.is_element_of_type"
         ) as mock_check:
 
             def check_side_effect(elem, type_const):
@@ -145,8 +145,8 @@ class TestSummaryCommandCoverage:
             assert any("Classes (1 items" in c for c in calls)
             assert not any("Methods" in c for c in calls)
 
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_data")
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_section")
+    @patch("codexray.cli.commands.summary_command.output_data")
+    @patch("codexray.cli.commands.summary_command.output_section")
     def test_output_summary_analysis_default_types(
         self, mock_output_section, mock_output_data
     ):
@@ -161,8 +161,8 @@ class TestSummaryCommandCoverage:
         self.command._output_summary_analysis(mock_result)
         mock_output_section.assert_called_with("Summary Results")
 
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_data")
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_section")
+    @patch("codexray.cli.commands.summary_command.output_data")
+    @patch("codexray.cli.commands.summary_command.output_section")
     def test_text_format_with_method_elements(
         self, mock_output_section, mock_output_data
     ):
@@ -207,7 +207,7 @@ class TestSummaryCommandCoverage:
         mock_result.elements = [class_elem, method_elem, field_elem, import_elem]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+            "codexray.cli.commands.summary_command.is_element_of_type"
         ) as mock_check:
             mock_check.side_effect = lambda e, t: e.type == t
             self.command._output_summary_analysis(mock_result)
@@ -225,7 +225,7 @@ class TestSummaryCommandCoverage:
         assert "static" in all_output
         mock_output_section.assert_called_with("Summary Results")
 
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_json")
+    @patch("codexray.cli.commands.summary_command.output_json")
     def test_json_output_with_methods(self, mock_output_json):
         """Test JSON output path covering lines 130-131"""
         self.command.args.output_format = "json"
@@ -247,7 +247,7 @@ class TestSummaryCommandCoverage:
         mock_result.elements = [method_elem]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+            "codexray.cli.commands.summary_command.is_element_of_type"
         ) as mock_check:
             mock_check.side_effect = lambda e, t: e.type == t
             self.command._output_summary_analysis(mock_result)
@@ -259,11 +259,11 @@ class TestSummaryCommandCoverage:
         assert data["summary"]["methods"][0]["name"] == "run"
 
     @patch(
-        "tree_sitter_analyzer.cli.commands.summary_command._toon_available",
+        "codexray.cli.commands.summary_command._toon_available",
         True,
     )
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.ToonFormatter")
-    @patch("tree_sitter_analyzer.cli.commands.summary_command.output_section")
+    @patch("codexray.cli.commands.summary_command.ToonFormatter")
+    @patch("codexray.cli.commands.summary_command.output_section")
     def test_toon_output_with_elements(self, mock_output_section, mock_toon_cls):
         """Test toon output path covering lines 132-135"""
         self.command.args.output_format = "toon"
@@ -288,7 +288,7 @@ class TestSummaryCommandCoverage:
         mock_result.elements = [class_elem]
 
         with patch(
-            "tree_sitter_analyzer.cli.commands.summary_command.is_element_of_type"
+            "codexray.cli.commands.summary_command.is_element_of_type"
         ) as mock_check:
             mock_check.side_effect = lambda e, t: e.type == t
             with patch("builtins.print") as mock_print:

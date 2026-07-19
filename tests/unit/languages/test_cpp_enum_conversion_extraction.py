@@ -14,7 +14,7 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_cpp
 
-from tree_sitter_analyzer.languages.cpp_plugin import CppElementExtractor
+from codexray.languages.cpp_plugin import CppElementExtractor
 
 CPP_SRC = """\
 enum Color { RED, GREEN };
@@ -87,7 +87,7 @@ def test_operator_cast_without_type_child_yields_no_name() -> None:
     """operator_cast with no recognizable type child -> parser returns None."""
     from unittest.mock import Mock
 
-    from tree_sitter_analyzer.languages._cpp_signature import (
+    from codexray.languages._cpp_signature import (
         parse_function_signature,
     )
 

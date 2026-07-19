@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tests for tree_sitter_analyzer.security.boundary_manager module
+Tests for codexray.security.boundary_manager module
 
 Comprehensive tests for ProjectBoundaryManager class.
 """
@@ -10,8 +10,8 @@ from pathlib import Path
 
 import pytest
 
-from tree_sitter_analyzer.exceptions import SecurityError
-from tree_sitter_analyzer.security.boundary_manager import ProjectBoundaryManager
+from codexray.exceptions import SecurityError
+from codexray.security.boundary_manager import ProjectBoundaryManager
 
 
 class TestProjectBoundaryManagerInit:

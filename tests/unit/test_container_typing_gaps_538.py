@@ -58,7 +58,7 @@ def test_go_type_alias_extracted() -> None:
     """
     from tree_sitter import Parser
 
-    from tree_sitter_analyzer.languages._go_type import extract_type_declaration
+    from codexray.languages._go_type import extract_type_declaration
 
     lang = _go_lang()
     parser = Parser(lang)
@@ -97,7 +97,7 @@ def test_go_interface_embedding_reflected() -> None:
     """
     from tree_sitter import Parser
 
-    from tree_sitter_analyzer.languages._go_type import extract_type_declaration
+    from codexray.languages._go_type import extract_type_declaration
 
     lang = _go_lang()
     parser = Parser(lang)
@@ -139,7 +139,7 @@ def test_rust_trait_abstract_method_extracted() -> None:
     """
     from tree_sitter import Parser
 
-    from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+    from codexray.languages.rust_plugin import RustElementExtractor
 
     lang = _rust_lang()
     parser = Parser(lang)
@@ -177,7 +177,7 @@ def test_python_abc_class_type_is_abstract_class() -> None:
     Before fix: build_class_element hard-coded class_type='class' for all
     classes; is_abstract was set but class_type stayed 'class' (issue #538).
     """
-    from tree_sitter_analyzer.languages.python_plugin._element_builders import (
+    from codexray.languages.python_plugin._element_builders import (
         ClassBuildInput,
         build_class_element,
     )
@@ -200,7 +200,7 @@ def test_python_abc_class_type_is_abstract_class() -> None:
 
 def test_python_non_abc_class_type_unchanged() -> None:
     """A plain class without ABC must remain class_type='class'."""
-    from tree_sitter_analyzer.languages.python_plugin._element_builders import (
+    from codexray.languages.python_plugin._element_builders import (
         ClassBuildInput,
         build_class_element,
     )
@@ -234,7 +234,7 @@ def test_ts_abstract_method_has_is_abstract_true() -> None:
     """
     from tree_sitter import Parser
 
-    from tree_sitter_analyzer.languages.typescript_plugin.extractor import (
+    from codexray.languages.typescript_plugin.extractor import (
         TypeScriptElementExtractor,
     )
 
@@ -275,7 +275,7 @@ trait Displayable {
         import tree_sitter
         import tree_sitter_rust
 
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         lang = tree_sitter.Language(tree_sitter_rust.language())
         tree = tree_sitter.Parser(lang).parse(self.CODE.encode())
@@ -297,7 +297,7 @@ class TestGoAliasNonContainerType:
         import tree_sitter
         import tree_sitter_go
 
-        from tree_sitter_analyzer.languages.go_plugin import GoElementExtractor
+        from codexray.languages.go_plugin import GoElementExtractor
 
         lang = tree_sitter.Language(tree_sitter_go.language())
         tree = tree_sitter.Parser(lang).parse(self.CODE.encode())
@@ -325,7 +325,7 @@ trait Greet {
         import tree_sitter
         import tree_sitter_rust
 
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         lang = tree_sitter.Language(tree_sitter_rust.language())
         tree = tree_sitter.Parser(lang).parse(self.CODE.encode())
@@ -356,7 +356,7 @@ class Dog(Animal, abc.ABC):
     def classes(self, tmp_path):
         import asyncio
 
-        from tree_sitter_analyzer.core.analysis_engine import get_analysis_engine
+        from codexray.core.analysis_engine import get_analysis_engine
 
         p = tmp_path / "abc_sample.py"
         p.write_text(self.CODE, newline="\n")
@@ -389,7 +389,7 @@ trait Consume {
         import tree_sitter
         import tree_sitter_rust
 
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         lang = tree_sitter.Language(tree_sitter_rust.language())
         tree = tree_sitter.Parser(lang).parse(self.CODE.encode())
@@ -419,7 +419,7 @@ class TestRustSignatureStubFallbacks:
 
     @staticmethod
     def _extractor():
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         return RustElementExtractor()
 
@@ -457,7 +457,7 @@ class TestRustFindSelfParameterDirect:
         raise AssertionError("no function_signature_item parsed")
 
     def _extractor(self, code: str):
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         ex = RustElementExtractor()
         ex.source_code = code
@@ -481,7 +481,7 @@ class TestRustSignatureArrowPrefixStrip:
     """Cover the defensive '->' strip (mirrors function_item handler) — codecov."""
 
     def test_arrow_prefixed_return_type_stripped(self):
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         content = b"x-> i32"
 
@@ -516,14 +516,14 @@ class TestRustSignatureGuardEdges:
     """Cover depth-cap exhaustion and the extractor except branch (codecov)."""
 
     def test_self_referencing_parent_chain_hits_depth_cap(self):
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         node = _RustStubNode(parent=None)
         node.parent = node  # cycle: never None, never a terminator type
         assert RustElementExtractor()._inside_trait(node) is False
 
     def test_node_error_inside_trait_returns_none(self):
-        from tree_sitter_analyzer.languages.rust_plugin import RustElementExtractor
+        from codexray.languages.rust_plugin import RustElementExtractor
 
         class _ExplodingName(_RustStubNode):
             def child_by_field_name(self, name):
@@ -539,7 +539,7 @@ class TestGoStructInterfacesNoneNode:
     """Cover the type_node=None early return (codecov branch)."""
 
     def test_none_type_node_returns_empty(self):
-        from tree_sitter_analyzer.languages._go_type import (
+        from codexray.languages._go_type import (
             _go_struct_interfaces,
         )
 
@@ -554,7 +554,7 @@ class TestPythonNodeHelpersQualifiedBase:
         import tree_sitter
         import tree_sitter_python
 
-        from tree_sitter_analyzer.languages.python_plugin._node import (
+        from codexray.languages.python_plugin._node import (
             extract_superclasses_from_node,
         )
 

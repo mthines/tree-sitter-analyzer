@@ -22,8 +22,8 @@ from typing import Any
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.facade_tool import FacadeTool
-from tree_sitter_analyzer.mcp.tools.structure_facade import build_structure_facade
+from codexray.mcp.tools.facade_tool import FacadeTool
+from codexray.mcp.tools.structure_facade import build_structure_facade
 
 # ---------------------------------------------------------------------------
 # INVARIANT DELEGATION NOTICE
@@ -107,14 +107,14 @@ def test_structure_facade_action_map_entries() -> None:
 
 
 def test_action_routing_outline() -> None:
-    from tree_sitter_analyzer.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
+    from codexray.mcp.tools.get_code_outline_tool import GetCodeOutlineTool
 
     facade = build_structure_facade(project_root=None)
     assert isinstance(facade.action_map["outline"], GetCodeOutlineTool)
 
 
 def test_action_routing_analyze() -> None:
-    from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+    from codexray.mcp.tools.analyze_code_structure_tool import (
         AnalyzeCodeStructureTool,
     )
 
@@ -123,14 +123,14 @@ def test_action_routing_analyze() -> None:
 
 
 def test_action_routing_ast_path() -> None:
-    from tree_sitter_analyzer.mcp.tools.ast_path_tool import CodeGraphASTPathTool
+    from codexray.mcp.tools.ast_path_tool import CodeGraphASTPathTool
 
     facade = build_structure_facade(project_root=None)
     assert isinstance(facade.action_map["ast_path"], CodeGraphASTPathTool)
 
 
 def test_action_routing_sitemap() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_sitemap_tool import (
+    from codexray.mcp.tools.codegraph_sitemap_tool import (
         CodeGraphSitemapTool,
     )
 
@@ -139,7 +139,7 @@ def test_action_routing_sitemap() -> None:
 
 
 def test_action_routing_class_tree() -> None:
-    from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+    from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
     facade = build_structure_facade(project_root=None)
     assert isinstance(facade.action_map["class_tree"], ClassHierarchyTool)
@@ -148,7 +148,7 @@ def test_action_routing_class_tree() -> None:
 def test_action_routing_class_detail() -> None:
     """class_detail is a bespoke route (#804) — not in action_map but registered
     as a bespoke inner so G3 rebind propagates to the ClassInspectTool instance."""
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import ClassInspectTool
+    from codexray.mcp.tools.class_inspect_tool import ClassInspectTool
 
     facade = build_structure_facade(project_root=None)
     # class_detail moved to bespoke_map so query/symbol→class_name aliasing works.
@@ -159,7 +159,7 @@ def test_action_routing_class_detail() -> None:
 
 
 def test_action_routing_explore() -> None:
-    from tree_sitter_analyzer.mcp.tools.codegraph_explore_tool import (
+    from codexray.mcp.tools.codegraph_explore_tool import (
         CodeGraphExploreTool,
     )
 
@@ -264,7 +264,7 @@ def test_read_bespoke_missing_required_params() -> None:
 
 def test_read_bespoke_action_stripped() -> None:
     """Action key must not reach the _read_route (bespoke args are cleaned)."""
-    from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+    from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
     facade = build_structure_facade(project_root=None)
     captured: list[dict[str, Any]] = []
@@ -354,11 +354,11 @@ def test_set_project_path_rebinds_action_map_inners(tmp_path: Any) -> None:
 def test_set_project_path_rebinds_bespoke_inners(tmp_path: Any) -> None:
     """G3: all bespoke inners (ReadPartialTool, AnalyzeCodeStructureTool,
     ClassInspectTool) must be rebound when set_project_path is called."""
-    from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+    from codexray.mcp.tools.analyze_code_structure_tool import (
         AnalyzeCodeStructureTool,
     )
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import ClassInspectTool
-    from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+    from codexray.mcp.tools.class_inspect_tool import ClassInspectTool
+    from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
     facade = build_structure_facade(project_root=None)
     assert facade._bespoke_inners, "No bespoke inners registered"
@@ -378,11 +378,11 @@ def test_set_project_path_rebinds_bespoke_inners(tmp_path: Any) -> None:
 def test_bespoke_inner_is_read_partial_tool_registered() -> None:
     """ReadPartialTool, AnalyzeCodeStructureTool, and ClassInspectTool must be
     registered as bespoke inners for G3 rebind propagation."""
-    from tree_sitter_analyzer.mcp.tools.analyze_code_structure_tool import (
+    from codexray.mcp.tools.analyze_code_structure_tool import (
         AnalyzeCodeStructureTool,
     )
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import ClassInspectTool
-    from tree_sitter_analyzer.mcp.tools.read_partial_tool import ReadPartialTool
+    from codexray.mcp.tools.class_inspect_tool import ClassInspectTool
+    from codexray.mcp.tools.read_partial_tool import ReadPartialTool
 
     facade = build_structure_facade(project_root=None)
     inner_types = {type(inner) for inner in facade._bespoke_inners}
@@ -552,21 +552,21 @@ def test_structure_read_rejects_fractional_float_bounds(tmp_path: Any) -> None:
 
 
 def test_class_hierarchy_default_mode_is_tree_when_class_named() -> None:
-    from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+    from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
     # class_name supplied, no explicit mode -> class-scoped 'tree', not 'summary'.
     assert ClassHierarchyTool._resolve_mode({"class_name": "Foo"}) == "tree"
 
 
 def test_class_hierarchy_default_mode_is_summary_without_class() -> None:
-    from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+    from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
     # No identifier -> global summary (unchanged behavior).
     assert ClassHierarchyTool._resolve_mode({}) == "summary"
 
 
 def test_class_hierarchy_explicit_mode_always_honored() -> None:
-    from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+    from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
     assert (
         ClassHierarchyTool._resolve_mode({"mode": "summary", "class_name": "Foo"})
@@ -581,7 +581,7 @@ def test_class_hierarchy_explicit_mode_always_honored() -> None:
 def test_class_hierarchy_validate_accepts_named_class_without_mode() -> None:
     """With a class_name and no mode, validation must pass: the resolved mode is
     'tree', which requires class_name — and it is present."""
-    from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+    from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
     tool = ClassHierarchyTool(project_root=None)
     assert tool.validate_arguments({"class_name": "Foo"}) is True
@@ -594,7 +594,7 @@ def test_class_hierarchy_validate_accepts_named_class_without_mode() -> None:
 
 def test_class_tree_supers_in_schema_enum() -> None:
     """'supers' must appear in the mode enum of ClassHierarchyTool's schema."""
-    from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+    from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
     tool = ClassHierarchyTool(project_root=None)
     schema = tool.get_tool_schema()
@@ -604,7 +604,7 @@ def test_class_tree_supers_in_schema_enum() -> None:
 
 def test_class_tree_supers_alias_normalizes_to_superclasses() -> None:
     """ClassHierarchyTool._normalize_mode must map 'supers' → 'superclasses'."""
-    from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+    from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
     assert ClassHierarchyTool._normalize_mode("supers") == "superclasses"
     # Other modes are unchanged.
@@ -620,7 +620,7 @@ def test_class_tree_mode_supers_does_not_return_unknown_mode_error() -> None:
     """
     from unittest.mock import MagicMock, patch
 
-    from tree_sitter_analyzer.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
+    from codexray.mcp.tools.class_hierarchy_tool import ClassHierarchyTool
 
     tool = ClassHierarchyTool(project_root="/fake/root")
 
@@ -664,7 +664,7 @@ def test_class_detail_class_name_in_facade_schema() -> None:
 def test_class_detail_query_alias_resolves_to_class_name() -> None:
     """Passing query=X for class_detail must behave the same as class_name=X (#804)."""
 
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import ClassInspectTool
+    from codexray.mcp.tools.class_inspect_tool import ClassInspectTool
 
     facade = build_structure_facade(project_root=None)
 
@@ -696,7 +696,7 @@ def test_class_detail_query_alias_resolves_to_class_name() -> None:
 
 def test_class_detail_class_name_direct_still_works() -> None:
     """Passing class_name=X directly (without query) must still work (#804)."""
-    from tree_sitter_analyzer.mcp.tools.class_inspect_tool import ClassInspectTool
+    from codexray.mcp.tools.class_inspect_tool import ClassInspectTool
 
     facade = build_structure_facade(project_root=None)
 

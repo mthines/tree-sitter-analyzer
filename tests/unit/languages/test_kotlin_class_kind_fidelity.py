@@ -19,7 +19,7 @@ from __future__ import annotations
 import tree_sitter
 import tree_sitter_kotlin
 
-from tree_sitter_analyzer.languages.kotlin_plugin import KotlinElementExtractor
+from codexray.languages.kotlin_plugin import KotlinElementExtractor
 
 KOTLIN_SRC = """\
 package demo

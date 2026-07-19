@@ -2,7 +2,7 @@
 
 from unittest.mock import MagicMock
 
-from tree_sitter_analyzer.internal_api.result_helpers import (
+from codexray.internal_api.result_helpers import (
     code_analysis_error,
     code_analysis_result,
     element_to_dict,

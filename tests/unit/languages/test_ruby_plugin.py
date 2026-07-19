@@ -3,7 +3,7 @@
 import pytest
 import tree_sitter
 
-from tree_sitter_analyzer.languages.ruby_plugin import RubyElementExtractor, RubyPlugin
+from codexray.languages.ruby_plugin import RubyElementExtractor, RubyPlugin
 
 # Sample Ruby code snippets for testing
 SIMPLE_CLASS_CODE = """

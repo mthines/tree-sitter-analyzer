@@ -8,7 +8,7 @@ for faster review and safer local refactoring.
 import argparse
 from unittest.mock import Mock, patch
 
-from tree_sitter_analyzer.cli_main import handle_special_commands
+from codexray.cli_main import handle_special_commands
 
 
 class TestHandleSpecialCommandsBatchMixin:
@@ -37,7 +37,7 @@ class TestHandleSpecialCommandsBatchMixin:
             metrics_only=False,
             quiet=False,
         )
-        with patch("tree_sitter_analyzer.cli_main.output_error") as mock_error:
+        with patch("codexray.cli_main.output_error") as mock_error:
             result = handle_special_commands(args)
             assert result == 1
             mock_error.assert_called_once_with("--start-line is required")
@@ -61,7 +61,7 @@ class TestHandleSpecialCommandsBatchMixin:
             metrics_only=False,
             quiet=False,
         )
-        with patch("tree_sitter_analyzer.cli_main.output_error") as mock_error:
+        with patch("codexray.cli_main.output_error") as mock_error:
             result = handle_special_commands(args)
             assert result == 1
             mock_error.assert_called_once_with("--start-line must be 1 or greater")
@@ -85,7 +85,7 @@ class TestHandleSpecialCommandsBatchMixin:
             metrics_only=False,
             quiet=False,
         )
-        with patch("tree_sitter_analyzer.cli_main.output_error") as mock_error:
+        with patch("codexray.cli_main.output_error") as mock_error:
             result = handle_special_commands(args)
             assert result == 1
             mock_error.assert_called_once_with(
@@ -111,7 +111,7 @@ class TestHandleSpecialCommandsBatchMixin:
             metrics_only=False,
             quiet=False,
         )
-        with patch("tree_sitter_analyzer.cli_main.output_error") as mock_error:
+        with patch("codexray.cli_main.output_error") as mock_error:
             result = handle_special_commands(args)
             assert result == 1
             mock_error.assert_called_once_with("--start-column must be 0 or greater")
@@ -135,15 +135,15 @@ class TestHandleSpecialCommandsBatchMixin:
             metrics_only=False,
             quiet=False,
         )
-        with patch("tree_sitter_analyzer.cli_main.output_error") as mock_error:
+        with patch("codexray.cli_main.output_error") as mock_error:
             result = handle_special_commands(args)
             assert result == 1
             mock_error.assert_called_once_with("--end-column must be 0 or greater")
 
     # --- Batch partial read ---
 
-    @patch("tree_sitter_analyzer.mcp.tools.read_partial_tool.ReadPartialTool")
-    @patch("tree_sitter_analyzer.cli_main.asyncio")
+    @patch("codexray.mcp.tools.read_partial_tool.ReadPartialTool")
+    @patch("codexray.cli_main.asyncio")
     def test_batch_partial_read_json_input(self, mock_asyncio, mock_read_tool_cls):
         """batch partial read with JSON string input."""
         mock_tool = Mock()
@@ -180,8 +180,8 @@ class TestHandleSpecialCommandsBatchMixin:
         mock_read_tool_cls.assert_called_once_with(project_root="/tmp")
         mock_asyncio.run.assert_called_once()
 
-    @patch("tree_sitter_analyzer.output_manager.output_json")
-    @patch("tree_sitter_analyzer.mcp.tools.read_partial_tool.ReadPartialTool")
+    @patch("codexray.output_manager.output_json")
+    @patch("codexray.mcp.tools.read_partial_tool.ReadPartialTool")
     def test_batch_partial_read_failure(self, mock_read_tool_cls, mock_output_json):
         """batch partial read handling exception (r37al: JSON envelope)."""
         mock_read_tool_cls.side_effect = RuntimeError("Tool error")
@@ -219,8 +219,8 @@ class TestHandleSpecialCommandsBatchMixin:
 
     # --- Batch metrics ---
 
-    @patch("tree_sitter_analyzer.mcp.tools.analyze_scale_tool.AnalyzeScaleTool")
-    @patch("tree_sitter_analyzer.cli_main.asyncio")
+    @patch("codexray.mcp.tools.analyze_scale_tool.AnalyzeScaleTool")
+    @patch("codexray.cli_main.asyncio")
     def test_batch_metrics_success(self, mock_asyncio, mock_scale_tool_cls):
         """batch metrics success path."""
         mock_tool = Mock()
@@ -269,7 +269,7 @@ class TestHandleSpecialCommandsBatchMixin:
             compare_sql_profiles=None,
             quiet=False,
         )
-        with patch("tree_sitter_analyzer.output_manager.output_json") as mock_json:
+        with patch("codexray.output_manager.output_json") as mock_json:
             result = handle_special_commands(args)
             assert result == 1
             mock_json.assert_called_once()
@@ -279,8 +279,8 @@ class TestHandleSpecialCommandsBatchMixin:
             assert envelope["error_type"] == "validation"
             assert "--metrics-only requires" in envelope["error"]
 
-    @patch("tree_sitter_analyzer.mcp.tools.analyze_scale_tool.AnalyzeScaleTool")
-    @patch("tree_sitter_analyzer.output_manager.output_json")
+    @patch("codexray.mcp.tools.analyze_scale_tool.AnalyzeScaleTool")
+    @patch("codexray.output_manager.output_json")
     def test_batch_metrics_failure(self, mock_output_json, mock_scale_tool_cls):
         """batch metrics failure path (r37al: now emits JSON envelope)."""
         mock_scale_tool_cls.side_effect = RuntimeError("Scale error")
@@ -310,9 +310,9 @@ class TestHandleSpecialCommandsBatchMixin:
 
     # --- show_query_languages ---
 
-    @patch("tree_sitter_analyzer.cli_main.query_loader.list_supported_languages")
-    @patch("tree_sitter_analyzer.cli_main.query_loader.list_queries_for_language")
-    @patch("tree_sitter_analyzer.cli_main.output_list")
+    @patch("codexray.cli_main.query_loader.list_supported_languages")
+    @patch("codexray.cli_main.query_loader.list_queries_for_language")
+    @patch("codexray.cli_main.output_list")
     def test_show_query_languages(
         self, mock_output_list, mock_list_queries, mock_list_langs
     ):

@@ -11,8 +11,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from tree_sitter_analyzer.mcp.tools.unreachable_code_tool import UnreachableCodeTool
-from tree_sitter_analyzer.unreachable_code import (
+from codexray.mcp.tools.unreachable_code_tool import UnreachableCodeTool
+from codexray.unreachable_code import (
     UnreachableBlock,
     UnreachableCodeResult,
 )
@@ -253,7 +253,7 @@ class TestExecute:
         t = UnreachableCodeTool(project_root=str(tmp_path))
         fake_result = _make_result(file_path=str(f))
         with patch(
-            "tree_sitter_analyzer.mcp.tools.unreachable_code_tool.analyze_file_unreachable",
+            "codexray.mcp.tools.unreachable_code_tool.analyze_file_unreachable",
             return_value=fake_result,
         ):
             resp = await t.execute(
@@ -267,7 +267,7 @@ class TestExecute:
         f.write_text("x = 1")
         t = UnreachableCodeTool(project_root=str(tmp_path))
         with patch(
-            "tree_sitter_analyzer.mcp.tools.unreachable_code_tool.analyze_file_unreachable",
+            "codexray.mcp.tools.unreachable_code_tool.analyze_file_unreachable",
             side_effect=RuntimeError("boom"),
         ):
             resp = await t.execute({"mode": "file", "file_path": str(f)})
@@ -282,7 +282,7 @@ class TestExecute:
     @pytest.mark.asyncio
     async def test_project_mode_success(self, tool: UnreachableCodeTool) -> None:
         with patch(
-            "tree_sitter_analyzer.mcp.tools.unreachable_code_tool.analyze_project_unreachable",
+            "codexray.mcp.tools.unreachable_code_tool.analyze_project_unreachable",
             return_value=[_make_result()],
         ):
             resp = await tool.execute({"mode": "project", "output_format": "json"})
@@ -293,7 +293,7 @@ class TestExecute:
         self, tool: UnreachableCodeTool
     ) -> None:
         with patch(
-            "tree_sitter_analyzer.mcp.tools.unreachable_code_tool.analyze_project_unreachable",
+            "codexray.mcp.tools.unreachable_code_tool.analyze_project_unreachable",
             side_effect=RuntimeError("project scan error"),
         ):
             resp = await tool.execute({"mode": "project"})
