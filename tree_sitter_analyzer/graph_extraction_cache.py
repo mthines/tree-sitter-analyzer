@@ -51,15 +51,20 @@ def _grammar_fingerprint() -> str:
     environment yields a constant, degrading to content+version keying only.
     """
     try:
-        parts = [
-            f"{name}=={dist.version}"
-            for dist in _metadata.distributions()
-            if (name := (dist.metadata.get("Name") or "").lower()).startswith(
-                ("tree-sitter", "tree_sitter")
-            )
-        ]
+        dists = list(_metadata.distributions())
     except Exception:  # pragma: no cover - defensive: never let metadata break the cache
         return "unknown"
+    parts: list[str] = []
+    for dist in dists:
+        # Per-distribution guard: a single corrupt/half-installed package must not
+        # collapse the whole fingerprint (and, via lru_cache, disable grammar
+        # invalidation for the process). Skip the bad one, keep the rest.
+        try:
+            name = (dist.metadata.get("Name") or "").lower()
+            if name.startswith(("tree-sitter", "tree_sitter")):
+                parts.append(f"{name}=={dist.version}")
+        except Exception:  # pragma: no cover - defensive per-distribution skip
+            continue
     return hashlib.blake2b(
         "\n".join(sorted(parts)).encode("utf-8"), digest_size=8
     ).hexdigest()

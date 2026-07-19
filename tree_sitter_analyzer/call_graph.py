@@ -18,10 +18,10 @@ from typing import Any
 
 from .callee_resolution import GLOBAL_FALLBACK_CONFIDENCE, CalleeResolver
 from .core.parser import Parser, ParseResult
-from .graph_extraction_cache import GraphExtractionCache, is_disabled
 from .function_extraction import (
     walk_tree as _walk_tree,
 )
+from .graph_extraction_cache import GraphExtractionCache, is_disabled
 from .import_extractors import walk_imports
 from .project_graph import _language_from_ext
 
