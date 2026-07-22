@@ -26,6 +26,7 @@ to touch?" in one instant call.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any
 
@@ -34,6 +35,28 @@ from .function_extraction import walk_tree
 
 #: Pseudo-function name for calls made outside any function definition.
 MODULE_SCOPE = "(module)"
+
+#: Leading object identifier (optionally dotted, e.g. ``this.svc``) of a call
+#: receiver. Used to collapse a receiver to its root: the raw receiver of a
+#: chained call ``router.get(...).post(...)`` is the *entire preceding chain*
+#: source (newlines, comments, args) — useless and enormous in a call map. We
+#: keep only the root object so ``router.get`` / ``router.post`` dedupe to one
+#: ``router`` receiver, and a plain ``handlers.getSettings`` stays ``handlers``.
+_RECEIVER_ROOT_RE = re.compile(r"[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*")
+
+
+def _clean_receiver(receiver: str | None) -> str | None:
+    """Collapse a call receiver to its root object identifier, or ``None``.
+
+    A plain identifier / dotted path (``handlers``, ``this.svc``) is kept as-is;
+    a complex expression receiver (a method chain, an ``await`` expression, a
+    parenthesised call) is reduced to its leading identifier, or dropped when it
+    does not start with one.
+    """
+    if not receiver:
+        return None
+    match = _RECEIVER_ROOT_RE.match(receiver.strip())
+    return match.group(0) if match else None
 
 #: Receiver-less builtin / global names that are pure noise in a call map. Only
 #: dropped when the call has NO receiver AND does not resolve to a function
@@ -133,7 +156,7 @@ def extract_call_map(
         name = call.get("name")
         if not name:
             continue
-        receiver = call.get("receiver")
+        receiver = _clean_receiver(call.get("receiver"))
         resolved_in_file = name in defined_line
         # Drop receiver-less builtin noise, but never an in-file-resolved call.
         if receiver is None and not resolved_in_file and name in _NOISE_BUILTINS:

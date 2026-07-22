@@ -9,6 +9,7 @@ import pytest
 
 from codexray.local_call_map import (
     MODULE_SCOPE,
+    _clean_receiver,
     build_call_map_result,
     extract_call_map,
 )
@@ -99,6 +100,71 @@ class TestExtractCallMap:
         # tree-sitter is error-tolerant, so a broken file still parses to a tree;
         # a truly unreadable path is the real None path.
         assert extract_call_map(str(tmp_path / "does_not_exist.py"), "python") is None
+
+
+TS_CHAIN_SOURCE = """\
+Deno.serve((req) => {
+  const router = createRouter();
+  return router
+    .get('/a', ctx => handleAuthenticated(ctx, (c, u) => handlers.getSettings(c, u)))
+    .post('/b', ctx => handleAuthenticated(ctx, (c, u) => handlers.syncUser(c, u)))
+    .get('/c', ctx => handleAuthenticated(ctx, (c, u) => handlers.discover(c, u)))
+    .handle(req);
+});
+"""
+
+
+class TestCleanReceiver:
+    @pytest.mark.parametrize(
+        "raw,expected",
+        [
+            ("handlers", "handlers"),
+            ("this.svc", "this.svc"),
+            ("Deno", "Deno"),
+            # A chained-call receiver is reduced to its root object.
+            ("router\n    .get('/a', ctx => {})\n    .post('/b', x)", "router"),
+            # Dotted paths are kept (a field receiver like this.svc is useful);
+            # truncation happens at the first call/paren, not the first dot.
+            ("obj.method().prop", "obj.method"),
+            # No leading identifier → dropped.
+            ("(await foo()).bar", None),
+            ("", None),
+            (None, None),
+        ],
+    )
+    def test_collapses_to_root_object(self, raw, expected):
+        assert _clean_receiver(raw) == expected
+
+
+class TestMethodChainDoesNotBlowUp:
+    @pytest.fixture
+    def ts_file(self, tmp_path: Path) -> Path:
+        path = tmp_path / "index.ts"
+        path.write_text(TS_CHAIN_SOURCE, encoding="utf-8")
+        return path
+
+    def test_chain_receivers_are_root_only(self, ts_file: Path):
+        result = extract_call_map(str(ts_file), "typescript")
+        module = _func(result, MODULE_SCOPE)
+        # Every receiver is a short root identifier — never a multi-line chain.
+        for callee in module["callees"]:
+            receiver = callee.get("receiver")
+            if receiver is not None:
+                assert "\n" not in receiver
+                assert "(" not in receiver
+                assert len(receiver) <= 40
+
+    def test_fluent_calls_dedupe(self, ts_file: Path):
+        result = extract_call_map(str(ts_file), "typescript")
+        module = _func(result, MODULE_SCOPE)
+        get_edges = [
+            c
+            for c in module["callees"]
+            if c["name"] == "get" and c.get("receiver") == "router"
+        ]
+        # The two .get(...) chain links collapse to a single deduped edge.
+        assert len(get_edges) == 1
+        assert get_edges[0]["count"] == 2
 
 
 class TestBuildCallMapResult:
