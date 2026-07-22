@@ -2,7 +2,7 @@
 """Unit tests for the zero-argument agent default dispatcher.
 
 ``_apply_agent_defaults`` turns a bare ``codexray [PATH]`` invocation into the
-single most useful command: a file → ``--smart-context``, a directory / ``.`` /
+single most useful command: a file → ``--call-map``, a directory / ``.`` /
 no path → ``--overview``, defaulting output to ``--format toon``. Any explicit
 action flag must pass through untouched (non-breaking).
 """
@@ -20,15 +20,15 @@ def sample_file(tmp_path):
 
 
 class TestFileTarget:
-    """A file target routes to --smart-context."""
+    """A file target routes to --call-map."""
 
-    def test_bare_file_gets_smart_context_and_toon(self, sample_file):
+    def test_bare_file_gets_call_map_and_toon(self, sample_file):
         argv = _apply_agent_defaults([str(sample_file)])
-        assert argv == [str(sample_file), "--smart-context", "--format", "toon"]
+        assert argv == [str(sample_file), "--call-map", "--format", "toon"]
 
     def test_explicit_format_is_preserved(self, sample_file):
         argv = _apply_agent_defaults([str(sample_file), "--format", "json"])
-        assert argv == [str(sample_file), "--smart-context", "--format", "json"]
+        assert argv == [str(sample_file), "--call-map", "--format", "json"]
         assert argv.count("--format") == 1
 
     def test_output_format_counts_as_format_choice(self, sample_file):
@@ -36,7 +36,7 @@ class TestFileTarget:
         assert "--format" not in argv
         assert argv == [
             str(sample_file),
-            "--smart-context",
+            "--call-map",
             "--output-format",
             "text",
         ]
@@ -99,11 +99,11 @@ class TestModifierEdgeCases:
 
     def test_equals_form_format_is_respected(self, sample_file):
         argv = _apply_agent_defaults([str(sample_file), "--format=json"])
-        assert argv == [str(sample_file), "--smart-context", "--format=json"]
+        assert argv == [str(sample_file), "--call-map", "--format=json"]
 
     def test_quiet_modifier_is_kept(self, sample_file):
         argv = _apply_agent_defaults([str(sample_file), "--quiet"])
-        assert argv == [str(sample_file), "--smart-context", "--quiet", "--format", "toon"]
+        assert argv == [str(sample_file), "--call-map", "--quiet", "--format", "toon"]
 
     def test_two_positionals_bail_out(self, sample_file):
         raw = [str(sample_file), "other.py"]

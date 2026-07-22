@@ -38,6 +38,7 @@ def handle_special_commands(
         lambda: _handle_doctor(args, context),
         lambda: _handle_check_scale(args, context),
         lambda: _handle_outline(args, context),
+        lambda: _handle_call_map(args, context),
         lambda: _handle_batch_metrics(args, context),
         lambda: _handle_check_constraints(args, context),
         # --clean-state and --autoindex / --full-index / --codegraph-metrics
@@ -467,6 +468,69 @@ def _handle_outline(
             "outline",
             f"Outline analysis failed: {exc}",
             error_type="runtime",
+        )
+        return 1
+
+
+def _resolve_call_map_target(
+    args: Any,
+    context: SpecialCommandContext,
+) -> tuple[str, str, str] | int:
+    """Resolve (abs_path, rel_path, language) for --call-map, or an error code."""
+    from codexray.language_detector import detect_language_from_file
+
+    file_path = getattr(args, "file_path", None)
+    if not file_path:
+        _emit_cli_error(args, context, "call_map", "--call-map requires a FILE path")
+        return 1
+
+    project_root = getattr(args, "project_root", None) or os.getcwd()
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(
+        project_root, file_path
+    )
+    if not os.path.isfile(abs_path):
+        _emit_cli_error(args, context, "call_map", f"File not found: {file_path}")
+        return 1
+
+    language = detect_language_from_file(abs_path)
+    if language is None:
+        _emit_cli_error(
+            args,
+            context,
+            "call_map",
+            f"Unsupported or undetected language for {file_path}",
+        )
+        return 1
+    return abs_path, file_path, language
+
+
+def _handle_call_map(
+    args: Any,
+    context: SpecialCommandContext,
+) -> int | None:
+    """Run the fast, index-free single-file call map (``--call-map FILE``)."""
+    if not getattr(args, "call_map", False):
+        return None
+
+    try:
+        target = _resolve_call_map_target(args, context)
+        if isinstance(target, int):
+            return target
+        abs_path, rel_path, language = target
+
+        from codexray.local_call_map import build_call_map_result
+        from codexray.mcp.utils.format_helper import apply_toon_format_to_response
+
+        project_root = getattr(args, "project_root", None) or os.getcwd()
+        result = build_call_map_result(
+            abs_path, language, rel_path=rel_path, project_root=project_root
+        )
+        result = apply_toon_format_to_response(result, _tool_output_format(args))
+        _print_result(result, args, context.output_json)
+        return 0 if result.get("success", False) else 1
+    except Exception as exc:
+        _emit_cli_error(
+            args, context, "call_map", f"Call map failed: {exc}", error_type="runtime"
         )
         return 1
 

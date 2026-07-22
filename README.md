@@ -36,7 +36,7 @@ This fork extends upstream **v1.29.0** with call-graph improvements focused on m
 Point CodeXray at a file or directory — no flags required. It picks the single most useful command for the target and emits compact TOON by default.
 
 ```bash
-codexray index.ts        # a FILE → smart-context: health, exports, structure, deps, edit-risk
+codexray index.ts        # a FILE → call-map: every function + what each one calls
 codexray .               # a DIR / . → overview: project portrait + health summary
 codexray                 # no path → overview of the current directory
 ```
@@ -45,11 +45,13 @@ That's the fastest way in. The defaults are:
 
 | You run | CodeXray runs | Why |
 | --- | --- | --- |
-| `codexray FILE` | `FILE --smart-context` | The richest per-file decision packet an agent can get in one call — grade, risk, exports, dependencies, tests, and a concrete next step. |
+| `codexray FILE` | `FILE --call-map` | The function context map this tool exists for: each function in the file and what it calls — in-file calls resolved to a line, imported/outbound calls shown as names — plus a grade/risk header. Instant and index-free. |
 | `codexray DIR` / `codexray .` | `--overview --project-root DIR` | A balanced project portrait: file/line counts, language mix, largest files, health summary. |
 | `codexray` (no path) | `--overview` | Same portrait, rooted at the current directory. |
 
 Output defaults to `--format toon` (≈ half the size of JSON). Add `--format json` when you want to pipe through `jq`. **Any explicit flag turns the defaults off** and runs exactly what you ask — so every command below keeps its precise behaviour.
+
+The call map is deliberately local, so it stays instant on any repo size. To follow an outbound call into its definition **across files**, escalate to the fully-resolved whole-project call graph below (`--call-graph`). For a file's edit-safety packet (health, exports, dependents, tests, edit-risk) instead of its call map, run `codexray FILE --smart-context`.
 
 ---
 
@@ -313,8 +315,10 @@ Each skill ships an `allowed-tools` subset + procedure recipe + decision-surface
 Superset of CodeGraph's CLI surface. Highlights:
 
 ```bash
-codexray <file>                       # zero-config: smart-context for a file
+codexray <file>                       # zero-config: call-map for a file
 codexray .                            # zero-config: project overview
+codexray <file> --call-map            # file's functions + what each one calls (explicit)
+codexray <file> --smart-context       # file edit-safety packet (health, deps, risk)
 codexray --table full <file>          # method/signature/complexity table
 codexray --partial-read --start-line N --end-line M <file>
 codexray --project-health             # A-F grade across the project

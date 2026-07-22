@@ -49,6 +49,7 @@ _FILE_SCOPED_AGENT_COMMANDS = {
     "safe-to-edit": "--safe-to-edit",
     "refactor": "--refactor",
     "smart-context": "--smart-context",
+    "call-map": "--call-map",
 }
 _PROJECT_SCOPED_AGENT_COMMANDS = {
     "agent-skills": "--agent-skills",
@@ -256,8 +257,9 @@ def _apply_agent_defaults(argv: list[str]) -> list[str]:
     own — only an optional target path and pass-through modifiers such as
     ``--format`` or ``--project-root`` — pick the single most useful command:
 
-    - a **file** → ``--smart-context`` (the richest per-file decision packet:
-      health, risk, exports, dependencies, tests, and a next-step summary);
+    - a **file** → ``--call-map`` (the file's functions and what each one calls:
+      the "function context map" this tool exists for, plus a health header —
+      instant, index-free);
     - a **directory**, ``.``, or **no path** → ``--overview`` (a balanced
       project portrait), rooted at the given directory;
     - and default the output to ``--format toon`` for token efficiency.
@@ -302,7 +304,7 @@ def _apply_agent_defaults(argv: list[str]) -> list[str]:
     fmt = [] if has_format else ["--format", "toon"]
 
     if path is not None and Path(path).is_file():
-        return [path, "--smart-context", *passthrough, *fmt]
+        return [path, "--call-map", *passthrough, *fmt]
 
     # Directory, ``.``, or no path → project overview. Root it at the supplied
     # directory unless the caller already pinned --project-root.

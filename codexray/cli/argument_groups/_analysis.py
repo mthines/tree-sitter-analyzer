@@ -251,6 +251,15 @@ def _add_mcp_analysis_options(parser: argparse.ArgumentParser) -> None:
         help="Detect anti-patterns, code smells, and security issues in a file",
     )
     parser.add_argument(
+        "--call-map",
+        action="store_true",
+        help=(
+            "Fast, index-free call map for a single FILE: every function and "
+            "what it calls (in-file calls resolved to a line, imported/outbound "
+            "calls shown as names). This is what a bare `codexray FILE` runs."
+        ),
+    )
+    parser.add_argument(
         "--call-graph",
         nargs="?",
         const="summary",
