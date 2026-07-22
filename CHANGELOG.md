@@ -6,6 +6,7 @@ Fork of [`aimasteracc/tree-sitter-analyzer`](https://github.com/aimasteracc/tree
 
 ### Added
 
+- **Zero-config default command.** A bare invocation now routes to the single most useful command for its target: `codexray FILE` runs `--smart-context` (per-file health + exports + structure + deps + edit-risk), while `codexray DIR`, `codexray .`, and `codexray` (no path) run `--overview` rooted at that directory. Output defaults to `--format toon`. Any explicit action flag turns the default off and runs exactly what is asked, so all prior invocations are unchanged. Directory targets are auto-rooted via `--project-root`, so a bare directory path no longer fails at language detection.
 - **Global content-addressed extraction cache.** Per-file parse + extraction is memoised in a global store keyed by `content + language + extractor version + installed tree-sitter grammar versions`. Repeat runs and monorepo / nested invocations reuse work instead of re-parsing (~5.5× faster warm runs on a 350-file project). Location via `CODEXRAY_CACHE_DIR` (default: `$XDG_CACHE_HOME/codexray/graph-extract`, legacy `TSA_CACHE_DIR`); disable with `CODEXRAY_DISABLE_GRAPH_CACHE=1`. Best-effort: any cache error falls back to a live parse. Design: [`docs/design/global-extraction-cache.md`](docs/design/global-extraction-cache.md).
 
 ### Fixed

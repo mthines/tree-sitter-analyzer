@@ -76,7 +76,8 @@ __all__ = [
 # Short usage line — replaces argparse's auto-generated wall of every flag, which
 # is unreadable for both humans and LLMs on a 300+ flag CLI.
 CLI_USAGE = (
-    "codexray [FILE] "
+    "codexray [PATH]                      # zero-config: FILE -> smart-context, DIR/. -> overview\n"
+    "       codexray [FILE] "
     "[--smart-context | --call-graph MODE --call-graph-function FN | --table full | "
     "--detect-routes | --project-health | ...] "
     "[--format json|toon|text] [--project-root DIR]"
@@ -90,9 +91,17 @@ CLI_DESCRIPTION = (
     "Cross-language call graphs, symbol search, and structural queries over 20+ "
     "languages. No telemetry.\n"
     "\n"
+    "ZERO-CONFIG (just point it at code — no flags needed)\n"
+    "  codexray FILE     -> smart-context: health + exports + structure + deps + edit-risk.\n"
+    "  codexray DIR | .  -> overview: project portrait + health summary (rooted at DIR).\n"
+    "  codexray          -> overview of the current directory.\n"
+    "  Output defaults to --format toon (compact). Add --format json to pipe through jq.\n"
+    "  Any explicit flag below overrides this and runs exactly what you ask for.\n"
+    "\n"
     "MOST-USED COMMANDS\n"
     "  codexray FILE --smart-context\n"
     "      One call: health + exports + structure + deps + edit-risk for a file.\n"
+    "      (This is what a bare `codexray FILE` runs for you.)\n"
     "  codexray --project-root . --call-graph chain "
     "--call-graph-function FN --format json\n"
     "      What FN calls, transitively. Point at the repo root, filter to one "
@@ -120,7 +129,9 @@ CLI_DESCRIPTION = (
 CLI_EPILOG = (
     "Examples:  (grouped by task)\n"
     "\n"
-    "Cold-start  (1 call, full file picture — use these first):\n"
+    "Cold-start  (1 call, full picture — use these first):\n"
+    "  codexray file.py                         Zero-config: same as `file.py --smart-context` (toon output)\n"
+    "  codexray .                               Zero-config: same as `--overview` rooted at the current dir\n"
     "  codexray file.py --smart-context         Killer 1-call: health, exports, structure, deps, edit risk\n"
     "  codexray --overview                      Project portrait + health summary\n"
     "  codexray agent-skills                    Project-local agent skill inventory\n"

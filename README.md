@@ -31,6 +31,28 @@ This fork extends upstream **v1.29.0** with call-graph improvements focused on m
 
 ---
 
+## Quick start (zero-config)
+
+Point CodeXray at a file or directory — no flags required. It picks the single most useful command for the target and emits compact TOON by default.
+
+```bash
+codexray index.ts        # a FILE → smart-context: health, exports, structure, deps, edit-risk
+codexray .               # a DIR / . → overview: project portrait + health summary
+codexray                 # no path → overview of the current directory
+```
+
+That's the fastest way in. The defaults are:
+
+| You run | CodeXray runs | Why |
+| --- | --- | --- |
+| `codexray FILE` | `FILE --smart-context` | The richest per-file decision packet an agent can get in one call — grade, risk, exports, dependencies, tests, and a concrete next step. |
+| `codexray DIR` / `codexray .` | `--overview --project-root DIR` | A balanced project portrait: file/line counts, language mix, largest files, health summary. |
+| `codexray` (no path) | `--overview` | Same portrait, rooted at the current directory. |
+
+Output defaults to `--format toon` (≈ half the size of JSON). Add `--format json` when you want to pipe through `jq`. **Any explicit flag turns the defaults off** and runs exactly what you ask — so every command below keeps its precise behaviour.
+
+---
+
 ## Call graph for agents (CLI + jq)
 
 The call graph is built to be driven straight from the CLI — no MCP server needed for shell-capable agents.
@@ -291,6 +313,8 @@ Each skill ships an `allowed-tools` subset + procedure recipe + decision-surface
 Superset of CodeGraph's CLI surface. Highlights:
 
 ```bash
+codexray <file>                       # zero-config: smart-context for a file
+codexray .                            # zero-config: project overview
 codexray --table full <file>          # method/signature/complexity table
 codexray --partial-read --start-line N --end-line M <file>
 codexray --project-health             # A-F grade across the project

@@ -30,6 +30,20 @@ from .output_manager import output_error, output_info, output_list
 from .query_loader import query_loader
 
 _NO_COMMAND_MATCH = object()
+
+# Modifier flags that do NOT select an action. A bare invocation carrying only
+# these (plus an optional path) still receives the opinionated agent default:
+# a file gets ``--smart-context``, a directory / ``.`` / no path gets
+# ``--overview``. The bool records whether the flag consumes a following value
+# token, so the value is not mistaken for the target path.
+_DEFAULT_PASSTHROUGH_FLAGS = {
+    "--format": True,
+    "--output-format": True,
+    "--project-root": True,
+    "--quiet": False,
+    "--toon-use-tabs": False,
+}
+
 _FILE_SCOPED_AGENT_COMMANDS = {
     "file-health": "--file-health",
     "safe-to-edit": "--safe-to-edit",
@@ -190,7 +204,8 @@ def main() -> None:
     """Main entry point for the CLI."""
     _set_cli_log_environment()
     parser = create_argument_parser()
-    args = parser.parse_args(_normalize_agent_command_aliases(sys.argv[1:]))
+    argv = _apply_agent_defaults(_normalize_agent_command_aliases(sys.argv[1:]))
+    args = parser.parse_args(argv)
     _apply_format_alias(args)
     _validate_mode_flag_wiring(args, parser)
     _configure_logging(args)
@@ -231,6 +246,68 @@ def _normalize_file_scoped_alias(command: str, rest: list[str]) -> list[str]:
     if not rest or rest[0].startswith("-"):
         return [flag, *rest]
     return [rest[0], flag, *rest[1:]]
+
+
+def _apply_agent_defaults(argv: list[str]) -> list[str]:
+    """Route a bare ``codexray [PATH]`` invocation to the best default command.
+
+    Agents (and humans) want ``codexray index.ts`` and ``codexray .`` to "just
+    work" without memorising flags. When the invocation selects no action of its
+    own — only an optional target path and pass-through modifiers such as
+    ``--format`` or ``--project-root`` — pick the single most useful command:
+
+    - a **file** → ``--smart-context`` (the richest per-file decision packet:
+      health, risk, exports, dependencies, tests, and a next-step summary);
+    - a **directory**, ``.``, or **no path** → ``--overview`` (a balanced
+      project portrait), rooted at the given directory;
+    - and default the output to ``--format toon`` for token efficiency.
+
+    The moment the argv carries any real action flag (``--table``,
+    ``--call-graph``, ``--overview`` itself, ``--advanced``, …) this returns the
+    argv untouched, so every explicit invocation keeps its exact prior behaviour.
+    """
+    from pathlib import Path
+
+    passthrough: list[str] = []
+    path: str | None = None
+    extra_positional = False
+    has_project_root = False
+    has_format = False
+
+    index = 0
+    while index < len(argv):
+        token = argv[index]
+        if token.startswith("-"):
+            name = token.split("=", 1)[0]
+            if name not in _DEFAULT_PASSTHROUGH_FLAGS:
+                # An explicit action was selected — do not second-guess it.
+                return argv
+            has_project_root = has_project_root or name == "--project-root"
+            has_format = has_format or name in ("--format", "--output-format")
+            passthrough.append(token)
+            consumes_value = _DEFAULT_PASSTHROUGH_FLAGS[name]
+            if consumes_value and "=" not in token and index + 1 < len(argv):
+                passthrough.append(argv[index + 1])
+                index += 1
+        elif path is None:
+            path = token
+        else:
+            extra_positional = True
+        index += 1
+
+    if extra_positional:
+        # More than one positional path is an unusual shape; leave it alone.
+        return argv
+
+    fmt = [] if has_format else ["--format", "toon"]
+
+    if path is not None and Path(path).is_file():
+        return [path, "--smart-context", *passthrough, *fmt]
+
+    # Directory, ``.``, or no path → project overview. Root it at the supplied
+    # directory unless the caller already pinned --project-root.
+    root = ["--project-root", path] if path is not None and not has_project_root else []
+    return ["--overview", *passthrough, *root, *fmt]
 
 
 def _apply_format_alias(args: argparse.Namespace) -> None:
