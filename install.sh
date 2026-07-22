@@ -58,6 +58,33 @@ if ! command -v rg >/dev/null 2>&1; then
   fi
 fi
 
+# ─── Install the codexray CLI ─────────────────────────────────────────────────
+# The MCP servers run via `uvx` on demand, but the `codexray` command itself must
+# be installed onto the PATH explicitly. Install from the local checkout when this
+# script runs inside the repo, otherwise from PyPI (the `curl | bash` case).
+echo ""
+if [ -f "./pyproject.toml" ] && grep -q '^name = "codexray-cli"' ./pyproject.toml 2>/dev/null; then
+  CLI_SOURCE="$(pwd)"
+  echo "📦 Installing codexray CLI from local checkout..."
+else
+  CLI_SOURCE="codexray-cli"
+  echo "📦 Installing codexray CLI from PyPI..."
+fi
+
+if uv tool install --force "$CLI_SOURCE" >/dev/null 2>&1; then
+  echo "✅ codexray CLI installed: $(command -v codexray 2>/dev/null || echo "$HOME/.local/bin/codexray")"
+else
+  echo "⚠️  codexray CLI install failed (MCP config below still applies)."
+  echo "   Retry manually:  uv tool install --force $CLI_SOURCE"
+  echo "   Behind a TLS-inspecting proxy, add: --native-tls"
+fi
+
+# uv installs tools into ~/.local/bin — warn if that isn't on PATH yet.
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) echo "   ℹ️  Add $HOME/.local/bin to your PATH (run: uv tool update-shell)" ;;
+esac
+
 # ─── Resolve absolute project root ────────────────────────────────────────────
 if command -v realpath >/dev/null 2>&1; then
   PROJECT_ROOT=$(realpath .)
@@ -113,8 +140,12 @@ while IFS='|' read -r AGENT_LABEL CONFIG_PATH; do
 
   echo "   🔧 $AGENT_LABEL: configuring..."
 
-  # Merge MCP entry using python3
-  MERGE_RESULT=$(python3 - "$CONFIG_PATH" "$PROJECT_ROOT" <<'PYEOF'
+  # Merge MCP entry using python3.
+  # Guard against `set -e`: on a non-zero exit the assignment itself would
+  # abort the whole installer before we can report a graceful skip below.
+  MERGE_RESULT=""
+  MERGE_EXIT=0
+  MERGE_RESULT=$(python3 - "$CONFIG_PATH" "$PROJECT_ROOT" 2>&1 <<'PYEOF'
 import sys, json, shutil, os
 
 config_path = sys.argv[1]
@@ -126,12 +157,19 @@ timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 backup_path = config_path + ".bak." + timestamp
 shutil.copy2(config_path, backup_path)
 
-# Parse existing JSON
+# Parse existing JSON. An empty or whitespace-only file (e.g. VS Code's
+# default 0-byte mcp.json) is a valid "no config yet" state — treat it as {}.
 try:
     with open(config_path, encoding="utf-8") as f:
-        data = json.load(f)
+        raw = f.read()
+    data = json.loads(raw) if raw.strip() else {}
 except json.JSONDecodeError as e:
     print(f"PARSE_ERROR:{e}", file=sys.stderr)
+    sys.exit(2)
+
+# A JSON file whose top level isn't an object can't hold an mcpServers map.
+if not isinstance(data, dict):
+    print(f"PARSE_ERROR:top-level JSON is {type(data).__name__}, expected object", file=sys.stderr)
     sys.exit(2)
 
 # Ensure mcpServers key exists
@@ -151,11 +189,11 @@ with open(config_path, "w", encoding="utf-8") as f:
 
 print(f"OK:{backup_path}")
 PYEOF
-  )
-  MERGE_EXIT=$?
+  ) || MERGE_EXIT=$?
 
   if [ "$MERGE_EXIT" = "2" ]; then
     echo "   ❌ $AGENT_LABEL: JSON parse error — skipping ($CONFIG_PATH)"
+    echo "      ${MERGE_RESULT#PARSE_ERROR:}"
     SKIPPED_AGENTS="${SKIPPED_AGENTS}${AGENT_LABEL} (JSON parse error)\n"
   elif [ "$MERGE_EXIT" = "0" ]; then
     BACKUP_PATH="${MERGE_RESULT#OK:}"
